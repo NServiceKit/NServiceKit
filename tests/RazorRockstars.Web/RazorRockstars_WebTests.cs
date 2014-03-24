@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using NUnit.Framework;
-using ServiceStack.Common;
-using ServiceStack.Text;
+using NServiceKit.Common;
+using NServiceKit.Text;
 
 namespace RazorRockstars.Web
 {

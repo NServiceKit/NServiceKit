@@ -1,0 +1,20 @@
+﻿@inherits NServiceKit.Razor.ViewPage<NServiceKit.Razor.Tests.FooResponse>
+@using System
+@using NServiceKit.Razor.Tests
+@using NServiceKit.Common
+@using NServiceKit.WebHost.Endpoints
+
+<div>
+    <h4>/Views/Foo</h4>
+    The time is: @DateTime.Now
+    <h4>Foo Was Here!</h4>
+    <h4>He said: @Model.FooSaid</h4>
+
+    <form method="POST">
+        @Html.TextBox( "foo" )
+        <button name="cmdGo" value="123">Go Button</button>
+    </form>
+
+    obob
+    <button>Button out of form</button>
+</div>

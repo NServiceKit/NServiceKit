@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using NUnit.Framework;
-using ServiceStack.Common;
-using ServiceStack.Logging;
-using ServiceStack.Logging.Support.Logging;
-using ServiceStack.Razor;
-using ServiceStack.ServiceClient.Web;
-using ServiceStack.ServiceInterface.Testing;
-using ServiceStack.Text;
+using NServiceKit.Common;
+using NServiceKit.Logging;
+using NServiceKit.Logging.Support.Logging;
+using NServiceKit.Razor;
+using NServiceKit.ServiceClient.Web;
+using NServiceKit.ServiceInterface.Testing;
+using NServiceKit.Text;
 
 namespace RazorRockstars.Console.Files
 {

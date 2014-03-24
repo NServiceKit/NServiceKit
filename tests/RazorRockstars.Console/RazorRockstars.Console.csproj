@@ -36,9 +36,9 @@
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>..\..\lib\tests\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Ultimate, Version=1.0.4620.6821, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NServiceKit.Ultimate, Version=1.0.4620.6821, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\ServiceStack.Ultimate.dll</HintPath>
+      <HintPath>..\..\lib\NServiceKit.Ultimate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,14 +50,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ServiceStack.OrmLite.Sqlite">
-      <HintPath>..\..\lib\ServiceStack.OrmLite.Sqlite.dll</HintPath>
+    <Reference Include="NServiceKit.OrmLite.Sqlite">
+      <HintPath>..\..\lib\NServiceKit.OrmLite.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite">
-      <HintPath>..\..\lib\ServiceStack.OrmLite.dll</HintPath>
+    <Reference Include="NServiceKit.OrmLite">
+      <HintPath>..\..\lib\NServiceKit.OrmLite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\lib\ServiceStack.Text.dll</HintPath>
+    <Reference Include="NServiceKit.Text">
+      <HintPath>..\..\lib\NServiceKit.Text.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="nunit.framework">
@@ -123,29 +123,29 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ServiceStack.Common\ServiceStack.Common.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Common\NServiceKit.Common.csproj">
       <Project>{982416DB-C143-4028-A0C3-CF41892D18D3}</Project>
-      <Name>ServiceStack.Common</Name>
+      <Name>NServiceKit.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.FluentValidation.Mvc3\ServiceStack.FluentValidation.Mvc3.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.FluentValidation.Mvc3\NServiceKit.FluentValidation.Mvc3.csproj">
       <Project>{672F2DFE-4EE8-498B-B449-23E9E7F6961C}</Project>
-      <Name>ServiceStack.FluentValidation.Mvc3</Name>
+      <Name>NServiceKit.FluentValidation.Mvc3</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Interfaces\NServiceKit.Interfaces.csproj">
       <Project>{42E1C8C0-A163-44CC-92B1-8F416F2C0B01}</Project>
-      <Name>ServiceStack.Interfaces</Name>
+      <Name>NServiceKit.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.Razor2\ServiceStack.Razor2.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Razor2\NServiceKit.Razor2.csproj">
       <Project>{64128C85-B9AF-4B4C-BE83-04983EF7F8C9}</Project>
-      <Name>ServiceStack.Razor2</Name>
+      <Name>NServiceKit.Razor2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.ServiceInterface\ServiceStack.ServiceInterface.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.ServiceInterface\NServiceKit.ServiceInterface.csproj">
       <Project>{5A315F92-80D2-4C60-A5A4-22E027AC7E7E}</Project>
-      <Name>ServiceStack.ServiceInterface</Name>
+      <Name>NServiceKit.ServiceInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack\ServiceStack.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit\NServiceKit.csproj">
       <Project>{680A1709-25EB-4D52-A87F-EE03FFD94BAA}</Project>
-      <Name>ServiceStack</Name>
+      <Name>NServiceKit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

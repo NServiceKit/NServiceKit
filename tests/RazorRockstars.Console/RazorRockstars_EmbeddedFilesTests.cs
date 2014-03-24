@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using NUnit.Framework;
-using ServiceStack.Text;
+using NServiceKit.Text;
 
 namespace RazorRockstars.Console
 {

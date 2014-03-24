@@ -1,0 +1,55 @@
+using System;
+using System.Runtime.Serialization;
+using NServiceKit.Common.Web;
+using NServiceKit.ServiceInterface;
+using NServiceKit.ServiceInterface.ServiceModel;
+
+namespace NServiceKit.WebHost.IntegrationTests.Services
+{
+	[DataContract]
+	public class AlwaysThrows
+	{
+	    [DataMember]
+	    public int? StatusCode { get; set; }
+		[DataMember]
+		public string Value { get; set; }
+	}
+
+	[DataContract]
+	public class AlwaysThrowsResponse
+		: IHasResponseStatus
+	{
+		public AlwaysThrowsResponse()
+		{
+			this.ResponseStatus = new ResponseStatus();
+		}
+
+		[DataMember]
+		public string Result { get; set; }
+
+		[DataMember]
+		public ResponseStatus ResponseStatus { get; set; }
+	}
+
+	public class AlwaysThrowsService 
+		: ServiceInterface.Service
+	{
+		public object Any(AlwaysThrows request)
+		{
+            if (request.StatusCode.HasValue)
+            {
+                throw new HttpError(
+                    request.StatusCode.Value,
+                    typeof(NotImplementedException).Name,
+                    request.Value);
+            }
+
+			throw new NotImplementedException(GetErrorMessage(request.Value));
+		}
+
+		public static string GetErrorMessage(string value)
+		{
+			return value + " is not implemented";
+		}
+	}
+}

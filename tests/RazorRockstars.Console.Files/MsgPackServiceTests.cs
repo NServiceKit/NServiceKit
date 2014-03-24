@@ -5,14 +5,14 @@ using System.Text;
 using MsgPack;
 using MsgPack.Serialization;
 using NUnit.Framework;
-using ServiceStack.Common;
-using ServiceStack.Logging;
-using ServiceStack.Logging.Support.Logging;
-using ServiceStack.Plugins.MsgPack;
-using ServiceStack.ServiceClient.Web;
-using ServiceStack.ServiceInterface;
-using ServiceStack.ServiceInterface.ServiceModel;
-using ServiceStack.Text;
+using NServiceKit.Common;
+using NServiceKit.Logging;
+using NServiceKit.Logging.Support.Logging;
+using NServiceKit.Plugins.MsgPack;
+using NServiceKit.ServiceClient.Web;
+using NServiceKit.ServiceInterface;
+using NServiceKit.ServiceInterface.ServiceModel;
+using NServiceKit.Text;
 
 namespace RazorRockstars.Console.Files
 {

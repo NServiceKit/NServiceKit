@@ -32,29 +32,24 @@
 
   <Target Name="Default" DependsOnTargets="$(DoBuildSolutionsDependsOn)" />
 
-  <Target Name="TeamCityBuild">
-    <!--<Copy SourceFiles="$(BuildSolutionDir)/tests/ServiceStack.Common.Tests/ci.app.config" DestinationFiles="$(BuildSolutionDir)/tests/ServiceStack.Common.Tests/app.config" />-->
-    <CallTarget Targets="Default" />
-  </Target>
-
   <Target Name="UnitTests" DependsOnTargets="$(DoBuildSolutionsDependsOn)">
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.ServiceHost.Tests/bin/$(Configuration)/ServiceStack.ServiceHost.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.Messaging.Tests/bin/$(Configuration)/ServiceStack.Messaging.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.Common.Tests/bin/$(Configuration)/ServiceStack.Common.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.Auth.Tests/bin/$(Configuration)/ServiceStack.Auth.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/ServiceStack.WebHostApp/bin/ServiceStack.WebHost.Endpoints.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.ServiceHost.Tests/bin/$(Configuration)/NServiceKit.ServiceHost.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Messaging.Tests/bin/$(Configuration)/NServiceKit.Messaging.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Common.Tests/bin/$(Configuration)/NServiceKit.Common.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Auth.Tests/bin/$(Configuration)/NServiceKit.Auth.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.WebHostApp/bin/NServiceKit.WebHost.Endpoints.Tests.dll $(NUnitConsoleArgs)" />
   </Target>
 
   <Target Name="Build">
-    <MSBuild Projects="../src/ServiceStack.Interfaces/ServiceStack.Interfaces.csproj" Properties="Configuration=$(Configuration)"/>
-    <MSBuild Projects="../src/ServiceStack.Common/ServiceStack.Common.csproj" Properties="Configuration=$(Configuration)"/>
-    <MSBuild Projects="../src/ServiceStack/ServiceStack.csproj" Properties="Configuration=$(Configuration)"/>
+    <MSBuild Projects="../src/NServiceKit.Interfaces/NServiceKit.Interfaces.csproj" Properties="Configuration=$(Configuration)"/>
+    <MSBuild Projects="../src/NServiceKit.Common/NServiceKit.Common.csproj" Properties="Configuration=$(Configuration)"/>
+    <MSBuild Projects="../src/NServiceKit/NServiceKit.csproj" Properties="Configuration=$(Configuration)"/>
   </Target>
 
   <Target Name="BuildSolutions">
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.sln" Targets="Build"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.sln" Targets="Build"
       Properties="Configuration=$(Configuration)" />
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.SL5.sln" Targets="Build"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.SL5.sln" Targets="Build"
       Properties="Configuration=$(Configuration)" />
   </Target>
 
@@ -63,7 +58,7 @@
     <ItemGroup>
       <!-- Exclude versioning future strong-named libs -->
       <RegexTransform Include="$(BuildSolutionDir)/src/**/AssemblyInfo.cs"
-                      Exclude="$(SrcDir)/ServiceStack.Interfaces*/Properties/AssemblyInfo.cs">
+                      Exclude="$(SrcDir)/NServiceKit.Interfaces*/Properties/AssemblyInfo.cs">
         <Find>\d+\.\d+\.\d+\.\d+</Find>
         <ReplaceWith>$(Version)</ReplaceWith>
       </RegexTransform>
@@ -74,168 +69,168 @@
     <Delete Files="@(NugetPackageFilesToDelete)" />
 
     <ItemGroup>
-      <ServiceStackFiles Include="$(SrcDir)/ServiceStack.ServiceInterface/bin/$(Configuration)/ServiceStack.ServiceInterface.*"></ServiceStackFiles>
-      <ServiceStackFiles Include="$(SrcDir)/ServiceStack.ServiceInterface/bin/$(Configuration)/ServiceStack.dll"></ServiceStackFiles>
-      <ServiceStackFiles Include="$(SrcDir)/ServiceStack.ServiceInterface/bin/$(Configuration)/ServiceStack.pdb"></ServiceStackFiles>
-      <ServiceStackFiles Include="$(SrcDir)/ServiceStack.ServiceInterface/bin/$(Configuration)/ServiceStack.xml"></ServiceStackFiles>
+      <NServiceKitFiles Include="$(SrcDir)/NServiceKit.ServiceInterface/bin/$(Configuration)/NServiceKit.ServiceInterface.*"></NServiceKitFiles>
+      <NServiceKitFiles Include="$(SrcDir)/NServiceKit.ServiceInterface/bin/$(Configuration)/NServiceKit.dll"></NServiceKitFiles>
+      <NServiceKitFiles Include="$(SrcDir)/NServiceKit.ServiceInterface/bin/$(Configuration)/NServiceKit.pdb"></NServiceKitFiles>
+      <NServiceKitFiles Include="$(SrcDir)/NServiceKit.ServiceInterface/bin/$(Configuration)/NServiceKit.xml"></NServiceKitFiles>
 
-      <ServiceStackRazorFiles Include="$(SrcDir)/ServiceStack.Razor/bin/$(Configuration)/ServiceStack.Razor.*"></ServiceStackRazorFiles>
+      <NServiceKitRazorFiles Include="$(SrcDir)/NServiceKit.Razor/bin/$(Configuration)/NServiceKit.Razor.*"></NServiceKitRazorFiles>
 
-      <ServiceStackCommonFiles Include="$(SrcDir)/ServiceStack.Common/bin/$(Configuration)/ServiceStack.Common.*"></ServiceStackCommonFiles>
-      <ServiceStackCommonFiles Include="$(SrcDir)/ServiceStack.Common/bin/$(Configuration)/ServiceStack.Interfaces.*"></ServiceStackCommonFiles>
-      <ServiceStackCommonFilesSL5 Include="$(SrcDir)/ServiceStack.Common.SL5/bin/$(Configuration)/ServiceStack.Common.*"></ServiceStackCommonFilesSL5>
-      <ServiceStackCommonFilesSL5 Include="$(SrcDir)/ServiceStack.Common.SL5/bin/$(Configuration)/ServiceStack.Interfaces.*"></ServiceStackCommonFilesSL5>
+      <NServiceKitCommonFiles Include="$(SrcDir)/NServiceKit.Common/bin/$(Configuration)/NServiceKit.Common.*"></NServiceKitCommonFiles>
+      <NServiceKitCommonFiles Include="$(SrcDir)/NServiceKit.Common/bin/$(Configuration)/NServiceKit.Interfaces.*"></NServiceKitCommonFiles>
+      <NServiceKitCommonFilesSL5 Include="$(SrcDir)/NServiceKit.Common.SL5/bin/$(Configuration)/NServiceKit.Common.*"></NServiceKitCommonFilesSL5>
+      <NServiceKitCommonFilesSL5 Include="$(SrcDir)/NServiceKit.Common.SL5/bin/$(Configuration)/NServiceKit.Interfaces.*"></NServiceKitCommonFilesSL5>
 
-      <ServiceStackMvcFiles Include="$(SrcDir)/ServiceStack.FluentValidation.Mvc3/bin/$(Configuration)/ServiceStack.FluentValidation.Mvc3.*"></ServiceStackMvcFiles>
+      <NServiceKitMvcFiles Include="$(SrcDir)/NServiceKit.FluentValidation.Mvc3/bin/$(Configuration)/NServiceKit.FluentValidation.Mvc3.*"></NServiceKitMvcFiles>
 
-      <ServiceStackAuthenticationOpenIdFiles Include="$(SrcDir)/ServiceStack.Authentication.OpenId/bin/$(Configuration)/ServiceStack.Authentication.OpenId.*"></ServiceStackAuthenticationOpenIdFiles>
+      <NServiceKitAuthenticationOpenIdFiles Include="$(SrcDir)/NServiceKit.Authentication.OpenId/bin/$(Configuration)/NServiceKit.Authentication.OpenId.*"></NServiceKitAuthenticationOpenIdFiles>
 
-      <ServiceStackAuthenticationOAuth2Files Include="$(SrcDir)/ServiceStack.Authentication.OAuth2/bin/$(Configuration)/ServiceStack.Authentication.OAuth2.*"></ServiceStackAuthenticationOAuth2Files>
+      <NServiceKitAuthenticationOAuth2Files Include="$(SrcDir)/NServiceKit.Authentication.OAuth2/bin/$(Configuration)/NServiceKit.Authentication.OAuth2.*"></NServiceKitAuthenticationOAuth2Files>
 
-      <ServiceStackPluginsProtoBufFiles Include="$(SrcDir)/ServiceStack.Plugins.ProtoBuf/bin/$(Configuration)/ServiceStack.Plugins.ProtoBuf.*"></ServiceStackPluginsProtoBufFiles>
+      <NServiceKitPluginsProtoBufFiles Include="$(SrcDir)/NServiceKit.Plugins.ProtoBuf/bin/$(Configuration)/NServiceKit.Plugins.ProtoBuf.*"></NServiceKitPluginsProtoBufFiles>
 
-      <ServiceStackPluginsMsgPackFiles Include="$(SrcDir)/ServiceStack.Plugins.MsgPack/bin/$(Configuration)/ServiceStack.Plugins.MsgPack.*"></ServiceStackPluginsMsgPackFiles>
-      <ServiceStackPluginsMsgPackFiles Include="$(BuildSolutionDir)/lib/MsgPack.dll"></ServiceStackPluginsMsgPackFiles>
+      <NServiceKitPluginsMsgPackFiles Include="$(SrcDir)/NServiceKit.Plugins.MsgPack/bin/$(Configuration)/NServiceKit.Plugins.MsgPack.*"></NServiceKitPluginsMsgPackFiles>
+      <NServiceKitPluginsMsgPackFiles Include="$(BuildSolutionDir)/lib/MsgPack.dll"></NServiceKitPluginsMsgPackFiles>
 
-      <ServiceStackClientSilverlightFiles Include="$(SrcDir)/ServiceStack.Client.Silverlight/bin/$(Configuration)/ServiceStack.Client.Silverlight.*"></ServiceStackClientSilverlightFiles>
+      <NServiceKitClientSilverlightFiles Include="$(SrcDir)/NServiceKit.Client.Silverlight/bin/$(Configuration)/NServiceKit.Client.Silverlight.*"></NServiceKitClientSilverlightFiles>
 
-      <StackOverflowSwaggerFiles Include="$(SrcDir)/ServiceStack.Api.Swagger/bin/$(Configuration)/ServiceStack.Api.Swagger.*"></StackOverflowSwaggerFiles>
-      <StackOverflowSwaggerContentFiles Include="$(SrcDir)/ServiceStack.Api.Swagger/swagger-ui/**/*"></StackOverflowSwaggerContentFiles>
+      <StackOverflowSwaggerFiles Include="$(SrcDir)/NServiceKit.Api.Swagger/bin/$(Configuration)/NServiceKit.Api.Swagger.*"></StackOverflowSwaggerFiles>
+      <StackOverflowSwaggerContentFiles Include="$(SrcDir)/NServiceKit.Api.Swagger/swagger-ui/**/*"></StackOverflowSwaggerContentFiles>
     </ItemGroup>
 
 
-    <!-- ServiceStack.Api.Swagger -->
+    <!-- NServiceKit.Api.Swagger -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Api.Swagger/ServiceStack.Api.Swagger.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Api.Swagger/NServiceKit.Api.Swagger.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Api.Swagger/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Api.Swagger/lib/net35')" />
-    <Copy SourceFiles="%(StackOverflowSwaggerFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Api.Swagger/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Api.Swagger/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Api.Swagger/lib/net35')" />
+    <Copy SourceFiles="%(StackOverflowSwaggerFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Api.Swagger/lib/net35" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Api.Swagger/content/swagger-ui" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Api.Swagger/content/swagger-ui')" />
-    <Copy SourceFiles="%(StackOverflowSwaggerContentFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Api.Swagger/content/swagger-ui/%(StackOverflowSwaggerContentFiles.RecursiveDir)" />   
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Api.Swagger/content/swagger-ui" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Api.Swagger/content/swagger-ui')" />
+    <Copy SourceFiles="%(StackOverflowSwaggerContentFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Api.Swagger/content/swagger-ui/%(StackOverflowSwaggerContentFiles.RecursiveDir)" />   
     
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Api.Swagger/servicestack.api.swagger.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Api.Swagger/NServiceKit.api.swagger.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Authentication.OpenId -->
+    <!-- NServiceKit.Authentication.OpenId -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Authentication.OpenId/ServiceStack.Authentication.OpenId.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Authentication.OpenId/NServiceKit.Authentication.OpenId.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Authentication.OpenId/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Authentication.OpenId/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackAuthenticationOpenIdFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Authentication.OpenId/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Authentication.OpenId/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Authentication.OpenId/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitAuthenticationOpenIdFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Authentication.OpenId/lib/net35" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Authentication.OpenId/servicestack.authentication.openid.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Authentication.OpenId/NServiceKit.authentication.openid.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Authentication.OAuth2 -->
+    <!-- NServiceKit.Authentication.OAuth2 -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Authentication.OAuth2/ServiceStack.Authentication.OAuth2.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Authentication.OAuth2/NServiceKit.Authentication.OAuth2.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackAuthenticationOAuth2Files.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitAuthenticationOAuth2Files.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/servicestack.authentication.oauth2.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/NServiceKit.authentication.oauth2.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Client.Silverlight - Empty NuGet wrapper around ServiceStack.Common -->
+    <!-- NServiceKit.Client.Silverlight - Empty NuGet wrapper around NServiceKit.Common -->
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Client.Silverlight/servicestack.client.silverlight.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Client.Silverlight/NServiceKit.client.silverlight.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Host.AspNet - Content Templates -->
+    <!-- NServiceKit.Host.AspNet - Content Templates -->
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Host.AspNet/servicestack.host.aspnet.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Host.AspNet/NServiceKit.host.aspnet.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Host.Mvc - Content Templates -->
+    <!-- NServiceKit.Host.Mvc - Content Templates -->
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Host.Mvc/servicestack.host.mvc.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Host.Mvc/NServiceKit.host.mvc.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion)"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Mvc -->
+    <!-- NServiceKit.Mvc -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.FluentValidation.Mvc3/ServiceStack.FluentValidation.Mvc3.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.FluentValidation.Mvc3/NServiceKit.FluentValidation.Mvc3.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Mvc/lib/net40" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Mvc/lib/net40')" />
-    <Copy SourceFiles="%(ServiceStackMvcFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Mvc/lib/net40" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Mvc/lib/net40" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Mvc/lib/net40')" />
+    <Copy SourceFiles="%(NServiceKitMvcFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Mvc/lib/net40" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Mvc/servicestack.mvc.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Mvc/NServiceKit.mvc.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Plugins.MsgPack -->
+    <!-- NServiceKit.Plugins.MsgPack -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Plugins.MsgPack/ServiceStack.Plugins.MsgPack.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Plugins.MsgPack/NServiceKit.Plugins.MsgPack.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Plugins.MsgPack/lib/net40" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Plugins.MsgPack/lib/net40')" />
-    <Copy SourceFiles="%(ServiceStackPluginsMsgPackFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Plugins.MsgPack/lib/net40" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Plugins.MsgPack/lib/net40" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Plugins.MsgPack/lib/net40')" />
+    <Copy SourceFiles="%(NServiceKitPluginsMsgPackFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Plugins.MsgPack/lib/net40" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Plugins.MsgPack/servicestack.plugins.msgpack.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Plugins.MsgPack/NServiceKit.plugins.msgpack.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Plugins.ProtoBuf -->
+    <!-- NServiceKit.Plugins.ProtoBuf -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Plugins.ProtoBuf/ServiceStack.Plugins.ProtoBuf.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Plugins.ProtoBuf/NServiceKit.Plugins.ProtoBuf.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Plugins.ProtoBuf/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Plugins.ProtoBuf/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackPluginsProtoBufFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Plugins.ProtoBuf/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Plugins.ProtoBuf/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Plugins.ProtoBuf/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitPluginsProtoBufFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Plugins.ProtoBuf/lib/net35" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Plugins.ProtoBuf/servicestack.plugins.protobuf.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Plugins.ProtoBuf/NServiceKit.plugins.protobuf.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Razor -->
+    <!-- NServiceKit.Razor -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Razor/ServiceStack.Razor.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Razor/NServiceKit.Razor.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Razor/lib/net40" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Razor/lib/net40')" />
-    <Copy SourceFiles="%(ServiceStackRazorFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Razor/lib/net40" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Razor/lib/net40" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Razor/lib/net40')" />
+    <Copy SourceFiles="%(NServiceKitRazorFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Razor/lib/net40" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Razor/servicestack.razor.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Razor/NServiceKit.razor.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack.Common -->
+    <!-- NServiceKit.Common -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Common/ServiceStack.Common.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Common/NServiceKit.Common.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Common/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Common/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackCommonFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Common/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Common/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Common/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitCommonFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Common/lib/net35" />
 
       <!-- Silverlight -->
-      <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Common.SL5/ServiceStack.Common.SL5.csproj"
+      <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Common.SL5/NServiceKit.Common.SL5.csproj"
                Targets="Build"
                Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-      <MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Common/lib/sl5" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Common/lib/sl5')" />
-      <Copy SourceFiles="%(ServiceStackCommonFilesSL5.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Common/lib/sl5" />
+      <MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Common/lib/sl5" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Common/lib/sl5')" />
+      <Copy SourceFiles="%(NServiceKitCommonFilesSL5.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Common/lib/sl5" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Common/servicestack.common.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Common/NServiceKit.common.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
 
-    <!-- ServiceStack -->
+    <!-- NServiceKit -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.ServiceInterface/ServiceStack.ServiceInterface.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.ServiceInterface/NServiceKit.ServiceInterface.csproj"
              Targets="Build"
              Properties="Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <MakeDir Directories="$(NuGetPackageDir)/ServiceStack/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack/lib/net35" />
+    <MakeDir Directories="$(NuGetPackageDir)/NServiceKit/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit/lib/net35" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack/servicestack.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit/NServiceKit.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />
     
   </Target>
@@ -245,19 +240,19 @@
     <Delete Files="@(NugetPackageFilesToDelete)" />
 
     <ItemGroup>
-      <ServiceStackAuthenticationOAuth2TestFiles Include="$(SrcDir)/ServiceStack.Authentication.OAuth2/bin/$(Configuration)/ServiceStack.Authentication.OAuth2.*"></ServiceStackAuthenticationOAuth2TestFiles>
+      <NServiceKitAuthenticationOAuth2TestFiles Include="$(SrcDir)/NServiceKit.Authentication.OAuth2/bin/$(Configuration)/NServiceKit.Authentication.OAuth2.*"></NServiceKitAuthenticationOAuth2TestFiles>
     </ItemGroup>
 
-    <!-- ServiceStack.Authentication.OAuth2 -->
+    <!-- NServiceKit.Authentication.OAuth2 -->
 
-    <MSBuild Projects="$(BuildSolutionDir)/src/ServiceStack.Authentication.OAuth2/ServiceStack.Authentication.OAuth2.csproj"
+    <MSBuild Projects="$(BuildSolutionDir)/src/NServiceKit.Authentication.OAuth2/NServiceKit.Authentication.OAuth2.csproj"
              Targets="Build"
              Properties="BuildPackage=true;Version=$(PackageVersion);Configuration=$(Configuration)" />
 
-    <!--<MakeDir Directories="$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35" Condition="!Exists('$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35')" />
-    <Copy SourceFiles="%(ServiceStackAuthenticationOAuth2TestFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/lib/net35" />
+    <!--<MakeDir Directories="$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35" Condition="!Exists('$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35')" />
+    <Copy SourceFiles="%(NServiceKitAuthenticationOAuth2TestFiles.Identity)" DestinationFolder="$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/lib/net35" />
 
-    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/ServiceStack.Authentication.OAuth2/servicestack.authentication.oauth2.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
+    <Exec Command="&quot;$(NuGetPath)&quot; pack &quot;$(NuGetPackageDir)/NServiceKit.Authentication.OAuth2/NServiceKit.authentication.oauth2.nuspec&quot; -OutputDirectory &quot;$(NuGetPackageDir)&quot; -Version $(PackageVersion) -Symbols"
             LogStandardErrorAsError="true" />-->
 
   </Target>

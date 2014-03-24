@@ -7,35 +7,35 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Threading;
 using NUnit.Framework;
-using ServiceStack.Common;
-using ServiceStack.Common.Web;
-using ServiceStack.Logging;
-using ServiceStack.Logging.Support.Logging;
-using ServiceStack.OrmLite;
-using ServiceStack.Plugins.MsgPack;
-using ServiceStack.Service;
-using ServiceStack.ServiceClient.Web;
-using ServiceStack.ServiceHost;
-using ServiceStack.ServiceInterface;
-using ServiceStack.ServiceInterface.Cors;
-using ServiceStack.ServiceInterface.ServiceModel;
-using ServiceStack.Text;
-using ServiceStack.WebHost.Endpoints;
+using NServiceKit.Common;
+using NServiceKit.Common.Web;
+using NServiceKit.Logging;
+using NServiceKit.Logging.Support.Logging;
+using NServiceKit.OrmLite;
+using NServiceKit.Plugins.MsgPack;
+using NServiceKit.Service;
+using NServiceKit.ServiceClient.Web;
+using NServiceKit.ServiceHost;
+using NServiceKit.ServiceInterface;
+using NServiceKit.ServiceInterface.Cors;
+using NServiceKit.ServiceInterface.ServiceModel;
+using NServiceKit.Text;
+using NServiceKit.WebHost.Endpoints;
 
 namespace RazorRockstars.Console.Files
 {
-    /// New Proposal, keeping ServiceStack's message-based semantics:
-    /// Inspired by Ivan's proposal: http://korneliuk.blogspot.com/2012/08/servicestack-reusing-dtos.html
+    /// New Proposal, keeping NServiceKit's message-based semantics:
+    /// Inspired by Ivan's proposal: http://korneliuk.blogspot.com/2012/08/NServiceKit-reusing-dtos.html
     /// 
-    /// To align with ServiceStack's message-based design, an "Action": 
+    /// To align with NServiceKit's message-based design, an "Action": 
     ///   - is public and only supports a single argument the typed Request DTO 
     ///   - method name matches a HTTP Method or "Any" which is used as a fallback (for all methods) if it exists
     ///   - only returns object or void
     ///
     /// Notes: 
     /// Content Negotiation built-in, i.e. by default each method/route is automatically available in every registered Content-Type (HTTP Only).
-    /// New API are also available in ServiceStack's typed service clients (they're actually even more succinct :)
-    /// Any Views rendered is based on Request or Returned DTO type, see: http://razor.servicestack.net/#unified-stack
+    /// New API are also available in NServiceKit's typed service clients (they're actually even more succinct :)
+    /// Any Views rendered is based on Request or Returned DTO type, see: http://razor.NServiceKit.net/#unified-stack
 
     [Route("/reqstars/search", "GET")]
     [Route("/reqstars/aged/{Age}")]

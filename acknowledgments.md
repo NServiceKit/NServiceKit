@@ -1,4 +1,4 @@
-ServiceStack makes use of the following OSS projects:
+NServiceKit and ServiceStack makes use of the following OSS projects:
 
 * Funq from Clarius Consulting and is released under the Microsoft Public License (Ms-PL): http://funq.codeplex.com/license
 * Mono Project - more specifically, parts of the Mono BCL implementations (http://mono-project.com) and is used under the MIT license: http://www.mono-project.com/Licensing

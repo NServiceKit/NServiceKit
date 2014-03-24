@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Funq;
-using ServiceStack.Common;
-using ServiceStack.Common.Web;
-using ServiceStack.DataAnnotations;
-using ServiceStack.OrmLite;
-using ServiceStack.Razor;
-using ServiceStack.ServiceHost;
-using ServiceStack.ServiceInterface;
-using ServiceStack.WebHost.Endpoints;
+using NServiceKit.Common;
+using NServiceKit.Common.Web;
+using NServiceKit.DataAnnotations;
+using NServiceKit.OrmLite;
+using NServiceKit.Razor;
+using NServiceKit.ServiceHost;
+using NServiceKit.ServiceInterface;
+using NServiceKit.WebHost.Endpoints;
 
 //The entire C# code for the stand-alone RazorRockstars demo.
 namespace RazorRockstars.Console.Files

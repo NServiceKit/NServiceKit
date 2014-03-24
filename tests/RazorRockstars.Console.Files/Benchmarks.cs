@@ -2,12 +2,12 @@
 using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
-using ServiceStack.Logging;
-using ServiceStack.Logging.Support.Logging;
-using ServiceStack.Razor;
-using ServiceStack.ServiceInterface.Testing;
-using ServiceStack.Text;
-using ServiceStack.WebHost.Endpoints.Formats;
+using NServiceKit.Logging;
+using NServiceKit.Logging.Support.Logging;
+using NServiceKit.Razor;
+using NServiceKit.ServiceInterface.Testing;
+using NServiceKit.Text;
+using NServiceKit.WebHost.Endpoints.Formats;
 
 namespace RazorRockstars.Console.Files
 {

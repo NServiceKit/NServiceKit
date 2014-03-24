@@ -53,14 +53,14 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\tests\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite">
-      <HintPath>..\..\lib\ServiceStack.OrmLite.dll</HintPath>
+    <Reference Include="NServiceKit.OrmLite">
+      <HintPath>..\..\lib\NServiceKit.OrmLite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite.Sqlite">
-      <HintPath>..\..\lib\ServiceStack.OrmLite.Sqlite.dll</HintPath>
+    <Reference Include="NServiceKit.OrmLite.Sqlite">
+      <HintPath>..\..\lib\NServiceKit.OrmLite.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\lib\ServiceStack.Text.dll</HintPath>
+    <Reference Include="NServiceKit.Text">
+      <HintPath>..\..\lib\NServiceKit.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -151,29 +151,29 @@
     <Compile Include="ReqStarsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ServiceStack.Common\ServiceStack.Common.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Common\NServiceKit.Common.csproj">
       <Project>{982416db-c143-4028-a0c3-cf41892d18d3}</Project>
-      <Name>ServiceStack.Common</Name>
+      <Name>NServiceKit.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Interfaces\NServiceKit.Interfaces.csproj">
       <Project>{42e1c8c0-a163-44cc-92b1-8f416f2c0b01}</Project>
-      <Name>ServiceStack.Interfaces</Name>
+      <Name>NServiceKit.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.Plugins.MsgPack\ServiceStack.Plugins.MsgPack.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Plugins.MsgPack\NServiceKit.Plugins.MsgPack.csproj">
       <Project>{6B751A07-75D4-4A9D-B3A0-EEA27808E64C}</Project>
-      <Name>ServiceStack.Plugins.MsgPack</Name>
+      <Name>NServiceKit.Plugins.MsgPack</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.Razor\ServiceStack.Razor.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.Razor\NServiceKit.Razor.csproj">
       <Project>{d73274ae-006b-4cee-ba60-0ecf5873048d}</Project>
-      <Name>ServiceStack.Razor</Name>
+      <Name>NServiceKit.Razor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack.ServiceInterface\ServiceStack.ServiceInterface.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit.ServiceInterface\NServiceKit.ServiceInterface.csproj">
       <Project>{5a315f92-80d2-4c60-a5a4-22e027ac7e7e}</Project>
-      <Name>ServiceStack.ServiceInterface</Name>
+      <Name>NServiceKit.ServiceInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ServiceStack\ServiceStack.csproj">
+    <ProjectReference Include="..\..\src\NServiceKit\NServiceKit.csproj">
       <Project>{680a1709-25eb-4d52-a87f-ee03ffd94baa}</Project>
-      <Name>ServiceStack</Name>
+      <Name>NServiceKit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-# NServiceKit.Text is a BSD/Open Source fork of ServiceStack.  This fork continues the open source tradition for the ServiceStack codebase.
+# NServiceKit.Text is a BSD/Open Source fork of ServiceStack.  
 
 See [www.servicestack.net](http://www.servicestack.net/) for an overview.
 

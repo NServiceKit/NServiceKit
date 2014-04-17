@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Mvc</id>
+    <title>MVC Adapters for integrating with NServiceKit webservices</title>
+    <version>3.9.60</version>
+    <authors>NServiceKit</authors>
+    <owners>NServiceKit</owners>
+    <summary>.NET 4.0 project Integration of NServiceKit with MVC3</summary>
+    <description>
+      Full details in Mvc PowerPack: http://nservicekit.com/mvc-powerpack/
+      Adapter classes to provide tight integration and re-usable functionality between NServiceKit and MVC3.
+      Including adapters for: MiniProfiler, FluentValidation, Funq IOC Controller Factory, Funq Validator Factory
+      ControllerBase (configured with access to NServiceKit's ICacheClient, ISession, typed UserSession dependencies).
+    </description>
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>MiniProfiler FluentValidation MVC Controller NServiceKit</tags>
+    <language>en-US</language>
+    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <dependencies>
+      <dependency id="NServiceKit" version="[1,2)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\**\*.*" target="lib" />
+    <file src="..\..\src\NServiceKit.FluentValidation.Mvc3\**\*.cs" target="src" />
+  </files>
+</package>

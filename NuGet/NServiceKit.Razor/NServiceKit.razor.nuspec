@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Razor</id>
+    <title>NServiceKit.Razor - NServiceKit's HTML story including MVC Razor</title>
+    <version>3.9.60</version>
+    <authors>NServiceKit</authors>
+    <owners>NServiceKit</owners>
+    <summary>Provides NServiceKit's HTML Story including integrated support for MVC Razor's ViewEngine</summary>
+    <description>
+      NServiceKit Razor Documentation: http://razor.nservicekit.com
+
+      - Turns NServiceKit into a Complete Web + REST Services Stack. Replaces need for ASP.NET MVC.
+      - Runs In ASP.NET or Self-host, first-class cross-platform support on .NET / Mono runtimes.
+      - Add HTML views to existing services.
+      - Change Views and Layout templates at runtime.
+      - No Ceremony development options - Pages without controllers, with typed and dynamic View Models.
+      - Include Partial Markdown views in Razor pages.
+      - Cascading Layout templates.
+      - Pretty urls by default (no custom Routes needed).
+      - Keep all views and assets together.
+      - Smart View Pages.
+    </description>
+    <projectUrl>http://razor.nservicekit.com</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>Razor ViewEngine View Templates Controllers Mono ASP.NET Self-Host NServiceKit</tags>
+    <language>en-US</language>
+    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <dependencies>
+      <dependency id="NServiceKit" version="[1,2)" />
+      <dependency id="System.Web.Razor.Unofficial" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\**\*.*" target="lib" />
+    <file src="content\**\*.*" target="content" />
+    <file src="..\..\src\NServiceKit.Razor\**\*.cs" target="src" />
+  </files>
+</package>

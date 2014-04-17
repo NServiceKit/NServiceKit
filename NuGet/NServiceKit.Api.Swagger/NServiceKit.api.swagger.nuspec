@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Api.Swagger</id>
+    <title>NServiceKit additional API for integration with Swagger</title>
+    <version>3.9.60</version>
+    <authors>NServiceKit</authors>
+    <owners>NServiceKit</owners>
+    <summary>NServiceKit integration with Swagger</summary>
+    <description>
+      Provides a set of services to be discovered by Swagger (http://swagger.wordnik.com/)
+      Swagger is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services.
+    </description>
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>Swagger API REST Docs NServiceKit</tags>
+    <language>en-US</language>
+    <copyright>StackExpress.net 2012 and contributors</copyright>
+    <dependencies>
+      <dependency id="NServiceKit" version="[1,2)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="content\**\*.*" target="content" />
+    <file src="lib\**\*.*" target="lib" />
+    <file src="..\..\src\NServiceKit.Api.Swagger\**\*.cs" target="src" />
+  </files>
+</package>

@@ -44,10 +44,9 @@ release/latest/
 release/*
 
 src/ServiceStack.MonoTouch/.DS_Store
-NuGet/
-build/
 *.DS_Store
-
+NuGet/*/lib
+NuGet/*/content
 *.dotCover
 
 src/ServiceStack/Properties/Resources.resources

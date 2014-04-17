@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Authentication.OAuth2</id> 
+    <title>OAuth2 Providers for NServiceKit - inc. Google, LinkedIn</title>
+    <version>3.9.60</version> 
+    <authors>NServiceKit</authors> 
+    <owners>NServiceKit</owners>
+    <summary>OpenId Auth Providers for NServiceKit - inc. Google, LinkedIn</summary>
+    <description>
+        Adds OAuth2 Providers for use in NServiceKit Web and REST Services. 
+        Includes built-in support for Google and LinkedIn OAuth2 providers.
+        
+        More Info on Auth Providers: 
+        https://github.com/NServiceKit/NServiceKit/wiki/Authentication-and-authorization
+    </description> 
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>OAuth OAuth2 Google LinkedIn Authentication Auth Provider NServiceKit Web Services</tags>
+    <language>en-US</language>
+    <copyright>nservicekit.com 2013 and contributors</copyright>
+    <dependencies>
+        <dependency id="NServiceKit" version="[1,2)" />
+        <dependency id="DotNetOpenAuth.Ultimate" />
+    </dependencies> 
+  </metadata>
+  <files>
+      <file src="lib\**\*.*" target="lib" />
+      <file src="..\..\src\NServiceKit.Authentication.OAuth2\**\*.cs" target="src" />
+  </files>
+</package>

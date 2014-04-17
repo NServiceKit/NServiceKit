@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Plugins.MsgPack</id>
+    <title>Message Pack support for NServiceKit. Includes typed MsgPack Client</title>
+    <version>3.9.60</version>
+    <authors>NServiceKit</authors>
+    <owners>NServiceKit</owners>
+    <summary>MsgPack Format Serializer ContentType ServiceClients for NServiceKit</summary>
+    <description>
+      Add the MsgPack binary format and endpoint to a NServiceKit web service host.
+    </description>
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>MsgPack MessagePack Message Pack Fast Binary Serializer Format ContentType REST Web Services NServiceKit</tags>
+    <language>en-US</language>
+    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <dependencies>
+      <dependency id="NServiceKit.Common" version="[1,2)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\**\*.*" target="lib" />
+    <file src="..\..\src\NServiceKit.Plugins.MsgPack\**\*.cs" target="src" />
+  </files>
+</package>

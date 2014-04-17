@@ -1,15 +1,18 @@
-﻿using System;
-using System.Net;
-using System.Web;
-using NServiceKit.Common;
+﻿using NServiceKit.Common;
 using NServiceKit.Common.Web;
 using NServiceKit.ServiceClient.Web;
 using NServiceKit.ServiceHost;
 using NServiceKit.WebHost.Endpoints;
 using NServiceKit.WebHost.Endpoints.Extensions;
+using System;
+using System.Net;
+using System.Web;
 
 namespace NServiceKit
 {
+    /// <summary>
+    /// HttpExtensions 
+    /// </summary>
     public static class HttpExtensions
     {
         public static HttpRequestContext ToRequestContext(this HttpContext httpContext, object requestDto = null)

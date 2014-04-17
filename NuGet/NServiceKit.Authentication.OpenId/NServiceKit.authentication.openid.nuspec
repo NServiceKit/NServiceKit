@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Authentication.OpenId</id> 
+    <title>OpenId Auth Providers for NServiceKit - inc. Google, Yahoo, MyOpenId</title>
+    <version>3.9.60</version> 
+    <authors>NServiceKit</authors> 
+    <owners>NServiceKit</owners>
+    <summary>OpenId Auth Providers for NServiceKit - inc. Google, Yahoo, MyOpenId</summary>
+    <description>
+        Adds OpenId Auth Providers for use in NServiceKit Web and REST Services. 
+        Includes built-in support for Google, Yahoo, MyOpenId and Custom OpenId providers.
+        
+        More Info on Auth Providers: 
+        https://github.com/NServiceKit/NServiceKit/wiki/Authentication-and-authorization
+    </description> 
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>OpenId Google Yahoo MyOpenId Authentication Auth Provider NServiceKit REST Web Services NServiceKit</tags>
+    <language>en-US</language>
+    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <dependencies>
+        <dependency id="NServiceKit" version="[1,2)" />
+        <dependency id="DotNetOpenAuth.Ultimate" />
+    </dependencies> 
+  </metadata>
+  <files>
+      <file src="lib\**\*.*" target="lib" />
+      <file src="..\..\src\NServiceKit.Authentication.OpenId\**\*.cs" target="src" />
+  </files>
+</package>

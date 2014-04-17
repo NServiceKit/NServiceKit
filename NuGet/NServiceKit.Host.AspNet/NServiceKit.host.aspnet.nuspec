@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>NServiceKit.Host.AspNet</id>
+    <title>Starter ASP.NET Website Template - NServiceKit at /</title>
+    <version>3.9.60</version> 
+    <authors>NServiceKit</authors> 
+    <owners>NServiceKit</owners>
+    <summary>Opensource .NET and Mono REST Web Services framework</summary>
+    <description>
+Host NServiceKit in an existing ASP.NET web application at the root path '/'. 
+NServiceKit is a modern, high-performance, code-first web service framework promoting code and web services best practices. Simple, Fast, Elegant. Website: http://www.nservicekit.com
+    </description> 
+    <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
+    <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
+    <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework MONO NServiceKit</tags>
+    <language>en-US</language>
+	<copyright>nservicekit.com 2012 and contributors</copyright>
+	<dependencies>
+      <dependency id="WebActivator" version="1.5" />
+      <dependency id="NServiceKit" version="[1,2)" />
+    </dependencies> 
+  </metadata> 
+</package>

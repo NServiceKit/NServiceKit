@@ -2,8 +2,8 @@
   <Import Project="$(MSBuildProjectDirectory)/build.tasks" />
 
   <PropertyGroup>
-    <MajorVersion Condition="$(MajorVersion) == ''">3</MajorVersion>
-    <MinorVersion Condition="$(MinorVersion) == ''">9</MinorVersion>
+    <MajorVersion Condition="$(MajorVersion) == ''">1</MajorVersion>
+    <MinorVersion Condition="$(MinorVersion) == ''">0</MinorVersion>
     <PatchVersion Condition="$(PatchVersion) == ''">$(BUILD_NUMBER)</PatchVersion>
   </PropertyGroup>
 
@@ -15,9 +15,9 @@
     <NuGetPath>$(BuildSolutionDir)/src/.nuget/nuget.exe</NuGetPath>
     <NuGetPackageDir>$(BuildSolutionDir)/NuGet/</NuGetPackageDir>
     <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</Version>
-    <UnstableTag Condition="$(RELEASE) == ''">-unstable</UnstableTag>
-    <PackageVersion>$(MajorVersion).$(MinorVersion).$(PatchVersion)$(UnstableTag)</PackageVersion>
+    <PackageVersion>$(MajorVersion).$(MinorVersion).$(PatchVersion)</PackageVersion>
     <EnvVersion>$(MajorVersion).$(MinorVersion)$(PatchVersion)</EnvVersion>
+    <NunitDir>$(BuildSolutionDir)/nuget-packages/NUnit.Runners.2.6.3/tools</NunitDir>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -33,11 +33,11 @@
   <Target Name="Default" DependsOnTargets="$(DoBuildSolutionsDependsOn)" />
 
   <Target Name="UnitTests" DependsOnTargets="$(DoBuildSolutionsDependsOn)">
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.ServiceHost.Tests/bin/$(Configuration)/NServiceKit.ServiceHost.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Messaging.Tests/bin/$(Configuration)/NServiceKit.Messaging.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Common.Tests/bin/$(Configuration)/NServiceKit.Common.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Auth.Tests/bin/$(Configuration)/NServiceKit.Auth.Tests.dll $(NUnitConsoleArgs)" />
-    <Exec Command="$(BuildSolutionDir)/lib/tests/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.WebHostApp/bin/NServiceKit.WebHost.Endpoints.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(NunitDir)/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.ServiceHost.Tests/bin/$(Configuration)/NServiceKit.ServiceHost.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(NunitDir)/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Messaging.Tests/bin/$(Configuration)/NServiceKit.Messaging.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(NunitDir)/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Common.Tests/bin/$(Configuration)/NServiceKit.Common.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(NunitDir)/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.Auth.Tests/bin/$(Configuration)/NServiceKit.Auth.Tests.dll $(NUnitConsoleArgs)" />
+    <Exec Command="$(NunitDir)/nunit-console-x86.exe $(BuildSolutionDir)/tests/NServiceKit.WebHostApp/bin/NServiceKit.WebHost.Endpoints.Tests.dll $(NUnitConsoleArgs)" />
   </Target>
 
   <Target Name="Build">
@@ -53,18 +53,18 @@
       Properties="Configuration=$(Configuration)" />
   </Target>
 
-  <Target Name="NuGetPack">
+  <Target Name="NuGetPack" DependsOnTargets="$(DoBuildSolutionsDependsOn)">
 
     <ItemGroup>
       <!-- Exclude versioning future strong-named libs -->
-      <RegexTransform Include="$(BuildSolutionDir)/src/**/AssemblyInfo.cs"
+      <!-- RegexTransform Include="$(BuildSolutionDir)/src/**/AssemblyInfo.cs"
                       Exclude="$(SrcDir)/NServiceKit.Interfaces*/Properties/AssemblyInfo.cs">
         <Find>\d+\.\d+\.\d+\.\d+</Find>
         <ReplaceWith>$(Version)</ReplaceWith>
-      </RegexTransform>
+      </RegexTransform -->
     </ItemGroup>
 
-    <RegexTransform Items="@(RegexTransform)" />
+    <!-- RegexTransform Items="@(RegexTransform)" / -->
 
     <Delete Files="@(NugetPackageFilesToDelete)" />
 

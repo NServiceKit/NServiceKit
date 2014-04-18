@@ -1,4 +1,10 @@
-# NServiceKit.Text is a BSD/Open Source fork of ServiceStack.  
+# NServiceKit.Text is a FREE and Open Source fork of ServiceStack.
+
+Our goal is to keep the foundation for great REST Services on .NET free, open source and supported by the community.  Accepting pull requests, issues on github: [https://github.com/NServiceKit/NServiceKit]
+
+Follow [@NServiceKit](https://twitter.com/nservicekit) for updates!
+
+Previous Documentation:
 
 See [www.servicestack.net](http://www.servicestack.net/) for an overview.
 

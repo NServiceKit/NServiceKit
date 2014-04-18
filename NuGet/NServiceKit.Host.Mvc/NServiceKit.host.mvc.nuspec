@@ -6,17 +6,18 @@
     <version>3.9.60</version> 
 	<authors>NServiceKit</authors> 
     <owners>NServiceKit</owners>
-    <summary>Opensource .NET and Mono REST Web Services framework</summary>
+    <summary>Free and open source .NET and Mono REST Web Services framework</summary>
     <description>
-Host NServiceKit side-by-side with an existing ASP.NET MVC application at the path '/api'. 
-NServiceKit is a modern, high-performance, code-first web service framework promoting code and web services best practices. Simple, Fast, Elegant. Website: http://www.nservicekit.com
+      Free and Open Source fork of NServiceKit.Host.Mvc V3
+      Host NServiceKit side-by-side with an existing ASP.NET MVC application at the path '/api'. 
+      NServiceKit is a modern, high-performance, code-first web service framework promoting code and web services best practices. Simple, Fast, Elegant. Website: http://www.nservicekit.com
     </description> 
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework MONO NServiceKit</tags>
+    <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework Mono NServiceKit ServiceStack</tags>
     <language>en-US</language>
-    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
 	  <dependencies>
       <dependency id="WebActivator" version="1.5" />
       <dependency id="NServiceKit.Mvc" version="[1,2)" />

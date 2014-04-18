@@ -6,8 +6,9 @@
     <version>3.9.60</version>
     <authors>NServiceKit</authors>
     <owners>NServiceKit</owners>
-    <summary>Opensource .NET and Mono REST Web Services framework</summary>
+    <summary>Free and open source .NET and Mono REST Services framework</summary>
     <description>
+      Free and Open Source fork of ServiceStack.Common V3
       Common library dependency for other NServiceKit projects.
       Includes JSON, XML, JSV and SOAP Generic Service Clients.
       Contains:
@@ -19,9 +20,9 @@
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>NServiceKit Common Framework Clients ServiceClients Gateway</tags>
+    <tags>NServiceKit Common Framework Clients ServiceClients Gateway ServiceStack</tags>
     <language>en-US</language>
-    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
       <dependency id="NServiceKit.Text" version="[1,2)" />
     </dependencies>

@@ -8,14 +8,15 @@
     <owners>NServiceKit</owners>
     <summary>MsgPack Format Serializer ContentType ServiceClients for NServiceKit</summary>
     <description>
+      Free and Open Source fork of NServiceKit.Plugins.MsgPack V3    
       Add the MsgPack binary format and endpoint to a NServiceKit web service host.
     </description>
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>MsgPack MessagePack Message Pack Fast Binary Serializer Format ContentType REST Web Services NServiceKit</tags>
+    <tags>MsgPack MessagePack Message Pack Fast Binary Serializer Format ContentType REST Web Services NServiceKit ServiceStack</tags>
     <language>en-US</language>
-    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
       <dependency id="NServiceKit.Common" version="[1,2)" />
     </dependencies>

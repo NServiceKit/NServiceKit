@@ -8,6 +8,8 @@
     <owners>NServiceKit</owners>
     <summary>OpenId Auth Providers for NServiceKit - inc. Google, Yahoo, MyOpenId</summary>
     <description>
+        Free and Open Source fork of ServiceStack V3
+
         Adds OpenId Auth Providers for use in NServiceKit Web and REST Services. 
         Includes built-in support for Google, Yahoo, MyOpenId and Custom OpenId providers.
         
@@ -17,9 +19,9 @@
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>OpenId Google Yahoo MyOpenId Authentication Auth Provider NServiceKit REST Web Services NServiceKit</tags>
+    <tags>OpenId Google Yahoo MyOpenId Authentication Auth Provider NServiceKit REST Web Services ServiceStack</tags>
     <language>en-US</language>
-    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
         <dependency id="NServiceKit" version="[1,2)" />
         <dependency id="DotNetOpenAuth.Ultimate" />

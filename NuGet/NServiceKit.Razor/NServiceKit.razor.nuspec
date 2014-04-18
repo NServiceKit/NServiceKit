@@ -8,8 +8,7 @@
     <owners>NServiceKit</owners>
     <summary>Provides NServiceKit's HTML Story including integrated support for MVC Razor's ViewEngine</summary>
     <description>
-      NServiceKit Razor Documentation: http://razor.nservicekit.com
-
+      Free and Open Source fork of NServiceKit.Razor V3
       - Turns NServiceKit into a Complete Web + REST Services Stack. Replaces need for ASP.NET MVC.
       - Runs In ASP.NET or Self-host, first-class cross-platform support on .NET / Mono runtimes.
       - Add HTML views to existing services.
@@ -24,9 +23,9 @@
     <projectUrl>http://razor.nservicekit.com</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>Razor ViewEngine View Templates Controllers Mono ASP.NET Self-Host NServiceKit</tags>
+    <tags>Razor ViewEngine View Templates Controllers Mono ASP.NET Self-Host NServiceKit ServiceStack</tags>
     <language>en-US</language>
-    <copyright>nservicekit.com 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
       <dependency id="NServiceKit" version="[1,2)" />
       <dependency id="System.Web.Razor.Unofficial" />

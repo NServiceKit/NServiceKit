@@ -8,18 +8,17 @@
     <owners>NServiceKit</owners>
     <summary>Free and Open Source .NET and Mono REST Services framework</summary>
     <description>
+      Free and Open Source fork of ServiceStack V3
       Binaries for the NServiceKit framework.
     </description>
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework MONO NServiceKit</tags>
+    <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework Mono NServiceKit ServiceStack</tags>
     <language>en-US</language>
     <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
       <dependency id="NServiceKit.Common" version="[1,2)" />
-      <dependency id="NServiceKit.Redis" version="[1,2)" />
-      <dependency id="NServiceKit.OrmLite.SqlServer" version="[1,2)" />
     </dependencies>
   </metadata>
   <files>

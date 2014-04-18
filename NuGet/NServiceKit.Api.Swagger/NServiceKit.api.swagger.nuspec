@@ -8,15 +8,16 @@
     <owners>NServiceKit</owners>
     <summary>NServiceKit integration with Swagger</summary>
     <description>
+      For the Free and Open Source fork of ServiceStack V3    
       Provides a set of services to be discovered by Swagger (http://swagger.wordnik.com/)
       Swagger is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services.
     </description>
     <projectUrl>https://github.com/NServiceKit/NServiceKit</projectUrl>
     <licenseUrl>https://github.com/NServiceKit/NServiceKit/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://www.nservicekit.com/logo-100x100.png</iconUrl>
-    <tags>Swagger API REST Docs NServiceKit</tags>
+    <tags>Swagger API REST Docs NServiceKit ServiceStack</tags>
     <language>en-US</language>
-    <copyright>StackExpress.net 2012 and contributors</copyright>
+    <copyright>NServiceKit 2014 and contributors</copyright>
     <dependencies>
       <dependency id="NServiceKit" version="[1,2)" />
     </dependencies>

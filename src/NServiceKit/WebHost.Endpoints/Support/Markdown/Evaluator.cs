@@ -51,7 +51,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			typeof(Expression).Assembly,   //"system.core.dll",
 			typeof(AppHostBase).Assembly,  //"NServiceKit.dll",
 			typeof(JsConfig).Assembly,     //"NServiceKit.Text.dll",
-			typeof(IService<>).Assembly,   //"NServiceKit.Interfaces.dll",
+			typeof(IService).Assembly,   //"NServiceKit.Interfaces.dll",
 			typeof(Common.UrnId).Assembly, //"NServiceKit.Common.dll"
 		};
 

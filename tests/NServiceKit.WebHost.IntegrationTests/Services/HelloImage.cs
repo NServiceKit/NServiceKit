@@ -12,11 +12,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
     [Route("/HelloImage")]
     public class HelloImage {}
 
-    public class HelloImageService : IService<HelloImage>
+    public class HelloImageService : ServiceInterface.Service
     {
-        public object Execute(HelloImage request)
+        public object Any(HelloImage request)
         {
-            using (Bitmap image = new Bitmap(10, 10))
+            using (var image = new Bitmap(10, 10))
             {
                 using (Graphics g = Graphics.FromImage(image))
                 {
@@ -32,9 +32,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
     [Route("/HelloImage2")]
     public class HelloImage2 {}
 
-    public class HelloImage2Service : IService<HelloImage2>
+    public class HelloImage2Service : ServiceInterface.Service
     {
-        public object Execute(HelloImage2 request)
+        public object Any(HelloImage2 request)
         {
             using (Bitmap image = new Bitmap(10, 10))
             {
@@ -83,9 +83,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
         public IDictionary<string, string> Options { get; set; }
     }
 
-    public class HelloImage3Service : IService<HelloImage3>
+    public class HelloImage3Service : ServiceInterface.Service
     {
-        public object Execute(HelloImage3 request)
+        public object Any(HelloImage3 request)
         {
             var image = new Bitmap(10, 10);
             using (var g = Graphics.FromImage(image))

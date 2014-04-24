@@ -5,8 +5,7 @@ using NServiceKit.ServiceHost.Tests.UseCase.Operations;
 
 namespace NServiceKit.ServiceHost.Tests.UseCase.Services
 {
-	public class StoreCustomersService
-		: IService<StoreCustomers> 
+	public class StoreCustomersService : ServiceInterface.Service
 	{
 		private readonly IDbConnection db;
 
@@ -16,7 +15,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase.Services
 			//Console.WriteLine("StoreCustomersService()");
 		}
 
-		public object Execute(StoreCustomers request)
+		public object Any(StoreCustomers request)
 		{
 			db.CreateTable<Customer>(false);
 			foreach (var customer in request.Customers)

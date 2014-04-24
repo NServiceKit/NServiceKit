@@ -260,7 +260,7 @@ namespace NServiceKit.ServiceClient.Web
                 }
                 return response;
             }
-            catch (WebServiceException webEx)
+            catch (WebServiceException)
             {
                 throw;
             }

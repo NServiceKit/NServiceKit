@@ -19,10 +19,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		public WidgetValidationResponse[] Batch { get; set; }
 	}
 
-	public class BatchWidgetValidationRequestService 
-		: IService<BatchWidgetValidationRequest>
+	public class BatchWidgetValidationRequestService : ServiceInterface.Service
 	{
-		public object Execute(BatchWidgetValidationRequest request)
+		public object Any(BatchWidgetValidationRequest request)
 		{
 			throw new NotImplementedException();
 		}
@@ -61,10 +60,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		public string WidgetName { get; set; }
 	}
 
-	public class WidgetValidationRequestService
-		: IService<WidgetValidationRequest>
+	public class WidgetValidationRequestService : ServiceInterface.Service
 	{
-		public object Execute(WidgetValidationRequest request)
+		public object Any(WidgetValidationRequest request)
 		{
 			throw new NotImplementedException();
 		}

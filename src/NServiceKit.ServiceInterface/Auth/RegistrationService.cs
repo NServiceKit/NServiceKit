@@ -89,7 +89,7 @@ namespace NServiceKit.ServiceInterface.Auth
         private void AssertUserAuthRepo()
         {
             if (UserAuthRepo == null)
-                throw new ConfigurationException("No IUserAuthRepository has been registered in your AppHost.");
+                throw new ConfigurationErrorsException("No IUserAuthRepository has been registered in your AppHost.");
         }
 
         /// <summary>

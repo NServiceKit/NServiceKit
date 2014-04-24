@@ -23,11 +23,12 @@ namespace Funq
 			return this.Register(serviceFactory);
 		}
 
-		/// <summary>
-		/// Register an autowired dependency as a separate type
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		public IRegistration<TAs> RegisterAutoWiredAs<T, TAs>()
+	    /// <summary>
+	    /// Register an autowired dependency as a separate type
+	    /// </summary>
+	    /// <typeparam name="T"></typeparam>
+	    /// <typeparam name="TAs"></typeparam>
+	    public IRegistration<TAs> RegisterAutoWiredAs<T, TAs>()
 			where T : TAs
 		{
 			var serviceFactory = GenerateAutoWireFn<T>();
@@ -35,11 +36,12 @@ namespace Funq
 			return this.Register(fn);
 		}
 
-		/// <summary>
-		/// Alias for RegisterAutoWiredAs
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		public IRegistration<TAs> RegisterAs<T, TAs>()
+	    /// <summary>
+	    /// Alias for RegisterAutoWiredAs
+	    /// </summary>
+	    /// <typeparam name="T"></typeparam>
+	    /// <typeparam name="TAs"></typeparam>
+	    public IRegistration<TAs> RegisterAs<T, TAs>()
 			where T : TAs
 		{
 			return this.RegisterAutoWiredAs<T, TAs>();

@@ -24,11 +24,8 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 		public string Value { get; set; }
 	}
 
-	public class StatusCodeService
-		: TestServiceBase<RequestFilter>, IRequiresRequestContext
+	public class StatusCodeService : TestServiceBase<RequestFilter>
 	{
-		public IRequestContext RequestContext { get; set; }
-
 		protected override object Run(RequestFilter request)
 		{
 			return new RequestFilterResponse();

@@ -4,6 +4,7 @@ using NServiceKit.ServiceInterface;
 
 namespace NServiceKit.ServiceHost.Tests.Routes
 {
+#pragma warning disable 618
     public class OldApiRequestDto
     {
         public string Name { get; set; }
@@ -54,8 +55,8 @@ namespace NServiceKit.ServiceHost.Tests.Routes
             return new HttpResult {StatusCode = HttpStatusCode.OK};
         }
     }
+#pragma warning restore 618
 
-    
     public class NewApiRequestDto
     {
         public string Name { get; set; }

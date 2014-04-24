@@ -19,9 +19,9 @@ namespace NServiceKit.ServiceHost.Tests.Support
         public T Data { get; set; }
     }
 
-	public class GenericService<T> : IService<T>
+	public class GenericService<T> : ServiceInterface.Service
 	{
-        public object Execute(T request)
+        public Generic1Response Any(T request)
         {
             return new Generic1Response() { Data = request.GetType().FullName };
         }

@@ -31,9 +31,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		public string Result { get; set; }
 	}
 
-	public class HelloService : IService<Hello>
+	public class HelloService : ServiceInterface.Service
 	{
-		public object Execute(Hello request)
+        public HelloResponse Any(Hello request)
 		{
 			return new HelloResponse { Result = "Hello, " + request.Name };
 		}
@@ -62,13 +62,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 	}
 
 	[TestFilter]
-	public class Hello2Service : IService<Hello2>
+	public class Hello2Service : ServiceInterface.Service
 	{
-		public object Execute(Hello2 request)
+		public object Any(Hello2 request)
 		{
 			return request.Name;
 		}
 	}
-
-
 }

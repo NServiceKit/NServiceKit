@@ -458,7 +458,7 @@ namespace NServiceKit.WebHost.Endpoints
                     AppHost.OnEndRequest();
                 }
             }
-            catch (Exception ex) { }
+            catch { }
         }
 
         public static void Dispose()

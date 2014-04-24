@@ -3,7 +3,6 @@ namespace NServiceKit.Html
 {
 	public class HtmlHelper<TModel> : HtmlHelper
 	{
-		private ViewDataDictionary<TModel> viewData;
 		public new ViewDataDictionary<TModel> ViewData
 		{
 			get 

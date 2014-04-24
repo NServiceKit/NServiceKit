@@ -19,9 +19,8 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 	}
 
 	public class HeadersService
-		: TestServiceBase<Headers>, IRequiresRequestContext, IRequiresHttpRequest
+		: TestServiceBase<Headers>, IRequiresHttpRequest
 	{
-		public IRequestContext RequestContext { get; set; }
 		public IHttpRequest HttpRequest { get; set; }
 
 		protected override object Run(Headers request)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NServiceKit.Common;
 using NServiceKit.Text;
 
 namespace NServiceKit.Common
@@ -15,7 +16,7 @@ namespace NServiceKit.Common
                 List<string> propertyNames;
                 if (!TypePropertyNamesMap.TryGetValue(type, out propertyNames))
                 {
-                    propertyNames = Extensions.EnumerableExtensions.ConvertAll(type.Properties(), x => x.Name);
+                    propertyNames = type.Properties().SafeConvertAll(x => x.Name);
                     TypePropertyNamesMap[type] = propertyNames;
                 }
                 return propertyNames;

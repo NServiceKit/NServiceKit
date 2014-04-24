@@ -9,14 +9,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
     [DataContract]
     public class FailingRequestResponse { }
 
-    public class FailingService : IService<FailingRequest>
+    public class FailingService : ServiceInterface.Service
     {
         private void ThisMethodAlwaysThrowsAnError(FailingRequest request)
         {
             throw new System.ArgumentException("Failure");
         }
-        
-        public object Execute(FailingRequest request)
+
+        public FailingRequestResponse Execute(FailingRequest request)
         {
             ThisMethodAlwaysThrowsAnError(request);
             return new FailingRequestResponse();

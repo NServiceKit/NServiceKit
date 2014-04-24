@@ -116,9 +116,9 @@ namespace NServiceKit.MiniProfiler.UI
 		//    }
 		//}
 
-		/// <summary>
-		/// Returns this <see cref="MiniProfilerHandler"/> to handle <paramref name="requestContext"/>.
-		/// </summary>
+		///// <summary>
+		///// Returns this <see cref="MiniProfilerHandler"/> to handle <paramref name="requestContext"/>.
+		///// </summary>
 		//public IHttpHandler GetHttpHandler(RequestContext requestContext)
 		//{
 		//    return this; // elegant? I THINK SO.

@@ -13,14 +13,9 @@ namespace NServiceKit.ServiceHost.Tests.Support
 		public string MethodName { get; set; }
 	}
 
-	public class RestTestService
-		: IService<RestTest>
-		, IRestGetService<RestTest>
-		, IRestPutService<RestTest>
-		, IRestPostService<RestTest>
-		, IRestDeleteService<RestTest>
+	public class RestTestService : ServiceInterface.Service
 	{
-		public object Execute(RestTest request)
+        public RestTestResponse Any(RestTest request)
 		{
 			return new RestTestResponse { MethodName = "Execute" };
 		}

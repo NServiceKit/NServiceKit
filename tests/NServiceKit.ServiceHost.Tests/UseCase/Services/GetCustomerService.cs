@@ -8,8 +8,7 @@ using NServiceKit.ServiceHost.Tests.UseCase.Operations;
 
 namespace NServiceKit.ServiceHost.Tests.UseCase.Services
 {
-	public class GetCustomerService
-		: IService<GetCustomer>
+	public class GetCustomerService : ServiceInterface.Service
 	{
 		private static readonly string CacheKey = typeof (GetCustomer).Name;
 
@@ -24,7 +23,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase.Services
 
 		public ICacheClient CacheClient { get; set; }
 
-		public object Execute(GetCustomer request)
+		public GetCustomerResponse Any(GetCustomer request)
 		{
 			if (config.UseCache)
 			{

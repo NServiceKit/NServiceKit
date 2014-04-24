@@ -56,7 +56,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		/// <summary>
 		/// *Request* DTO
 		/// </summary>
-		[NServiceKit.ServiceHost.RestService("/test/timed", "GET")]
+        [ServiceHost.Route("/test/timed", "GET")]
 		public class Timed
 		{
 			/// <summary>

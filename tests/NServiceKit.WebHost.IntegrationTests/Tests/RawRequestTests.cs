@@ -22,9 +22,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 		public string Result { get; set; }
 	}
 
-	public class RawRequestService : IService<RawRequest>
+	public class RawRequestService : ServiceInterface.Service
 	{
-		public object Execute(RawRequest request)
+		public object Any(RawRequest request)
 		{
 			var rawRequest = request.RequestStream.ToUtf8String();
 			return new RawRequestResponse { Result = rawRequest };

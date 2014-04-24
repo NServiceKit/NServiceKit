@@ -947,26 +947,19 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 					"Unable to resolve type '{0}'. Check type exists in Config.MarkdownBaseType or Page.Markdown.MarkdownGlobalHelpers",
 					typePropertyName));
 
-            try
-            {
-                var mi = methodName == "Partial" 
-                    ? type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                        .FirstOrDefault(m => m.GetParameters().Length == 2 && m.Name == methodName)
-                    : type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
+            var mi = methodName == "Partial" 
+                ? type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .FirstOrDefault(m => m.GetParameters().Length == 2 && m.Name == methodName)
+                : type.GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance);
 
+            if (mi == null)
+            {
+                mi = HtmlHelper.GetMethod(methodName);
                 if (mi == null)
-                {
-                    mi = HtmlHelper.GetMethod(methodName);
-                    if (mi == null)
-                        throw new ArgumentException("Unable to resolve method '" + methodExpr + "' on type " + type.Name);
-                }
+                    throw new ArgumentException("Unable to resolve method '" + methodExpr + "' on type " + type.Name);
+            }
 
-                base.ReturnType = mi.ReturnType;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            base.ReturnType = mi.ReturnType;
 
 			var isMemberExpr = Condition.IndexOf('(') != -1;
 			if (!isMemberExpr || this.WriteRawHtml)

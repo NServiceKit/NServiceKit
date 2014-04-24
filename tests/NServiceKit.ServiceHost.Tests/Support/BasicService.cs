@@ -8,9 +8,9 @@ namespace NServiceKit.ServiceHost.Tests.Support
 	[DataContract]
 	public class BasicRequestResponse { }
 
-	public class BasicService : IService<BasicRequest>
+	public class BasicService : ServiceInterface.Service
 	{
-		public object Execute(BasicRequest request)
+        public BasicRequestResponse Any(BasicRequest request)
 		{
 			return new BasicRequestResponse();
 		}

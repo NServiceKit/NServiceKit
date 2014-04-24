@@ -67,11 +67,11 @@ namespace NServiceKit.ServiceHost
             httpRes.ReturnAuthRequired(AuthenticationHeaderType.Basic, authRealm);
 		}
 
-        public static void ReturnAuthRequired(this IHttpResponse httpRes, AuthenticationHeaderType AuthType, string authRealm)
+        public static void ReturnAuthRequired(this IHttpResponse httpRes, AuthenticationHeaderType authType, string authRealm)
         {
             httpRes.StatusCode = (int)HttpStatusCode.Unauthorized;
-            httpRes.AddHeader(HttpHeaders.WwwAuthenticate, string.Format("{0} realm=\"{1}\"",AuthType.ToString(),authRealm));
-            httpRes.EndNServiceKitRequest();
+            httpRes.AddHeader(HttpHeaders.WwwAuthenticate, string.Format("{0} realm=\"{1}\"",authType,authRealm));
+            httpRes.EndRequest();
         }
 
 		/// <summary>

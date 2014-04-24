@@ -22,15 +22,15 @@ namespace NServiceKit.WebHost.Endpoints.Tests
     {
     }
 
-    [CorsSupport("http://localhost http://localhost2", "POST, GET", "Type1, Type2", true)]
+    [EnableCors("http://localhost http://localhost2", "POST, GET", "Type1, Type2", true)]
     public class CorsFeatureResponse
     {
         public bool IsSuccess { get; set; }
     }
 
-    public class CorsFeatureService : IService<CorsFeatureRequest>
+    public class CorsFeatureService : ServiceInterface.Service
     {
-        public object Execute(CorsFeatureRequest request)
+        public CorsFeatureResponse Any(CorsFeatureRequest request)
         {
             return new CorsFeatureResponse { IsSuccess = true };
         }
@@ -46,9 +46,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         public bool IsSuccess { get; set; }
     }
 
-    public class GlobalCorsFeatureService : IService<GlobalCorsFeatureRequest>
+    public class GlobalCorsFeatureService : ServiceInterface.Service
     {
-        public object Execute(GlobalCorsFeatureRequest request)
+        public GlobalCorsFeatureResponse Any(GlobalCorsFeatureRequest request)
         {
             return new GlobalCorsFeatureResponse { IsSuccess = true };
         }

@@ -76,6 +76,7 @@ namespace NServiceKit.ServiceHost
     {
         public const string ExecuteMethodName = "Execute";
 
+        [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
         public static object Execute(IService<TReq> service, TReq request, EndpointAttributes attrs)
         {
             if ((attrs & EndpointAttributes.OneWay) == EndpointAttributes.OneWay)

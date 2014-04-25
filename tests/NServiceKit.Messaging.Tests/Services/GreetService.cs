@@ -29,6 +29,11 @@ namespace NServiceKit.Messaging.Tests.Services
 			Result = "Hello, " + request.Name;
 			return new GreetResponse { Result = Result };
 		}
+
+	    public object ExecuteAsync(IMessage<Greet> request)
+	    {
+	        return Any(request.GetBody());
+	    }
 	}
 
 }

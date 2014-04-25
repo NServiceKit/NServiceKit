@@ -21,7 +21,7 @@ namespace NServiceKit.Messaging.Tests.Services
 
 	public class AlwaysFailService : ServiceInterface.Service
 	{
-		public int TimesCalled { get; set; }
+	    public int TimesCalled { get; set; }
 		public string Result { get; set; }
 
 		public object Any(AlwaysFail request)
@@ -29,6 +29,11 @@ namespace NServiceKit.Messaging.Tests.Services
 			this.TimesCalled++;
 			throw new NotSupportedException("This service always fails");
 		}
+
+	    public object ExecuteAsync(IMessage<AlwaysFail> request)
+	    {
+	        return Any(request.GetBody());
+	    }
 	}
 
 }

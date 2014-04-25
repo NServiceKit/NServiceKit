@@ -10,16 +10,10 @@ namespace NServiceKit.Messaging.Tests
 		public override void OnBeforeEachTest()
 		{
 			base.OnBeforeEachTest();
-
-			Container.Register(c => new GreetService {
-				MessageFactory = c.Resolve<IMessageFactory>()
-			});
-			Container.Register(c => new AlwaysFailService {
-				MessageFactory = c.Resolve<IMessageFactory>()
-			});
-			Container.Register(c => new UnRetryableFailService {
-				MessageFactory = c.Resolve<IMessageFactory>()
-			});
+            // TODO: Reevaluate this entire pattern
+		    Container.Register(new GreetService());
+            Container.Register(new AlwaysFailService());
+            Container.Register(new UnRetryableFailService());
 		}
 
 		[Test]

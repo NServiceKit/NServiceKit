@@ -19,7 +19,7 @@ namespace NServiceKit.Messaging.Tests.Services
 		public string Result { get; set; }
 	}
 
-	public class UnRetryableFailService : ServiceInterface.Service
+    public class UnRetryableFailService : ServiceInterface.Service
 	{
 		public int TimesCalled { get; set; }
 		public string Result { get; set; }
@@ -32,6 +32,11 @@ namespace NServiceKit.Messaging.Tests.Services
 				"This request should not get retried",
 				new NotSupportedException("This service always fails"));
 		}
+
+        public object ExecuteAsync(IMessage<UnRetryableFail> request)
+        {
+            return Any(request.GetBody());
+        }
 	}
 
 }

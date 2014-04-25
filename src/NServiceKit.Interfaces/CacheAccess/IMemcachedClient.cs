@@ -28,15 +28,26 @@ namespace NServiceKit.CacheAccess
 		/// <param name="keys">The keys.</param>
 		void RemoveAll(IEnumerable<string> keys);
 
-		/// <summary>
-		/// Retrieves the specified item from the cache.
-		/// </summary>
-		/// <param ICTname="key">The identifier for the item to retrieve.</param>
-		/// <returns>
-		/// The retrieved item, or <value>null</value> if the key was not found.
-		/// </returns>
-		object Get(string key);
-		object Get(string key, out ulong lastModifiedValue);
+	    /// <summary>
+	    /// Retrieves the specified item from the cache.
+	    /// </summary>
+	    /// <param ICTname="key">The identifier for the item to retrieve.</param>
+	    /// <param name="key"></param>
+	    /// <returns>
+	    /// The retrieved item, or <value>null</value> if the key was not found.
+	    /// </returns>
+	    object Get(string key);
+
+	    /// <summary>
+	    /// Retrieves the specified item from the cache.
+	    /// </summary>
+	    /// <param ICTname="key">The identifier for the item to retrieve.</param>
+	    /// <param name="key"></param>
+	    /// <param name="lastModifiedValue"></param>
+	    /// <returns>
+	    /// The retrieved item, or <value>null</value> if the key was not found.
+	    /// </returns>
+	    object Get(string key, out ulong lastModifiedValue);
 
 		/// <summary>
 		/// Increments the value of the specified key by the given amount. The operation is atomic and happens on the server.
@@ -70,7 +81,27 @@ namespace NServiceKit.CacheAccess
 		/// </returns>
 		/// <remarks>The item does not expire unless it is removed due memory pressure.</remarks>
 		bool Add(string key, object value);
+
+        /// <summary>
+        /// Inserts an item into the cache with a cache key to reference its location.
+        /// </summary>
+        /// <param name="key">The key used to reference the item.</param>
+        /// <param name="value">The object to be inserted into the cache.</param>
+        /// <returns>
+        /// true if the item was successfully stored in the cache; false otherwise.
+        /// </returns>
+        /// <remarks>The item does not expire unless it is removed due memory pressure.</remarks>
 		bool Set(string key, object value);
+
+        /// <summary>
+        /// Inserts an item into the cache with a cache key to reference its location.
+        /// </summary>
+        /// <param name="key">The key used to reference the item.</param>
+        /// <param name="value">The object to be inserted into the cache.</param>
+        /// <returns>
+        /// true if the item was successfully stored in the cache; false otherwise.
+        /// </returns>
+        /// <remarks>The item does not expire unless it is removed due memory pressure.</remarks>
 		bool Replace(string key, object value);
 
 		/// <summary>
@@ -81,7 +112,23 @@ namespace NServiceKit.CacheAccess
 		/// <param name="expiresAt">The time when the item is invalidated in the cache.</param>
 		/// <returns>true if the item was successfully stored in the cache; false otherwise.</returns>
 		bool Add(string key, object value, DateTime expiresAt);
+
+        /// <summary>
+        /// Inserts an item into the cache with a cache key to reference its location.
+        /// </summary>
+        /// <param name="key">The key used to reference the item.</param>
+        /// <param name="value">The object to be inserted into the cache.</param>
+        /// <param name="expiresAt">The time when the item is invalidated in the cache.</param>
+        /// <returns>true if the item was successfully stored in the cache; false otherwise.</returns>
 		bool Set(string key, object value, DateTime expiresAt);
+
+        /// <summary>
+        /// Inserts an item into the cache with a cache key to reference its location.
+        /// </summary>
+        /// <param name="key">The key used to reference the item.</param>
+        /// <param name="value">The object to be inserted into the cache.</param>
+        /// <param name="expiresAt">The time when the item is invalidated in the cache.</param>
+        /// <returns>true if the item was successfully stored in the cache; false otherwise.</returns>
 		bool Replace(string key, object value, DateTime expiresAt);
 
 		/// <summary>
@@ -98,10 +145,31 @@ namespace NServiceKit.CacheAccess
 		/// </returns>
 		IDictionary<string, object> GetAll(IEnumerable<string> keys);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="lastModifiedValue"></param>
+        /// <returns></returns>
 		bool CheckAndSet(string key, object value, ulong lastModifiedValue);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="lastModifiedValue"></param>
+        /// <param name="expiresAt"></param>
+        /// <returns></returns>
 		bool CheckAndSet(string key, object value, ulong lastModifiedValue, DateTime expiresAt);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <param name="lastModifiedValues"></param>
+        /// <returns></returns>
 		IDictionary<string, object> GetAll(IEnumerable<string> keys, out IDictionary<string, ulong> lastModifiedValues);
 	}
 }

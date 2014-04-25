@@ -6,15 +6,20 @@ using Funq;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>
+    /// Extension methods on <see cref="Container"/>.
+    /// </summary>
 	public static class ContainerTypeExtensions
 	{
-		/// <summary>
-		/// Registers the type in the IoC container and
-		/// adds auto-wiring to the specified type.
-		/// </summary>
-		/// <param name="serviceType"></param>
-		/// <param name="inFunqAsType"></param>
-		public static void RegisterAutoWiredType(this Container container, Type serviceType, Type inFunqAsType,
+        /// <summary>
+        /// Registers the type in the IoC container and
+        /// adds auto-wiring to the specified type.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="serviceType"></param>
+        /// <param name="inFunqAsType"></param>
+        /// <param name="scope"></param>
+        public static void RegisterAutoWiredType(this Container container, Type serviceType, Type inFunqAsType,
 			ReuseScope scope = ReuseScope.None)
 		{
 			if (serviceType.IsAbstract || serviceType.ContainsGenericParameters)
@@ -32,7 +37,6 @@ namespace NServiceKit.ServiceHost
 		/// adds auto-wiring to the specified type.
 		/// The reuse scope is set to none (transient).
 		/// </summary>
-		/// <param name="serviceTypes"></param>
 		public static void RegisterAutoWiredType(this Container container, Type serviceType,
             ReuseScope scope = ReuseScope.None)
 		{
@@ -52,7 +56,6 @@ namespace NServiceKit.ServiceHost
 		/// adds auto-wiring to the specified types.
 		/// The reuse scope is set to none (transient).
 		/// </summary>
-		/// <param name="serviceTypes"></param>
         public static void RegisterAutoWiredTypes(this Container container, IEnumerable<Type> serviceTypes, 
             ReuseScope scope = ReuseScope.None)
 		{

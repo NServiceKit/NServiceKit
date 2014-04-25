@@ -117,16 +117,17 @@ namespace NServiceKit.WebHost.Endpoints.Support
 		    Start(urlBase, Listen);
 		}
 
-        /// <summary>
-        /// Starts the Web Service
-        /// </summary>
-        /// <param name="urlBase">
-        /// A Uri that acts as the base that the server is listening on.
-        /// Format should be: http://127.0.0.1:8080/ or http://127.0.0.1:8080/somevirtual/
-        /// Note: the trailing slash is required! For more info see the
-        /// HttpListener.Prefixes property on MSDN.
-        /// </param>
-        protected void Start(string urlBase, WaitCallback listenCallback)
+	    /// <summary>
+	    /// Starts the Web Service
+	    /// </summary>
+	    /// <param name="urlBase">
+	    /// A Uri that acts as the base that the server is listening on.
+	    /// Format should be: http://127.0.0.1:8080/ or http://127.0.0.1:8080/somevirtual/
+	    /// Note: the trailing slash is required! For more info see the
+	    /// HttpListener.Prefixes property on MSDN.
+	    /// </param>
+	    /// <param name="listenCallback"></param>
+	    protected void Start(string urlBase, WaitCallback listenCallback)
 	    {
             // *** Already running - just leave it in place
 	        if (this.IsStarted)

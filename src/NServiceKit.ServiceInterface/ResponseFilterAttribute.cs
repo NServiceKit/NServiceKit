@@ -9,10 +9,19 @@ namespace NServiceKit.ServiceInterface
     /// </summary>
     public abstract class ResponseFilterAttribute : Attribute, IHasResponseFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int Priority { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplyTo ApplyTo { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ResponseFilterAttribute()
         {
             ApplyTo = ApplyTo.All;
@@ -27,6 +36,12 @@ namespace NServiceKit.ServiceInterface
             ApplyTo = applyTo;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="res"></param>
+        /// <param name="response"></param>
         public void ResponseFilter(IHttpRequest req, IHttpResponse res, object response)
         {
             ApplyTo httpMethod = req.HttpMethodAsApplyTo();
@@ -39,7 +54,7 @@ namespace NServiceKit.ServiceInterface
         /// </summary>
         /// <param name="req">The http request wrapper</param>
         /// <param name="res">The http response wrapper</param>
-        /// <param name="requestDto">The response DTO</param>
+        /// <param name="responseDto">The response DTO</param>
         public abstract void Execute(IHttpRequest req, IHttpResponse res, object responseDto);
         
         /// <summary>

@@ -6,6 +6,9 @@ using System.Xml;
 
 namespace NServiceKit.ServiceClient.Web
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IWcfServiceClient : IServiceClient
     {
         string Uri { get; set; }

@@ -17,7 +17,7 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         /// <param name="path">
         /// 	<para>The path template to map to the request.  See 
-        ///		<see cref="Path">RestServiceAttribute.Path</see>
+        ///		<see cref="RouteAttribute.Path">RestServiceAttribute.Path</see>
         ///		for details on the correct format.</para>
         /// </param>
         public RestServiceAttribute(string path)
@@ -30,7 +30,7 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         /// <param name="path">
         /// 	<para>The path template to map to the request.  See 
-        ///		<see cref="Path">RestServiceAttribute.Path</see>
+        ///		<see cref="RouteAttribute.Path">RestServiceAttribute.Path</see>
         ///		for details on the correct format.</para>
         /// </param>
         /// <param name="verbs">A comma-delimited list of HTTP verbs supported by the 

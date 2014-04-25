@@ -28,7 +28,7 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         /// <summary>
-        /// Adds the singleton of the <see cref="ClientIdentityMessageInspector"/> class to the client endpoint's message inspectors.
+        /// Adds the singleton of the <see cref="CookieManagerMessageInspector"/> class to the client endpoint's message inspectors.
         /// </summary>
         /// <param name="endpoint">The endpoint that is to be customized.</param>
         /// <param name="clientRuntime">The client runtime to be customized.</param>
@@ -66,7 +66,7 @@ namespace NServiceKit.ServiceClient.Web
         public string Uri { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientIdentityMessageInspector"/> class.
+        /// Initializes a new instance of the <see cref="CookieContainer"/> class.
         /// </summary>
         public CookieManagerMessageInspector()
         {
@@ -81,7 +81,7 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         /// <summary>
-        /// Gets the singleton <see cref="ClientIdentityMessageInspector" /> instance.
+        /// Gets the singleton <see cref="CookieManagerMessageInspector" /> instance.
         /// </summary>
         public static CookieManagerMessageInspector Instance
         {

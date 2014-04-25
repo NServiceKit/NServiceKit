@@ -11,6 +11,9 @@ namespace Funq
 {
 	public partial class Container
 	{
+        /// <summary>
+        /// 
+        /// </summary>
         public IContainerAdapter Adapter { get; set; }
 
 		/// <summary>
@@ -66,6 +69,11 @@ namespace Funq
             return methodInfo.MakeGenericMethod(new[] { serviceType });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static ConstructorInfo GetConstructorWithMostParams(Type type)
         {
             return type.GetConstructors()
@@ -74,10 +82,9 @@ namespace Funq
         }
 
         /// <summary>
-        /// Generates a function which creates and auto-wires <see cref="TService"/>.
+        /// Generates a function which creates and auto-wires the specified type..
         /// </summary>
         /// <typeparam name="TService"></typeparam>
-        /// <param name="lambdaParam"></param>
         /// <returns></returns>
         public static Func<Container, TService> GenerateAutoWireFn<TService>()
         {
@@ -105,13 +112,14 @@ namespace Funq
                 ).Compile();
         }
 
-        /// <summary>
-        /// Auto-wires an existing instance of a specific type.
-        /// The auto-wiring progress is also cached to be faster 
-        /// when calling next time with the same type.
-        /// </summary>
-        /// <param name="instance"></param>
-        public void AutoWire(Container container, object instance)
+	    /// <summary>
+	    /// Auto-wires an existing instance of a specific type.
+	    /// The auto-wiring progress is also cached to be faster 
+	    /// when calling next time with the same type.
+	    /// </summary>
+	    /// <param name="container"></param>
+	    /// <param name="instance"></param>
+	    public void AutoWire(Container container, object instance)
         {
             var instanceType = instance.GetType();
             var propertyResolveFn = typeof(Container).GetMethod("TryResolve", new Type[0]);

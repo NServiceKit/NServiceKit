@@ -26,7 +26,7 @@ namespace NServiceKit.Messaging.Rcon
         /// Delegate for async callbacks.
         /// </summary>
         /// <param name="rcon"></param>
-        /// <param name="packet"></param>
+        /// <param name="response"></param>
         public delegate void AsyncCallback(Client rcon, byte[] response);
 
         #endregion
@@ -188,6 +188,7 @@ namespace NServiceKit.Messaging.Rcon
         /// Processes a received packet.
         /// </summary>
         /// <param name="packet">The packet.</param>
+        /// <param name="userToken"></param>
         void ProcessPacket(byte[] packet, ClientSocketState userToken)
         {
             var packetObj = PacketCodec.DecodePacket(packet);

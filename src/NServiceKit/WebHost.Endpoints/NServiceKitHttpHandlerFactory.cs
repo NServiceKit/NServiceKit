@@ -274,7 +274,7 @@ namespace NServiceKit.WebHost.Endpoints
         /// <summary>
         /// If enabled, just returns the Request Info as it understands
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="httpReq"></param>
         /// <returns></returns>
         private static IHttpHandler ReturnRequestInfo(HttpRequest httpReq)
         {

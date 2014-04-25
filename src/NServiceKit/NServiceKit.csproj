@@ -249,6 +249,7 @@
     <Compile Include="VirtualPath\AbstractVirtualDirectoryBase.cs" />
     <Compile Include="VirtualPath\AbstractVirtualFileBase.cs" />
     <Compile Include="VirtualPath\AbstractVirtualPathProviderBase.cs" />
+    <Compile Include="VirtualPath\EmbeddedResourceVirtualPathProvider.cs" />
     <Compile Include="VirtualPath\FileSystemVirtualDirectory.cs" />
     <Compile Include="VirtualPath\FileSystemVirtualFile.cs" />
     <Compile Include="VirtualPath\FileSystemVirtualPathProvider.cs" />

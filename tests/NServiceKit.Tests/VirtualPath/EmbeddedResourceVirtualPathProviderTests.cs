@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Funq;
 using NServiceKit.VirtualPath;
 using NServiceKit.WebHost.Endpoints;
@@ -17,7 +13,6 @@ namespace NServiceKit.Tests.VirtualPath
         {
             public override void Configure(Container container)
             {
-                
             }
         }
 

@@ -31,13 +31,14 @@ namespace NServiceKit.VirtualPath
         }
 
         /// <summary>
-        /// 
+        /// Adds to the list of assemblies that will be scanned for embedded resources.
         /// </summary>
         /// <param name="assemblies"></param>
-        public void IncludeAssemblies(params Assembly[] assemblies)
+        public EmbeddedResourceVirtualPathProvider IncludeAssemblies(params Assembly[] assemblies)
         {
             _assemblies.AddRange(assemblies);
             _initialized = false;
+            return this;
         }
 
         /// <summary>

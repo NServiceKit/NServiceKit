@@ -13,7 +13,17 @@ namespace NServiceKit.VirtualPath
     /// <see cref="IVirtualPathProvider" /> implementation which looks at embedded resources.
     /// Resources will have the assembly name stripped off and subsequent namespace levels will be treated as directories.
     /// For example, if you embed A.B.C.D.txt in an assembly named A, it will be provided as: /B/C/D.txt
+    /// When used with the RazorFormat plug-in, this lets you embed your views as resources within
+    /// the assembly and distribute a self-contained DLL.
     /// </summary>
+    /// <example>
+    /// To use this with the RazorFormat plug-in, do something like the following:
+    ///        this.LoadPlugin(new RazorFormat
+    ///        {
+    ///            WatchForModifiedPages = false,
+    ///            VirtualPathProvider = new EmbeddedResourceVirtualPathProvider(this).IncludeAssemblies(typeof(Program).Assembly)
+    ///        });
+    /// </example>
     public class EmbeddedResourceVirtualPathProvider : AbstractVirtualPathProviderBase
     {
         private readonly List<Assembly> _assemblies;

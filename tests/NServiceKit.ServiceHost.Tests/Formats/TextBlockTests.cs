@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using NServiceKit.WebHost.Endpoints.Support.Markdown.Templates;
 using NUnit.Framework;
 using NServiceKit.Common.Utils;
 using NServiceKit.WebHost.Endpoints.Formats;

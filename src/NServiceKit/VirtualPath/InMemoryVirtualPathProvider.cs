@@ -85,18 +85,33 @@ namespace NServiceKit.VirtualPath
         public InMemoryVirtualDirectory(IVirtualPathProvider owningProvider) 
             : base(owningProvider)
         {
-            this.files = new List<InMemoryVirtualFile>();
-            this.dirs = new List<InMemoryVirtualDirectory>();
-            this.DirLastModified = DateTime.MinValue;
+            files = new List<InMemoryVirtualFile>();
+            dirs = new List<InMemoryVirtualDirectory>();
+            DirLastModified = DateTime.MinValue;
+            FlattenFileEnumeration = true;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="owningProvider"></param>
         /// <param name="parentDirectory"></param>
-        public InMemoryVirtualDirectory(IVirtualPathProvider owningProvider, IVirtualDirectory parentDirectory) 
-            : base(owningProvider, parentDirectory) {}
+        public InMemoryVirtualDirectory(IVirtualPathProvider owningProvider, IVirtualDirectory parentDirectory)
+            : base(owningProvider, parentDirectory)
+        {
+            files = new List<InMemoryVirtualFile>();
+            dirs = new List<InMemoryVirtualDirectory>();
+            DirLastModified = DateTime.MinValue;
+            FlattenFileEnumeration = true;
+        }
+
+        /// <summary>
+        /// Whether EnumerateFiles should flatten and expand all subdirectories or not.
+        /// </summary>
+        /// <value>
+        /// When true, EnumerateFiles returns all files in all subdirectories (default). When false, only returns for this directory.
+        /// </value>
+        public bool FlattenFileEnumeration { get; set; }
 
         /// <summary>
         /// 
@@ -202,9 +217,13 @@ namespace NServiceKit.VirtualPath
             {
                 yield return file;
             }
-            foreach (var file in dirs.SelectMany(d => d.EnumerateFiles(pattern)))
+
+            if (FlattenFileEnumeration)
             {
-                yield return file;
+                foreach (var file in dirs.SelectMany(d => d.EnumerateFiles(pattern)))
+                {
+                    yield return file;
+                }
             }
         }
 

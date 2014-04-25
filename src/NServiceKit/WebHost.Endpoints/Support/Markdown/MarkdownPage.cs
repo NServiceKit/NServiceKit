@@ -350,12 +350,10 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 
 						foreach (var block in this.HtmlBlocks)
 						{
-						    lastBlockProcessed = block;
                             block.DoFirstRun(initHtmlContext);
                         }
 						foreach (var block in this.MarkdownBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.DoFirstRun(initMarkdownContext);
 						}
 
@@ -363,18 +361,15 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 
 						foreach (var block in this.HtmlBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.AfterFirstRun(evaluator);
 						}
 						foreach (var block in this.MarkdownBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.AfterFirstRun(evaluator);
                         }
 
 						AddDependentPages(blocks);
 
-                        lastBlockProcessed = null;
                         initException = null;
 						hasCompletedFirstRun = true;
 					}

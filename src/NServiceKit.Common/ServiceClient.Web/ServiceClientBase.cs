@@ -734,8 +734,8 @@ namespace NServiceKit.ServiceClient.Web
                 if (HttpWebRequestFilter != null)
                     HttpWebRequestFilter(client);
 
-                if (httpMethod != Web.HttpMethod.Get
-                    && httpMethod != Web.HttpMethod.Delete)
+                if (httpMethod != HttpMethods.Get
+                    && httpMethod != HttpMethods.Delete)
                 {
                     client.ContentType = ContentType;
 

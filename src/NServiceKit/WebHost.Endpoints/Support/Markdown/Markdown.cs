@@ -1,4 +1,5 @@
-﻿/*
+﻿#pragma warning disable 1591
+/*
  * MarkdownSharp
  * -------------
  * a C# Markdown processor
@@ -1773,3 +1774,4 @@ namespace MarkdownSharp
 
     }
 }
+#pragma warning restore 1591

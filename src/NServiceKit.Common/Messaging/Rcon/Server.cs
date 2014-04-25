@@ -258,6 +258,8 @@ namespace NServiceKit.Messaging.Rcon
         /// Processes a received packet.
         /// </summary>
         /// <param name="packet">The packet.</param>
+        /// <param name="client"></param>
+        /// <param name="userToken"></param>
         void ProcessPacket(byte[] packet, Socket client, ClientSocketState userToken)
         {
             var packetObj = PacketCodec.DecodePacket(packet);

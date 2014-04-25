@@ -10,26 +10,51 @@ using NServiceKit.Logging;
 using NServiceKit.Markdown;
 using NServiceKit.Text;
 using NServiceKit.WebHost.Endpoints.Formats;
+using NServiceKit.WebHost.Endpoints.Support.Markdown.Templates;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 {
+    /// <summary>
+    /// 
+    /// </summary>
 	public class MarkdownPage : IExpirable, IViewPage
 	{
 	    private static readonly ILog Log = LogManager.GetLogger(typeof (MarkdownPage));
 
+        /// <summary>
+        /// The model name
+        /// </summary>
 		public const string ModelName = "Model";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownPage"/> class.
+        /// </summary>
 		public MarkdownPage()
 		{
 			this.ExecutionContext = new EvaluatorExecutionContext();
 			this.Dependents = new List<IExpirable>();
 		}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownPage"/> class.
+        /// </summary>
+        /// <param name="markdown">The markdown.</param>
+        /// <param name="fullPath">The full path.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="contents">The contents.</param>
 		public MarkdownPage(MarkdownFormat markdown, string fullPath, string name, string contents)
 			: this(markdown, fullPath, name, contents, MarkdownPageType.ViewPage)
 		{
 		}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownPage"/> class.
+        /// </summary>
+        /// <param name="markdown">The markdown.</param>
+        /// <param name="fullPath">The full path.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="contents">The contents.</param>
+        /// <param name="pageType">Type of the page.</param>
 		public MarkdownPage(MarkdownFormat markdown, string fullPath, string name, string contents, MarkdownPageType pageType)
 			: this()
 		{
@@ -40,23 +65,93 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			PageType = pageType;
 		}
 
+        /// <summary>
+        /// Gets or sets the markdown.
+        /// </summary>
+        /// <value>
+        /// The markdown.
+        /// </value>
 		public MarkdownFormat Markdown { get; set; }
 
 		private int timesRun;
 		private bool hasCompletedFirstRun;
 
+        /// <summary>
+        /// Gets or sets the type of the page.
+        /// </summary>
+        /// <value>
+        /// The type of the page.
+        /// </value>
 		public MarkdownPageType PageType { get; set; }
+        /// <summary>
+        /// Gets or sets the file path.
+        /// </summary>
+        /// <value>
+        /// The file path.
+        /// </value>
 		public string FilePath { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
 		public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the contents.
+        /// </summary>
+        /// <value>
+        /// The contents.
+        /// </value>
 		public string Contents { get; set; }
+        /// <summary>
+        /// Gets or sets the HTML contents.
+        /// </summary>
+        /// <value>
+        /// The HTML contents.
+        /// </value>
 		public string HtmlContents { get; set; }
+        /// <summary>
+        /// Gets or sets the template.
+        /// </summary>
+        /// <value>
+        /// The template.
+        /// </value>
 		public string Template { get; set; }
+        /// <summary>
+        /// Gets or sets the directive template.
+        /// </summary>
+        /// <value>
+        /// The directive template.
+        /// </value>
         public string DirectiveTemplate { get; set; }
+        /// <summary>
+        /// Gets the execution context.
+        /// </summary>
+        /// <value>
+        /// The execution context.
+        /// </value>
 		public EvaluatorExecutionContext ExecutionContext { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the last modified.
+        /// </summary>
+        /// <value>
+        /// The last modified.
+        /// </value>
 		public DateTime? LastModified { get; set; }
+        /// <summary>
+        /// Gets the dependents.
+        /// </summary>
+        /// <value>
+        /// The dependents.
+        /// </value>
 		public List<IExpirable> Dependents { get; private set; }
 
+        /// <summary>
+        /// Gets the last modified.
+        /// </summary>
+        /// <returns></returns>
 		public DateTime? GetLastModified()
 		{
 			if (!hasCompletedFirstRun) return null;
@@ -72,12 +167,23 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return lastModified;
 		}
 
+        /// <summary>
+        /// Gets the template path.
+        /// </summary>
+        /// <returns></returns>
 		public string GetTemplatePath()
 		{
 			return this.DirectiveTemplate ?? this.Template;
 		}
 
 		private Evaluator evaluator;
+        /// <summary>
+        /// Gets the evaluator.
+        /// </summary>
+        /// <value>
+        /// The evaluator.
+        /// </value>
+        /// <exception cref="System.InvalidOperationException">evaluator not ready</exception>
 		public Evaluator Evaluator
 		{
 			get
@@ -91,18 +197,38 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 
 		private int exprSeq;
 
+        /// <summary>
+        /// Gets the next identifier.
+        /// </summary>
+        /// <returns></returns>
 		public int GetNextId()
 		{
 			return exprSeq++;
 		}
 
+        /// <summary>
+        /// Gets or sets the markdown blocks.
+        /// </summary>
+        /// <value>
+        /// The markdown blocks.
+        /// </value>
 		public TemplateBlock[] MarkdownBlocks { get; set; }
+        /// <summary>
+        /// Gets or sets the HTML blocks.
+        /// </summary>
+        /// <value>
+        /// The HTML blocks.
+        /// </value>
 		public TemplateBlock[] HtmlBlocks { get; set; }
 
 		private Exception initException;
-	    private TemplateBlock lastBlockProcessed;
 		readonly object readWriteLock = new object();
 		private bool isBusy;
+        /// <summary>
+        /// Reloads the specified contents.
+        /// </summary>
+        /// <param name="contents">The contents.</param>
+        /// <param name="lastModified">The last modified.</param>
 		public void Reload(string contents, DateTime lastModified)
 		{
 			lock (readWriteLock)
@@ -118,7 +244,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 					exprSeq = 0;
 					timesRun = 0;
 					ExecutionContext = new EvaluatorExecutionContext();
-					Compile(force:true);
+					Compile(true);
 				}
 				catch (Exception ex)
 				{
@@ -129,8 +255,19 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			}
 		}
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is compiled.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is compiled; otherwise, <c>false</c>.
+        /// </value>
         public bool IsCompiled { get; set; }
 
+        /// <summary>
+        /// Compiles the specified force.
+        /// </summary>
+        /// <param name="force">if set to <c>true</c> [force].</param>
+        /// <exception cref="System.Configuration.ConfigurationErrorsException">Config.MarkdownBaseType must inherit from MarkdownViewBase</exception>
 	    public void Compile(bool force=false)
 	    {
             if (this.IsCompiled && !force) return;
@@ -180,6 +317,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			this.DirectiveTemplate = ((DirectiveBlock)templateDirective).TemplatePath;
 		}
 
+        /// <summary>
+        /// Writes the specified text writer.
+        /// </summary>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="pageContext">The page context.</param>
+        /// <exception cref="System.ArgumentNullException">textWriter</exception>
 		public void Write(TextWriter textWriter, PageContext pageContext)
 		{
 			if (textWriter == null)
@@ -207,12 +350,10 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 
 						foreach (var block in this.HtmlBlocks)
 						{
-						    lastBlockProcessed = block;
                             block.DoFirstRun(initHtmlContext);
                         }
 						foreach (var block in this.MarkdownBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.DoFirstRun(initMarkdownContext);
 						}
 
@@ -220,18 +361,15 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 
 						foreach (var block in this.HtmlBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.AfterFirstRun(evaluator);
 						}
 						foreach (var block in this.MarkdownBlocks)
 						{
-                            lastBlockProcessed = block;
                             block.AfterFirstRun(evaluator);
                         }
 
 						AddDependentPages(blocks);
 
-                        lastBlockProcessed = null;
                         initException = null;
 						hasCompletedFirstRun = true;
 					}

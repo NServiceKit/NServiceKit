@@ -22,7 +22,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_execute_BasicService()
 		{
-			serviceController.Register(() => new BasicService());
+			serviceController.Register(typeof(BasicRequest), typeof(BasicService));
 			var result = serviceController.Execute(new BasicRequest()) as BasicRequestResponse;
 
 			Assert.That(result, Is.Not.Null);
@@ -80,7 +80,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_execute_RestTestService()
 		{
-			serviceController.Register(() => new RestTestService());
+            serviceController.Register(typeof(RestTest), typeof(RestTestService));
 			var result = serviceController.Execute(new RestTest()) as RestTestResponse;
 
 			Assert.That(result, Is.Not.Null);
@@ -90,7 +90,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_RestTestService_GET()
 		{
-			serviceController.Register(() => new RestTestService());
+            serviceController.Register(typeof(RestTest), typeof(RestTestService));
 			var result = serviceController.Execute(new RestTest(),
 				new HttpRequestContext((object)null, EndpointAttributes.HttpGet)) as RestTestResponse;
 
@@ -101,7 +101,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_RestTestService_PUT()
 		{
-			serviceController.Register(() => new RestTestService());
+            serviceController.Register(typeof(RestTest), typeof(RestTestService));
 			var result = serviceController.Execute(new RestTest(),
 				new HttpRequestContext((object)null, EndpointAttributes.HttpPut)) as RestTestResponse;
 
@@ -112,7 +112,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_RestTestService_POST()
 		{
-			serviceController.Register(() => new RestTestService());
+            serviceController.Register(typeof(RestTest), typeof(RestTestService));
 			var result = serviceController.Execute(new RestTest(),
 				new HttpRequestContext((object)null, EndpointAttributes.HttpPost)) as RestTestResponse;
 
@@ -123,7 +123,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void Can_RestTestService_DELETE()
 		{
-			serviceController.Register(() => new RestTestService());
+            serviceController.Register(typeof(RestTest), typeof(RestTestService));
 			var result = serviceController.Execute(new RestTest(),
 				new HttpRequestContext((object)null, EndpointAttributes.HttpDelete)) as RestTestResponse;
 

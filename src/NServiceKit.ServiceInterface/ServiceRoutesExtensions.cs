@@ -66,11 +66,11 @@ namespace NServiceKit.ServiceInterface
             }
         }
 
+        
         private static void AddOldApiRoutes(IServiceRoutes routes, Assembly assembly)
         {
-            var services = assembly.GetExportedTypes()
-                .Where(t => !t.IsAbstract
-                            && t.IsSubclassOfRawGeneric(typeof(ServiceBase<>)));
+#pragma warning disable 618
+            var services = assembly.GetExportedTypes().Where(t => !t.IsAbstract && t.IsSubclassOfRawGeneric(typeof(ServiceBase<>)));
 
             foreach (Type service in services)
             {
@@ -120,6 +120,7 @@ namespace NServiceKit.ServiceInterface
 
                 routes.AddRoute(requestType, allowedVerbs);
             }
+#pragma warning restore 618
         }
 
         private static void AddRoute(this IServiceRoutes routes, Type requestType, string allowedVerbs)

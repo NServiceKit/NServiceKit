@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 using NServiceKit.Common.Web;
-using NServiceKit.Logging;
 using NServiceKit.MiniProfiler;
 using NServiceKit.ServiceHost;
 using NServiceKit.Text;
@@ -10,16 +9,13 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints
 {
-    public class RestHandler
-        : EndpointHandlerBase
+    public class RestHandler : EndpointHandlerBase
     {
         public RestHandler()
         {
             this.HandlerAttributes = EndpointAttributes.Reply;
         }
-
-        private static readonly ILog Log = LogManager.GetLogger(typeof(RestHandler));
-
+        
         public static IRestPath FindMatchingRestPath(string httpMethod, string pathInfo, out string contentType)
         {
             var controller = ServiceManager != null

@@ -23,7 +23,6 @@ namespace NServiceKit.ServiceHost.Tests
 		public void RunAll()
 		{
 			With_Native();
-			With_Reflection(); //Very slow
 			With_Expressions();
 			With_CustomFunc();
 			With_TypeFactory();
@@ -36,25 +35,13 @@ namespace NServiceKit.ServiceHost.Tests
 		{
 			var request = new BasicRequest();
 
-			Console.WriteLine("Native(): {0}", Measure(() => new BasicService().Execute(request), Times));
-		}
-
-		[Test]
-		[Ignore("Slow to run")]
-		public void With_Reflection()
-		{
-			var serviceController = new ServiceControllerReflection();
-
-			serviceController.Register(() => new BasicService());
-			var request = new BasicRequest();
-
-			Console.WriteLine("With_Reflection(): {0}", Measure(() => serviceController.ExecuteReflection(request), Times));
+			Console.WriteLine("Native(): {0}", Measure(() => new BasicService().Any(request), Times));
 		}
 
 		[Test]
 		public void With_NServiceKitFunq()
 		{
-			serviceController.Register(() => new BasicService());
+			serviceController.Register(typeof(BasicRequest), typeof(BasicService));
 			var request = new BasicRequest();
 
 			Console.WriteLine("With_TypedArguments(): {0}", Measure(() => serviceController.Execute(request), Times));
@@ -63,7 +50,7 @@ namespace NServiceKit.ServiceHost.Tests
 		[Test]
 		public void With_TypedArguments()
 		{
-			serviceController.Register(() => new BasicService());
+            serviceController.Register(typeof(BasicRequest), typeof(BasicService));
 			var request = new BasicRequest();
 
 			Console.WriteLine("With_TypedArguments(): {0}", Measure(() => serviceController.Execute(request), Times));

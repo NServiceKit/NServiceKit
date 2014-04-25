@@ -28,8 +28,6 @@ namespace NServiceKit.WebHost.IntegrationTests
 {
     public class Global : System.Web.HttpApplication
     {
-        private const bool StartMqHost = false; 
-
         public class AppHost
             : AppHostBase
         {
@@ -120,15 +118,6 @@ namespace NServiceKit.WebHost.IntegrationTests
                     //EnableFeatures = onlyEnableFeatures,
                     DebugMode = true, //Show StackTraces for easier debugging
                 });
-
-                if (StartMqHost)
-                {
-                    var redisManager = new BasicRedisClientManager();
-                    var mqHost = new RedisMqServer(redisManager);
-                    mqHost.RegisterHandler<Reverse>(ServiceController.ExecuteMessage);
-                    mqHost.Start();
-                    this.Container.Register((IMessageService)mqHost);
-                }
             }
 
             //Configure NServiceKit Authentication and CustomUserSession

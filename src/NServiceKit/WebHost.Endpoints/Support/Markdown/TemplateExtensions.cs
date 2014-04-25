@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NServiceKit.Common;
+using NServiceKit.WebHost.Endpoints.Support.Markdown.Templates;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 {
+    /// <summary>
+    /// Extension methods for working with markdown templates.
+    /// </summary>
 	public static class TemplateExtensions
 	{
 		private const string UnwantedPrefix = "<p>";
 		private const string UnwantedSuffix = "</p>";
 		private const char EscapeChar = '\\';
 		private const char QuoteChar = '"';
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public const char StatementPlaceholderChar = '^';
+
 		private const char BeginStatementChar = '{';
 		private const char EndStatementChar = '}';
 		private const char BeginMethodChar = '(';
@@ -69,16 +78,32 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			}
 		}
 
+        /// <summary>
+        /// Splits the string on white space.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
 		public static string[] SplitOnWhiteSpace(this string text)
 		{
 			return text.SplitAndTrimOn(WhiteSpaceChars);
 		}
 
+        /// <summary>
+        /// Splits the string on white space and symbols.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
 		public static string[] SplitOnWhiteSpaceAndSymbols(this string text)
 		{
 			return text.SplitAndTrimOn(WhiteSpaceAndSymbolChars);
 		}
 
+        /// <summary>
+        /// Splits on the given characters and trims each chunk.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="chars">The chars.</param>
+        /// <returns></returns>
 		public static string[] SplitAndTrimOn(this string text, char[] chars)
 		{
 			if (text == null) return new string[0];
@@ -96,16 +121,35 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return results.ToArray();
 		}
 
+        /// <summary>
+        /// Renders to markdown.
+        /// </summary>
+        /// <param name="markdownPage">The markdown page.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        /// <returns></returns>
 		public static string RenderToMarkdown(this MarkdownPage markdownPage, Dictionary<string, object> scopeArgs)
 		{
 			return RenderToString(markdownPage, scopeArgs, false);
 		}
 
+        /// <summary>
+        /// Renders to HTML.
+        /// </summary>
+        /// <param name="markdownPage">The markdown page.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        /// <returns></returns>
 		public static string RenderToHtml(this MarkdownPage markdownPage, Dictionary<string, object> scopeArgs)
 		{
 			return RenderToString(markdownPage, scopeArgs, true);
 		}
 
+        /// <summary>
+        /// Renders to string.
+        /// </summary>
+        /// <param name="markdownPage">The markdown page.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        /// <param name="renderHtml">if set to <c>true</c> [render HTML].</param>
+        /// <returns></returns>
 		public static string RenderToString(this MarkdownPage markdownPage, Dictionary<string, object> scopeArgs, bool renderHtml)
 		{
 			var sb = new StringBuilder();
@@ -117,6 +161,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return sb.ToString();
 		}
 
+        /// <summary>
+        /// Renders to string.
+        /// </summary>
+        /// <param name="templateWriter">The template writer.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        /// <returns></returns>
 		public static string RenderToString(this ITemplateWriter templateWriter, Dictionary<string, object> scopeArgs)
 		{
 			var sb = new StringBuilder();
@@ -127,6 +177,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return sb.ToString();
 		}
 
+        /// <summary>
+        /// Renders to string.
+        /// </summary>
+        /// <param name="templateWriters">The template writers.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        /// <returns></returns>
 		public static string RenderToString(this IEnumerable<ITemplateWriter> templateWriters, Dictionary<string, object> scopeArgs)
 		{
 			var sb = new StringBuilder();
@@ -140,6 +196,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return sb.ToString();
 		}
 
+        /// <summary>
+        /// Splits the string into blocks on the given placeholder string.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="onPlaceHolder">The on place holder.</param>
+        /// <returns></returns>
 		public static List<TemplateBlock> SplitIntoBlocks(this string content, string onPlaceHolder)
 		{
 			var blocks = new List<TemplateBlock>();
@@ -165,6 +227,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return blocks;
 		}
 
+        /// <summary>
+        /// Removes the given text from the end of the block, if it exists.
+        /// </summary>
+        /// <param name="textBlock">The text block.</param>
+        /// <param name="text">The text.</param>
 		public static void RemoveIfEndingWith(this TextBlock textBlock, string text)
 		{
 			if (textBlock == null) return;
@@ -175,12 +242,24 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			}
 		}
 
+        /// <summary>
+        /// Trims the given text from the end of the string, if it exists.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
 		public static string TrimIfEndingWith(this string content, string text)
 		{
 			if (content == null || !content.EndsWith(text)) return content;
 			return content.Substring(0, content.Length - text.Length);
 		}
 
+        /// <summary>
+        /// Increments pos past text if it's the next chunk in content.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="pos">The position.</param>
+        /// <param name="text">The text.</param>
 		public static void SkipIfNextIs(this string content, ref int pos, string text)
 		{
 			if (content == null || text == null) return;
@@ -193,6 +272,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			pos += text.Length;
 		}
 
+        /// <summary>
+        /// Trims the line if it only has whitespace.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
 		public static string TrimLineIfOnlyHasWhitespace(this string text)
 		{
 			var pos = text.LastIndexOfAny(LineEndChars) + 1; //after \n or at start if not found
@@ -203,6 +287,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return text;
 		}
 
+        /// <summary>
+        /// Creates the template blocks.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="statementBlocks">The statement blocks.</param>
+        /// <returns></returns>
 		public static List<TemplateBlock> CreateTemplateBlocks(this string content, List<StatementExprBlock> statementBlocks)
 		{
 			var blocks = new List<TemplateBlock>();
@@ -275,6 +365,13 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return blocks;
 		}
 
+        /// <summary>
+        /// Gets the next statement expr.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="fromPos">From position.</param>
+        /// <returns></returns>
+        /// <exception cref="System.IO.InvalidDataException"></exception>
 		public static StatementExprBlock GetNextStatementExpr(this string content, ref int fromPos)
 		{
 			var varExpr = content.GetNextAlphaNumericExpr(ref fromPos);
@@ -342,6 +439,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return null;
 		}
 
+        /// <summary>
+        /// Peeks the next character after whitespace.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
 		public static char PeekAfterWhitespace(this string content, int index)
 		{
 			int c;
@@ -356,6 +459,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return index == content.Length ? '\0' : content[index];
 		}
 
+        /// <summary>
+        /// Peeks the next word after whitespace.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
 		public static string PeekWordAfterWhitespace(this string content, int index)
 		{
 			content.EatWhitespace(ref index);
@@ -363,6 +472,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return word;
 		}
 
+        /// <summary>
+        /// Increments index until it runs out of whitespace.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="index">The index.</param>
 		public static void EatWhitespace(this string content, ref int index)
 		{
 			int c;
@@ -376,6 +490,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			}
 		}
 
+        /// <summary>
+        /// Eats the rest of the line.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="index">The index.</param>
 		public static void EatRestOfLine(this string content, ref int index)
 		{
 			int c;
@@ -394,8 +513,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			}
 		}
 
-		private static string EatBlockExpr(this string content, ref int fromPos,
-			char beginChar, char endChar, bool allowDoubleEscaping)
+		private static string EatBlockExpr(this string content, ref int fromPos, char beginChar, char endChar, bool allowDoubleEscaping)
 		{
 			content.EatWhitespace(ref fromPos);
 			if (content[fromPos++] != beginChar)
@@ -446,11 +564,22 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 				.Replace(endChar.ToString() + endChar, endChar.ToString());
 		}
 
+        /// <summary>
+        /// Safes peeks at the specified index. Returns \0 if it doesn't exist.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="fromPos">From position.</param>
+        /// <returns></returns>
 		public static char SafePeekAt(this string content, int fromPos)
 		{
 			return fromPos + 1 >= content.Length ? '\0' : content[fromPos + 1];
 		}
 
+        /// <summary>
+        /// Determines whether the given character is alphanumeric.
+        /// </summary>
+        /// <param name="c">The c.</param>
+        /// <returns></returns>
 		public static bool IsAlphaNumeric(this char c)
 		{
 			return c < AlphaNumericFlags.Length && AlphaNumericFlags[c];
@@ -466,6 +595,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return EatBlockExpr(content, ref fromPos, BeginMethodChar, EndMethodChar, false);
 		}
 
+        /// <summary>
+        /// Gets the next alpha numeric expression.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="fromPos">From position.</param>
+        /// <returns></returns>
 		public static string GetNextAlphaNumericExpr(this string content, ref int fromPos)
 		{
 			var startPos = fromPos;
@@ -478,6 +613,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return content.Substring(startPos, fromPos - startPos);
 		}
 
+        /// <summary>
+        /// Gets the next member expr.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="fromPos">From position.</param>
+        /// <returns></returns>
 		public static string GetNextMemberExpr(this string content, ref int fromPos)
 		{
 			var startPos = fromPos;
@@ -500,11 +641,21 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return memberExpr;
 		}
 
+        /// <summary>
+        /// Removes all white space.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
 		public static string RemoveAllWhiteSpace(this string content)
 		{
 			return content.RemoveCharFlags(WhiteSpaceFlags);
 		}
 
+        /// <summary>
+        /// Gets the name of the variable.
+        /// </summary>
+        /// <param name="memberExpr">The member expr.</param>
+        /// <returns></returns>
 		public static string GetVarName(this string memberExpr)
 		{
 			if (memberExpr == null) return null;

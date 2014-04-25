@@ -7,8 +7,16 @@ using System.Xml.Schema;
 
 namespace NServiceKit.WebHost.Endpoints.Utils
 {
+    /// <summary>
+    /// 
+    /// </summary>
 	public class XsdUtils
 	{
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationTypes"></param>
+        /// <returns></returns>
 		public static XmlSchemaSet GetXmlSchemaSet(ICollection<Type> operationTypes)
 		{
 			var exporter = new XsdDataContractExporter();
@@ -17,12 +25,11 @@ namespace NServiceKit.WebHost.Endpoints.Utils
 			return exporter.Schemas;
 		}
 
-		//static readonly Regex StripXmlDeclarationRegex = new Regex(@"/\<?xml.+?\>/g", RegexOptions.Compiled);
-		//public static string StripXmlDeclaration(string xsd)
-		//{
-		//    return StripXmlDeclarationRegex.Replace(xsd, "");
-		//}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schemaSet"></param>
+        /// <returns></returns>
 		public static string GetXsd(XmlSchemaSet schemaSet)
 		{
 			var sb = new StringBuilder();
@@ -38,6 +45,11 @@ namespace NServiceKit.WebHost.Endpoints.Utils
 			return sb.ToString().Trim();
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationType"></param>
+        /// <returns></returns>
 		public static string GetXsd(Type operationType)
 		{
 			if (operationType == null) return null;

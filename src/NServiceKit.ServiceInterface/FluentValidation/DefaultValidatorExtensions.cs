@@ -62,6 +62,8 @@ namespace NServiceKit.FluentValidation
         /// </summary>
         /// <typeparam name="T">Type of object being validated</typeparam>
         /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
         /// <returns></returns>
         public static IRuleBuilderOptions<T, string> Length<T>(this IRuleBuilder<T, string> ruleBuilder, int min, int max) {
             return ruleBuilder.SetValidator(new LengthValidator(min, max));
@@ -73,6 +75,7 @@ namespace NServiceKit.FluentValidation
         /// </summary>
         /// <typeparam name="T">Type of object being validated</typeparam>
         /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
+        /// <param name="exactLength"></param>
         /// <returns></returns>
         public static IRuleBuilderOptions<T, string> Length<T>(this IRuleBuilder<T, string> ruleBuilder, int exactLength) {
             return ruleBuilder.SetValidator(new ExactLengthValidator(exactLength));
@@ -504,6 +507,7 @@ namespace NServiceKit.FluentValidation
         /// <summary>
         /// Validates certain properties of the specified instance.
         /// </summary>
+        /// <param name="validator"></param>
         /// <param name="instance">The object to validate</param>
         /// <param name="properties">The names of the properties to validate.</param>
         /// <returns>A ValidationResult object containing any validation failures.</returns>

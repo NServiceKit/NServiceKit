@@ -10,6 +10,7 @@ namespace NServiceKit.ServiceHost
 	{
 		private readonly Dictionary<Type, Delegate> handlerMap = new Dictionary<Type, Delegate>();
 
+        [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
 		public void Register<TServiceRequest>(Func<IService<TServiceRequest>> invoker)
 		{
 			var requestType = typeof(TServiceRequest);

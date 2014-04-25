@@ -12,8 +12,7 @@ namespace NServiceKit.ServiceHost.Tests.Support
 		public IBar Bar { get; set; }
 	}
 
-	public class AutoWireService
-		: IService<AutoWire>
+	public class AutoWireService : ServiceInterface.Service
 	{
 		private readonly IFoo foo;
 
@@ -31,7 +30,7 @@ namespace NServiceKit.ServiceHost.Tests.Support
 			this.foo = foo;
 		}
 
-		public object Execute(AutoWire request)
+        public AutoWireResponse Any(AutoWire request)
 		{
 			return new AutoWireResponse { Foo = foo, Bar = Bar };
 		}

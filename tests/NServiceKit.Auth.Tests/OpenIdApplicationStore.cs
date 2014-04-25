@@ -187,7 +187,7 @@ namespace NServiceKit.Auth.Tests
         /// <remarks>
         /// This is useful for knowing how long used nonces must be retained.
         /// </remarks>
-        private readonly TimeSpan maximumMessageAge;
+        protected TimeSpan maximumMessageAge;
 
         /// <summary>
         /// A list of the consumed nonces.

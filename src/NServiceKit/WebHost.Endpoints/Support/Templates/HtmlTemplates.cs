@@ -62,7 +62,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
                 template = File.ReadAllText(staticFilePath);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

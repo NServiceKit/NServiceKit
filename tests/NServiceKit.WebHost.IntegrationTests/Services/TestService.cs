@@ -22,9 +22,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		public string Result { get; set; }
 	}
 
-	public class TestService : IService<Test>
+	public class TestService : ServiceInterface.Service
 	{
-		public object Execute(Test request)
+        public TestResponse Any(Test request)
 		{
 			var client = new Soap12ServiceClient("http://localhost/NServiceKit.WebHost.IntegrationTests/api/");
 			var response = client.Send<HelloResponse>(new Hello { Name = request.Name });

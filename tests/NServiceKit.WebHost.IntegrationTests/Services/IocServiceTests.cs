@@ -43,13 +43,13 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
     }
 
     [IocRequestFilter]
-    public class IocScopeService : IService<IocScope>, IDisposable
+    public class IocScopeService : ServiceInterface.Service
     {
         public FunqRequestScope FunqRequestScope { get; set; }
         public FunqSingletonScope FunqSingletonScope { get; set; }
         public FunqNoneScope FunqNoneScope { get; set; }
 
-        public object Execute(IocScope request)
+        public IocScopeResponse Any(IocScope request)
         {
             var response = new IocScopeResponse {
                 Results = {
@@ -65,7 +65,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
         public static int DisposedCount = 0;
         public static bool ThrowErrors = false;
 
-        public void Dispose()
+        public override void Dispose()
         {
             DisposedCount++;
         }

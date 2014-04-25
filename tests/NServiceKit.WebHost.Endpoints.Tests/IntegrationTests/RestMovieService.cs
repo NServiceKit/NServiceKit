@@ -8,24 +8,16 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 	/// <summary>
 	/// An example of a very basic web service
 	/// </summary>
-	public class RestMovieService
-		: IService<RestMovies>
-		  , IRestGetService<RestMovies>
-		  , IRestPutService<RestMovies>
-		  , IRestPostService<RestMovies>
-		  , IRestDeleteService<RestMovies>
-		  , IRequiresRequestContext
+	public class RestMovieService : ServiceInterface.Service
 	{
-		public IRequestContext RequestContext { get; set; }
-
 		public IDbConnectionFactory DbFactory { get; set; }
 
-		public object Execute(RestMovies request)
+        public RestMoviesResponse Any(RestMovies request)
 		{
 			return Get(request);
 		}
 
-		public object Get(RestMovies request)
+        public RestMoviesResponse Get(RestMovies request)
 		{
 			var response = new RestMoviesResponse();
 
@@ -48,19 +40,19 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			return response;
 		}
 
-		public object Put(RestMovies request)
+        public RestMoviesResponse Put(RestMovies request)
 		{
 			DbFactory.Run(db => db.Save(request.Movie));
 			return new RestMoviesResponse();
 		}
 
-		public object Delete(RestMovies request)
+        public RestMoviesResponse Delete(RestMovies request)
 		{
             DbFactory.Run(db => db.DeleteById<RestMovie>(request.Id));
 			return new RestMoviesResponse();
 		}
 
-		public object Post(RestMovies request)
+        public RestMoviesResponse Post(RestMovies request)
 		{
             DbFactory.Run(db => db.Update(request.Movie));
 			return new RestMoviesResponse();

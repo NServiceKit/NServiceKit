@@ -19,6 +19,7 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         /// <param name="req">The http request wrapper</param>
         /// <param name="res">The http response wrapper</param>
+        /// <param name="response"></param>
         void ResponseFilter(IHttpRequest req, IHttpResponse res, object response);
 
         /// <summary>

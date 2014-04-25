@@ -3,10 +3,9 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 {
-	public class ResetMovieDatabaseService
-		: IService<ResetMovieDatabase>
+	public class ResetMovieDatabaseService : ServiceInterface.Service
 	{
-		public object Execute(ResetMovieDatabase request)
+        public ResetMovieDatabaseResponse Any(ResetMovieDatabase request)
 		{
 			return new ResetMovieDatabaseResponse();
 		}

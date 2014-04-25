@@ -7,6 +7,9 @@ using NServiceKit.Common.Web;
 
 namespace NServiceKit.ServiceHost
 {
+	/// <summary>
+	/// Extension methods operating on IRequestContext.
+	/// </summary>
 	public static class RequestContextExtensions
 	{
 		/// <summary>
@@ -21,14 +24,14 @@ namespace NServiceKit.ServiceHost
 		{
 			string serializedDto = EndpointHost.ContentTypeFilter.SerializeToString(requestContext, dto);
 			if (requestContext.CompressionType == null)
-				return (object)serializedDto;
+				return serializedDto;
 
 			byte[] compressedBytes = StreamExtensions.Compress(serializedDto, requestContext.CompressionType);
             return new CompressedResult(compressedBytes, requestContext.CompressionType, requestContext.ResponseContentType);
 		}
 
 		/// <summary>
-		/// Overload for the <see cref="ContentCacheManager.Resolve"/> method returning the most
+		/// Overload for the Resolve method returning the most
 		/// optimized result based on the MimeType and CompressionType from the IRequestContext.
 		/// </summary>
 		public static object ToOptimizedResultUsingCache<T>(
@@ -40,13 +43,10 @@ namespace NServiceKit.ServiceHost
 		}
 
 		/// <summary>
-		/// Overload for the <see cref="ContentCacheManager.Resolve"/> method returning the most
+		/// Overload for the Resolve method returning the most
 		/// optimized result based on the MimeType and CompressionType from the IRequestContext.
-		/// <param name="expireCacheIn">How long to cache for, null is no expiration</param>
 		/// </summary>
-		public static object ToOptimizedResultUsingCache<T>(
-			this IRequestContext requestContext, ICacheClient cacheClient, string cacheKey,
-			TimeSpan? expireCacheIn, Func<T> factoryFn)
+		public static object ToOptimizedResultUsingCache<T>(this IRequestContext requestContext, ICacheClient cacheClient, string cacheKey, TimeSpan? expireCacheIn, Func<T> factoryFn)
 			where T : class
 		{
 			var cacheResult = cacheClient.ResolveFromCache(cacheKey, requestContext);

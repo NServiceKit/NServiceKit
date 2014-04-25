@@ -19,16 +19,14 @@ namespace NServiceKit.Messaging.Tests.Services
 		public string Result { get; set; }
 	}
 
-	public class AlwaysFailService
-		: AsyncServiceBase<AlwaysFail>
+	public class AlwaysFailService : ServiceInterface.Service
 	{
 		public int TimesCalled { get; set; }
 		public string Result { get; set; }
 
-		protected override object Run(AlwaysFail request)
+		public object Any(AlwaysFail request)
 		{
 			this.TimesCalled++;
-
 			throw new NotSupportedException("This service always fails");
 		}
 	}

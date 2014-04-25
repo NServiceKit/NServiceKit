@@ -59,6 +59,7 @@ namespace NServiceKit.ServiceHost
 
         public Func<IEnumerable<Type>> ResolveServicesFn { get; set; }
 
+        [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
         public void Register<TReq>(Func<IService<TReq>> invoker)
         {
             var requestType = typeof(TReq);
@@ -89,11 +90,10 @@ namespace NServiceKit.ServiceHost
             if (serviceType.IsAbstract || serviceType.ContainsGenericParameters) return;
 
             //IService<T>
+#pragma warning disable 618
             foreach (var service in serviceType.GetInterfaces())
             {
-                if (!service.IsGenericType
-                    || service.GetGenericTypeDefinition() != typeof(IService<>)
-                ) continue;
+                if (!service.IsGenericType|| service.GetGenericTypeDefinition() != typeof(IService<>)) continue;
 
                 var requestType = service.GetGenericArguments()[0];
 
@@ -104,6 +104,7 @@ namespace NServiceKit.ServiceHost
 
                 RegisterCommon(serviceType, requestType, responseType);
             }
+#pragma warning restore 618
         }
 
         public void RegisterNService(ITypeFactory serviceFactoryFn, Type serviceType)

@@ -21,7 +21,7 @@ namespace NServiceKit.Common.Tests.OAuth
             {
                 _appHost = new BasicAppHost();
                 var authService = new AuthService();
-                authService.SetAppHost(_appHost);
+                authService.SetResolver(_appHost);
                 _appHost.Container.Register(authService);
                 _appHost.Container.Register<IAuthSession>(authUserSession);
             }
@@ -64,7 +64,7 @@ namespace NServiceKit.Common.Tests.OAuth
 
 		    var appHost = GetAppHost();
             appHost.Register(userAuthRepository);
-		    service.SetAppHost(appHost);
+		    service.SetResolver(appHost);
 
             return service;
 		}

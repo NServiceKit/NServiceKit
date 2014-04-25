@@ -301,6 +301,18 @@
     <Compile Include="WebHost.Endpoints\Extensions\HttpListenerRequestWrapper.cs" />
     <Compile Include="WebHost.Endpoints\AppDelegates.cs" />
     <Compile Include="WebHost.Endpoints\ActionHandler.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\DirectiveBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\EvalExprStatementBase.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\ForEachStatementExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\IfStatementExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\MemberExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\MethodStatementExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\PageContext.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\SectionStatementExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\StatementExprBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\TextBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\TemplateBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\VarStatementExprBlock.cs" />
     <Compile Include="WebHost.Endpoints\Support\Templates\HtmlTemplates.cs" />
     <Compile Include="WebHost.Endpoints\RequestBindingException.cs" />
     <Compile Include="WebHost.Endpoints\Support\Markdown\Evaluator.cs" />
@@ -312,7 +324,7 @@
     <Compile Include="WebHost.Endpoints\Support\Markdown\MarkdownTemplate.cs" />
     <Compile Include="WebHost.Endpoints\Support\Markdown\DataBinder.cs" />
     <Compile Include="WebHost.Endpoints\Support\Markdown\TemplateExtensions.cs" />
-    <Compile Include="WebHost.Endpoints\Support\Markdown\TextBlock.cs" />
+    <Compile Include="WebHost.Endpoints\Support\Markdown\Templates\VarReferenceBlock.cs" />
     <Compile Include="WebHost.Endpoints\GenericHandler.cs" />
     <Compile Include="WebHost.Endpoints\Formats\HtmlFormat.cs" />
     <Compile Include="WebHost.Endpoints\Metadata\CustomMetadataHandler.cs" />

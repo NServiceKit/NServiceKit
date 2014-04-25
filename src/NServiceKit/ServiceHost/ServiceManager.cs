@@ -90,19 +90,24 @@ namespace NServiceKit.ServiceHost
 		    return this;
 		}
 
+        [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
 		public void RegisterService<T>()
 		{
-			if (!typeof(T).IsGenericType
-				|| typeof(T).GetGenericTypeDefinition() != typeof(IService<>))
-				throw new ArgumentException("Type {0} is not a Web Service that inherits IService<>".Fmt(typeof(T).FullName));
+		    if (!typeof (T).IsGenericType || typeof (T).GetGenericTypeDefinition() != typeof (IService<>))
+		    {
+		        throw new ArgumentException("Type {0} is not a Web Service that inherits IService<>".Fmt(typeof (T).FullName));
+		    }
 
-			this.ServiceController.RegisterGService(typeFactory, typeof(T));
+		    this.ServiceController.RegisterGService(typeFactory, typeof(T));
 			this.Container.RegisterAutoWired<T>();
 		}
 
 		public Type RegisterService(Type serviceType)
 		{
+
+#pragma warning disable 618
             var genericServiceType = serviceType.GetTypeWithGenericTypeDefinitionOf(typeof(IService<>));
+
             try
 			{
                 if (genericServiceType != null)
@@ -111,6 +116,7 @@ namespace NServiceKit.ServiceHost
                     this.Container.RegisterAutoWiredType(serviceType);
                     return genericServiceType;
                 }
+#pragma warning restore 618
 
                 var isNService = typeof(IService).IsAssignableFrom(serviceType);
                 if (isNService)

@@ -19,7 +19,7 @@ namespace NServiceKit.Common.Utils
         /// <summary>
         /// Asserts that the supplied arguments are not null.
         /// 
-        /// AssertUtils.AreNotNull(new Dictionary<string,object>{ {"name",null} });
+        /// AssertUtils.AreNotNull(new Dictionary&lt;string,object&gt;{ {"name",null} });
         ///   will throw new ArgumentNullException("name");
         /// </summary>
         /// <param name="fieldMap">The field map.</param>

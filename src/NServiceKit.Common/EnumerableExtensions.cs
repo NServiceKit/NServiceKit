@@ -3,6 +3,7 @@ using System.Collections.Generic;
 #if WINDOWS_PHONE
 using NServiceKit.Text.WP;
 #endif
+using NServiceKit.Common.Extensions;
 
 namespace NServiceKit.Common
 {
@@ -20,7 +21,7 @@ namespace NServiceKit.Common
 
         public static List<To> SafeConvertAll<To, From>(this IEnumerable<From> items, Func<From, To> converter)
         {
-            return items == null ? new List<To>() : Extensions.EnumerableExtensions.ConvertAll(items, converter);
+            return items == null ? new List<To>() : items.ConvertAll(converter);
         }
 
         public static List<object> ToObjects<T>(this IEnumerable<T> items)

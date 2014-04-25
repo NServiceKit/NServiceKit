@@ -21,9 +21,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		public string Result { get; set; }
 	}
 
-	public class VerbMatch1Service : IService<VerbMatch1>, IRestService<VerbMatch1>
+	public class VerbMatch1Service : ServiceInterface.Service
 	{
-		public object Execute(VerbMatch1 request)
+		public object Any(VerbMatch1 request)
 		{
 			throw new NotImplementedException();
 		}

@@ -22,9 +22,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 	}
 
 	/// Create your Web Service implementation 
-	public class HelloService : IService<Hello>
+	public class HelloService : ServiceInterface.Service
 	{
-		public object Execute(Hello request)
+        public HelloResponse Execute(Hello request)
 		{
 			return new HelloResponse { Result = "Hello, " + request.Name };
 		}

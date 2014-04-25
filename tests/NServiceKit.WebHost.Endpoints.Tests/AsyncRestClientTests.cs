@@ -149,7 +149,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		{
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
-				return new JsonRestClientAsync(ListeningOn);
+				return new JsonServiceClient(ListeningOn);
 			}
 		}
 
@@ -158,7 +158,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		{
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
-				return new JsvRestClientAsync(ListeningOn);
+                return new JsonServiceClient(ListeningOn);
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		{
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
-				return new XmlRestClientAsync(ListeningOn);
+                return new JsonServiceClient(ListeningOn);
 			}
 		}
 	}

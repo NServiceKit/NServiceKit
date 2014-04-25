@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace NServiceKit.WebHost.Endpoints.Utils
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class FilterAttributeCache
     {
 		private static Dictionary<Type, IHasRequestFilter[]> requestFilterAttributes
@@ -33,6 +36,11 @@ namespace NServiceKit.WebHost.Endpoints.Utils
             return to;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requestDtoType"></param>
+        /// <returns></returns>
         public static IHasRequestFilter[] GetRequestFilterAttributes(Type requestDtoType)
         {
         	IHasRequestFilter[] attrs;
@@ -61,6 +69,11 @@ namespace NServiceKit.WebHost.Endpoints.Utils
             return attrs.ShallowCopy();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="responseDtoType"></param>
+        /// <returns></returns>
         public static IHasResponseFilter[] GetResponseFilterAttributes(Type responseDtoType)
         {
 			IHasResponseFilter[] attrs;

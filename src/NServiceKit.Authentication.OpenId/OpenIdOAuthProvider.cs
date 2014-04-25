@@ -307,7 +307,7 @@ namespace NServiceKit.Authentication.OpenId
                 if (response.Culture != null)
                     map["Culture"] = response.Culture.TwoLetterISOLanguageName;
             }
-            catch (Exception ex) //CultureNotFoundException (.NET 4.5)
+            catch (Exception) //CultureNotFoundException (.NET 4.5)
             {
                 map["Culture"] = "en";
             }

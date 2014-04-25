@@ -9,12 +9,9 @@ namespace NServiceKit.ServiceHost.Tests.Support
 	[DataContract]
 	public class RequiresContextResponse { }
 
-	public class RequiresContextService 
-		: IService<RequiresContext>, IRequiresRequestContext
+	public class RequiresContextService : ServiceInterface.Service
 	{
-		public IRequestContext RequestContext { get;  set; }
-
-		public object Execute(RequiresContext requires)
+        public RequiresContextResponse Any(RequiresContext requires)
 		{
 			if (RequestContext == null)
 				throw new ArgumentNullException("RequestContext");

@@ -21,8 +21,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 		public int ExecuteAsyncTimes { get; set; }
 	}
 
-	public class TestAsyncService 
-		: IService<TestAsync>, IAsyncService<TestAsync>
+	public class TestAsyncService : ServiceInterface.Service
 	{
 		private readonly IFoo foo;
 
@@ -40,14 +39,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 			this.foo = foo;
 		}
 
-		public object Execute(TestAsync request)
+        public TestAsyncResponse Any(TestAsync request)
 		{
 			return new TestAsyncResponse { Foo = this.foo, ExecuteTimes = ++ExecuteTimes };
-		}
-
-		public object ExecuteAsync(TestAsync request)
-		{
-			return new TestAsyncResponse { Foo = this.foo, ExecuteAsyncTimes = ++ExecuteAsyncTimes };
 		}
 	}
 }

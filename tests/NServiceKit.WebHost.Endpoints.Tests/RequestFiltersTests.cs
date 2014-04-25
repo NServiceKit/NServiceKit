@@ -36,9 +36,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
-	public class SecureService : IService<Secure>
+	public class SecureService : ServiceInterface.Service
 	{
-		public object Execute(Secure request)
+        public SecureResponse Execute(Secure request)
 		{
 			return new SecureResponse { Result = "Confidential" };
 		}
@@ -62,9 +62,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
-	public class InsecureService : IService<Insecure>
+	public class InsecureService : ServiceInterface.Service
 	{
-		public object Execute(Insecure request)
+        public InsecureResponse Execute(Insecure request)
 		{
 			return new InsecureResponse { Result = "Public" };
 		}
@@ -309,7 +309,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 			try
 			{
-				var res = req.GetResponse();
+				req.GetResponse();
 			}
 			catch (WebException x)
 			{
@@ -434,7 +434,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
-				return new XmlRestClientAsync(ServiceClientBaseUri);
+				return new XmlServiceClient(ServiceClientBaseUri);
 			}
 		}
 
@@ -453,7 +453,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
-				return new JsonRestClientAsync(ServiceClientBaseUri);
+                return new JsonServiceClient(ServiceClientBaseUri);
 			}
 		}
 
@@ -472,7 +472,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
-				return new JsvRestClientAsync(ServiceClientBaseUri);
+                return new JsonServiceClient(ServiceClientBaseUri);
 			}
 		}
 

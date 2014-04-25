@@ -154,11 +154,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         public bool ResponseFilterDependencyIsResolved { get; set; }
     }
 
-    public class AttributeFilteredService : IService<AttributeFiltered>
+    public class AttributeFilteredService : ServiceInterface.Service
     {
-        public object Execute(AttributeFiltered request)
+        public object Any(AttributeFiltered request)
         {
-            return new AttributeFilteredResponse() {
+            return new AttributeFilteredResponse {
                 ResponseFilterExecuted = false,
                 ContextualResponseFilterExecuted = false,
                 RequestFilterExecuted = request.RequestFilterExecuted,

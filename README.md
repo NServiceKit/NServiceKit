@@ -1,4 +1,4 @@
-# NServiceKit.Text is a FREE and Open Source fork of ServiceStack.
+# NServiceKit is a FREE and Open Source fork of ServiceStack.
 
 Our goal is to keep the foundation for great REST Services on .NET free, open source and supported by the community.  Accepting pull requests, issues on github: [https://github.com/NServiceKit/NServiceKit]
 
@@ -17,10 +17,15 @@ REST (JSON, XML, JSV, HTML, MsgPack, ProtoBuf, CSV) and WCF SOAP [Web Services](
 
 _Note: the source code is provided as-is - no direct or commercial support is available for ServiceStack_
 
+Improvements on ServiceStack
+============================
+* [EmbeddedResourceVirtualPathProvider](https://github.com/NServiceKit/NServiceKit/blob/master/src/NServiceKit/VirtualPath/EmbeddedResourceVirtualPathProvider.cs) can be used 
+  with the RazorFormat plug-in to serve embedded resources as static files or Razor views.
+
 Simple REST service example
 =========================== 
 
-This example is also available as a [stand-alone integration test](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/NewApiTodos.cs):
+This example is also available as a [stand-alone integration test](https://github.com/NServiceKit/NServiceKit/blob/master/tests/NServiceKit.WebHost.Endpoints.Tests/NewApiTodos.cs):
 
 ```csharp
 //Web Service Host Configuration
@@ -141,7 +146,7 @@ _Note: the binary packages are provided as-is - no direct or commercial support 
     
 ## Download published NuGet binaries without NuGet
 
-GitHub has disabled its download feature so currently NuGet is the best way to get ServiceStack published releases.
+GitHub has disabled its download feature so currently NuGet is the best way to get NServiceKit published releases.
 For environments that don't have NuGet installed (e.g. OSX/Linux) you can still download the published binaries by 
 extracting them from the published NuGet packages. The url to download a nuget package is: 
 

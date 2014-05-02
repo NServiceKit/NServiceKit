@@ -8,7 +8,14 @@ namespace NServiceKit.Common.Extensions
     [Obsolete("Use ConvertAll")]
     public static class TranslatorExtensions
     {
-        // Methods
+        /// <summary>Methods.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="translator">The translator to act on.</param>
+        /// <param name="from">      Source for the.</param>
+        ///
+        /// <returns>A List&lt;To&gt;</returns>
         public static List<To> ParseAll<To, From>(this ITranslator<To, From> translator, IEnumerable<From> from)
         {
             var list = new List<To>();

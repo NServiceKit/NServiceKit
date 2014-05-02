@@ -10,6 +10,7 @@ namespace NServiceKit.Common
     /// <summary>An enum extensions.</summary>
     public static class EnumExtensions
     {
+#if !NETFX_CORE
         /// <summary>
         /// Gets the textual description of the enum if it has one. e.g.
         /// 
@@ -24,13 +25,6 @@ namespace NServiceKit.Common
         /// </summary>
         /// <param name="enum"></param>
         /// <returns></returns>
-#if !NETFX_CORE
-
-        /// <summary>An Enum extension method that converts a @enum to a description.</summary>
-        ///
-        /// <param name="enum">The @enum to act on.</param>
-        ///
-        /// <returns>@enum as a string.</returns>
         public static string ToDescription(this Enum @enum) 
         {
             var type = @enum.GetType();

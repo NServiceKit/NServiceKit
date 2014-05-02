@@ -14,6 +14,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Utils
 {
+    /// <summary>Encapsulates the result of a custom http.</summary>
     [DataContract(Namespace = "http://schemas.NServiceKit.net/types")]
     public class CustomHttpResult { }
 

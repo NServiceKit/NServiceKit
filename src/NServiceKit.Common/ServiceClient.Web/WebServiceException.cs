@@ -8,6 +8,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceClient.Web
 {
+    /// <summary>Exception for signalling web service errors.</summary>
 #if !NETFX_CORE && !WINDOWS_PHONE && !SILVERLIGHT
     [Serializable]
 #endif

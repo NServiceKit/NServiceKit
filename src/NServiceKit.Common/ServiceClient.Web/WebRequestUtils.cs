@@ -44,7 +44,7 @@ namespace NServiceKit.ServiceClient.Web
         }
     }
 	
-	// by adamfowleruk
+    /// <summary>by adamfowleruk.</summary>
 	public class AuthenticationInfo 
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(AuthenticationInfo));

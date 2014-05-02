@@ -9,6 +9,7 @@ namespace NServiceKit.Html
 {
     using IView = ITemplatePage;
 
+    /// <summary>A view context.</summary>
     public class ViewContext
     {
         private const string ClientValidationScript = @"<script type=""text/javascript"">
@@ -39,11 +40,20 @@ window.mvcClientValidationMetadata.push({0});
         // We need a default FormContext if the user uses html <form> instead of an MvcForm
         private FormContext _defaultFormContext = new FormContext();
 
-        // parameterless constructor used for mocking
+        /// <summary>parameterless constructor used for mocking.</summary>
         public ViewContext()
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.ViewContext class.</summary>
+        ///
+        /// <exception cref="ArgumentException">    Thrown when one or more arguments have unsupported or illegal values.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="httpContext">The HTTP context.</param>
+        /// <param name="view">       The view.</param>
+        /// <param name="viewData">   Information describing the view.</param>
+        /// <param name="writer">     The writer.</param>
         public ViewContext(HttpContextBase httpContext, IView view, ViewDataDictionary viewData, TextWriter writer)
         {
             if (httpContext == null) {
@@ -65,12 +75,18 @@ window.mvcClientValidationMetadata.push({0});
             HttpContext = httpContext;
         }
 
+        /// <summary>Gets or sets a value indicating whether the client validation is enabled.</summary>
+        ///
+        /// <value>true if client validation enabled, false if not.</value>
         public virtual bool ClientValidationEnabled
         {
             get { return GetClientValidationEnabled(Scope, HttpContext); }
             set { SetClientValidationEnabled(value, Scope, HttpContext); }
         }
 
+        /// <summary>Gets or sets a context for the form.</summary>
+        ///
+        /// <value>The form context.</value>
         public virtual FormContext FormContext
         {
             get
@@ -115,12 +131,18 @@ window.mvcClientValidationMetadata.push({0});
             set { _scopeThunk = value; }
         }
 
+        /// <summary>Gets or sets a value indicating whether the unobtrusive java script is enabled.</summary>
+        ///
+        /// <value>true if unobtrusive java script enabled, false if not.</value>
         public virtual bool UnobtrusiveJavaScriptEnabled
         {
             get { return GetUnobtrusiveJavaScriptEnabled(Scope, HttpContext); }
             set { SetUnobtrusiveJavaScriptEnabled(value, Scope, HttpContext); }
         }
 
+        /// <summary>Gets or sets the view.</summary>
+        ///
+        /// <value>The view.</value>
         public virtual IView View { get; set; }
 
 #if NET_4_0
@@ -136,8 +158,14 @@ window.mvcClientValidationMetadata.push({0});
         }
 #endif
 
+        /// <summary>Gets or sets information describing the view.</summary>
+        ///
+        /// <value>Information describing the view.</value>
         public virtual ViewDataDictionary ViewData { get; set; }
 
+        /// <summary>Gets or sets the writer.</summary>
+        ///
+        /// <value>The writer.</value>
         public virtual TextWriter Writer { get; set; }
 
         private string DefaultFormIdGenerator()
@@ -169,6 +197,7 @@ window.mvcClientValidationMetadata.push({0});
             return newFormNum;
         }
 
+        /// <summary>Output client validation.</summary>
         public void OutputClientValidation()
         {
             FormContext formContext = GetFormContextForClientValidation();
@@ -217,6 +246,9 @@ window.mvcClientValidationMetadata.push({0});
                 _unobtrusiveJavaScriptEnabled = ScopeGet(scope, UnobtrusiveJavaScriptKeyName, false);
             }
 
+            /// <summary>Gets or sets a value indicating whether the client validation is enabled.</summary>
+            ///
+            /// <value>true if client validation enabled, false if not.</value>
             public bool ClientValidationEnabled
             {
                 get { return _clientValidationEnabled; }
@@ -227,6 +259,9 @@ window.mvcClientValidationMetadata.push({0});
                 }
             }
 
+            /// <summary>Gets or sets a value indicating whether the unobtrusive java script is enabled.</summary>
+            ///
+            /// <value>true if unobtrusive java script enabled, false if not.</value>
             public bool UnobtrusiveJavaScriptEnabled
             {
                 get { return _unobtrusiveJavaScriptEnabled; }
@@ -237,6 +272,12 @@ window.mvcClientValidationMetadata.push({0});
                 }
             }
 
+            /// <summary>Gets.</summary>
+            ///
+            /// <param name="scope">      The scope.</param>
+            /// <param name="httpContext">Context for the HTTP.</param>
+            ///
+            /// <returns>A ScopeCache.</returns>
             public static ScopeCache Get(IDictionary<object, object> scope, HttpContextBase httpContext)
             {
                 if (httpContext == null && System.Web.HttpContext.Current != null) {
@@ -262,6 +303,9 @@ window.mvcClientValidationMetadata.push({0});
             }
         }
 
+        /// <summary>Gets or sets a context for the HTTP.</summary>
+        ///
+        /// <value>The HTTP context.</value>
         public virtual HttpContextBase HttpContext
         {
             get

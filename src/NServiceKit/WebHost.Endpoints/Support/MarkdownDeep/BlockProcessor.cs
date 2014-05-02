@@ -19,8 +19,13 @@ using System.Text;
 
 namespace MarkdownDeep
 {
+    /// <summary>A block processor.</summary>
 	public class BlockProcessor : StringScanner
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.BlockProcessor class.</summary>
+        ///
+        /// <param name="m">             The Markdown to process.</param>
+        /// <param name="MarkdownInHtml">true to markdown in HTML.</param>
 		public BlockProcessor(Markdown m, bool MarkdownInHtml)
 		{
 			m_markdown = m;

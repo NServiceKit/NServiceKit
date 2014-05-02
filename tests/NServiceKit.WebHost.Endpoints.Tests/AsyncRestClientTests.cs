@@ -11,12 +11,14 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>The asynchronous rest client tests.</summary>
 	public abstract class AsyncRestClientTests
 	{
 		private const string ListeningOn = "http://localhost:82/";
 
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -27,12 +29,16 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
 			appHost.Dispose();
 		}
 
+        /// <summary>Creates asynchronous rest client.</summary>
+        ///
+        /// <returns>The new asynchronous rest client.</returns>
 		protected abstract IRestClientAsync CreateAsyncRestClient();
 
 		private static void FailOnAsyncError<T>(T response, Exception ex)
@@ -40,6 +46,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.Fail(ex.Message);
 		}
 
+        /// <summary>Can call get asynchronous on get factorial using rest client asynchronous.</summary>
 		[Test]
 		public void Can_call_GetAsync_on_GetFactorial_using_RestClientAsync()
 		{
@@ -54,6 +61,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Result, Is.EqualTo(GetFactorialService.GetFactorial(3)));
 		}
 
+        /// <summary>Can call get asynchronous on movies using rest client asynchronous.</summary>
 		[Test]
 		public void Can_call_GetAsync_on_Movies_using_RestClientAsync()
 		{
@@ -68,6 +76,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Movies.EquivalentTo(ResetMoviesService.Top5Movies));
 		}
 
+        /// <summary>Can call get asynchronous on single movie using rest client asynchronous.</summary>
 		[Test]
 		public void Can_call_GetAsync_on_single_Movie_using_RestClientAsync()
 		{
@@ -82,6 +91,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Movie.Id, Is.EqualTo(1));
 		}
 
+        /// <summary>Can call post asynchronous to add new movie using rest client asynchronous.</summary>
 		[Test]
 		public void Can_call_PostAsync_to_add_new_Movie_using_RestClientAsync()
 		{
@@ -111,6 +121,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(createdMovie.ImdbId, Is.EqualTo(newMovie.ImdbId));
 		}
 
+        /// <summary>Can call delete asynchronous to delete movie using rest client asynchronous.</summary>
 		[Test]
 		public void Can_call_DeleteAsync_to_delete_Movie_using_RestClientAsync()
 		{
@@ -144,27 +155,39 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Movie, Is.Null);
 		}
 
+        /// <summary>A JSON asynchronous rest service client tests.</summary>
 		[TestFixture]
 		public class JsonAsyncRestServiceClientTests : AsyncRestClientTests
 		{
+            /// <summary>Creates asynchronous rest client.</summary>
+            ///
+            /// <returns>The new asynchronous rest client.</returns>
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
 				return new JsonServiceClient(ListeningOn);
 			}
 		}
 
+        /// <summary>A jsv asynchronous rest service client tests.</summary>
 		[TestFixture]
 		public class JsvAsyncRestServiceClientTests : AsyncRestClientTests
 		{
+            /// <summary>Creates asynchronous rest client.</summary>
+            ///
+            /// <returns>The new asynchronous rest client.</returns>
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
                 return new JsonServiceClient(ListeningOn);
 			}
 		}
 
+        /// <summary>An XML asynchronous rest service client tests.</summary>
 		[TestFixture]
 		public class XmlAsyncRestServiceClientTests : AsyncRestClientTests
 		{
+            /// <summary>Creates asynchronous rest client.</summary>
+            ///
+            /// <returns>The new asynchronous rest client.</returns>
 			protected override IRestClientAsync CreateAsyncRestClient()
 			{
                 return new JsonServiceClient(ListeningOn);

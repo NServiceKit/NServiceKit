@@ -12,19 +12,32 @@ using NServiceKit.ServiceInterface.ServiceModel;
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
 
+    /// <summary>A reqstar.</summary>
     [Route("/reqstars")]
     [DataContract]
     public class Reqstar //: IReturn<List<Reqstar>>
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         [DataMember(Order = 1)]
         public int Id { get; set; }
 
+        /// <summary>Gets or sets the person's first name.</summary>
+        ///
+        /// <value>The name of the first.</value>
         [DataMember(Order = 2)]
         public string FirstName { get; set; }
 
+        /// <summary>Gets or sets the person's last name.</summary>
+        ///
+        /// <value>The name of the last.</value>
         [DataMember(Order = 3)]
         public string LastName { get; set; }
 
+        /// <summary>Gets or sets the age.</summary>
+        ///
+        /// <value>The age.</value>
         [DataMember(Order = 4)]
         public int? Age { get; set; }
     }
@@ -36,22 +49,38 @@ namespace NServiceKit.WebHost.Endpoints.Tests
     [DataContract]
     public class SearchReqstars2 : IReturn<ReqstarsResponse>
     {
+        /// <summary>Gets or sets the age.</summary>
+        ///
+        /// <value>The age.</value>
         [DataMember(Order = 1)]
         public int? Age { get; set; }
     }
 
+    /// <summary>The reqstars response.</summary>
     [DataContract]
     public class ReqstarsResponse
     {
+        /// <summary>Gets or sets the number of. </summary>
+        ///
+        /// <value>The total.</value>
         [DataMember(Order = 1)]
         public int Total { get; set; }
 
+        /// <summary>Gets or sets the aged.</summary>
+        ///
+        /// <value>The aged.</value>
         [DataMember(Order = 2)]
         public int? Aged { get; set; }
 
+        /// <summary>Gets or sets the results.</summary>
+        ///
+        /// <value>The results.</value>
         [DataMember(Order = 3)]
         public List<Reqstar> Results { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
         [DataMember(Order = 4)]
         public ResponseStatus ResponseStatus { get; set; }
     }
@@ -63,27 +92,44 @@ namespace NServiceKit.WebHost.Endpoints.Tests
     [DataContract]
     public class SearchReqstars : IReturn<SearchReqstarsResponse>
     {
+        /// <summary>Gets or sets the age.</summary>
+        ///
+        /// <value>The age.</value>
         [DataMember(Order = 1)]
         public int? Age { get; set; }
     }
 
 
+    /// <summary>A search reqstars response.</summary>
     [DataContract]
     public class SearchReqstarsResponse
     {
+        /// <summary>Gets or sets the number of. </summary>
+        ///
+        /// <value>The total.</value>
         [DataMember(Order = 1)]
         public int Total { get; set; }
 
+        /// <summary>Gets or sets the aged.</summary>
+        ///
+        /// <value>The aged.</value>
         [DataMember(Order = 2)]
         public int? Aged { get; set; }
 
+        /// <summary>Gets or sets the results.</summary>
+        ///
+        /// <value>The results.</value>
         [DataMember(Order = 3)]
         public List<Reqstar> Results { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
         [DataMember(Order = 4)]
         public ResponseStatus ResponseStatus { get; set; }
     }
 
+    /// <summary>The reqstars service.</summary>
     public class ReqstarsService : IService
     {
         /// <summary>
@@ -127,19 +173,25 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
     
+    /// <summary>An application host.</summary>
     public class AppHost : AppHostHttpListenerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.AppHost class.</summary>
         public AppHost()
             : base("Test ErrorHandling", typeof(ReqstarsService).Assembly)
         {
         }
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Funq.Container container)
         {
             Plugins.Add(new ProtoBufFormat());
         }
     }
 
+    /// <summary>An exception handling 2 tests.</summary>
     [TestFixture]
     public class ExceptionHandling2Tests
     {
@@ -147,6 +199,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
         AppHost appHost;
 
+        /// <summary>Initialises this object.</summary>
         [TestFixtureSetUp]
         public void Init()
         {
@@ -163,6 +216,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Tear down.</summary>
         [TestFixtureTearDown]
         public void TearDown()
         {

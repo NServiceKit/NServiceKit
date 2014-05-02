@@ -30,6 +30,11 @@ namespace NServiceKit.Html
 //			private static readonly Dictionary<MemberInfo, Func<object, TOut>> ConstMemberAccessDict =
 //                new Dictionary<MemberInfo, Func<object, TOut>>();
 
+            /// <summary>Compiles the given expression.</summary>
+            ///
+            /// <param name="expr">The expression.</param>
+            ///
+            /// <returns>A Func&lt;TIn,TOut&gt;</returns>
 			public static Func<TIn, TOut> Compile(Expression<Func<TIn, TOut>> expr)
 			{
 				return CompileFromIdentityFunc(expr)

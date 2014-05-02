@@ -31,8 +31,10 @@ namespace NServiceKit.Html
 
 		private static readonly MethodInfo _strongTryGetValueImplInfo = typeof(TypeHelpers).GetMethod("StrongTryGetValueImpl", BindingFlags.NonPublic | BindingFlags.Static);
 
+        /// <summary>The milliseconds cor library assembly.</summary>
 		public static readonly Assembly MsCorLibAssembly = typeof(string).Assembly;
 		//public static readonly Assembly MvcAssembly = typeof(Controller).Assembly;
+        /// <summary>The system web assembly.</summary>
 		public static readonly Assembly SystemWebAssembly = typeof(HttpContext).Assembly;
 
 		// method is used primarily for lighting up new .NET Framework features even if MVC targets the previous version
@@ -49,6 +51,14 @@ namespace NServiceKit.Html
 			return CreateDelegate<TDelegate>(targetType, methodName, thisParameter);
 		}
 
+        /// <summary>Creates a delegate.</summary>
+        ///
+        /// <typeparam name="TDelegate">Type of the delegate.</typeparam>
+        /// <param name="targetType">   Type of the target.</param>
+        /// <param name="methodName">   Name of the method.</param>
+        /// <param name="thisParameter">this parameter.</param>
+        ///
+        /// <returns>The new delegate.</returns>
 		public static TDelegate CreateDelegate<TDelegate>(Type targetType, string methodName, object thisParameter) where TDelegate : class
 		{
 			// ensure target method exists
@@ -64,6 +74,11 @@ namespace NServiceKit.Html
 			return d;
 		}
 
+        /// <summary>Creates try get value delegate.</summary>
+        ///
+        /// <param name="targetType">Type of the target.</param>
+        ///
+        /// <returns>The new try get value delegate.</returns>
 		public static TryGetValueDelegate CreateTryGetValueDelegate(Type targetType)
 		{
 			TryGetValueDelegate result;
@@ -116,22 +131,44 @@ namespace NServiceKit.Html
 			return result;
 		}
 
+        /// <summary>Extracts the generic interface.</summary>
+        ///
+        /// <param name="queryType">    Type of the query.</param>
+        /// <param name="interfaceType">Type of the interface.</param>
+        ///
+        /// <returns>The extracted generic interface.</returns>
 		public static Type ExtractGenericInterface(Type queryType, Type interfaceType)
 		{
 			Func<Type, bool> matchesInterface = t => t.IsGenericType && t.GetGenericTypeDefinition() == interfaceType;
 			return (matchesInterface(queryType)) ? queryType : queryType.GetInterfaces().FirstOrDefault(matchesInterface);
 		}
 
+        /// <summary>Gets default value.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The default value.</returns>
 		public static object GetDefaultValue(Type type)
 		{
 			return (TypeAllowsNullValue(type)) ? null : Activator.CreateInstance(type);
 		}
 
+        /// <summary>Query if 'value' is compatible object.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if compatible object, false if not.</returns>
 		public static bool IsCompatibleObject<T>(object value)
 		{
 			return (value is T || (value == null && TypeAllowsNullValue(typeof(T))));
 		}
 
+        /// <summary>Query if 'type' is nullable value type.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>true if nullable value type, false if not.</returns>
 		public static bool IsNullableValueType(Type type)
 		{
 			return Nullable.GetUnderlyingType(type) != null;
@@ -156,6 +193,11 @@ namespace NServiceKit.Html
 			return containsKey;
 		}
 
+        /// <summary>Type allows null value.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public static bool TypeAllowsNullValue(Type type)
 		{
 			return (!type.IsValueType || IsNullableValueType(type));

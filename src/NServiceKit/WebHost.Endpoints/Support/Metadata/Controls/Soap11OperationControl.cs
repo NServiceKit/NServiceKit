@@ -4,11 +4,15 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata.Controls
 {
     internal class Soap11OperationControl : OperationControl
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Metadata.Controls.Soap11OperationControl class.</summary>
         public Soap11OperationControl()
         {
             Format = ServiceHost.Format.Soap11;
         }
 
+        /// <summary>Gets URI of the request.</summary>
+        ///
+        /// <value>The request URI.</value>
         public override string RequestUri
         {
             get
@@ -19,6 +23,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata.Controls
             }
         }
 
+        /// <summary>Gets the HTTP request template.</summary>
+        ///
+        /// <value>The HTTP request template.</value>
         public override string HttpRequestTemplate
         {
             get

@@ -4,8 +4,10 @@ using NServiceKit.OrmLite;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 {
+    /// <summary>A configure database.</summary>
 	public class ConfigureDatabase
 	{
+        /// <summary>The top 5 movies.</summary>
 		public static List<RestMovie> Top5Movies = new List<RestMovie>
        	{
        		new RestMovie { Id = "tt0111161", Title = "The Shawshank Redemption", Rating = 9.2m, Director = "Frank Darabont", ReleaseDate = new DateTime(1995,2,17), TagLine = "Fear can hold you prisoner. Hope can set you free.", Genres = new List<string>{"Crime","Drama"}, },
@@ -15,6 +17,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
        		new RestMovie { Id = "tt0060196", Title = "The Good, the Bad and the Ugly", Rating = 9.0m, Director = "Sergio Leone", ReleaseDate = new DateTime(1967,12,29), TagLine = "They formed an alliance of hate to steal a fortune in dead man's gold", Genres = new List<string>{"Adventure","Western"}, },
        	};
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="connectionFactory">The connection factory.</param>
 		public static void Init(IDbConnectionFactory connectionFactory)
 		{
 			try

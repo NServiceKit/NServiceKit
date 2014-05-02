@@ -11,6 +11,11 @@ namespace NServiceKit.ServiceHost
     [Obsolete("Use IService - NServiceKit's New API for future services")]
     public interface IRestDeleteService<T>
 	{
+        /// <summary>Deletes the given request.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
 		object Delete(T request);
 	}
 }

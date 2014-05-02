@@ -5,10 +5,12 @@ using NUnit.Framework;
 
 namespace NServiceKit.Auth.Tests
 {
+    /// <summary>A razor application host tests.</summary>
     [Explicit]
     [TestFixture]
     public class RazorAppHostTests
     {
+        /// <summary>Executes for 10 mins operation.</summary>
         [Test]
         public void Run_for_10Mins()
         {

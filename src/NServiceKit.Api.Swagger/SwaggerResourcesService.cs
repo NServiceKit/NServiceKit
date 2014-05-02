@@ -10,35 +10,64 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Api.Swagger
 {
+    /// <summary>A resources.</summary>
     [DataContract]
     public class Resources
     {
+        /// <summary>Gets or sets the API key.</summary>
+        ///
+        /// <value>The API key.</value>
         [DataMember(Name = "apiKey")]
         public string ApiKey { get; set; }
     }
 
+    /// <summary>The resources response.</summary>
     [DataContract]
     public class ResourcesResponse
     {
+        /// <summary>Gets or sets the swagger version.</summary>
+        ///
+        /// <value>The swagger version.</value>
         [DataMember(Name = "swaggerVersion")]
         public string SwaggerVersion { get; set; }
+
+        /// <summary>Gets or sets the API version.</summary>
+        ///
+        /// <value>The API version.</value>
         [DataMember(Name = "apiVersion")]
         public string ApiVersion { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the base file.</summary>
+        ///
+        /// <value>The full pathname of the base file.</value>
         [DataMember(Name = "basePath")]
         public string BasePath { get; set; }
+
+        /// <summary>Gets or sets the apis.</summary>
+        ///
+        /// <value>The apis.</value>
         [DataMember(Name = "apis")]
         public List<RestService> Apis { get; set; }
     }
 
+    /// <summary>A rest service.</summary>
     [DataContract]
     public class RestService
     {
+        /// <summary>Gets or sets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         [DataMember(Name = "path")]
         public string Path { get; set; }
+
+        /// <summary>Gets or sets the description.</summary>
+        ///
+        /// <value>The description.</value>
         [DataMember(Name = "description")]
         public string Description { get; set; }
     }
 
+    /// <summary>A swagger resources service.</summary>
     [DefaultRequest(typeof(Resources))]
     public class SwaggerResourcesService : ServiceInterface.Service
     {
@@ -47,6 +76,11 @@ namespace NServiceKit.Api.Swagger
 
         internal const string RESOURCE_PATH = "/resource";
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(Resources request)
         {
             var basePath = EndpointHost.Config.WebHostUrl;
@@ -83,6 +117,11 @@ namespace NServiceKit.Api.Swagger
             return result;
         }
 
+        /// <summary>Creates rest paths.</summary>
+        ///
+        /// <param name="apis">         The apis.</param>
+        /// <param name="operationType">Type of the operation.</param>
+        /// <param name="operationName">Name of the operation.</param>
         protected void CreateRestPaths(List<RestService> apis, Type operationType, String operationName)
         {
             var map = EndpointHost.ServiceManager.ServiceController.RestPathMap;

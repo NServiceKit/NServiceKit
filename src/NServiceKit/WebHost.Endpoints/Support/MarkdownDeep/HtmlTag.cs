@@ -11,7 +11,7 @@
 //   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
 //   See the License for the specific language governing permissions and limitations under the License.
 //
-
+#pragma warning disable 1591
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +19,29 @@ using System.Text;
 
 namespace MarkdownDeep
 {
+    /// <summary>Bitfield of flags for specifying HtmlTagFlags.</summary>
 	[Flags]
 	public enum HtmlTagFlags
 	{
+        /// <summary>A binary constant representing the block flag.</summary>
 		Block			= 0x0001,			// Block tag
+
+        /// <summary>A binary constant representing the inline flag.</summary>
 		Inline			= 0x0002,			// Inline tag
+
+        /// <summary>A binary constant representing the no closing flag.</summary>
 		NoClosing		= 0x0004,			// No closing tag (eg: <hr> and <!-- -->)
+
+        /// <summary>A binary constant representing the content as span flag.</summary>
 		ContentAsSpan	= 0x0008,			// When markdown=1 treat content as span, not block
 	};
 
+    /// <summary>A HTML tag.</summary>
 	public class HtmlTag
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.HtmlTag class.</summary>
+        ///
+        /// <param name="name">The name.</param>
 		public HtmlTag(string name)
 		{
 			m_name = name;
@@ -66,6 +78,9 @@ namespace MarkdownDeep
 		bool m_closing;
 		HtmlTagFlags m_flags = 0;
 
+        /// <summary>Gets the flags.</summary>
+        ///
+        /// <value>The flags.</value>
 		public HtmlTagFlags Flags
 		{
 			get
@@ -200,7 +215,12 @@ namespace MarkdownDeep
 			dest.Append(">");
 		}
 
-
+        /// <summary>Parses the given p.</summary>
+        ///
+        /// <param name="str">The.</param>
+        /// <param name="pos">The position.</param>
+        ///
+        /// <returns>A HtmlTag.</returns>
 		public static HtmlTag Parse(string str, ref int pos)
 		{
 			StringScanner sp = new StringScanner(str, pos);
@@ -215,6 +235,11 @@ namespace MarkdownDeep
 			return null;
 		}
 
+        /// <summary>Parses the given p.</summary>
+        ///
+        /// <param name="p">The StringScanner to process.</param>
+        ///
+        /// <returns>A HtmlTag.</returns>
 		public static HtmlTag Parse(StringScanner p)
 		{
 			// Save position
@@ -349,3 +374,4 @@ namespace MarkdownDeep
 
 	}
 }
+#pragma warning restore 1591

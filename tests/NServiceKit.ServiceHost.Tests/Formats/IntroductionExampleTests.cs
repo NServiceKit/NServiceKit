@@ -5,26 +5,46 @@ using System.Collections.Generic;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A product.</summary>
     public class Product
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats.Product class.</summary>
         public Product() { }
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats.Product class.</summary>
+        ///
+        /// <param name="name"> The name.</param>
+        /// <param name="price">The price.</param>
         public Product(string name, decimal price)
         {
             Name = name;
             Price = price;
         }
 
+        /// <summary>Gets or sets the identifier of the product.</summary>
+        ///
+        /// <value>The identifier of the product.</value>
         public int ProductID { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the price.</summary>
+        ///
+        /// <value>The price.</value>
         public decimal Price { get; set; }
     }
 
+    /// <summary>An introduction example tests.</summary>
     [TestFixture]
     public class IntroductionExampleTests : MarkdownTestBase
     {
         private List<Product> products;
         Dictionary<string, object> productArgs;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -38,6 +58,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             productArgs = new Dictionary<string, object> { { "products", products } };
         }
 
+        /// <summary>Basic razor example.</summary>
         [Test]
         public void Basic_Razor_Example()
         {
@@ -59,6 +80,7 @@ Checkout [this product](/Product/Details/@productId)";
         }
 
 
+        /// <summary>Simple loop.</summary>
         [Test]
         public void Simple_loop()
         {
@@ -83,6 +105,7 @@ Checkout [this product](/Product/Details/@productId)";
         }
 
 
+        /// <summary>Simple loop with parens free syntax.</summary>
         [Test]
         public void Simple_loop_with_parens_free_syntax()
         {
@@ -108,6 +131,7 @@ Checkout [this product](/Product/Details/@productId)";
         }
 
 
+        /// <summary>If statment.</summary>
         [Test]
         public void If_Statment()
         {
@@ -129,6 +153,7 @@ We have products for you!
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>If statment with parens free syntax.</summary>
         [Test]
         public void If_Statment_with_parens_free_syntax()
         {
@@ -151,6 +176,7 @@ We have products for you!
         }
 
 
+        /// <summary>Multi variable declarations.</summary>
         [Test]
         public void Multi_variable_declarations()
         {
@@ -171,6 +197,7 @@ Your Message: @message
         }
 
 
+        /// <summary>Integrating content and code.</summary>
         [Test]
         public void Integrating_content_and_code()
         {
@@ -189,6 +216,7 @@ Your Message: @message
         }
 
 
+        /// <summary>Identifying nested content.</summary>
         [Test]
         public void Identifying_nested_content()
         {
@@ -215,6 +243,7 @@ the date: 02/06/2013 06:42:45</p>
                 Is.EqualTo(expectedHtml.Substring(0, html.Length - 27)));
         }
 
+        /// <summary>HTML encoding.</summary>
         [Test]
         public void HTML_encoding()
         {

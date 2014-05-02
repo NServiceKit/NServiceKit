@@ -3,17 +3,47 @@ using System.Text;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Templates
 {
+    /// <summary>A wsdl template base.</summary>
 	public abstract class WsdlTemplateBase
 	{
+        /// <summary>Gets or sets the XSD.</summary>
+        ///
+        /// <value>The XSD.</value>
 		public string Xsd { get; set; }
+
+        /// <summary>Gets or sets the name of the service.</summary>
+        ///
+        /// <value>The name of the service.</value>
 		public string ServiceName { get; set; }
+
+        /// <summary>Gets or sets a list of names of the reply operations.</summary>
+        ///
+        /// <value>A list of names of the reply operations.</value>
         public IList<string> ReplyOperationNames { get; set; }
+
+        /// <summary>Gets or sets a list of names of the one way operations.</summary>
+        ///
+        /// <value>A list of names of the one way operations.</value>
         public IList<string> OneWayOperationNames { get; set; }
+
+        /// <summary>Gets or sets URI of the reply endpoint.</summary>
+        ///
+        /// <value>The reply endpoint URI.</value>
 		public string ReplyEndpointUri { get; set; }
+
+        /// <summary>Gets or sets URI of the one way endpoint.</summary>
+        ///
+        /// <value>The one way endpoint URI.</value>
 		public string OneWayEndpointUri { get; set; }
 
+        /// <summary>Gets the name of the wsdl.</summary>
+        ///
+        /// <value>The name of the wsdl.</value>
 		public abstract string WsdlName { get; }
 
+        /// <summary>Gets the reply messages template.</summary>
+        ///
+        /// <value>The reply messages template.</value>
 		protected virtual string ReplyMessagesTemplate
 		{
 			get
@@ -28,6 +58,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way messages template.</summary>
+        ///
+        /// <value>The one way messages template.</value>
 		protected virtual string OneWayMessagesTemplate
 		{
 			get
@@ -39,6 +72,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the reply operations template.</summary>
+        ///
+        /// <value>The reply operations template.</value>
 		protected virtual string ReplyOperationsTemplate
 		{
 			get
@@ -51,6 +87,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way operations template.</summary>
+        ///
+        /// <value>The one way operations template.</value>
 		protected virtual string OneWayOperationsTemplate
 		{
 			get
@@ -62,6 +101,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the reply actions template.</summary>
+        ///
+        /// <value>The reply actions template.</value>
 		protected virtual string ReplyActionsTemplate
 		{
 			get
@@ -79,6 +121,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way actions template.</summary>
+        ///
+        /// <value>The one way actions template.</value>
 		protected virtual string OneWayActionsTemplate
 		{
 			get
@@ -93,9 +138,24 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the reply binding container template.</summary>
+        ///
+        /// <value>The reply binding container template.</value>
 		protected abstract string ReplyBindingContainerTemplate { get; }
+
+        /// <summary>Gets the one way binding container template.</summary>
+        ///
+        /// <value>The one way binding container template.</value>
 		protected abstract string OneWayBindingContainerTemplate { get; }
+
+        /// <summary>Gets the reply endpoint URI template.</summary>
+        ///
+        /// <value>The reply endpoint URI template.</value>
 		protected abstract string ReplyEndpointUriTemplate { get; }
+
+        /// <summary>Gets the one way endpoint URI template.</summary>
+        ///
+        /// <value>The one way endpoint URI template.</value>
 		protected abstract string OneWayEndpointUriTemplate { get; }
 
 		private const string Template =
@@ -142,6 +202,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 	
 </wsdl:definitions>";
 
+        /// <summary>Repeater template.</summary>
+        ///
+        /// <param name="template">  The template.</param>
+        /// <param name="dataSource">The data source.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string RepeaterTemplate(string template, IEnumerable<string> dataSource)
 		{
 			var sb = new StringBuilder();
@@ -152,6 +218,13 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			return sb.ToString();
 		}
 
+        /// <summary>Repeater template.</summary>
+        ///
+        /// <param name="template">  The template.</param>
+        /// <param name="arg0">      The argument 0.</param>
+        /// <param name="dataSource">The data source.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string RepeaterTemplate(string template, object arg0, IEnumerable<string> dataSource)
 		{
 			var sb = new StringBuilder();
@@ -162,6 +235,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			return sb.ToString();
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
             var wsdlSoapActionNamespace = EndpointHost.Config.WsdlSoapActionNamespace;

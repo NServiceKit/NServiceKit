@@ -93,6 +93,7 @@ using System.Text.RegularExpressions;
 namespace MarkdownSharp
 {
 
+    /// <summary>A markdown options.</summary>
     public class MarkdownOptions
     {
         /// <summary>
@@ -276,12 +277,18 @@ namespace MarkdownSharp
 
         private struct Token
         {
+            /// <summary>Initializes a new instance of the MarkdownSharp.Markdown class.</summary>
+            ///
+            /// <param name="type"> The type.</param>
+            /// <param name="value">The value.</param>
             public Token(TokenType type, string value)
             {
                 this.Type = type;
                 this.Value = value;
             }
+            /// <summary>The type.</summary>
             public TokenType Type;
+            /// <summary>The value.</summary>
             public string Value;
         }
 

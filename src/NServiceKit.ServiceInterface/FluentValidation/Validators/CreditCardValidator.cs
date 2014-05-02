@@ -31,6 +31,11 @@ namespace NServiceKit.FluentValidation.Validators
         public CreditCardValidator() : base(() => Messages.CreditCardError, ValidationErrors.CreditCard) {
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             var value = context.PropertyValue as string;
 

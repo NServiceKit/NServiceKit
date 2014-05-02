@@ -41,6 +41,9 @@ namespace NServiceKit.Html.AntiXsrf
             _data = data;
         }
 
+        /// <summary>Gets the length of the bit.</summary>
+        ///
+        /// <value>The length of the bit.</value>
         public int BitLength
         {
             get
@@ -61,11 +64,21 @@ namespace NServiceKit.Html.AntiXsrf
             }
         }
 
+        /// <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
+        ///
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />.</param>
+        ///
+        /// <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
             return Equals(obj as BinaryBlob);
         }
 
+        /// <summary>Tests if this BinaryBlob is considered equal to another.</summary>
+        ///
+        /// <param name="other">The binary BLOB to compare to this object.</param>
+        ///
+        /// <returns>true if the objects are considered equal, false if they are not.</returns>
         public bool Equals(BinaryBlob other)
         {
             if (other == null) {
@@ -77,11 +90,17 @@ namespace NServiceKit.Html.AntiXsrf
             return CryptoUtil.AreByteArraysEqual(this._data, other._data);
         }
 
+        /// <summary>Gets the data.</summary>
+        ///
+        /// <returns>An array of byte.</returns>
         public byte[] GetData()
         {
             return _data;
         }
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        ///
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
         public override int GetHashCode()
         {
             // Since data should contain uniformly-distributed entropy, the

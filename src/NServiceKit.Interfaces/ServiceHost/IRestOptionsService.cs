@@ -11,6 +11,11 @@ namespace NServiceKit.ServiceHost
     [Obsolete("Use IService - NServiceKit's New API for future services")]
     public interface IRestOptionsService<T>
 	{
+        /// <summary>Options the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
 		object Options(T request);
 	}
 }

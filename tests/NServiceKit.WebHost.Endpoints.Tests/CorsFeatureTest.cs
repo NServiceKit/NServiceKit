@@ -17,6 +17,7 @@ using NServiceKit.WebHost.Endpoints.Utils;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>The cors feature request.</summary>
     [Route("/corsmethod")]
     public class CorsFeatureRequest
     {
@@ -25,48 +26,74 @@ namespace NServiceKit.WebHost.Endpoints.Tests
     [EnableCors("http://localhost http://localhost2", "POST, GET", "Type1, Type2", true)]
     public class CorsFeatureResponse
     {
+        /// <summary>Gets or sets a value indicating whether this object is success.</summary>
+        ///
+        /// <value>true if this object is success, false if not.</value>
         public bool IsSuccess { get; set; }
     }
 
+    /// <summary>The cors feature service.</summary>
     public class CorsFeatureService : ServiceInterface.Service
     {
+        /// <summary>Anies the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A CorsFeatureResponse.</returns>
         public CorsFeatureResponse Any(CorsFeatureRequest request)
         {
             return new CorsFeatureResponse { IsSuccess = true };
         }
     }
 
+    /// <summary>A global cors feature request.</summary>
     [Route("/globalcorsfeature")]
     public class GlobalCorsFeatureRequest
     {
     }
 
+    /// <summary>A global cors feature response.</summary>
     public class GlobalCorsFeatureResponse
     {
+        /// <summary>Gets or sets a value indicating whether this object is success.</summary>
+        ///
+        /// <value>true if this object is success, false if not.</value>
         public bool IsSuccess { get; set; }
     }
 
+    /// <summary>A global cors feature service.</summary>
     public class GlobalCorsFeatureService : ServiceInterface.Service
     {
+        /// <summary>Anies the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A GlobalCorsFeatureResponse.</returns>
         public GlobalCorsFeatureResponse Any(GlobalCorsFeatureRequest request)
         {
             return new GlobalCorsFeatureResponse { IsSuccess = true };
         }
     }
 
+    /// <summary>The cors feature service test.</summary>
     [TestFixture]
     public class CorsFeatureServiceTest
     {
         private const string ListeningOn = "http://localhost:8022/";
         private const string ServiceClientBaseUri = "http://localhost:8022/";
 
+        /// <summary>The cors feature application host HTTP listener.</summary>
         public class CorsFeatureAppHostHttpListener
             : AppHostHttpListenerBase
         {
 
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.CorsFeatureServiceTest.CorsFeatureAppHostHttpListener class.</summary>
             public CorsFeatureAppHostHttpListener()
                 : base("Cors Feature Tests", typeof(CorsFeatureService).Assembly) { }
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
             public override void Configure(Funq.Container container)
             {
             }
@@ -74,6 +101,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
         CorsFeatureAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
         [TestFixtureSetUp]
         public void OnTestFixtureSetUp()
         {
@@ -82,6 +110,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost.Start(ListeningOn);
         }
 
+        /// <summary>Executes the test fixture tear down action.</summary>
         [TestFixtureTearDown]
         public void OnTestFixtureTearDown()
         {
@@ -95,12 +124,16 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             new JsvServiceClient(ServiceClientBaseUri)
         };
 
+        /// <summary>Executes for 5 mins operation.</summary>
         [Test, Explicit]
         public void RunFor5Mins()
         {
             Thread.Sleep(TimeSpan.FromMinutes(5));
         }
 
+        /// <summary>Cors method has access control headers.</summary>
+        ///
+        /// <param name="client">The client.</param>
         [Test, TestCaseSource("RestClients")]
         public void CorsMethodHasAccessControlHeaders(IRestClient client)
         {
@@ -113,6 +146,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response[HttpHeaders.AllowCredentials], Is.EqualTo("true"));
         }
 
+        /// <summary>Global cors has access control headers.</summary>
+        ///
+        /// <param name="client">The client.</param>
         [Test, TestCaseSource("RestClients")]
         public void GlobalCorsHasAccessControlHeaders(IRestClient client)
         {

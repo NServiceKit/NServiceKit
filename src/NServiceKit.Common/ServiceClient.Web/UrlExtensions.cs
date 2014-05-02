@@ -27,6 +27,15 @@ namespace NServiceKit.ServiceClient.Web
         private static readonly ConcurrentDictionary<Type, List<RestRoute>> routesCache =
             new ConcurrentDictionary<Type, List<RestRoute>>();
 
+        /// <summary>An IReturn extension method that converts this object to an URL.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <param name="request">                        The request to act on.</param>
+        /// <param name="httpMethod">                     The HTTP method.</param>
+        /// <param name="formatFallbackToPredefinedRoute">The format fallback to predefined route.</param>
+        ///
+        /// <returns>The given data converted to a string.</returns>
         public static string ToUrl(this IReturn request, string httpMethod, string formatFallbackToPredefinedRoute = null)
         {
             httpMethod = httpMethod.ToUpper();
@@ -154,6 +163,7 @@ namespace NServiceKit.ServiceClient.Web
         }
     }
 
+    /// <summary>A rest route.</summary>
     public class RestRoute
     {
         private static readonly char[] ArrayBrackets = new[] { '[', ']'};
@@ -166,6 +176,7 @@ namespace NServiceKit.ServiceClient.Web
             return jsv;
         }
 
+        /// <summary>The value.</summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Using field is just easier.")]
         public static Func<object, string> FormatVariable = value =>
         {
@@ -176,6 +187,7 @@ namespace NServiceKit.ServiceClient.Web
             return Uri.EscapeDataString(valueString);
         };
 
+        /// <summary>The value.</summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Using field is just easier.")]
         public static Func<object, string> FormatQueryParameterValue = value =>
         {
@@ -196,6 +208,11 @@ namespace NServiceKit.ServiceClient.Web
         private readonly IDictionary<string, RouteMember> queryProperties;
         private readonly IDictionary<string, RouteMember> variablesMap = new Dictionary<string, RouteMember>(StringExtensions.InvariantComparerIgnoreCase());
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.RestRoute class.</summary>
+        ///
+        /// <param name="type"> The type.</param>
+        /// <param name="path"> The full pathname of the file.</param>
+        /// <param name="verbs">The verbs.</param>
 	    public RestRoute(Type type, string path, string verbs)
         {
             this.HttpMethods = (verbs ?? string.Empty).Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -219,24 +236,48 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets a message describing the error.</summary>
+        ///
+        /// <value>A message describing the error.</value>
         public string ErrorMsg { get; private set; }
 
+        /// <summary>Gets the type.</summary>
+        ///
+        /// <value>The type.</value>
         public Type Type { get; private set; }
 
+        /// <summary>Gets a value indicating whether this object is valid.</summary>
+        ///
+        /// <value>true if this object is valid, false if not.</value>
         public bool IsValid
         {
             get { return string.IsNullOrEmpty(this.ErrorMsg); }
         }
 
+        /// <summary>Gets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         public string Path { get; private set; }
 
+        /// <summary>Gets the HTTP methods.</summary>
+        ///
+        /// <value>The HTTP methods.</value>
         public string[] HttpMethods { get; private set; }
 
+        /// <summary>Gets the variables.</summary>
+        ///
+        /// <value>The variables.</value>
         public ICollection<string> Variables
         {
             get { return this.variablesMap.Keys; }
         }
 
+        /// <summary>Applies this object.</summary>
+        ///
+        /// <param name="request">   The request.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        ///
+        /// <returns>A RouteResolutionResult.</returns>
         public RouteResolutionResult Apply(object request, string httpMethod)
         {
             if (!this.IsValid)
@@ -277,6 +318,11 @@ namespace NServiceKit.ServiceClient.Web
             return RouteResolutionResult.Success(this, uri);
         }
 
+        /// <summary>Format query parameters.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The formatted query parameters.</returns>
         public string FormatQueryParameters(object request)
         {
             return GetQueryString(request, this.queryProperties);
@@ -389,22 +435,49 @@ namespace NServiceKit.ServiceClient.Web
         }
     }
 
+    /// <summary>Encapsulates the result of a route resolution.</summary>
     public class RouteResolutionResult
     {
+        /// <summary>Gets the fail reason.</summary>
+        ///
+        /// <value>The fail reason.</value>
         public string FailReason { get; private set; }
+
+        /// <summary>Gets URI of the document.</summary>
+        ///
+        /// <value>The URI.</value>
         public string Uri { get; private set; }
+
+        /// <summary>Gets the route.</summary>
+        ///
+        /// <value>The route.</value>
         public RestRoute Route { get; private set; }
 
+        /// <summary>Gets a value indicating whether the matches.</summary>
+        ///
+        /// <value>true if matches, false if not.</value>
         public bool Matches
         {
             get { return string.IsNullOrEmpty(this.FailReason); }
         }
 
+        /// <summary>Errors.</summary>
+        ///
+        /// <param name="route">   The route.</param>
+        /// <param name="errorMsg">Message describing the error.</param>
+        ///
+        /// <returns>A RouteResolutionResult.</returns>
         public static RouteResolutionResult Error(RestRoute route, string errorMsg)
         {
             return new RouteResolutionResult { Route = route, FailReason = errorMsg };
         }
 
+        /// <summary>Success.</summary>
+        ///
+        /// <param name="route">The route.</param>
+        /// <param name="uri">  URI of the document.</param>
+        ///
+        /// <returns>A RouteResolutionResult.</returns>
         public static RouteResolutionResult Success(RestRoute route, string uri)
         {
             return new RouteResolutionResult { Route = route, Uri = uri };

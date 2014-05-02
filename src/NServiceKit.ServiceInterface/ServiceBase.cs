@@ -43,24 +43,42 @@ namespace NServiceKit.ServiceInterface
         /// </summary>
         /// 
         private IResolver resolver; //not property to stop alt IOC's creating new instances of AppHost
+
+        /// <summary>Gets the resolver.</summary>
+        ///
+        /// <returns>The resolver.</returns>
         public IResolver GetResolver()
         {
             return resolver ?? EndpointHost.AppHost;
         }
 
         private HandleServiceExceptionDelegate serviceExceptionHandler;
+
+        /// <summary>Gets or sets the service exception handler.</summary>
+        ///
+        /// <value>The service exception handler.</value>
         public HandleServiceExceptionDelegate ServiceExceptionHandler
         {
             get { return serviceExceptionHandler ?? (GetResolver() is IAppHost ? ((IAppHost)GetResolver()).ServiceExceptionHandler : null); }
             set { serviceExceptionHandler = value; }
         }
 
+        /// <summary>(This method is obsolete) sets application host.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
+        ///
+        /// <returns>A ServiceBase&lt;TRequest&gt;</returns>
         [Obsolete("Use SetResolver")]
         public ServiceBase<TRequest> SetAppHost(IAppHost appHost)
         {
             return SetResolver(appHost);
         }
 
+        /// <summary>Sets a resolver.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
+        ///
+        /// <returns>A ServiceBase&lt;TRequest&gt;</returns>
         public ServiceBase<TRequest> SetResolver(IResolver appHost) //Allow chaining
         {
             this.resolver = appHost;
@@ -88,6 +106,9 @@ namespace NServiceKit.ServiceInterface
             get { return RequestContext.Get<IHttpResponse>(); }
         }
 
+        /// <summary>Gets or sets the session factory.</summary>
+        ///
+        /// <value>The session factory.</value>
         public ISessionFactory SessionFactory { get; set; }
 
         /// <summary>
@@ -137,6 +158,10 @@ namespace NServiceKit.ServiceInterface
         /// Dynamic Session Bag
         /// </summary>
         private ISession session;
+
+        /// <summary>Gets the session.</summary>
+        ///
+        /// <value>The session.</value>
         public ISession Session
         {
             get
@@ -152,6 +177,12 @@ namespace NServiceKit.ServiceInterface
         /// Typed UserSession
         /// </summary>
         private object userSession;
+
+        /// <summary>Session as.</summary>
+        ///
+        /// <typeparam name="TUserSession">Type of the user session.</typeparam>
+        ///
+        /// <returns>A TUserSession.</returns>
         protected TUserSession SessionAs<TUserSession>()
         {
             return (TUserSession)(userSession ?? (userSession = this.GetCacheClient().SessionAs<TUserSession>(Request, Response)));
@@ -214,6 +245,11 @@ namespace NServiceKit.ServiceInterface
             return response;
         }
 
+        /// <summary>Options the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public virtual object Options(TRequest request)
         {
             return null; //NoOp to let OPTIONS requests through

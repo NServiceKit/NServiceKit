@@ -135,14 +135,33 @@ namespace NServiceKit.FluentValidation.Internal
             return interfaces.Any();
         }
 
+        /// <summary>A Func&lt;T,TProperty&gt; extension method that coerce to non generic.</summary>
+        ///
+        /// <typeparam name="T">        Generic type parameter.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="func">The func to act on.</param>
+        ///
+        /// <returns>A Func&lt;object,object&gt;</returns>
         public static Func<object, object> CoerceToNonGeneric<T, TProperty>(this Func<T, TProperty> func) {
             return x => func((T)x);
         } 
 
+        /// <summary>An Action&lt;T&gt; extension method that coerce to non generic.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="func">The func to act on.</param>
+        ///
+        /// <returns>An Action&lt;object&gt;</returns>
         public static Func<object, bool> CoerceToNonGeneric<T>(this Func<T, bool> func) {
             return x => func((T)x);
         }
 
+        /// <summary>An Action&lt;T&gt; extension method that coerce to non generic.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="action">The action to act on.</param>
+        ///
+        /// <returns>An Action&lt;object&gt;</returns>
         public static Action<object> CoerceToNonGeneric<T>(this Action<T> action) {
             return x => action((T)x);
         }

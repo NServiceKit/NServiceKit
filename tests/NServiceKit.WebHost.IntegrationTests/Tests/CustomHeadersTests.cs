@@ -5,9 +5,11 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A custom headers tests.</summary>
     [TestFixture]
     public class CustomHeadersTests
     {
+        /// <summary>Gets the request.</summary>
         [Test]
         public void GetRequest()
         {
@@ -18,6 +20,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(response.Bar, Is.Null);
         }
 
+        /// <summary>Posts the request.</summary>
         [Test]
         public void PostRequest()
         {
@@ -29,6 +32,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(response.Foo, Is.EqualTo("xyz"));
         }
 
+        /// <summary>Deletes this object.</summary>
         [Test]
         public void Delete()
         {

@@ -21,36 +21,74 @@ using NServiceKit.WebHost.Endpoints.Utils;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>An endpoint host.</summary>
     public class EndpointHost
     {
+        /// <summary>Gets the application host.</summary>
+        ///
+        /// <value>The application host.</value>
         public static IAppHost AppHost { get; internal set; }
 
+        /// <summary>Gets or sets the content type filter.</summary>
+        ///
+        /// <value>The content type filter.</value>
         public static IContentTypeFilter ContentTypeFilter { get; set; }
 
+        /// <summary>Gets the raw request filters.</summary>
+        ///
+        /// <value>The raw request filters.</value>
         public static List<Action<IHttpRequest, IHttpResponse>> RawRequestFilters { get; private set; }
 
+        /// <summary>Gets the request filters.</summary>
+        ///
+        /// <value>The request filters.</value>
         public static List<Action<IHttpRequest, IHttpResponse, object>> RequestFilters { get; private set; }
 
+        /// <summary>Gets the response filters.</summary>
+        ///
+        /// <value>The response filters.</value>
         public static List<Action<IHttpRequest, IHttpResponse, object>> ResponseFilters { get; private set; }
 
+        /// <summary>Gets or sets the view engines.</summary>
+        ///
+        /// <value>The view engines.</value>
         public static List<IViewEngine> ViewEngines { get; set; }
 
-        //TODO: rename to UncaughtExceptionsHandler
+        /// <summary>TODO: rename to UncaughtExceptionsHandler.</summary>
+        ///
+        /// <value>The exception handler.</value>
         public static HandleUncaughtExceptionDelegate ExceptionHandler { get; set; }
 
-        //TODO: rename to ServiceExceptionsHandler
+        /// <summary>TODO: rename to ServiceExceptionsHandler.</summary>
+        ///
+        /// <value>The service exception handler.</value>
         public static HandleServiceExceptionDelegate ServiceExceptionHandler { get; set; }
 
+        /// <summary>Gets or sets the catch all handlers.</summary>
+        ///
+        /// <value>The catch all handlers.</value>
         public static List<HttpHandlerResolverDelegate> CatchAllHandlers { get; set; }
 
         private static bool pluginsLoaded = false;
 
+        /// <summary>Gets or sets the plugins.</summary>
+        ///
+        /// <value>The plugins.</value>
         public static List<IPlugin> Plugins { get; set; }
 
+        /// <summary>Gets or sets the virtual path provider.</summary>
+        ///
+        /// <value>The virtual path provider.</value>
         public static IVirtualPathProvider VirtualPathProvider { get; set; }
 
+        /// <summary>Gets or sets the Date/Time of the started at.</summary>
+        ///
+        /// <value>The started at.</value>
         public static DateTime StartedAt { get; set; }
 
+        /// <summary>Gets or sets the Date/Time of the ready at.</summary>
+        ///
+        /// <value>The ready at.</value>
         public static DateTime ReadyAt { get; set; }
 
         private static void Reset()
@@ -75,7 +113,11 @@ namespace NServiceKit.WebHost.Endpoints
                 new ServiceManager(new Container(), new ServiceController(null)));
         }
 
-        // Pre user config
+        /// <summary>Pre user config.</summary>
+        ///
+        /// <param name="appHost">       The application host.</param>
+        /// <param name="serviceName">   Name of the service.</param>
+        /// <param name="serviceManager">The service manager.</param>
         public static void ConfigureHost(IAppHost appHost, string serviceName, ServiceManager serviceManager)
         {
             Reset();
@@ -104,7 +146,7 @@ namespace NServiceKit.WebHost.Endpoints
             JsonDataContractDeserializer.Instance.UseBcl = config.UseBclJsonSerializers;
         }
 
-        //After configure called
+        /// <summary>After configure called.</summary>
         public static void AfterInit()
         {
             StartedAt = DateTime.UtcNow;
@@ -200,6 +242,11 @@ namespace NServiceKit.WebHost.Endpoints
             ReadyAt = DateTime.UtcNow;
         }
 
+        /// <summary>Try resolve.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        ///
+        /// <returns>A T.</returns>
         public static T TryResolve<T>()
         {
             return AppHost != null ? AppHost.TryResolve<T>() : default(T);
@@ -245,11 +292,19 @@ namespace NServiceKit.WebHost.Endpoints
             ServiceManager = config.ServiceManager; //reset operations
         }
 
+        /// <summary>Gets the plugin.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        ///
+        /// <returns>The plugin.</returns>
         public static T GetPlugin<T>() where T : class, IPlugin
         {
             return Plugins.FirstOrDefault(x => x is T) as T;
         }
 
+        /// <summary>Adds a plugin.</summary>
+        ///
+        /// <param name="plugins">A variable-length parameters list containing plugins.</param>
         public static void AddPlugin(params IPlugin[] plugins)
         {
             if (pluginsLoaded)
@@ -265,6 +320,9 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Gets or sets the manager for service.</summary>
+        ///
+        /// <value>The service manager.</value>
         public static ServiceManager ServiceManager
         {
             get { return config.ServiceManager; }
@@ -273,6 +331,11 @@ namespace NServiceKit.WebHost.Endpoints
 
         private static EndpointHostConfig config;
 
+        /// <summary>Gets or sets the configuration.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <value>The configuration.</value>
         public static EndpointHostConfig Config
         {
             get
@@ -292,6 +355,9 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Assert test configuration.</summary>
+        ///
+        /// <param name="assemblies">A variable-length parameters list containing assemblies.</param>
         public static void AssertTestConfig(params Assembly[] assemblies)
         {
             if (Config != null)
@@ -303,11 +369,17 @@ namespace NServiceKit.WebHost.Endpoints
             Config = config;
         }
 
+        /// <summary>Gets a value indicating whether the debug mode.</summary>
+        ///
+        /// <value>true if debug mode, false if not.</value>
         public static bool DebugMode
         {
             get { return Config != null && Config.DebugMode; }
         }
 
+        /// <summary>Gets the metadata.</summary>
+        ///
+        /// <value>The metadata.</value>
         public static ServiceMetadata Metadata { get { return Config.Metadata; } }
 
         /// <summary>
@@ -439,6 +511,12 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Creates service runner.</summary>
+        ///
+        /// <typeparam name="TRequest">Type of the request.</typeparam>
+        /// <param name="actionContext">Context for the action.</param>
+        ///
+        /// <returns>The new service runner.</returns>
         public static IServiceRunner<TRequest> CreateServiceRunner<TRequest>(ActionContext actionContext)
         {
             return AppHost != null
@@ -461,6 +539,7 @@ namespace NServiceKit.WebHost.Endpoints
             catch { }
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public static void Dispose()
         {
             AppHost = null;

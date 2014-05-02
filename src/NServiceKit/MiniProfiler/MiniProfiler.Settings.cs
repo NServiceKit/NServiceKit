@@ -21,6 +21,7 @@ namespace NServiceKit.MiniProfiler
             private static readonly HashSet<string> typesToExclude;
             private static readonly HashSet<string> methodsToExclude;
 
+            /// <summary>Loads version from assembly.</summary>
 			public static void LoadVersionFromAssembly()
 			{
 				// this assists in debug and is also good for prd, the version is a hash of the main assembly 

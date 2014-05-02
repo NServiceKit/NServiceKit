@@ -5,8 +5,16 @@ using NServiceKit.ServiceClient.Web;
 
 namespace NServiceKit.Messaging
 {
+    /// <summary>A client factory.</summary>
     public static class ClientFactory
     {
+         /// <summary>Creates a new IOneWayClient.</summary>
+         ///
+         /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+         ///
+         /// <param name="endpointUrl">URL of the endpoint.</param>
+         ///
+         /// <returns>An IOneWayClient.</returns>
          public static IOneWayClient Create(string endpointUrl)
         {
              if (endpointUrl.IsNullOrEmpty() || !endpointUrl.StartsWith("http"))

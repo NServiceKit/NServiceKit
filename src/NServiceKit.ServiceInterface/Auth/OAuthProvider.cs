@@ -8,13 +8,27 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceInterface.Auth
 {
+    /// <summary>An authentication provider.</summary>
     public class OAuthProvider : AuthProvider
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.OAuthProvider class.</summary>
         public OAuthProvider() { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.OAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">  The application settings.</param>
+        /// <param name="authRealm">    The authentication realm.</param>
+        /// <param name="oAuthProvider">The authentication provider.</param>
         public OAuthProvider(IResourceManager appSettings, string authRealm, string oAuthProvider)
             : this(appSettings, authRealm, oAuthProvider, "ConsumerKey", "ConsumerSecret") { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.OAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">       The application settings.</param>
+        /// <param name="authRealm">         The authentication realm.</param>
+        /// <param name="oAuthProvider">     The authentication provider.</param>
+        /// <param name="consumerKeyName">   Name of the consumer key.</param>
+        /// <param name="consumerSecretName">Name of the consumer secret.</param>
         public OAuthProvider(IResourceManager appSettings, string authRealm, string oAuthProvider,
                              string consumerKeyName, string consumerSecretName)
         {
@@ -34,15 +48,48 @@ namespace NServiceKit.ServiceInterface.Auth
             this.AuthHttpGateway = new AuthHttpGateway();
         }
 
+        /// <summary>Gets or sets the authentication HTTP gateway.</summary>
+        ///
+        /// <value>The authentication HTTP gateway.</value>
         public IAuthHttpGateway AuthHttpGateway { get; set; }
 
+        /// <summary>Gets or sets the consumer key.</summary>
+        ///
+        /// <value>The consumer key.</value>
         public string ConsumerKey { get; set; }
+
+        /// <summary>Gets or sets the consumer secret.</summary>
+        ///
+        /// <value>The consumer secret.</value>
         public string ConsumerSecret { get; set; }
+
+        /// <summary>Gets or sets URL of the request token.</summary>
+        ///
+        /// <value>The request token URL.</value>
         public string RequestTokenUrl { get; set; }
+
+        /// <summary>Gets or sets URL of the authorize.</summary>
+        ///
+        /// <value>The authorize URL.</value>
         public string AuthorizeUrl { get; set; }
+
+        /// <summary>Gets or sets URL of the access token.</summary>
+        ///
+        /// <value>The access token URL.</value>
         public string AccessTokenUrl { get; set; }
+
+        /// <summary>Gets or sets the authentication utilities.</summary>
+        ///
+        /// <value>The o authentication utilities.</value>
         public OAuthAuthorizer OAuthUtils { get; set; }
 
+        /// <summary>Determine if the current session is already authenticated with this AuthProvider.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="tokens"> The tokens.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>true if authorized, false if not.</returns>
         public override bool IsAuthorized(IAuthSession session, IOAuthTokens tokens, Auth request = null)
         {
             if (request != null)
@@ -142,6 +189,10 @@ namespace NServiceKit.ServiceInterface.Auth
             return tokens;
         }
 
+        /// <summary>Loads user o authentication provider.</summary>
+        ///
+        /// <param name="userSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
         public virtual void LoadUserOAuthProvider(IAuthSession userSession, IOAuthTokens tokens) { }
     }
 }

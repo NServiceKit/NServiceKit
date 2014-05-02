@@ -5,13 +5,18 @@ using NServiceKit.ServiceClient.Web;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>A HTTP web request configuration.</summary>
 	public static class HttpWebRequestConfig
 	{
+        /// <summary>Configures this object.</summary>
 		public static void Configure()
 		{
 			ServiceClientBase.HttpWebRequestFilter = TransferAuthenticationTokens;
 		}
 
+        /// <summary>Transfer authentication tokens.</summary>
+        ///
+        /// <param name="httpWebRequest">The HTTP web request.</param>
 		public static void TransferAuthenticationTokens(HttpWebRequest httpWebRequest)
 		{
 			var cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];

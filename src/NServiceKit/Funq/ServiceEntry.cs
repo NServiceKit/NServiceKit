@@ -3,6 +3,7 @@ namespace Funq
 {
 	internal class ServiceEntry : IRegistration
 	{
+        /// <summary>Initializes a new instance of the Funq.ServiceEntry class.</summary>
 		protected ServiceEntry() {}
 
 		/// <summary>

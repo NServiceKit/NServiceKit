@@ -8,9 +8,11 @@ using Funq;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>An i/o c tests.</summary>
 	[TestFixture]
 	public class IoCTests
 	{
+        /// <summary>Can automatic wire types dynamically with expressions.</summary>
 		[Test]
 		public void Can_AutoWire_types_dynamically_with_expressions()
 		{
@@ -30,14 +32,35 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(service.Count, Is.EqualTo(0));
 		}
 
+        /// <summary>A test.</summary>
 		public class Test
 		{
+            /// <summary>Gets or sets the foo.</summary>
+            ///
+            /// <value>The foo.</value>
 			public IFoo Foo { get; set; }
+
+            /// <summary>Gets or sets the bar.</summary>
+            ///
+            /// <value>The bar.</value>
 			public IBar Bar { get; set; }
+
+            /// <summary>Gets or sets the foo 2.</summary>
+            ///
+            /// <value>The foo 2.</value>
 			public IFoo Foo2 { get; set; }
+
+            /// <summary>Gets or sets the names.</summary>
+            ///
+            /// <value>The names.</value>
 			public IEnumerable<string> Names { get; set; }
+
+            /// <summary>Gets or sets the age.</summary>
+            ///
+            /// <value>The age.</value>
 			public int Age { get; set; }
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.IoCTests.Test class.</summary>
 			public Test()
 			{
 				this.Foo2 = new Foo2();
@@ -45,6 +68,7 @@ namespace NServiceKit.ServiceHost.Tests
 			}
 		}
 
+        /// <summary>Can automatic wire existing instance.</summary>
 		[Test]
 		public void Can_AutoWire_Existing_Instance()
 		{
@@ -64,20 +88,38 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(test.Age, Is.EqualTo(0));
 		}
 
+        /// <summary>A dependency with built in types.</summary>
         public class DependencyWithBuiltInTypes
         {
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.IoCTests.DependencyWithBuiltInTypes class.</summary>
             public DependencyWithBuiltInTypes()
             {
                 this.String = "A String";
                 this.Age = 27;
             }
 
+            /// <summary>Gets or sets the foo.</summary>
+            ///
+            /// <value>The foo.</value>
             public IFoo Foo { get; set; }
+
+            /// <summary>Gets or sets the bar.</summary>
+            ///
+            /// <value>The bar.</value>
             public IBar Bar { get; set; }
+
+            /// <summary>Gets or sets the string.</summary>
+            ///
+            /// <value>The string.</value>
             public string String { get; set; }
+
+            /// <summary>Gets or sets the age.</summary>
+            ///
+            /// <value>The age.</value>
             public int Age { get; set; }            
         }
 
+        /// <summary>Does not automatic wire built in bcl and value types.</summary>
 	    [Test]
 	    public void Does_not_AutoWire_BuiltIn_BCL_and_ValueTypes()
 	    {

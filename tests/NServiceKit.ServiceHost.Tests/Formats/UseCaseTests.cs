@@ -9,44 +9,96 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A page.</summary>
 	public class Page
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats.Page class.</summary>
 		public Page()
 		{
 			this.Tags = new List<string>();
 		}
 
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		public string Name { get; set; }
+
+        /// <summary>Gets or sets the slug.</summary>
+        ///
+        /// <value>The slug.</value>
 		public string Slug { get; set; }
+
+        /// <summary>Gets or sets the source for the.</summary>
+        ///
+        /// <value>The source.</value>
 		public string Src { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
 		public string FilePath { get; set; }
+
+        /// <summary>Gets or sets the category.</summary>
+        ///
+        /// <value>The category.</value>
 		public string Category { get; set; }
+
+        /// <summary>Gets or sets the content.</summary>
+        ///
+        /// <value>The content.</value>
 		public string Content { get; set; }
+
+        /// <summary>Gets or sets the created date.</summary>
+        ///
+        /// <value>The created date.</value>
 		public DateTime? CreatedDate { get; set; }
+
+        /// <summary>Gets or sets the modified date.</summary>
+        ///
+        /// <value>The modified date.</value>
 		public DateTime? ModifiedDate { get; set; }
+
+        /// <summary>Gets or sets the tags.</summary>
+        ///
+        /// <value>The tags.</value>
 		public List<string> Tags { get; set; }
-		
+
+        /// <summary>Gets URL of the absolute.</summary>
+        ///
+        /// <value>The absolute URL.</value>
 		public string AbsoluteUrl
 		{
 			get { return "http://path.com/to/" + this.Slug; }
 		}
 	}
 
+    /// <summary>A search response.</summary>
 	public class SearchResponse : IHasResponseStatus
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats.SearchResponse class.</summary>
 		public SearchResponse()
 		{
 			this.Results = new List<Page>();
 		}
 
+        /// <summary>Gets or sets the query.</summary>
+        ///
+        /// <value>The query.</value>
 		public string Query { get; set; }
 
+        /// <summary>Gets or sets the results.</summary>
+        ///
+        /// <value>The results.</value>
 		public List<Page> Results { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
 
+    /// <summary>An use case tests.</summary>
 	[TestFixture]
 	public class UseCaseTests : MarkdownTestBase
 	{
@@ -70,6 +122,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
     </body>
 </html>".NormalizeNewLines();
 
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
@@ -83,6 +136,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			};
 		}
 
+        /// <summary>Can display search results basic.</summary>
 		[Test]
 		public void Can_display_search_results_basic()
 		{
@@ -143,6 +197,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 		}
 
 
+        /// <summary>Can display search results.</summary>
 		[Test]
 		public void Can_display_search_results()
 		{

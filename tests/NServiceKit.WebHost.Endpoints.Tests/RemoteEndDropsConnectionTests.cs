@@ -9,17 +9,20 @@ using System.Linq;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A remote end drops connection tests.</summary>
 	[TestFixture]
 	public class RemoteEndDropsConnectionTests
 	{
 		private const string ListeningOn = "http://localhost:82/";
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.RemoteEndDropsConnectionTests class.</summary>
 		public RemoteEndDropsConnectionTests()
 		{
 			LogManager.LogFactory = new TestLogFactory();
 		}
 
+        /// <summary>Executes the test fixture start up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureStartUp()
 		{
@@ -32,6 +35,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 				DateTime.Now, ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -39,6 +43,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost = null;
 		}
 
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
@@ -46,6 +51,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			TestLogger.GetLogs().Clear();
 		}
 
+        /// <summary>Tear down.</summary>
 		[TearDown]
 		public void TearDown()
 		{
@@ -65,8 +71,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			public int Milliseconds { get; set; }
 		}
 
+        /// <summary>A timed service.</summary>
 		public class TimedService : ServiceInterface.Service
 		{
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>An object.</returns>
             public object Any(Timed request)
 			{
 				Thread.Sleep(request.Milliseconds);

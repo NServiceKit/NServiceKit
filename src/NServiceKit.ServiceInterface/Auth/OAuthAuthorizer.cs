@@ -70,10 +70,23 @@ namespace NServiceKit.ServiceInterface.Auth
         public string xAuthUsername, xAuthPassword;
 
         OAuthProvider provider;
+
+        /// <summary>Gets the request token secret.</summary>
+        ///
+        /// <value>The request token secret.</value>
         public string RequestToken, RequestTokenSecret;
+
+        /// <summary>Gets the authorization verifier.</summary>
+        ///
+        /// <value>The authorization verifier.</value>
         public string AuthorizationToken, AuthorizationVerifier;
+
+        /// <summary>Gets the access token secret.</summary>
+        ///
+        /// <value>The access token secret.</value>
         public string AccessToken, AccessTokenSecret;//, AccessScreenName;
         //public long AccessId;
+        /// <summary>Information describing the authentication.</summary>
         public Dictionary<string, string> AuthInfo = new Dictionary<string, string>();
 
         // Constructor for standard OAuth
@@ -133,6 +146,9 @@ namespace NServiceKit.ServiceInterface.Auth
             return "OAuth " + String.Join(",", (from x in headers.Keys select String.Format("{0}=\"{1}\"", x, headers[x])).ToArray());
         }
 
+        /// <summary>Acquires the request token.</summary>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool AcquireRequestToken()
         {
             var headers = new Dictionary<string, string>() {
@@ -317,6 +333,7 @@ namespace NServiceKit.ServiceInterface.Auth
         }
     }
 
+    /// <summary>An authentication utilities.</summary>
     public static class OAuthUtils
     {
 

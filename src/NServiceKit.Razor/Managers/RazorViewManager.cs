@@ -23,22 +23,33 @@ namespace NServiceKit.Razor.Managers
     /// </summary>
     public class RazorViewManager
     {
+        /// <summary>The log.</summary>
         public static ILog Log = LogManager.GetLogger(typeof(RazorViewManager));
 
+        /// <summary>The pages.</summary>
         public Dictionary<string, RazorPage> Pages = new Dictionary<string, RazorPage>(StringComparer.InvariantCultureIgnoreCase);
+        /// <summary>The view names map.</summary>
         protected Dictionary<string, string> ViewNamesMap = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
+        /// <summary>Gets or sets the configuration.</summary>
+        ///
+        /// <value>The configuration.</value>
         protected IRazorConfig Config { get; set; }
 
+        /// <summary>The path provider.</summary>
         protected IVirtualPathProvider PathProvider = null;
 
-
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Managers.RazorViewManager class.</summary>
+        ///
+        /// <param name="viewConfig">         The view configuration.</param>
+        /// <param name="virtualPathProvider">The virtual path provider.</param>
         public RazorViewManager(IRazorConfig viewConfig, IVirtualPathProvider virtualPathProvider)
         {
             this.Config = viewConfig;
             this.PathProvider = virtualPathProvider;
         }
 
+        /// <summary>Initialises this object.</summary>
         public void Init()
         {
             if (Config.WaitForPrecompilationOnStartup)
@@ -64,12 +75,20 @@ namespace NServiceKit.Razor.Managers
             files.ForEach(x => TrackPage(x));
         }
 
+        /// <summary>Adds a page.</summary>
+        ///
+        /// <param name="filePath">Full pathname of the file.</param>
+        ///
+        /// <returns>A RazorPage.</returns>
         public virtual RazorPage AddPage(string filePath)
         {
             var newFile = GetVirutalFile(filePath);
             return AddPage(newFile);
         }
 
+        /// <summary>Invalidate page.</summary>
+        ///
+        /// <param name="page">The page.</param>
         public virtual void InvalidatePage(RazorPage page)
         {
             if (page.IsValid || page.IsCompiling)
@@ -84,6 +103,11 @@ namespace NServiceKit.Razor.Managers
                 PrecompilePage(page);
         }
 
+        /// <summary>Adds a page.</summary>
+        ///
+        /// <param name="file">The file.</param>
+        ///
+        /// <returns>A RazorPage.</returns>
         public virtual RazorPage AddPage(IVirtualFile file)
         {
             return IsWatchedFile(file) 
@@ -91,6 +115,11 @@ namespace NServiceKit.Razor.Managers
                 : null;
         }
 
+        /// <summary>Track page.</summary>
+        ///
+        /// <param name="file">The file.</param>
+        ///
+        /// <returns>A RazorPage.</returns>
         public virtual RazorPage TrackPage(IVirtualFile file)
         {
             //get the base type.
@@ -115,6 +144,11 @@ namespace NServiceKit.Razor.Managers
             return page;
         }
 
+        /// <summary>Adds a page.</summary>
+        ///
+        /// <param name="page">The page.</param>
+        ///
+        /// <returns>A RazorPage.</returns>
         protected virtual RazorPage AddPage(RazorPage page)
         {
             var pagePath = GetDictionaryPagePath(page.PageHost.File);
@@ -131,6 +165,11 @@ namespace NServiceKit.Razor.Managers
             return page;
         }
 
+        /// <summary>Gets a page.</summary>
+        ///
+        /// <param name="absolutePath">Full pathname of the absolute file.</param>
+        ///
+        /// <returns>The page.</returns>
         public virtual RazorPage GetPage(string absolutePath)
         {
             RazorPage page;
@@ -138,6 +177,11 @@ namespace NServiceKit.Razor.Managers
             return page;
         }
 
+        /// <summary>Gets page by path information.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        ///
+        /// <returns>The page by path information.</returns>
         public virtual RazorPage GetPageByPathInfo(string pathInfo)
         {
             RazorPage page;
@@ -153,12 +197,23 @@ namespace NServiceKit.Razor.Managers
             return null;
         }
 
+        /// <summary>Gets a page.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        /// <param name="dto">    The dto.</param>
+        ///
+        /// <returns>The page.</returns>
         public virtual RazorPage GetPage(IHttpRequest request, object dto)
         {
             var normalizePath = NormalizePath(request, dto);
             return GetPage(normalizePath);
         }
 
+        /// <summary>Gets page by name.</summary>
+        ///
+        /// <param name="pageName">Name of the page.</param>
+        ///
+        /// <returns>The page by name.</returns>
         public virtual RazorPage GetPageByName(string pageName)
         {
             return GetPageByName(pageName, null, null);
@@ -172,6 +227,13 @@ namespace NServiceKit.Razor.Managers
             return combinedPath;
         }
 
+        /// <summary>Gets page by name.</summary>
+        ///
+        /// <param name="pageName">Name of the page.</param>
+        /// <param name="request"> The request.</param>
+        /// <param name="dto">     The dto.</param>
+        ///
+        /// <returns>The page by name.</returns>
         public virtual RazorPage GetPageByName(string pageName, IHttpRequest request, object dto)
         {
             RazorPage page = null;
@@ -239,11 +301,21 @@ namespace NServiceKit.Razor.Managers
             return Path.ChangeExtension(path, Config.RazorFileExtension);
         }
 
+        /// <summary>Query if 'file' is watched file.</summary>
+        ///
+        /// <param name="file">The file.</param>
+        ///
+        /// <returns>true if watched file, false if not.</returns>
         public virtual bool IsWatchedFile(IVirtualFile file)
         {
             return this.Config.RazorFileExtension.EndsWithIgnoreCase(file.Extension);
         }
 
+        /// <summary>Gets dictionary page path.</summary>
+        ///
+        /// <param name="relativePath">Full pathname of the relative file.</param>
+        ///
+        /// <returns>The dictionary page path.</returns>
         public virtual string GetDictionaryPagePath(string relativePath)
         {
             if (relativePath.ToLowerInvariant().StartsWith("/views/"))
@@ -258,6 +330,11 @@ namespace NServiceKit.Razor.Managers
             return relativePath;
         }
 
+        /// <summary>Gets dictionary page path.</summary>
+        ///
+        /// <param name="file">The file.</param>
+        ///
+        /// <returns>The dictionary page path.</returns>
         public virtual string GetDictionaryPagePath(IVirtualFile file)
         {
             return GetDictionaryPagePath(file.VirtualPath);
@@ -265,6 +342,11 @@ namespace NServiceKit.Razor.Managers
 
         private List<Task> startupPrecompilationTasks;
 
+        /// <summary>Precompile page.</summary>
+        ///
+        /// <param name="page">The page.</param>
+        ///
+        /// <returns>A Task&lt;RazorPage&gt;</returns>
         protected virtual Task<RazorPage> PrecompilePage(RazorPage page)
         {
             page.MarkedForCompilation = true;
@@ -291,6 +373,9 @@ namespace NServiceKit.Razor.Managers
             return task;
         }
 
+        /// <summary>Ensures that compiled.</summary>
+        ///
+        /// <param name="page">The page.</param>
         public virtual void EnsureCompiled(RazorPage page)
         {
             if (page == null) return;
@@ -329,6 +414,11 @@ namespace NServiceKit.Razor.Managers
 
         #region FileSystemWatcher Handlers
 
+        /// <summary>Gets relative path.</summary>
+        ///
+        /// <param name="ospath">The ospath.</param>
+        ///
+        /// <returns>The relative path.</returns>
         public virtual string GetRelativePath(string ospath)
         {
             if (Config.ScanRootPath == null)
@@ -340,6 +430,11 @@ namespace NServiceKit.Razor.Managers
             return relative;
         }
 
+        /// <summary>Gets virutal file.</summary>
+        ///
+        /// <param name="ospath">The ospath.</param>
+        ///
+        /// <returns>The virutal file.</returns>
         public virtual IVirtualFile GetVirutalFile(string ospath)
         {
             var relative = GetRelativePath(ospath);

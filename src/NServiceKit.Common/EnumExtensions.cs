@@ -7,6 +7,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common
 {
+    /// <summary>An enum extensions.</summary>
     public static class EnumExtensions
     {
         /// <summary>
@@ -24,6 +25,12 @@ namespace NServiceKit.Common
         /// <param name="enum"></param>
         /// <returns></returns>
 #if !NETFX_CORE
+
+        /// <summary>An Enum extension method that converts a @enum to a description.</summary>
+        ///
+        /// <param name="enum">The @enum to act on.</param>
+        ///
+        /// <returns>@enum as a string.</returns>
         public static string ToDescription(this Enum @enum) 
         {
             var type = @enum.GetType();
@@ -43,6 +50,11 @@ namespace NServiceKit.Common
         }
 #endif
 
+        /// <summary>An Enum extension method that converts a @enum to a list.</summary>
+        ///
+        /// <param name="enum">The @enum to act on.</param>
+        ///
+        /// <returns>@enum as a List&lt;string&gt;</returns>
         public static List<string> ToList(this Enum @enum)
         {
 #if !(SILVERLIGHT4 || WINDOWS_PHONE)
@@ -51,7 +63,16 @@ namespace NServiceKit.Common
             return @enum.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
 #endif
         }
-        
+
+        /// <summary>An Enum extension method that has.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="enum"> The @enum to act on.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool Has<T>(this Enum @enum, T value)
         {
             var enumType = Enum.GetUnderlyingType(@enum.GetType());
@@ -65,6 +86,15 @@ namespace NServiceKit.Common
             throw new NotSupportedException("Enums of type {0}".Fmt(enumType.Name));
         }
 
+        /// <summary>An Enum extension method that is.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="enum"> The @enum to act on.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool Is<T>(this Enum @enum, T value)
         {
             var enumType = Enum.GetUnderlyingType(@enum.GetType());
@@ -78,7 +108,15 @@ namespace NServiceKit.Common
             throw new NotSupportedException("Enums of type {0}".Fmt(enumType.Name));
         }
 
-
+        /// <summary>An Enum extension method that adds @enum.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="enum"> The @enum to act on.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>A T.</returns>
         public static T Add<T>(this Enum @enum, T value)
         {
             var enumType = Enum.GetUnderlyingType(@enum.GetType());
@@ -92,6 +130,15 @@ namespace NServiceKit.Common
             throw new NotSupportedException("Enums of type {0}".Fmt(enumType.Name));
         }
 
+        /// <summary>An Enum extension method that removes this object.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="enum"> The @enum to act on.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>A T.</returns>
         public static T Remove<T>(this Enum @enum, T value)
         {
             var enumType = Enum.GetUnderlyingType(@enum.GetType());

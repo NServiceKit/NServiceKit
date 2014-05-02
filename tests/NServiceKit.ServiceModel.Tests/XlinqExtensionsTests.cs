@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace NServiceKit.ServiceModel.Tests
 {
+    /// <summary>An xlinq extensions tests.</summary>
 	[TestFixture]
 	public class XlinqExtensionsTests
 	{
@@ -19,6 +20,7 @@ namespace NServiceKit.ServiceModel.Tests
 			return new XElement("el", new XElement("child"));
 		}
 
+        /// <summary>Tests xelement get int.</summary>
 		[Test]
 		public void xelement_get_int_test()
 		{
@@ -26,6 +28,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.AreEqual(IntValue, el.GetInt("child"));
 		}
 
+        /// <summary>Tests xelement get int null throws exception.</summary>
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void xelement_get_int_null_throws_exception_test()
@@ -35,6 +38,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.Fail("Expected ArgumentNullException");
 		}
 
+        /// <summary>Tests xelement get int text throws exception.</summary>
 		[Test]
 		[ExpectedException(typeof(FormatException))]
 		public void xelement_get_int_text_throws_exception_test()
@@ -44,6 +48,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.Fail("Expected FormatException");
 		}
 
+        /// <summary>Tests xelement get int or default.</summary>
 		[Test]
 		public void xelement_get_int_or_default_test()
 		{
@@ -54,6 +59,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Assert.AreEqual(default(int), el.GetIntOrDefault("child"));
 		}
 
+        /// <summary>Tests xelement get nullable int.</summary>
 		[Test]
 		public void xelement_get_nullable_int_test()
 		{

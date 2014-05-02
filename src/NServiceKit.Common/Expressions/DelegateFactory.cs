@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace NServiceKit.Common.Expressions
 {
+    /// <summary>A delegate factory.</summary>
     public static class DelegateFactory
     {
 
@@ -17,8 +18,20 @@ namespace NServiceKit.Common.Expressions
   
             result.ShouldBeTrue();  
          */
+
+        /// <summary>Late bound method.</summary>
+        ///
+        /// <param name="target">   Target for the.</param>
+        /// <param name="arguments">The arguments.</param>
+        ///
+        /// <returns>An object.</returns>
         public delegate object LateBoundMethod(object target, object[] arguments);
 
+        /// <summary>Creates a new LateBoundMethod.</summary>
+        ///
+        /// <param name="method">The method.</param>
+        ///
+        /// <returns>A LateBoundMethod.</returns>
         public static LateBoundMethod Create(MethodInfo method)
         {
             ParameterExpression instanceParameter = Expression.Parameter(typeof(object), "target");
@@ -45,9 +58,17 @@ namespace NServiceKit.Common.Expressions
                     parameter.ParameterType)).ToArray();
         }
 
-
+        /// <summary>Late bound void.</summary>
+        ///
+        /// <param name="target">   Target for the.</param>
+        /// <param name="arguments">The arguments.</param>
         public delegate void LateBoundVoid(object target, object[] arguments);
 
+        /// <summary>Creates a void.</summary>
+        ///
+        /// <param name="method">The method.</param>
+        ///
+        /// <returns>The new void.</returns>
         public static LateBoundVoid CreateVoid(MethodInfo method)
         {
             ParameterExpression instanceParameter = Expression.Parameter(typeof(object), "target");

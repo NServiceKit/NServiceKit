@@ -21,6 +21,9 @@ namespace NServiceKit.Html.AntiXsrf
             _claimUidExtractor = claimUidExtractor;
         }
 
+        /// <summary>Generates a cookie token.</summary>
+        ///
+        /// <returns>The cookie token.</returns>
         public AntiForgeryToken GenerateCookieToken()
         {
             return new AntiForgeryToken()
@@ -30,6 +33,15 @@ namespace NServiceKit.Html.AntiXsrf
             };
         }
 
+        /// <summary>Generates a form token.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <param name="httpContext">Context for the HTTP.</param>
+        /// <param name="identity">   The identity.</param>
+        /// <param name="cookieToken">The cookie token.</param>
+        ///
+        /// <returns>The form token.</returns>
         public AntiForgeryToken GenerateFormToken(HttpContextBase httpContext, IIdentity identity, AntiForgeryToken cookieToken)
         {
 #if NET_4_0
@@ -73,11 +85,30 @@ namespace NServiceKit.Html.AntiXsrf
             return formToken;
         }
 
+        /// <summary>Query if 'cookieToken' is cookie token valid.</summary>
+        ///
+        /// <param name="cookieToken">The cookie token.</param>
+        ///
+        /// <returns>true if cookie token valid, false if not.</returns>
         public bool IsCookieTokenValid(AntiForgeryToken cookieToken)
         {
             return (cookieToken != null && cookieToken.IsSessionToken);
         }
 
+        /// <summary>Validates the tokens.</summary>
+        ///
+        /// <exception cref="HttpAntiForgeryException">            Thrown when a Create Cookie Missing error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">         Thrown when a Create Form Field Missing error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">            Thrown when a Create Tokens Swapped error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">    Thrown when a Create Security Token Mismatch error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">         Thrown when a Create Username Mismatch error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">         Thrown when a Create Claim UID Mismatch error condition occurs.</exception>
+        /// <exception cref="HttpAntiForgeryException">Thrown when a Create Additional Data Check Failed error condition occurs.</exception>
+        ///
+        /// <param name="httpContext"> Context for the HTTP.</param>
+        /// <param name="identity">    The identity.</param>
+        /// <param name="sessionToken">The session token.</param>
+        /// <param name="fieldToken">  The field token.</param>
         public void ValidateTokens(HttpContextBase httpContext, IIdentity identity, AntiForgeryToken sessionToken, AntiForgeryToken fieldToken)
         {
             // Were the tokens even present at all?

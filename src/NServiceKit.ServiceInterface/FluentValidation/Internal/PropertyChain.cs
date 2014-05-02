@@ -45,10 +45,18 @@ namespace NServiceKit.FluentValidation.Internal
             }
         }
 
+        /// <summary>Creates a new PropertyChain based on another.</summary>
+        ///
+        /// <param name="memberNames">List of names of the members.</param>
         public PropertyChain(IEnumerable<string> memberNames) {
             this.memberNames.AddRange(memberNames);
         }
 
+        /// <summary>Initializes this object from the given from expression.</summary>
+        ///
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A PropertyChain.</returns>
         public static PropertyChain FromExpression(LambdaExpression expression) {
             var memberNames = new Stack<string>();
 
@@ -131,6 +139,9 @@ namespace NServiceKit.FluentValidation.Internal
             return chain.ToString();
         }
 
+        /// <summary>Gets the number of. </summary>
+        ///
+        /// <value>The count.</value>
         public int Count {
             get { return memberNames.Count; }
         }

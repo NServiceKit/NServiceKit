@@ -41,6 +41,9 @@ namespace NServiceKit.ServiceClient.Web
 
         private AuthenticationInfo authInfo = null;
 
+        /// <summary>Sets a value indicating whether this object use new predefined routes.</summary>
+        ///
+        /// <value>true if use new predefined routes, false if not.</value>
         public bool UseNewPredefinedRoutes
         {
             set
@@ -57,6 +60,10 @@ namespace NServiceKit.ServiceClient.Web
         /// This request filter is executed globally.
         /// </summary>
         private static Action<HttpWebRequest> httpWebRequestFilter;
+
+        /// <summary>Gets or sets the HTTP web request filter.</summary>
+        ///
+        /// <value>The HTTP web request filter.</value>
         public static Action<HttpWebRequest> HttpWebRequestFilter
         {
             get
@@ -77,6 +84,10 @@ namespace NServiceKit.ServiceClient.Web
         /// Note that you should NOT consume the response stream as this is handled by NServiceKit
         /// </summary>
         private static Action<HttpWebResponse> httpWebResponseFilter;
+
+        /// <summary>Gets or sets the HTTP web response filter.</summary>
+        ///
+        /// <value>The HTTP web response filter.</value>
         public static Action<HttpWebResponse> HttpWebResponseFilter
         {
             get
@@ -90,19 +101,25 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+#if NETFX_CORE || WINDOWS_PHONE || SILVERLIGHT
         /// <summary>
         /// Gets the collection of headers to be added to outgoing requests.
         /// </summary>
-#if NETFX_CORE || WINDOWS_PHONE || SILVERLIGHT
         public Dictionary<string, string> Headers { get; private set; } 
 #else
+
+        /// <summary>Gets the headers.</summary>
+        ///
+        /// <value>The headers.</value>
         public NameValueCollection Headers { get; private set; }
 #endif
 
+        /// <summary>The default HTTP method.</summary>
         public const string DefaultHttpMethod = "POST";
 
         readonly AsyncServiceClient asyncClient;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.ServiceClientBase class.</summary>
         protected ServiceClientBase()
         {
             this.HttpMethod = DefaultHttpMethod;
@@ -131,6 +148,10 @@ namespace NServiceKit.ServiceClient.Web
 #endif
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.ServiceClientBase class.</summary>
+        ///
+        /// <param name="syncReplyBaseUri">  The synchronise reply base URI.</param>
+        /// <param name="asyncOneWayBaseUri">The asynchronous one way base URI.</param>
         protected ServiceClientBase(string syncReplyBaseUri, string asyncOneWayBaseUri)
             : this()
         {
@@ -169,6 +190,10 @@ namespace NServiceKit.ServiceClient.Web
         /// Whether to Accept Gzip,Deflate Content-Encoding and to auto decompress responses
         /// </summary>
         private bool disableAutoCompression;
+
+        /// <summary>Gets or sets a value indicating whether the automatic compression is disabled.</summary>
+        ///
+        /// <value>true if disable automatic compression, false if not.</value>
         public bool DisableAutoCompression
         {
             get { return disableAutoCompression; }
@@ -183,6 +208,10 @@ namespace NServiceKit.ServiceClient.Web
         /// The user name for basic authentication
         /// </summary>
         private string username;
+
+        /// <summary>Gets or sets the name of the user.</summary>
+        ///
+        /// <value>The name of the user.</value>
         public string UserName
         {
             get { return username; }
@@ -197,6 +226,10 @@ namespace NServiceKit.ServiceClient.Web
         /// The password for basic authentication
         /// </summary>
         private string password;
+
+        /// <summary>Gets or sets the password.</summary>
+        ///
+        /// <value>The password.</value>
         public string Password
         {
             get { return password; }
@@ -216,15 +249,31 @@ namespace NServiceKit.ServiceClient.Web
             this.Password = password;
         }
 
+        /// <summary>Gets or sets URI of the base.</summary>
+        ///
+        /// <value>The base URI.</value>
         public string BaseUri { get; set; }
 
+        /// <summary>Gets the format to use.</summary>
+        ///
+        /// <value>The format.</value>
         public abstract string Format { get; }
 
+        /// <summary>Gets or sets URI of the synchronise reply base.</summary>
+        ///
+        /// <value>The synchronise reply base URI.</value>
         public string SyncReplyBaseUri { get; set; }
 
+        /// <summary>Gets or sets URI of the asynchronous one way base.</summary>
+        ///
+        /// <value>The asynchronous one way base URI.</value>
         public string AsyncOneWayBaseUri { get; set; }
 
         private TimeSpan? timeout;
+
+        /// <summary>Gets or sets the timeout.</summary>
+        ///
+        /// <value>The timeout.</value>
         public TimeSpan? Timeout
         {
             get { return this.timeout; }
@@ -236,6 +285,10 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         private TimeSpan? readWriteTimeout;
+
+        /// <summary>Gets or sets the read write timeout.</summary>
+        ///
+        /// <value>The read write timeout.</value>
         public TimeSpan? ReadWriteTimeout
         {
             get { return this.readWriteTimeout; }
@@ -247,16 +300,29 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets the accept.</summary>
+        ///
+        /// <value>The accept.</value>
         public virtual string Accept
         {
             get { return ContentType; }
         }
 
+        /// <summary>Gets the type of the content.</summary>
+        ///
+        /// <value>The type of the content.</value>
         public abstract string ContentType { get; }
 
+        /// <summary>Gets or sets the HTTP method.</summary>
+        ///
+        /// <value>The HTTP method.</value>
         public string HttpMethod { get; set; }
 
 #if !SILVERLIGHT
+
+        /// <summary>Gets or sets the proxy.</summary>
+        ///
+        /// <value>The proxy.</value>
         public IWebProxy Proxy { get; set; }
 #endif
 
@@ -305,6 +371,10 @@ namespace NServiceKit.ServiceClient.Web
         /// By default, the basic auth header is only sent when "401 Unauthorized" is returned.
         /// </summary>
         private bool alwaysSendBasicAuthHeader;
+
+        /// <summary>Gets or sets a value indicating whether the always send basic authentication header.</summary>
+        ///
+        /// <value>true if always send basic authentication header, false if not.</value>
         public bool AlwaysSendBasicAuthHeader
         {
             get { return alwaysSendBasicAuthHeader; }
@@ -315,6 +385,10 @@ namespace NServiceKit.ServiceClient.Web
         /// Specifies if cookies should be stored
         /// </summary>
         private bool storeCookies;
+
+        /// <summary>Gets or sets a value indicating whether the store cookies.</summary>
+        ///
+        /// <value>true if store cookies, false if not.</value>
         public bool StoreCookies
         {
             get { return storeCookies; }
@@ -322,6 +396,10 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         private CookieContainer _cookieContainer;
+
+        /// <summary>Gets or sets the cookie container.</summary>
+        ///
+        /// <value>The cookie container.</value>
         public CookieContainer CookieContainer
         {
             get { return _cookieContainer; }
@@ -329,6 +407,10 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         private bool allowAutoRedirect = true;
+
+        /// <summary>Gets or sets a value indicating whether we allow automatic redirect.</summary>
+        ///
+        /// <value>true if allow automatic redirect, false if not.</value>
         public bool AllowAutoRedirect
         {
             get { return allowAutoRedirect; }
@@ -344,6 +426,10 @@ namespace NServiceKit.ServiceClient.Web
         /// Called before request resend, when the initial request required authentication
         /// </summary>
         private Action<WebRequest> onAuthenticationRequired { get; set; }
+
+        /// <summary>Gets or sets the on authentication required.</summary>
+        ///
+        /// <value>The on authentication required.</value>
         public Action<WebRequest> OnAuthenticationRequired
         {
             get
@@ -362,6 +448,10 @@ namespace NServiceKit.ServiceClient.Web
         /// This request filter only works with the instance where it was set (not global).
         /// </summary>
         private Action<HttpWebRequest> localHttpWebRequestFilter { get; set; }
+
+        /// <summary>Gets or sets the local HTTP web request filter.</summary>
+        ///
+        /// <value>The local HTTP web request filter.</value>
         public Action<HttpWebRequest> LocalHttpWebRequestFilter
         {
             get
@@ -381,6 +471,10 @@ namespace NServiceKit.ServiceClient.Web
         /// Note that you should NOT consume the response stream as this is handled by NServiceKit
         /// </summary>
         private Action<HttpWebResponse> localHttpWebResponseFilter { get; set; }
+
+        /// <summary>Gets or sets the local HTTP web response filter.</summary>
+        ///
+        /// <value>The local HTTP web response filter.</value>
         public Action<HttpWebResponse> LocalHttpWebResponseFilter
         {
             get
@@ -394,23 +488,55 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Serialize to stream.</summary>
+        ///
+        /// <param name="requestContext">Context for the request.</param>
+        /// <param name="request">       The request.</param>
+        /// <param name="stream">        The stream.</param>
         public abstract void SerializeToStream(IRequestContext requestContext, object request, Stream stream);
 
+        /// <summary>Deserialize from stream.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="stream">The stream.</param>
+        ///
+        /// <returns>A T.</returns>
         public abstract T DeserializeFromStream<T>(Stream stream);
 
+        /// <summary>Gets the stream deserializer.</summary>
+        ///
+        /// <value>The stream deserializer.</value>
         public abstract StreamDeserializerDelegate StreamDeserializer { get; }
 
 #if !SILVERLIGHT
+
+        /// <summary>Send this message.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Send<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>((object)request);
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
         public virtual void Send(IReturnVoid request)
         {
             SendOneWay(request);
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Send<TResponse>(object request)
         {
             var requestUri = this.SyncReplyBaseUri.WithTrailingSlash() + request.GetType().Name;
@@ -536,6 +662,13 @@ namespace NServiceKit.ServiceClient.Web
             responseHandler(ex, requestUri);
         }
 
+        /// <summary>Throw web service exception.</summary>
+        ///
+        /// <exception cref="WebServiceException">  Thrown when a Web Service error condition occurs.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="ex">        The ex.</param>
+        /// <param name="requestUri">URI of the request.</param>
         protected internal void ThrowWebServiceException<TResponse>(Exception ex, string requestUri)
         {
             var webEx = ex as WebException;
@@ -755,6 +888,11 @@ namespace NServiceKit.ServiceClient.Web
         }
 #endif
 
+        /// <summary>Gets an URL.</summary>
+        ///
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        ///
+        /// <returns>The URL.</returns>
         public virtual string GetUrl(string relativeOrAbsoluteUrl)
         {
             return relativeOrAbsoluteUrl.StartsWith("http:")
@@ -793,85 +931,181 @@ namespace NServiceKit.ServiceClient.Web
         }
 #endif
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="request">The request.</param>
         public virtual void SendOneWay(object request)
         {
             var requestUri = this.AsyncOneWayBaseUri.WithTrailingSlash() + request.GetType().Name;
             DownloadBytes(HttpMethods.Post, requestUri, request);
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
         public virtual void SendOneWay(string relativeOrAbsoluteUrl, object request)
         {
             var requestUri = GetUrl(relativeOrAbsoluteUrl);
             DownloadBytes(HttpMethods.Post, requestUri, request);
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="httpMethod">           The HTTP method.</param>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
         public virtual void SendOneWay(string httpMethod, string relativeOrAbsoluteUrl, object request)
         {
             var requestUri = GetUrl(relativeOrAbsoluteUrl);
             DownloadBytes(httpMethod, requestUri, request);
         }
 
+        /// <summary>Sends the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void SendAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             SendAsync((object)request, onSuccess, onError);
         }
 
+        /// <summary>Sends the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void SendAsync<TResponse>(object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             var requestUri = this.SyncReplyBaseUri.WithTrailingSlash() + request.GetType().Name;
             asyncClient.SendAsync(HttpMethods.Post, requestUri, request, onSuccess, onError);
         }
 
+        /// <summary>Gets the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void GetAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             GetAsync(request.ToUrl(HttpMethods.Get, Format), onSuccess, onError);
         }
 
+        /// <summary>Gets the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public virtual void GetAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             asyncClient.SendAsync(HttpMethods.Get, GetUrl(relativeOrAbsoluteUrl), null, onSuccess, onError);
         }
 
+        /// <summary>Deletes the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void DeleteAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             DeleteAsync(request.ToUrl(HttpMethods.Delete, Format), onSuccess, onError);
         }
 
+        /// <summary>Deletes the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public virtual void DeleteAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             asyncClient.SendAsync(HttpMethods.Delete, GetUrl(relativeOrAbsoluteUrl), null, onSuccess, onError);
         }
 
+        /// <summary>Posts the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void PostAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             PostAsync(request.ToUrl(HttpMethods.Post, Format), request, onSuccess, onError);
         }
 
+        /// <summary>Posts the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public virtual void PostAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             asyncClient.SendAsync(HttpMethods.Post, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
         }
 
+        /// <summary>Puts the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void PutAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             PutAsync(request.ToUrl(HttpMethods.Put, Format), request, onSuccess, onError);
         }
 
+        /// <summary>Puts the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public virtual void PutAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             asyncClient.SendAsync(HttpMethods.Put, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
         }
 
+        /// <summary>Patch asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void PatchAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             PatchAsync(request.ToUrl(HttpMethods.Patch, Format), request, onSuccess, onError);
         }
 
+        /// <summary>Patch asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public virtual void PatchAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             asyncClient.SendAsync(HttpMethods.Patch, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
         }
 
+        /// <summary>Custom method asynchronous.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpVerb"> The HTTP verb.</param>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public virtual void CustomMethodAsync<TResponse>(string httpVerb, IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             if (!HttpMethods.HasVerb(httpVerb))
@@ -880,12 +1114,24 @@ namespace NServiceKit.ServiceClient.Web
             asyncClient.SendAsync(httpVerb, GetUrl(request.ToUrl(httpVerb, Format)), request, onSuccess, onError);
         }
 
+        /// <summary>Cancel asynchronous.</summary>
         public virtual void CancelAsync()
         {
             asyncClient.CancelAsync();
         }
 
 #if !SILVERLIGHT
+
+        /// <summary>Send this message.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpMethod">           The HTTP method.</param>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Send<TResponse>(string httpMethod, string relativeOrAbsoluteUrl, object request)
         {
             var requestUri = GetUrl(relativeOrAbsoluteUrl);
@@ -915,81 +1161,165 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Get<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>(HttpMethods.Get, request.ToUrl(HttpMethods.Get, Format), null);
         }
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
         public virtual void Get(IReturnVoid request)
         {
             SendOneWay(HttpMethods.Get, request.ToUrl(HttpMethods.Get, Format), null);
         }
 
+        /// <summary>Gets.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Get<TResponse>(string relativeOrAbsoluteUrl)
         {
             return Send<TResponse>(HttpMethods.Get, relativeOrAbsoluteUrl, null);
         }
 
+        /// <summary>Deletes the given relativeOrAbsoluteUrl.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Delete<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>(HttpMethods.Delete, request.ToUrl(HttpMethods.Delete, Format), null);
         }
 
+        /// <summary>Deletes the given request.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
         public virtual void Delete(IReturnVoid request)
         {
             SendOneWay(HttpMethods.Delete, request.ToUrl(HttpMethods.Delete, Format), null);
         }
 
+        /// <summary>Deletes the given relativeOrAbsoluteUrl.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Delete<TResponse>(string relativeOrAbsoluteUrl)
         {
             return Send<TResponse>(HttpMethods.Delete, relativeOrAbsoluteUrl, null);
         }
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Post<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>(HttpMethods.Post, request.ToUrl(HttpMethods.Post, Format), request);
         }
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <param name="request">The request.</param>
         public virtual void Post(IReturnVoid request)
         {
             SendOneWay(HttpMethods.Post, request.ToUrl(HttpMethods.Post, Format), request);
         }
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Post<TResponse>(string relativeOrAbsoluteUrl, object request)
         {
             return Send<TResponse>(HttpMethods.Post, relativeOrAbsoluteUrl, request);
         }
 
+        /// <summary>Puts.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Put<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>(HttpMethods.Put, request.ToUrl(HttpMethods.Put, Format), request);
         }
 
+        /// <summary>Puts the given request.</summary>
+        ///
+        /// <param name="request">The request to put.</param>
         public virtual void Put(IReturnVoid request)
         {
             SendOneWay(HttpMethods.Put, request.ToUrl(HttpMethods.Put, Format), request);
         }
 
+        /// <summary>Puts.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Put<TResponse>(string relativeOrAbsoluteUrl, object request)
         {
             return Send<TResponse>(HttpMethods.Put, relativeOrAbsoluteUrl, request);
         }
 
+        /// <summary>Patches.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Patch<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>(HttpMethods.Patch, request.ToUrl(HttpMethods.Patch, Format), request);
         }
 
+        /// <summary>Patches the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
         public virtual void Patch(IReturnVoid request)
         {
             SendOneWay(HttpMethods.Patch, request.ToUrl(HttpMethods.Patch, Format), request);
         }
 
+        /// <summary>Patches.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse Patch<TResponse>(string relativeOrAbsoluteUrl, object request)
         {
             return Send<TResponse>(HttpMethods.Patch, relativeOrAbsoluteUrl, request);
         }
 
+        /// <summary>Custom method.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <param name="httpVerb">The HTTP verb.</param>
+        /// <param name="request"> The request.</param>
         public virtual void CustomMethod(string httpVerb, IReturnVoid request)
         {
             if (!HttpMethods.AllVerbs.Contains(httpVerb.ToUpper()))
@@ -998,6 +1328,15 @@ namespace NServiceKit.ServiceClient.Web
             SendOneWay(httpVerb, request.ToUrl(httpVerb, Format), request);
         }
 
+        /// <summary>Custom method.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpVerb">The HTTP verb.</param>
+        /// <param name="request"> The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse CustomMethod<TResponse>(string httpVerb, IReturn<TResponse> request)
         {
             if (!HttpMethods.AllVerbs.Contains(httpVerb.ToUpper()))
@@ -1006,16 +1345,34 @@ namespace NServiceKit.ServiceClient.Web
             return Send<TResponse>(httpVerb, request.ToUrl(httpVerb, Format), request);
         }
 
+        /// <summary>Heads the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A HttpWebResponse.</returns>
         public virtual HttpWebResponse Head(IReturn request)
         {
             return Send<HttpWebResponse>(HttpMethods.Head, request.ToUrl(HttpMethods.Head), request);
         }
 
+        /// <summary>Heads.</summary>
+        ///
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        ///
+        /// <returns>A HttpWebResponse.</returns>
         public virtual HttpWebResponse Head(string relativeOrAbsoluteUrl)
         {
             return Send<HttpWebResponse>(HttpMethods.Head, relativeOrAbsoluteUrl, null);
         }
 
+        /// <summary>Posts a file with request.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse PostFileWithRequest<TResponse>(string relativeOrAbsoluteUrl, FileInfo fileToUpload, object request)
         {
             using (FileStream fileStream = fileToUpload.OpenRead())
@@ -1025,6 +1382,17 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Posts a file with request.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="fileName">             Filename of the file.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse PostFileWithRequest<TResponse>(string relativeOrAbsoluteUrl, Stream fileToUpload, string fileName, object request)
         {
             var requestUri = GetUrl(relativeOrAbsoluteUrl);
@@ -1091,6 +1459,14 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Posts a file.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="mimeType">             Type of the mime.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse PostFile<TResponse>(string relativeOrAbsoluteUrl, FileInfo fileToUpload, string mimeType)
         {
             using (FileStream fileStream = fileToUpload.OpenRead())
@@ -1099,6 +1475,17 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Posts a file.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="fileName">             Filename of the file.</param>
+        /// <param name="mimeType">             Type of the mime.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public virtual TResponse PostFile<TResponse>(string relativeOrAbsoluteUrl, Stream fileToUpload, string fileName, string mimeType)
         {
             var currentStreamPosition = fileToUpload.Position;
@@ -1167,6 +1554,7 @@ namespace NServiceKit.ServiceClient.Web
 
 #endif
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose() { }
     }
 }

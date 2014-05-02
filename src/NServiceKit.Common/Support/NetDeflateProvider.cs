@@ -8,8 +8,14 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Support
 {
+    /// <summary>A net deflate provider.</summary>
     public class NetDeflateProvider : IDeflateProvider
     {
+        /// <summary>Deflates.</summary>
+        ///
+        /// <param name="text">The text.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public byte[] Deflate(string text)
         {
             var buffer = Encoding.UTF8.GetBytes(text);
@@ -23,6 +29,11 @@ namespace NServiceKit.Common.Support
             }
         }
 
+        /// <summary>Inflates the given gz buffer.</summary>
+        ///
+        /// <param name="gzBuffer">Buffer for gz data.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Inflate(byte[] gzBuffer)
         {
             using (var compressedStream = new MemoryStream(gzBuffer))

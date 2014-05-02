@@ -10,6 +10,7 @@
 namespace NServiceKit.WebHost.IntegrationTests.Subpages {
     
     
+    /// <content>A test.</content>
     public partial class Test {
         
         /// <summary>

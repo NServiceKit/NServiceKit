@@ -17,8 +17,13 @@ namespace NServiceKit.WebHost.Endpoints
 	public abstract class AppHostHttpListenerBase 
 		: HttpListenerBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerBase class.</summary>
 		protected AppHostHttpListenerBase() {}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
 		protected AppHostHttpListenerBase(string serviceName, params Assembly[] assembliesWithServices)
 			: base(serviceName, assembliesWithServices)
 		{
@@ -26,6 +31,11 @@ namespace NServiceKit.WebHost.Endpoints
 			EndpointHostConfig.Instance.MetadataRedirectPath = "metadata";
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="handlerPath">           Full pathname of the handler file.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
 		protected AppHostHttpListenerBase(string serviceName, string handlerPath, params Assembly[] assembliesWithServices)
 			: base(serviceName, assembliesWithServices)
 		{
@@ -36,6 +46,11 @@ namespace NServiceKit.WebHost.Endpoints
 				: PathUtils.CombinePaths(handlerPath, "metadata");
 		}
 
+        /// <summary>Overridable method that can be used to implement a custom hnandler.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="context">.</param>
 		protected override void ProcessRequest(HttpListenerContext context)
 		{
 			if (string.IsNullOrEmpty(context.Request.RawUrl)) return;

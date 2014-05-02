@@ -16,69 +16,118 @@ using NServiceKit.WebHost.Endpoints.Support.Markdown;
 
 namespace NServiceKit.WebHost.Endpoints.Formats
 {
+    /// <summary>Values that represent MarkdownPageType.</summary>
     public enum MarkdownPageType
     {
+        /// <summary>An enum constant representing the content page option.</summary>
         ContentPage = 1,
+
+        /// <summary>An enum constant representing the view page option.</summary>
         ViewPage = 2,
+
+        /// <summary>An enum constant representing the shared view page option.</summary>
         SharedViewPage = 3,
     }
 
+    /// <summary>A markdown format.</summary>
     public class MarkdownFormat : IViewEngine, IPlugin
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(MarkdownFormat));
 
         private const string ErrorPageNotFound = "Could not find Markdown page '{0}'";
 
+        /// <summary>The default template name.</summary>
         public static string DefaultTemplateName = "_Layout.shtml";
+        /// <summary>The default template.</summary>
         public static string DefaultTemplate = "/Views/Shared/_Layout.shtml";
+        /// <summary>The default page.</summary>
         public static string DefaultPage = "default";
+        /// <summary>The template place holder.</summary>
         public static string TemplatePlaceHolder = "<!--@Body-->";
+        /// <summary>The web host URL place holder.</summary>
         public static string WebHostUrlPlaceHolder = "~/";
+        /// <summary>Extent of the markdown.</summary>
         public static string MarkdownExt = "md";
+        /// <summary>Extent of the template.</summary>
         public static string TemplateExt = "shtml";
+        /// <summary>The shared dir.</summary>
         public static string SharedDir = "/Views/Shared";
+        /// <summary>The page exts.</summary>
         public static string[] PageExts = new[] { MarkdownExt, TemplateExt };
 
         private static MarkdownFormat instance;
+
+        /// <summary>Gets the instance.</summary>
+        ///
+        /// <value>The instance.</value>
         public static MarkdownFormat Instance
         {
             get { return instance ?? (instance = new MarkdownFormat()); }
         }
 
         // ~/View - Dynamic Pages
+        /// <summary>The view pages.</summary>
         public Dictionary<string, MarkdownPage> ViewPages = new Dictionary<string, MarkdownPage>(
             StringComparer.CurrentCultureIgnoreCase);
 
         // ~/View/Shared - Dynamic Shared Pages
+        /// <summary>The view shared pages.</summary>
         public Dictionary<string, MarkdownPage> ViewSharedPages = new Dictionary<string, MarkdownPage>(
             StringComparer.CurrentCultureIgnoreCase);
 
-        //Content Pages outside of ~/View
+        /// <summary>Content Pages outside of ~/View.</summary>
         public Dictionary<string, MarkdownPage> ContentPages = new Dictionary<string, MarkdownPage>(
             StringComparer.CurrentCultureIgnoreCase);
 
+        /// <summary>The master page templates.</summary>
         public Dictionary<string, MarkdownTemplate> MasterPageTemplates = new Dictionary<string, MarkdownTemplate>(
             StringComparer.CurrentCultureIgnoreCase);
 
+        /// <summary>Gets or sets the type of the markdown base.</summary>
+        ///
+        /// <value>The type of the markdown base.</value>
         public Type MarkdownBaseType { get; set; }
+
+        /// <summary>Gets or sets the markdown global helpers.</summary>
+        ///
+        /// <value>The markdown global helpers.</value>
         public Dictionary<string, Type> MarkdownGlobalHelpers { get; set; }
 
+        /// <summary>Gets or sets the find markdown pages function.</summary>
+        ///
+        /// <value>The find markdown pages function.</value>
         public Func<string, IEnumerable<MarkdownPage>> FindMarkdownPagesFn { get; set; }
 
         private readonly MarkdownSharp.Markdown markdown;
 
+        /// <summary>Gets or sets the application host.</summary>
+        ///
+        /// <value>The application host.</value>
         public IAppHost AppHost { get; set; }
 
+        /// <summary>Gets or sets the replace tokens.</summary>
+        ///
+        /// <value>The replace tokens.</value>
         public Dictionary<string, string> ReplaceTokens { get; set; }
 
+        /// <summary>Gets or sets the virtual path provider.</summary>
+        ///
+        /// <value>The virtual path provider.</value>
         public IVirtualPathProvider VirtualPathProvider { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the watch for modified pages.</summary>
+        ///
+        /// <value>true if watch for modified pages, false if not.</value>
         public bool WatchForModifiedPages { get; set; }
 
         readonly TemplateProvider templateProvider = new TemplateProvider(DefaultTemplateName);
 
+        /// <summary>Gets or sets the skip paths.</summary>
+        ///
+        /// <value>The skip paths.</value>
         public List<string> SkipPaths { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Formats.MarkdownFormat class.</summary>
         public MarkdownFormat()
         {
             markdown = new MarkdownSharp.Markdown(); //Note: by default MarkdownDeep is used
@@ -97,6 +146,9 @@ namespace NServiceKit.WebHost.Endpoints.Formats
         internal static readonly char[] DirSeps = new[] { '\\', '/' };
         static HashSet<string> catchAllPathsNotFound = new HashSet<string>();
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
         public void Register(IAppHost appHost)
         {
             if (instance == null) instance = this;
@@ -173,6 +225,11 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             appHost.Config.IgnoreFormatsInMetadata.Add(ContentType.PlainText.ToContentFormat());
         }
 
+        /// <summary>Searches for the first path information.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        ///
+        /// <returns>The found path information.</returns>
         public MarkdownPage FindByPathInfo(string pathInfo)
         {
             var normalizedPathInfo = pathInfo.IsNullOrEmpty() ? DefaultPage : pathInfo.TrimStart(DirSeps);
@@ -182,6 +239,13 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return markdownPage;
         }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        /// <param name="dto">    The dto.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, object dto)
         {
             MarkdownPage markdownPage;
@@ -194,11 +258,26 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return ProcessMarkdownPage(httpReq, markdownPage, dto, httpRes);
         }
 
+        /// <summary>Query if 'viewName' has view.</summary>
+        ///
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        ///
+        /// <returns>true if view, false if not.</returns>
         public bool HasView(string viewName, IHttpRequest httpReq = null)
         {
             return GetViewPage(viewName, httpReq) != null;
         }
 
+        /// <summary>Renders the partial.</summary>
+        ///
+        /// <param name="pageName">  Name of the page.</param>
+        /// <param name="model">     The model.</param>
+        /// <param name="renderHtml">true to render HTML.</param>
+        /// <param name="writer">    The writer.</param>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderPartial(string pageName, object model, bool renderHtml, StreamWriter writer, HtmlHelper htmlHelper = null)
         {
             var markdownPage = ReloadIfNeeded(GetViewPage(pageName, htmlHelper.GetHttpRequest()));
@@ -213,6 +292,12 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return output;
         }
 
+        /// <summary>Gets view page.</summary>
+        ///
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        ///
+        /// <returns>The view page.</returns>
         public MarkdownPage GetViewPage(string viewName, IHttpRequest httpReq)
         {
             var view = GetViewPage(viewName);
@@ -232,6 +317,14 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return view;
         }
 
+        /// <summary>Process the markdown page.</summary>
+        ///
+        /// <param name="httpReq">     The HTTP request.</param>
+        /// <param name="markdownPage">The markdown page.</param>
+        /// <param name="dto">         The dto.</param>
+        /// <param name="httpRes">     The HTTP resource.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool ProcessMarkdownPage(IHttpRequest httpReq, MarkdownPage markdownPage, object dto, IHttpResponse httpRes)
         {
             httpRes.AddHeaderLastModified(markdownPage.GetLastModified());
@@ -260,6 +353,9 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return true;
         }
 
+        /// <summary>Reload modified page and templates.</summary>
+        ///
+        /// <param name="markdownPage">The markdown page.</param>
         public void ReloadModifiedPageAndTemplates(MarkdownPage markdownPage)
         {
             if (markdownPage == null || !WatchForModifiedPages) return;
@@ -343,6 +439,12 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             stream.Write(markupBytes, 0, markupBytes.Length);
         }
 
+        /// <summary>Gets page name.</summary>
+        ///
+        /// <param name="dto">           The dto.</param>
+        /// <param name="requestContext">Context for the request.</param>
+        ///
+        /// <returns>The page name.</returns>
         public string GetPageName(object dto, IRequestContext requestContext)
         {
             var httpRequest = requestContext != null ? requestContext.Get<IHttpRequest>() : null;
@@ -355,6 +457,12 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return httpRequest != null ? httpRequest.OperationName : null;
         }
 
+        /// <summary>Gets view page by response.</summary>
+        ///
+        /// <param name="dto">    The dto.</param>
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The view page by response.</returns>
         public MarkdownPage GetViewPageByResponse(object dto, IHttpRequest httpReq)
         {
             var httpResult = dto as IHttpResult;
@@ -378,6 +486,11 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return httpReq != null ? GetViewPage(httpReq.OperationName) : null;
         }
 
+        /// <summary>Gets view page.</summary>
+        ///
+        /// <param name="pageName">Name of the page.</param>
+        ///
+        /// <returns>The view page.</returns>
         public MarkdownPage GetViewPage(string pageName)
         {
             if (pageName == null) return null;
@@ -391,6 +504,11 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return markdownPage;
         }
 
+        /// <summary>Gets content page.</summary>
+        ///
+        /// <param name="pageFilePath">Full pathname of the page file.</param>
+        ///
+        /// <returns>The content page.</returns>
         public MarkdownPage GetContentPage(string pageFilePath)
         {
             MarkdownPage markdownPage;
@@ -399,6 +517,11 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return markdownPage;
         }
 
+        /// <summary>Gets content page.</summary>
+        ///
+        /// <param name="pageFilePaths">A variable-length parameters list containing page file paths.</param>
+        ///
+        /// <returns>The content page.</returns>
         public MarkdownPage GetContentPage(params string[] pageFilePaths)
         {
             foreach (var pageFilePath in pageFilePaths)
@@ -410,6 +533,9 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return null;
         }
 
+        /// <summary>Registers the markdown pages described by dirPath.</summary>
+        ///
+        /// <param name="dirPath">Pathname of the directory.</param>
         public void RegisterMarkdownPages(string dirPath)
         {
             foreach (var page in FindMarkdownPagesFn(dirPath))
@@ -432,6 +558,11 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             }
         }
 
+        /// <summary>Finds the markdown pages in this collection.</summary>
+        ///
+        /// <param name="dirPath">Pathname of the directory.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the markdown pages in this collection.</returns>
         public IEnumerable<MarkdownPage> FindMarkdownPages(string dirPath)
         {
             var hasReloadableWebPages = false;
@@ -468,6 +599,9 @@ namespace NServiceKit.WebHost.Endpoints.Formats
                 WatchForModifiedPages = false;
         }
 
+        /// <summary>Registers the markdown page described by markdownPage.</summary>
+        ///
+        /// <param name="markdownPage">The markdown page.</param>
 		public void RegisterMarkdownPage(MarkdownPage markdownPage)
         {
             AddPage(markdownPage);
@@ -483,6 +617,9 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return false;
         }
 
+        /// <summary>Adds a page.</summary>
+        ///
+        /// <param name="page">The page.</param>
         public void AddPage(MarkdownPage page)
         {
             try
@@ -528,6 +665,12 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             }
         }
 
+        /// <summary>Adds a template to 'templateContents'.</summary>
+        ///
+        /// <param name="templatePath">    Full pathname of the template file.</param>
+        /// <param name="templateContents">The template contents.</param>
+        ///
+        /// <returns>A MarkdownTemplate.</returns>
         public MarkdownTemplate AddTemplate(string templatePath, string templateContents)
         {
             MarkdownTemplate template;
@@ -569,21 +712,46 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return contents;
         }
 
+        /// <summary>Transforms.</summary>
+        ///
+        /// <param name="template">The template.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Transform(string template)
         {
             return markdown.Transform(template);
         }
 
+        /// <summary>Transforms.</summary>
+        ///
+        /// <param name="template">  The template.</param>
+        /// <param name="renderHtml">true to render HTML.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Transform(string template, bool renderHtml)
         {
             return renderHtml ? markdown.Transform(template) : template;
         }
 
+        /// <summary>Renders the static page HTML described by filePath.</summary>
+        ///
+        /// <param name="filePath">Full pathname of the file.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderStaticPageHtml(string filePath)
         {
             return RenderStaticPage(filePath, true);
         }
 
+        /// <summary>Renders the static page.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <exception cref="InvalidDataException"> Thrown when an Invalid Data error condition occurs.</exception>
+        ///
+        /// <param name="filePath">  Full pathname of the file.</param>
+        /// <param name="renderHtml">true to render HTML.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderStaticPage(string filePath, bool renderHtml)
         {
             if (filePath == null)
@@ -654,21 +822,45 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return htmlPage;
         }
 
+        /// <summary>Renders the dynamic page HTML.</summary>
+        ///
+        /// <param name="pageName">Name of the page.</param>
+        /// <param name="model">   The model.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderDynamicPageHtml(string pageName, object model)
         {
             return RenderDynamicPage(pageName, model, true);
         }
 
+        /// <summary>Renders the dynamic page HTML.</summary>
+        ///
+        /// <param name="pageName">Name of the page.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderDynamicPageHtml(string pageName)
         {
             return RenderDynamicPage(GetViewPage(pageName), new Dictionary<string, object>(), true, true);
         }
 
+        /// <summary>Renders the dynamic page HTML.</summary>
+        ///
+        /// <param name="pageName"> Name of the page.</param>
+        /// <param name="scopeArgs">The scope arguments.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderDynamicPageHtml(string pageName, Dictionary<string, object> scopeArgs)
         {
             return RenderDynamicPage(GetViewPage(pageName), scopeArgs, true, true);
         }
 
+        /// <summary>Renders the dynamic page.</summary>
+        ///
+        /// <param name="pageName">  Name of the page.</param>
+        /// <param name="model">     The model.</param>
+        /// <param name="renderHtml">true to render HTML.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderDynamicPage(string pageName, object model, bool renderHtml)
         {
             return RenderDynamicPage(GetViewPage(pageName), pageName, model, renderHtml, true);
@@ -684,6 +876,15 @@ namespace NServiceKit.WebHost.Endpoints.Formats
             return RenderDynamicPage(markdownPage, scopeArgs, renderHtml, renderTemplate, templatePath);
         }
 
+        /// <summary>Renders the dynamic page.</summary>
+        ///
+        /// <param name="markdownPage">  The markdown page.</param>
+        /// <param name="scopeArgs">     The scope arguments.</param>
+        /// <param name="renderHtml">    true to render HTML.</param>
+        /// <param name="renderTemplate">true to render template.</param>
+        /// <param name="templatePath">  Full pathname of the template file.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderDynamicPage(MarkdownPage markdownPage, Dictionary<string, object> scopeArgs,
             bool renderHtml, bool renderTemplate, string templatePath = null)
         {

@@ -9,6 +9,8 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Utils
 {
+    /// <summary>An identifier utilities.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public static class IdUtils<T>
     {
         internal static Func<T, object> CanGetId;
@@ -49,6 +51,11 @@ namespace NServiceKit.Common.Utils
             CanGetId = x => x.GetHashCode();
         }
 
+        /// <summary>Gets an identifier.</summary>
+        ///
+        /// <param name="entity">The entity.</param>
+        ///
+        /// <returns>The identifier.</returns>
         public static object GetId(T entity)
         {
             return CanGetId(entity);
@@ -65,6 +72,11 @@ namespace NServiceKit.Common.Utils
             GetIdFn = StaticAccessors<TEntity>.ValueUnTypedGetPropertyTypeFn(pi);
         }
 
+        /// <summary>Gets an identifier.</summary>
+        ///
+        /// <param name="entity">The entity.</param>
+        ///
+        /// <returns>The identifier.</returns>
         public static object GetId(TEntity entity)
         {
             return GetIdFn(entity);
@@ -103,6 +115,11 @@ namespace NServiceKit.Common.Utils
 #endif
         }
 
+        /// <summary>Gets an identifier.</summary>
+        ///
+        /// <param name="entity">The entity.</param>
+        ///
+        /// <returns>The identifier.</returns>
         public static object GetId(TEntity entity)
         {
             return GetIdFn(entity);
@@ -112,42 +129,84 @@ namespace NServiceKit.Common.Utils
     internal class HasIdGetter<TEntity, TId>
         where TEntity : IHasId<TId>
     {
+        /// <summary>Gets an identifier.</summary>
+        ///
+        /// <param name="entity">The entity.</param>
+        ///
+        /// <returns>The identifier.</returns>
         public static object GetId(TEntity entity)
         {
             return entity.Id;
         }
     }
 
+    /// <summary>An identifier utilities.</summary>
     public static class IdUtils
     {
+        /// <summary>The identifier field.</summary>
         public const string IdField = "Id";
 
+        /// <summary>An object extension method that gets object identifier.</summary>
+        ///
+        /// <param name="entity">The entity to act on.</param>
+        ///
+        /// <returns>The object identifier.</returns>
         public static object GetObjectId(this object entity)
         {
             return entity.GetType().GetPropertyInfo(IdField).GetMethodInfo().Invoke(entity, new object[0]);
         }
 
+        /// <summary>A T extension method that gets an identifier.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="entity">The entity to act on.</param>
+        ///
+        /// <returns>The identifier.</returns>
         public static object GetId<T>(this T entity)
         {
             return IdUtils<T>.GetId(entity);
         }
 
+        /// <summary>A T extension method that creates an URN.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The new URN.</returns>
         public static string CreateUrn<T>(object id)
         {
             return string.Format("urn:{0}:{1}", typeof(T).Name.ToLowerInvariant(), id);
         }
 
+        /// <summary>Creates an URN.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        /// <param name="id">  The identifier.</param>
+        ///
+        /// <returns>The new URN.</returns>
         public static string CreateUrn(Type type, object id)
         {
             return string.Format("urn:{0}:{1}", type.Name.ToLowerInvariant(), id);
         }
 
+        /// <summary>A T extension method that creates an URN.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="entity">The entity to act on.</param>
+        ///
+        /// <returns>The new URN.</returns>
         public static string CreateUrn<T>(this T entity)
         {
             var id = GetId(entity);
             return string.Format("urn:{0}:{1}", typeof(T).Name.ToLowerInvariant(), id);
         }
 
+        /// <summary>Creates cache key path.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="idValue">The identifier value.</param>
+        ///
+        /// <returns>The new cache key path.</returns>
         public static string CreateCacheKeyPath<T>(string idValue)
         {
             if (idValue.Length < 4)

@@ -19,16 +19,31 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 	[DataContract(Namespace = "http://schemas.ddnglobal.com/types/")]
 	public class TestCompress
 	{
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
+
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		[DataMember]
 		public int Id { get; set; }
 
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		[DataMember]
 		public string Name { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.TestCompress class.</summary>
 		public TestCompress()
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.TestCompress class.</summary>
+        ///
+        /// <param name="id">  The identifier.</param>
+        /// <param name="name">The name.</param>
 		public TestCompress(int id, string name)
 		{
 			Id = id;
@@ -37,11 +52,13 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 	}
 
 
+    /// <summary>A compression tests.</summary>
 	[TestFixture]
 	public class CompressionTests
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(CompressionTests));
 
+        /// <summary>Can compress and decompress simple dto.</summary>
 		[Test]
 		public void Can_compress_and_decompress_SimpleDto()
 		{
@@ -67,6 +84,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		}
 
 
+        /// <summary>Tests response with compressed result.</summary>
 		[Test]
 		public void Test_response_with_CompressedResult()
 		{
@@ -113,6 +131,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Log.Debug(BitConverter.ToString(writtenBytes));
 		}
 
+        /// <summary>Can gzip and gunzip simple dto.</summary>
 		[Test]
 		public void Can_gzip_and_gunzip_SimpleDto()
 		{

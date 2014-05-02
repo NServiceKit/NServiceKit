@@ -9,8 +9,14 @@ using System.Reflection;
 
 namespace NServiceKit.Html
 {
+    /// <summary>An expression helper.</summary>
 	public static class ExpressionHelper
 	{
+        /// <summary>Gets expression text.</summary>
+        ///
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>The expression text.</returns>
 		public static string GetExpressionText(string expression)
 		{
 			return
@@ -19,6 +25,11 @@ namespace NServiceKit.Html
 					: expression;
 		}
 
+        /// <summary>Gets expression text.</summary>
+        ///
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>The expression text.</returns>
 		public static string GetExpressionText(LambdaExpression expression)
 		{
 			// Split apart the expression string for property/field accessors to create its name

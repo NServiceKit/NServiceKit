@@ -7,9 +7,15 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>An endpoint handler base tests.</summary>
     [TestFixture]
     public class EndpointHandlerBaseTests
     {
+        /// <summary>Creates a request.</summary>
+        ///
+        /// <param name="userHostAddress">The user host address.</param>
+        ///
+        /// <returns>The new request.</returns>
         public IHttpRequest CreateRequest(string userHostAddress)
         {
             var httpReq = new MockHttpRequest("test", HttpMethods.Get, ContentType.Json, "/", null, null, null) {
@@ -18,6 +24,7 @@ namespace NServiceKit.Common.Tests
             return httpReq;
         }
 
+        /// <summary>Can parse ips.</summary>
         [Test]
         public void Can_parse_Ips()
         {
@@ -31,6 +38,7 @@ namespace NServiceKit.Common.Tests
         [Flags]
         enum A : int { B = 0, C = 2, D = 4 }
 
+        /// <summary>Can parse int enums.</summary>
         [Test]
         public void Can_parse_int_enums()
         {

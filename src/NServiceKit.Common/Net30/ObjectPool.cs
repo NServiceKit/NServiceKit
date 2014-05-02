@@ -44,6 +44,7 @@ namespace NServiceKit.Net30.Collections.Concurrent
         int addIndex;
         int removeIndex;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ObjectPool&lt;T&gt; class.</summary>
         public ObjectPool ()
         {
             buffer = new T[capacity];
@@ -52,8 +53,14 @@ namespace NServiceKit.Net30.Collections.Concurrent
             addIndex = capacity - 1;
         }
 
+        /// <summary>Gets the creator.</summary>
+        ///
+        /// <returns>A T.</returns>
         protected abstract T Creator ();
 
+        /// <summary>Gets the take.</summary>
+        ///
+        /// <returns>A T.</returns>
         public T Take ()
         {
             if ((addIndex & ~bit) - 1 == removeIndex)
@@ -73,6 +80,9 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return result;
         }
 
+        /// <summary>Releases the given object.</summary>
+        ///
+        /// <param name="obj">The object.</param>
         public void Release (T obj)
         {
             if (obj == null || addIndex - removeIndex >= capacity - 1)

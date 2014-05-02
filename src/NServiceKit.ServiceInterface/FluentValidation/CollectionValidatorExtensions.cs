@@ -23,6 +23,7 @@ namespace NServiceKit.FluentValidation
     using Internal;
     using Validators;
 
+    /// <summary>A collection validator extensions.</summary>
     public static class CollectionValidatorExtensions {
         /// <summary>
         /// Associates an instance of IValidator with the current property rule and is used to validate each item within the collection.
@@ -34,6 +35,10 @@ namespace NServiceKit.FluentValidation
             return new CollectionValidatorRuleBuilder<T, TCollectionElement>(ruleBuilder, adaptor);
         }
 
+        /// <summary>Interface for collection validator rule builder.</summary>
+        ///
+        /// <typeparam name="T">                 Generic type parameter.</typeparam>
+        /// <typeparam name="TCollectionElement">Type of the collection element.</typeparam>
         public interface ICollectionValidatorRuleBuilder<T,TCollectionElement> : IRuleBuilderOptions<T, IEnumerable<TCollectionElement>> {
             ICollectionValidatorRuleBuilder<T,TCollectionElement> Where(Func<TCollectionElement, bool> predicate);
         }
@@ -42,28 +47,57 @@ namespace NServiceKit.FluentValidation
             IRuleBuilder<T, IEnumerable<TCollectionElement>> ruleBuilder;
             ChildCollectionValidatorAdaptor adaptor;
 
+            /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.CollectionValidatorExtensions.CollectionValidatorRuleBuilder&lt;T, TCollectionElement&gt; class.</summary>
+            ///
+            /// <param name="ruleBuilder">The rule builder.</param>
+            /// <param name="adaptor">    The adaptor.</param>
             public CollectionValidatorRuleBuilder(IRuleBuilder<T, IEnumerable<TCollectionElement>> ruleBuilder, ChildCollectionValidatorAdaptor adaptor) {
                 this.ruleBuilder = ruleBuilder;
                 this.adaptor = adaptor;
             }
 
+            /// <summary>Sets a validator.</summary>
+            ///
+            /// <param name="validator">The validator.</param>
+            ///
+            /// <returns>A list of.</returns>
             public IRuleBuilderOptions<T, IEnumerable<TCollectionElement>> SetValidator(IPropertyValidator validator) {
                 return ruleBuilder.SetValidator(validator);
             }
 
+            /// <summary>Sets a validator.</summary>
+            ///
+            /// <param name="validator">The validator.</param>
+            ///
+            /// <returns>A list of.</returns>
             [Obsolete]
             public IRuleBuilderOptions<T, IEnumerable<TCollectionElement>> SetValidator(IValidator validator) {
                 return ruleBuilder.SetValidator(validator);
             }
 
+            /// <summary>Sets a validator.</summary>
+            ///
+            /// <param name="validator">The validator.</param>
+            ///
+            /// <returns>A list of.</returns>
             public IRuleBuilderOptions<T, IEnumerable<TCollectionElement>> SetValidator(IValidator<IEnumerable<TCollectionElement>> validator) {
                 return ruleBuilder.SetValidator(validator);
             }
 
+            /// <summary>Configures the given configurator.</summary>
+            ///
+            /// <param name="configurator">The configurator.</param>
+            ///
+            /// <returns>A list of.</returns>
             public IRuleBuilderOptions<T, IEnumerable<TCollectionElement>> Configure(Action<PropertyRule> configurator) {
                 return ((IRuleBuilderOptions<T, IEnumerable<TCollectionElement>>)ruleBuilder).Configure(configurator);
             }
 
+            /// <summary>Wheres the given predicate.</summary>
+            ///
+            /// <param name="predicate">The predicate.</param>
+            ///
+            /// <returns>A list of.</returns>
             public ICollectionValidatorRuleBuilder<T, TCollectionElement> Where(Func<TCollectionElement, bool> predicate) {
                 predicate.Guard("Cannot pass null to Where.");
                 adaptor.Predicate = x => predicate((TCollectionElement)x);

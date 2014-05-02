@@ -10,17 +10,23 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A request and path resolution tests.</summary>
 	[TestFixture]
 	public class RequestAndPathResolutionTests
 		: TestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Tests.RequestAndPathResolutionTests class.</summary>
 		public RequestAndPathResolutionTests()
 			: base(Config.NServiceKitBaseUri, typeof(ReverseService).Assembly)
 		{
 		}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container) { }
 
+        /// <summary>Executes the before test action.</summary>
 		[SetUp]
 		public void OnBeforeTest()
 		{
@@ -34,6 +40,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             EndpointHost.CatchAllHandlers.Add(new MetadataFeature().ProcessRequest);
         }
 
+        /// <summary>Can process default request.</summary>
 		[Test]
 		public void Can_process_default_request()
 		{
@@ -41,6 +48,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request, Is.Not.Null);
 		}
 
+        /// <summary>Can process default case insensitive request.</summary>
 		[Test]
 		public void Can_process_default_case_insensitive_request()
 		{
@@ -48,6 +56,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request, Is.Not.Null);
 		}
 
+        /// <summary>Can process default request with query string.</summary>
 		[Test]
 		public void Can_process_default_request_with_queryString()
 		{

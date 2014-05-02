@@ -7,18 +7,35 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Manager for services.</summary>
 	public class ServiceManager
 		: IDisposable
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(ServiceManager));
 
+        /// <summary>Gets the container.</summary>
+        ///
+        /// <value>The container.</value>
 		public Container Container { get; private set; }
+
+        /// <summary>Gets the service controller.</summary>
+        ///
+        /// <value>The service controller.</value>
 		public ServiceController ServiceController { get; private set; }
+
+        /// <summary>Gets the metadata.</summary>
+        ///
+        /// <value>The metadata.</value>
         public ServiceMetadata Metadata { get; internal set; }
 
         //public ServiceOperations ServiceOperations { get; set; }
         //public ServiceOperations AllServiceOperations { get; set; }
 
+        /// <summary>Inject alternative container and strategy for resolving Service Types.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
 		public ServiceManager(params Assembly[] assembliesWithServices)
 		{
 			if (assembliesWithServices == null || assembliesWithServices.Length == 0)
@@ -31,6 +48,10 @@ namespace NServiceKit.ServiceHost
             this.ServiceController = new ServiceController(() => GetAssemblyTypes(assembliesWithServices), this.Metadata);
 		}
 
+        /// <summary>Inject alternative container and strategy for resolving Service Types.</summary>
+        ///
+        /// <param name="container">             The container.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
         public ServiceManager(Container container, params Assembly[] assembliesWithServices)
             : this(assembliesWithServices)
         {
@@ -79,6 +100,9 @@ namespace NServiceKit.ServiceHost
 
 		private ContainerResolveCache typeFactory;
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <returns>A ServiceManager.</returns>
 		public ServiceManager Init()
 		{
 			typeFactory = new ContainerResolveCache(this.Container);
@@ -90,6 +114,8 @@ namespace NServiceKit.ServiceHost
 		    return this;
 		}
 
+
+        /// <summary>.</summary>
         [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
 		public void RegisterService<T>()
 		{
@@ -102,6 +128,13 @@ namespace NServiceKit.ServiceHost
 			this.Container.RegisterAutoWired<T>();
 		}
 
+        /// <summary>Registers the service described by serviceType.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="serviceType">Type of the service.</param>
+        ///
+        /// <returns>A Type.</returns>
 		public Type RegisterService(Type serviceType)
 		{
 
@@ -135,11 +168,17 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Executes the given dto.</summary>
+        ///
+        /// <param name="dto">The dto.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Execute(object dto)
 		{
 			return this.ServiceController.Execute(dto, null);
 		}
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose()
 		{
 			if (this.Container != null)
@@ -148,6 +187,7 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>After initialise.</summary>
 		public void AfterInit()
 		{
 			this.ServiceController.AfterInit();

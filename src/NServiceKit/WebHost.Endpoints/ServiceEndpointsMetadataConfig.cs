@@ -2,6 +2,7 @@ using NServiceKit.Common.Web;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>A service endpoints metadata configuration.</summary>
     public class ServiceEndpointsMetadataConfig
     {
         private ServiceEndpointsMetadataConfig() { }
@@ -25,14 +26,46 @@ namespace NServiceKit.WebHost.Endpoints
             };
         }
 
+        /// <summary>Gets or sets the default metadata URI.</summary>
+        ///
+        /// <value>The default metadata URI.</value>
         public string DefaultMetadataUri { get; set; }
+
+        /// <summary>Gets or sets the SOAP 11.</summary>
+        ///
+        /// <value>The SOAP 11.</value>
         public SoapMetadataConfig Soap11 { get; set; }
+
+        /// <summary>Gets or sets the SOAP 12.</summary>
+        ///
+        /// <value>The SOAP 12.</value>
         public SoapMetadataConfig Soap12 { get; set; }
+
+        /// <summary>Gets or sets the XML.</summary>
+        ///
+        /// <value>The XML.</value>
         public MetadataConfig Xml { get; set; }
+
+        /// <summary>Gets or sets the JSON.</summary>
+        ///
+        /// <value>The JSON.</value>
         public MetadataConfig Json { get; set; }
+
+        /// <summary>Gets or sets the jsv.</summary>
+        ///
+        /// <value>The jsv.</value>
         public MetadataConfig Jsv { get; set; }
+
+        /// <summary>Gets or sets the custom.</summary>
+        ///
+        /// <value>The custom.</value>
         public MetadataConfig Custom { get; set; }
 
+        /// <summary>Gets endpoint configuration.</summary>
+        ///
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>The endpoint configuration.</returns>
         public MetadataConfig GetEndpointConfig(string contentType)
         {
             switch (contentType)

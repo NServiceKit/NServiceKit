@@ -11,26 +11,46 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 {
+    /// <summary>An evaluator execution context.</summary>
 	public class EvaluatorExecutionContext
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.EvaluatorExecutionContext class.</summary>
 		public EvaluatorExecutionContext()
 		{
 			this.Items = new List<EvaluatorItem>();
 			this.TypeProperties = new Dictionary<string, Type>();
 		}
 
+        /// <summary>Gets or sets the type of the base.</summary>
+        ///
+        /// <value>The type of the base.</value>
 		public Type BaseType { get; set; }
+
+        /// <summary>Gets or sets the generic arguments.</summary>
+        ///
+        /// <value>The generic arguments.</value>
 		public Type[] GenericArgs { get; set; }
+
+        /// <summary>Gets or sets the type properties.</summary>
+        ///
+        /// <value>The type properties.</value>
 		public IDictionary<string, Type> TypeProperties { get; set; }
 
+        /// <summary>Gets the items.</summary>
+        ///
+        /// <value>The items.</value>
 		public List<EvaluatorItem> Items { get; private set; }
 
+        /// <summary>Gets the build.</summary>
+        ///
+        /// <returns>An Evaluator.</returns>
 		public Evaluator Build()
 		{
 			return new Evaluator(Items, BaseType, GenericArgs, TypeProperties);
 		}
 	}
 
+    /// <summary>An evaluator.</summary>
 	public class Evaluator
 	{
 	    private static ILog Log = LogManager.GetLogger(typeof (Evaluator));
@@ -67,7 +87,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
             "NServiceKit.Markdown"                                                                     
         };
 
-        //NOTE: This assumes that the assembly name will always be equal to the namespace
+        /// <summary>NOTE: This assumes that the assembly name will always be equal to the namespace.</summary>
+        ///
+        /// <param name="assemblyName">Name of the assembly.</param>
         public static void AddAssembly(string assemblyName)
         {
             if (AssemblyNames.Contains(assemblyName)) return;
@@ -98,6 +120,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
             }
         }
 
+        /// <summary>Searches for the first type.</summary>
+        ///
+        /// <param name="typeName">Name of the type.</param>
+        ///
+        /// <returns>The found type.</returns>
         public static Type FindType(string typeName)
         {
             if (typeName == null || typeName.Contains(".")) return null;
@@ -115,11 +142,20 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
             return null;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.Evaluator class.</summary>
+        ///
+        /// <param name="items">The items.</param>
 		public Evaluator(IEnumerable<EvaluatorItem> items)
 			: this(items, null, null, null)
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.Evaluator class.</summary>
+        ///
+        /// <param name="items">         The items.</param>
+        /// <param name="baseType">      Type of the base.</param>
+        /// <param name="genericArgs">   The generic arguments.</param>
+        /// <param name="typeProperties">The type properties.</param>
 		public Evaluator(IEnumerable<EvaluatorItem> items,
 			Type baseType, Type[] genericArgs, IDictionary<string, Type> typeProperties)
 		{
@@ -130,9 +166,20 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			ConstructEvaluator(items);
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.Evaluator class.</summary>
+        ///
+        /// <param name="returnType">Type of the return.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="name">      The name.</param>
 		public Evaluator(Type returnType, string expression, string name)
 			: this(returnType, expression, name, null) { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.Evaluator class.</summary>
+        ///
+        /// <param name="returnType">Type of the return.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="exprParams">Options for controlling the expression.</param>
 		public Evaluator(Type returnType, string expression, string name, IDictionary<string, Type> exprParams)
 		{
 			EvaluatorItem[] items = 
@@ -147,12 +194,22 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			ConstructEvaluator(items);
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.Evaluator class.</summary>
+        ///
+        /// <param name="item">The item.</param>
 		public Evaluator(EvaluatorItem item)
 		{
 			EvaluatorItem[] items = { item };
 			ConstructEvaluator(items);
 		}
 
+        /// <summary>Gets type name.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The type name.</returns>
 		public string GetTypeName(Type type)
 		{
 			try
@@ -380,26 +437,54 @@ namespace CSharpEval
 			}
 		}
 
+        /// <summary>Gets the instance.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        ///
+        /// <returns>The instance.</returns>
 		public T GetInstance<T>()
 		{
 			return (T)compiled;
 		}
 
+        /// <summary>Creates the instance.</summary>
+        ///
+        /// <returns>The new instance.</returns>
 		public object CreateInstance()
 		{
 			return compiledTypeCtorFn();
 		}
 
+        /// <summary>Gets compiled method information.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>The compiled method information.</returns>
 		public MethodInfo GetCompiledMethodInfo(string name)
 		{
 			return compiledType.GetMethod(name);
 		}
 
+        /// <summary>Evaluates.</summary>
+        ///
+        /// <param name="name">      The name.</param>
+        /// <param name="exprParams">Options for controlling the expression.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Evaluate(string name, params object[] exprParams)
 		{
 			return Evaluate(compiled, name, exprParams);
 		}
 
+        /// <summary>Evaluates.</summary>
+        ///
+        /// <exception>Thrown when an Inner error condition occurs.</exception>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="exprParams">Options for controlling the expression.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Evaluate(object instance, string name, params object[] exprParams)
 		{
 			try
@@ -414,17 +499,35 @@ namespace CSharpEval
 			}
 		}
 
+        /// <summary>Evals.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="name">      The name.</param>
+        /// <param name="exprParams">Options for controlling the expression.</param>
+        ///
+        /// <returns>A T.</returns>
 		public T Eval<T>(string name, params object[] exprParams)
 		{
 			return (T)Evaluate(name, exprParams);
 		}
 
+        /// <summary>Evals.</summary>
+        ///
+        /// <param name="code">The code.</param>
+        ///
+        /// <returns>An object.</returns>
 		public static object Eval(string code)
 		{
 			var eval = new Evaluator(typeof(object), code, StaticMethodName);
 			return eval.Evaluate(StaticMethodName);
 		}
 
+        /// <summary>Evals.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="code">The code.</param>
+        ///
+        /// <returns>A T.</returns>
 		public static T Eval<T>(string code)
 		{
 			var eval = new Evaluator(typeof(T), code, StaticMethodName);
@@ -433,10 +536,18 @@ namespace CSharpEval
 
 	}
 
+    /// <summary>An evaluator item.</summary>
 	public class EvaluatorItem
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.EvaluatorItem class.</summary>
 		public EvaluatorItem() { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Support.Markdown.EvaluatorItem class.</summary>
+        ///
+        /// <param name="returnType">The type of the return.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="exprParams">Options for controlling the expression.</param>
 		public EvaluatorItem(Type returnType, string name, string expression, IDictionary<string, Type> exprParams)
 		{
 			ReturnType = returnType;
@@ -445,9 +556,24 @@ namespace CSharpEval
 			Params = exprParams;
 		}
 
+        /// <summary>Gets or sets the type of the return.</summary>
+        ///
+        /// <value>The type of the return.</value>
 		public Type ReturnType { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		public string Name { get; set; }
+
+        /// <summary>Gets or sets the expression.</summary>
+        ///
+        /// <value>The expression.</value>
 		public string Expression { get; set; }
+
+        /// <summary>Gets or sets options for controlling the operation.</summary>
+        ///
+        /// <value>The parameters.</value>
 		public IDictionary<string, Type> Params { get; set; }
 	}
 }

@@ -3,6 +3,7 @@ using NServiceKit.Validation;
 
 namespace NServiceKit.ServiceInterface.Validation
 {
+    /// <summary>A validation result extensions.</summary>
     public static class ValidationResultExtensions
     {
         /// <summary>

@@ -15,8 +15,15 @@ namespace NServiceKit.ServiceInterface
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class RequiresAnyPermissionAttribute : AuthenticateAttribute
     {
+        /// <summary>Gets or sets the required permissions.</summary>
+        ///
+        /// <value>The required permissions.</value>
         public List<string> RequiredPermissions { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.RequiresAnyPermissionAttribute class.</summary>
+        ///
+        /// <param name="applyTo">    The apply to.</param>
+        /// <param name="permissions">A variable-length parameters list containing permissions.</param>
         public RequiresAnyPermissionAttribute(ApplyTo applyTo, params string[] permissions)
         {
             this.RequiredPermissions = permissions.ToList();
@@ -24,9 +31,17 @@ namespace NServiceKit.ServiceInterface
             this.Priority = (int)RequestFilterPriority.RequiredPermission;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.RequiresAnyPermissionAttribute class.</summary>
+        ///
+        /// <param name="permissions">A variable-length parameters list containing permissions.</param>
         public RequiresAnyPermissionAttribute(params string[] permissions)
             : this(ApplyTo.All, permissions) { }
 
+        /// <summary>This method is only executed if the HTTP method matches the <see cref="ApplyTo"/> property.</summary>
+        ///
+        /// <param name="req">       The http request wrapper.</param>
+        /// <param name="res">       The http response wrapper.</param>
+        /// <param name="requestDto">The request DTO.</param>
         public override void Execute(IHttpRequest req, IHttpResponse res, object requestDto)
         {
             base.Execute(req, res, requestDto); //first check if session is authenticated
@@ -42,6 +57,13 @@ namespace NServiceKit.ServiceInterface
             res.EndRequest();
         }
 
+        /// <summary>Query if 'session' has any permissions.</summary>
+        ///
+        /// <param name="req">         The request.</param>
+        /// <param name="session">     The session.</param>
+        /// <param name="userAuthRepo">The user authentication repo.</param>
+        ///
+        /// <returns>true if any permissions, false if not.</returns>
         public bool HasAnyPermissions(IHttpRequest req, IAuthSession session, IUserAuthRepository userAuthRepo = null)
         {
             if (HasAnyPermissions(session)) return true;
@@ -62,6 +84,11 @@ namespace NServiceKit.ServiceInterface
             return false;
         }
 
+        /// <summary>Query if 'session' has any permissions.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        ///
+        /// <returns>true if any permissions, false if not.</returns>
         public bool HasAnyPermissions(IAuthSession session)
         {
             return this.RequiredPermissions

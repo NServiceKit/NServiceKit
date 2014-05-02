@@ -9,9 +9,11 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>An ORM lite user authentication tests.</summary>
 	[TestFixture]
 	public class OrmLiteUserAuthTests
 	{
+        /// <summary>Can insert table with user authentication.</summary>
 		[Test]
 		public void Can_insert_table_with_UserAuth()
 		{

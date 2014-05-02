@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Messaging
 {
+    /// <summary>A message queue client factory.</summary>
     public class MessageQueueClientFactory
         : IMessageQueueClientFactory
     {
+        /// <summary>Creates message queue client.</summary>
+        ///
+        /// <returns>The new message queue client.</returns>
         public IMessageQueueClient CreateMessageQueueClient()
         {
             return new InMemoryMessageQueueClient(this);
@@ -13,6 +17,7 @@ namespace NServiceKit.Messaging
 
         readonly object syncLock = new object();
 
+        /// <summary>Occurs when Message Received.</summary>
         public event EventHandler<EventArgs> MessageReceived;
 
         void InvokeMessageReceived(EventArgs e)
@@ -24,11 +29,20 @@ namespace NServiceKit.Messaging
         private readonly Dictionary<string, Queue<byte[]>> queueMessageBytesMap
             = new Dictionary<string, Queue<byte[]>>();
 
+        /// <summary>Publish message.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="queueName">.</param>
+        /// <param name="message">  The message.</param>
         public void PublishMessage<T>(string queueName, IMessage<T> message)
         {
             PublishMessage(queueName, message.ToBytes());
         }
 
+        /// <summary>Publish message.</summary>
+        ///
+        /// <param name="queueName">   .</param>
+        /// <param name="messageBytes">The message in bytes.</param>
         public void PublishMessage(string queueName, byte[] messageBytes)
         {
             lock (syncLock)
@@ -71,6 +85,7 @@ namespace NServiceKit.Messaging
             }
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
         }

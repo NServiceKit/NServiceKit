@@ -7,6 +7,7 @@ using NServiceKit.Text.WP;
 
 namespace NServiceKit.Common.Web
 {
+    /// <summary>A HTTP methods.</summary>
     public static class HttpMethods
     {
         static readonly string[] allVerbs = new[] {
@@ -22,8 +23,14 @@ namespace NServiceKit.Common.Web
             "POLL",  "SUBSCRIBE", "UNSUBSCRIBE" //MS Exchange WebDav: http://msdn.microsoft.com/en-us/library/aa142917.aspx
         };
 
+        /// <summary>all verbs.</summary>
         public static HashSet<string> AllVerbs = new HashSet<string>(allVerbs);
 
+        /// <summary>Query if 'httpVerb' has verb.</summary>
+        ///
+        /// <param name="httpVerb">The HTTP verb.</param>
+        ///
+        /// <returns>true if verb, false if not.</returns>
         public static bool HasVerb(string httpVerb)
         {
 #if NETFX_CORE
@@ -33,14 +40,26 @@ namespace NServiceKit.Common.Web
 #endif
         }
 
+        /// <summary>The get.</summary>
         public const string Get = "GET";
+        /// <summary>The put.</summary>
         public const string Put = "PUT";
+        /// <summary>The post.</summary>
         public const string Post = "POST";
+        /// <summary>The delete.</summary>
         public const string Delete = "DELETE";
+        /// <summary>Options for controlling the operation.</summary>
         public const string Options = "OPTIONS";
+        /// <summary>The head.</summary>
         public const string Head = "HEAD";
+        /// <summary>The patch.</summary>
         public const string Patch = "PATCH";
 
+        /// <summary>Gets endpoint attribute.</summary>
+        ///
+        /// <param name="httpMethod">The HTTP method.</param>
+        ///
+        /// <returns>The endpoint attribute.</returns>
         public static EndpointAttributes GetEndpointAttribute(string httpMethod)
         {
             switch (httpMethod.ToUpper())

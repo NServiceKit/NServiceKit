@@ -9,10 +9,20 @@ using NServiceKit.ServiceModel.Support;
 
 namespace NServiceKit.ServiceModel.Serialization
 {
+    /// <summary>An XML serializable serializer.</summary>
     public class XmlSerializableSerializer : IStringSerializer 
     {
+        /// <summary>The instance.</summary>
         public static XmlSerializableSerializer Instance = new XmlSerializableSerializer();
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <typeparam name="XmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Parse<XmlDto>(XmlDto from)
         {
             try

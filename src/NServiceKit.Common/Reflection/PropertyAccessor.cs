@@ -5,8 +5,15 @@ using NServiceKit.Text;
 namespace NServiceKit.Common.Reflection
 {
 
+    /// <summary>A property accessor.</summary>
     public static class PropertyAccessor
     {
+        /// <summary>Gets property function.</summary>
+        ///
+        /// <typeparam name="TEntity">Type of the entity.</typeparam>
+        /// <param name="propertyName">Name of the property.</param>
+        ///
+        /// <returns>The property function.</returns>
         public static Func<TEntity, object> GetPropertyFn<TEntity>(string propertyName)
         {
             return new PropertyAccessor<TEntity>(propertyName).GetPropertyFn();
@@ -21,6 +28,12 @@ namespace NServiceKit.Common.Reflection
         //    return (Func<object, object>)getPropertyFn;
         //}
 
+        /// <summary>Sets property function.</summary>
+        ///
+        /// <typeparam name="TEntity">Type of the entity.</typeparam>
+        /// <param name="propertyName">Name of the property.</param>
+        ///
+        /// <returns>An Action&lt;TEntity,object&gt;</returns>
         public static Action<TEntity, object> SetPropertyFn<TEntity>(string propertyName)
         {
             return new PropertyAccessor<TEntity>(propertyName).SetPropertyFn();
@@ -36,15 +49,28 @@ namespace NServiceKit.Common.Reflection
         //}
     }
 
+    /// <summary>A property accessor.</summary>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     public class PropertyAccessor<TEntity>
     {
         readonly PropertyInfo pi;
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the type of the property.</summary>
+        ///
+        /// <value>The type of the property.</value>
         public Type PropertyType { get; set; }
 
         private readonly Func<TEntity, object> getPropertyFn;
         private readonly Action<TEntity, object> setPropertyFn;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Reflection.PropertyAccessor&lt;TEntity&gt; class.</summary>
+        ///
+        /// <param name="propertyName">Name of the property.</param>
         public PropertyAccessor(string propertyName)
         {
             this.pi = typeof(TEntity).GetPropertyInfo(propertyName);
@@ -55,11 +81,17 @@ namespace NServiceKit.Common.Reflection
             setPropertyFn = StaticAccessors<TEntity>.ValueUnTypedSetPropertyTypeFn(pi);
         }
 
+        /// <summary>Gets property function.</summary>
+        ///
+        /// <returns>The property function.</returns>
         public Func<TEntity, object> GetPropertyFn()
         {
             return getPropertyFn;
         }
 
+        /// <summary>Sets property function.</summary>
+        ///
+        /// <returns>An Action&lt;TEntity,object&gt;</returns>
         public Action<TEntity, object> SetPropertyFn()
         {
             return setPropertyFn;
@@ -81,6 +113,11 @@ namespace NServiceKit.Common.Reflection
             return StaticAccessors<TEntity>.ValueUnTypedGetPropertyFn<TId>(pi);
         }
 
+        /// <summary>Un typed get property function.</summary>
+        ///
+        /// <typeparam name="TId">Type of the identifier.</typeparam>
+        ///
+        /// <returns>A Func&lt;object,object&gt;</returns>
         public Func<object, object> UnTypedGetPropertyFn<TId>()
         {
             return StaticAccessors<TEntity>.UnTypedGetPropertyFn<TId>(pi);

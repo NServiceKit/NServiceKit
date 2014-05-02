@@ -25,26 +25,47 @@ namespace NServiceKit.FluentValidation.Validators
     using Attributes;
     using Internal;
 
+    /// <summary>A property validator context.</summary>
     public class PropertyValidatorContext
     {
         private readonly MessageFormatter messageFormatter = new MessageFormatter();
         private bool propertyValueSet;
         private object propertyValue;
 
+        /// <summary>Gets a context for the parent.</summary>
+        ///
+        /// <value>The parent context.</value>
         public ValidationContext ParentContext { get; private set; }
+
+        /// <summary>Gets the rule.</summary>
+        ///
+        /// <value>The rule.</value>
         public PropertyRule Rule { get; private set; }
+
+        /// <summary>Gets the name of the property.</summary>
+        ///
+        /// <value>The name of the property.</value>
         public string PropertyName { get; private set; }
 
+        /// <summary>Gets information describing the property.</summary>
+        ///
+        /// <value>Information describing the property.</value>
         public string PropertyDescription
         {
             get { return Rule.GetDisplayName(); }
         }
 
+        /// <summary>Gets the instance.</summary>
+        ///
+        /// <value>The instance.</value>
         public object Instance
         {
             get { return ParentContext.InstanceToValidate; }
         }
 
+        /// <summary>Gets the message formatter.</summary>
+        ///
+        /// <value>The message formatter.</value>
         public MessageFormatter MessageFormatter
         {
             get { return messageFormatter; }
@@ -71,6 +92,11 @@ namespace NServiceKit.FluentValidation.Validators
             }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.PropertyValidatorContext class.</summary>
+        ///
+        /// <param name="parentContext">Context for the parent.</param>
+        /// <param name="rule">         The rule.</param>
+        /// <param name="propertyName"> Name of the property.</param>
         public PropertyValidatorContext(ValidationContext parentContext, PropertyRule rule, string propertyName)
         {
             ParentContext = parentContext;

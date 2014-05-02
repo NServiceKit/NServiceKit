@@ -7,6 +7,7 @@ using NServiceKit.Common.Web;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A custom request data tests.</summary>
 	[TestFixture]
 	public class CustomRequestDataTests
 	{

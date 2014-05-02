@@ -6,17 +6,26 @@ using NServiceKit.Configuration;
 
 namespace NServiceKit.ServiceHost.Tests.TypeFactory
 {
+    /// <summary>A function type factory.</summary>
 	public class FuncTypeFactory
 		: ITypeFactory
 	{
 		private readonly Container container;
 		private readonly Dictionary<Type, Func<object>> resolveFnMap = new Dictionary<Type, Func<object>>();
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.TypeFactory.FuncTypeFactory class.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		public FuncTypeFactory(Container container)
 		{
 			this.container = container;
 		}
 
+        /// <summary>Creates an instance.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The new instance.</returns>
 		public object CreateInstance(Type type)
 		{
 			Func<object> resolveFn;

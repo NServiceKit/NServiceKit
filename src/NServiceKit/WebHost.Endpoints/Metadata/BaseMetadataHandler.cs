@@ -18,13 +18,27 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
     using System.Text;
     using ServiceHost;
 
+    /// <summary>A base metadata handler.</summary>
     public abstract class BaseMetadataHandler : HttpHandlerBase, INServiceKitHttpHandler
     {
+        /// <summary>Gets the format to use.</summary>
+        ///
+        /// <value>The format.</value>
         public abstract Format Format { get; }
 
+        /// <summary>Gets or sets the type of the content.</summary>
+        ///
+        /// <value>The type of the content.</value>
         public string ContentType { get; set; }
+
+        /// <summary>Gets or sets the content format.</summary>
+        ///
+        /// <value>The content format.</value>
         public string ContentFormat { get; set; }
 
+        /// <summary>Executes the given context.</summary>
+        ///
+        /// <param name="context">The context.</param>
         public override void Execute(HttpContext context)
         {
             var writer = new HtmlTextWriter(context.Response.Output);
@@ -33,6 +47,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
             ProcessOperations(writer, new HttpRequestWrapper(GetType().Name, context.Request), new HttpResponseWrapper(context.Response));
         }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public virtual void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
             using (var sw = new StreamWriter(httpRes.OutputStream))
@@ -43,6 +62,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
             }
         }
 
+        /// <summary>Creates a response.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The new response.</returns>
         public virtual string CreateResponse(Type type)
         {
             if (type == typeof(string))
@@ -57,6 +81,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
             return CreateMessage(type);
         }
 
+        /// <summary>Process the operations.</summary>
+        ///
+        /// <param name="writer"> The writer.</param>
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
         protected virtual void ProcessOperations(HtmlTextWriter writer, IHttpRequest httpReq, IHttpResponse httpRes)
         {
             var operationName = httpReq.QueryString["op"];
@@ -174,6 +203,13 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
                 .Replace("\n", "<br />\n");
         }
 
+        /// <summary>Assert access.</summary>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected bool AssertAccess(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
             if (!EndpointHost.Config.HasAccessToMetadata(httpReq, httpRes)) return false;
@@ -189,8 +225,21 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
             return true;
         }
 
+        /// <summary>Creates a message.</summary>
+        ///
+        /// <param name="dtoType">Type of the dto.</param>
+        ///
+        /// <returns>The new message.</returns>
         protected abstract string CreateMessage(Type dtoType);
 
+        /// <summary>Renders the operation.</summary>
+        ///
+        /// <param name="writer">         The writer.</param>
+        /// <param name="httpReq">        The HTTP request.</param>
+        /// <param name="operationName">  Name of the operation.</param>
+        /// <param name="requestMessage"> Message describing the request.</param>
+        /// <param name="responseMessage">Message describing the response.</param>
+        /// <param name="metadataHtml">   The metadata HTML.</param>
         protected virtual void RenderOperation(HtmlTextWriter writer, IHttpRequest httpReq, string operationName,
             string requestMessage, string responseMessage, string metadataHtml)
         {
@@ -218,6 +267,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
             operationControl.Render(writer);
         }
 
+        /// <summary>Renders the operations.</summary>
+        ///
+        /// <param name="writer">  The writer.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        /// <param name="metadata">The metadata.</param>
         protected abstract void RenderOperations(HtmlTextWriter writer, IHttpRequest httpReq, ServiceMetadata metadata);
 
     }

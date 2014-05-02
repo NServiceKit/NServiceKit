@@ -8,15 +8,18 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>A string extension tests.</summary>
 	[TestFixture]
 	public class StringExtensionTests
 	{
+        /// <summary>Converts this object to the works with value types.</summary>
 		[Test]
 		public void To_works_with_ValueTypes()
 		{
 			Assert.That(1.ToString().To<int>(), Is.EqualTo(1));
 		}
 
+        /// <summary>Converts this object to an on null or empty string returns default value supplied.</summary>
 		[Test]
 		public void To_on_null_or_empty_string_returns_default_value_supplied()
 		{
@@ -26,12 +29,14 @@ namespace NServiceKit.Common.Tests
 			Assert.That(nullString.To(1), Is.EqualTo(1));
 		}
 
+        /// <summary>Converts this object to a value type on null or empty string returns default value.</summary>
 		[Test]
 		public void To_ValueType_on_null_or_empty_string_returns_default_value()
 		{
 			Assert.That("".To<int>(), Is.EqualTo(default(int)));
 		}
 
+        /// <summary>Converts this object to an URL encode.</summary>
 		[Test]
 		public void To_UrlEncode()
 		{
@@ -41,6 +46,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(urlEncoded, Is.EqualTo(HttpUtility.UrlEncode(url)));
 		}
 
+        /// <summary>Converts this object to an URL decode.</summary>
 		[Test]
 		public void To_UrlDecode()
 		{
@@ -51,6 +57,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(decodedUrl, Is.EqualTo(url));
 		}
 
+        /// <summary>URL format encodes components.</summary>
 		[Test]
 		public void UrlFormat_encodes_components()
 		{
@@ -64,6 +71,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(urlFormat, Is.EqualTo(expectedUrlFormat));
 		}
 
+        /// <summary>Error code to english format.</summary>
 		[Test]
 		public void ErrorCode_to_English_format()
 		{
@@ -71,6 +79,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(code.ToEnglish(), Is.EqualTo("Email address is invalid"));
 		}
 
+        /// <summary>Print special characters.</summary>
 		[Test]
 		public void Print_special_chars()
 		{
@@ -78,6 +87,7 @@ namespace NServiceKit.Common.Tests
 			specialChars.ForEach(x => Console.WriteLine(x + " = " + ((int)x).ToString("x")));
 		}
 
+        /// <summary>Hexadecimal escape escapes special characters.</summary>
 		[Test]
 		public void HexEscape_escapes_special_chars()
 		{
@@ -87,6 +97,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(unescapedString.HexEscape(specialChars.ToArray()), Is.EqualTo(expectedString));
 		}
 
+        /// <summary>Hexadecimal unescape unescapes special characters.</summary>
 		[Test]
 		public void HexUnescape_unescapes_special_chars()
 		{
@@ -96,6 +107,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(escapedString.HexUnescape(specialChars.ToArray()), Is.EqualTo(expectedString));
 		}
 
+        /// <summary>Safe variable name strips illegal characters.</summary>
 		[Test]
 		public void SafeVarName_strips_illegal_chars()
 		{
@@ -104,6 +116,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That("UPPER_lower_0123456789".SafeVarName(), Is.EqualTo("UPPER_lower_0123456789"));
 		}
 
+        /// <summary>Glob finds right strings.</summary>
         [Test]
         public void Glob_finds_right_strings()
         {
@@ -115,6 +128,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(actual, Is.EquivalentTo(expected));
         }
 
+        /// <summary>Does combine paths.</summary>
 	    [Test]
 	    public void Does_combine_paths()
 	    {
@@ -132,36 +146,42 @@ namespace NServiceKit.Common.Tests
             Assert.That("".CombineWith("some", "other", "path/"), Is.EqualTo("some/other/path/"));
         }
 
+        /// <summary>Converts this object to the HTTPS is idempotent.</summary>
         [Test]
         public void ToHttps_is_idempotent()
         {
             Assert.That("https://host.example.com/path".ToHttps().ToHttps(), Is.EqualTo("https://host.example.com/path"));
         }
 
+        /// <summary>Converts this object to the HTTPS replaces HTTP with HTTPS.</summary>
         [Test]
         public void ToHttps_replaces_http_with_https()
         {
             Assert.That("http://host.example.com/path".ToHttps(), Is.EqualTo("https://host.example.com/path"));
         }
 
+        /// <summary>Converts this object to the HTTPS only replaces HTTP at beginning of string.</summary>
         [Test]
         public void ToHttps_only_replaces_http_at_beginning_of_string()
         {
             Assert.That("http://host.example.com/http/path".ToHttps(), Is.EqualTo("https://host.example.com/http/path"));
         }
 
+        /// <summary>Converts this object to the HTTPS ignores whitespace at beginning of string.</summary>
         [Test]
         public void ToHttps_ignores_whitespace_at_beginning_of_string()
         {
             Assert.That("  http://host.example.com".ToHttps(), Is.EqualTo("https://host.example.com"));
         }
 
+        /// <summary>Converts this object to the HTTPS is not case sensitive.</summary>
         [Test]
         public void ToHttps_is_not_case_sensitive()
         {
             Assert.That("HTTP://HOST.EXAMPLE.COM".ToHttps(), Is.EqualTo("https://HOST.EXAMPLE.COM"));
         }
 
+        /// <summary>HTML strip unescapes all HTML character codes correctly.</summary>
         [Test]
         public void HtmlStrip_unescapes_all_html_character_codes_correctly()
         {
@@ -186,6 +206,7 @@ namespace NServiceKit.Common.Tests
             }
         }
 
+        /// <summary>HTML strip fixes actual production example.</summary>
         [Test]
         public void HtmlStrip_fixes_actual_production_example()
         {

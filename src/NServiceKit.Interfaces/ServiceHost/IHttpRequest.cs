@@ -27,12 +27,24 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         string ContentType { get; }
 
+        /// <summary>Gets the HTTP method.</summary>
+        ///
+        /// <value>The HTTP method.</value>
         string HttpMethod { get; }
-        
+
+        /// <summary>Gets a value indicating whether this object is local.</summary>
+        ///
+        /// <value>true if this object is local, false if not.</value>
         bool IsLocal { get; }
 
+        /// <summary>Gets the user agent.</summary>
+        ///
+        /// <value>The user agent.</value>
         string UserAgent { get; }
 
+        /// <summary>Gets the cookies.</summary>
+        ///
+        /// <value>The cookies.</value>
         IDictionary<string, System.Net.Cookie> Cookies { get; }
 
         /// <summary>
@@ -45,10 +57,19 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         Dictionary<string, object> Items { get; }
 
+        /// <summary>Gets the headers.</summary>
+        ///
+        /// <value>The headers.</value>
         NameValueCollection Headers { get; }
 
+        /// <summary>Gets the query string.</summary>
+        ///
+        /// <value>The query string.</value>
         NameValueCollection QueryString { get; }
 
+        /// <summary>Gets information describing the form.</summary>
+        ///
+        /// <value>Information describing the form.</value>
         NameValueCollection FormData { get; }
 
         /// <summary>
@@ -62,8 +83,14 @@ namespace NServiceKit.ServiceHost
         /// <returns></returns>
         string GetRawBody();
 
+        /// <summary>Gets URL of the raw.</summary>
+        ///
+        /// <value>The raw URL.</value>
         string RawUrl { get; }
 
+        /// <summary>Gets URI of the absolute.</summary>
+        ///
+        /// <value>The absolute URI.</value>
         string AbsoluteUri { get; }
 
         /// <summary>
@@ -91,12 +118,24 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         bool IsSecureConnection { get; }
 
+        /// <summary>Gets a list of types of the accepts.</summary>
+        ///
+        /// <value>A list of types of the accepts.</value>
         string[] AcceptTypes { get; }
 
+        /// <summary>Gets information describing the path.</summary>
+        ///
+        /// <value>Information describing the path.</value>
         string PathInfo { get; }
 
+        /// <summary>Gets the input stream.</summary>
+        ///
+        /// <value>The input stream.</value>
         Stream InputStream { get; }
 
+        /// <summary>Gets the length of the content.</summary>
+        ///
+        /// <value>The length of the content.</value>
         long ContentLength { get; }
 
         /// <summary>
@@ -104,6 +143,9 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         IFile[] Files { get; }
 
+        /// <summary>Gets the full pathname of the application file.</summary>
+        ///
+        /// <value>The full pathname of the application file.</value>
         string ApplicationFilePath { get; }
 
         /// <summary>

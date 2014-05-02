@@ -231,6 +231,10 @@ namespace NServiceKit.FluentValidation.Internal
             return context.PropertyChain.BuildPropertyName(PropertyName ?? DisplayName.GetString());
         }
 
+        /// <summary>Applies the condition.</summary>
+        ///
+        /// <param name="predicate">       The predicate.</param>
+        /// <param name="applyConditionTo">The apply condition to.</param>
         public void ApplyCondition(Func<object, bool> predicate, ApplyConditionTo applyConditionTo = ApplyConditionTo.AllValidators) {
             // Default behaviour for When/Unless as of v1.3 is to apply the condition to all previous validators in the chain.
             if (applyConditionTo == ApplyConditionTo.AllValidators) {

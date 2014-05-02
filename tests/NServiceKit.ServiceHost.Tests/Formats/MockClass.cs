@@ -15,16 +15,21 @@ namespace CSharpEval
 {
 
 
+    /// <summary>An expression.</summary>
 	[TestFixture]
 	public class _Expr
 	 : NServiceKit.ServiceHost.Tests.Formats.TemplateTests.CustomMarkdownViewBase
 	{
+        /// <summary>Eval expression 0.</summary>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public MvcHtmlString EvalExpr_0()
 		{
 			return null;
 		}
 
 		//[Test]
+        /// <summary>Compare access.</summary>
 		public void Compare_access()
 		{
 			var filePath = "~/AppData/TestsResults/Customer.htm".MapProjectPath();
@@ -52,6 +57,7 @@ namespace CSharpEval
 			Console.WriteLine("FileInfo.LastWriteTime: Times {0}: {1}ms", Times, timeTaken.TotalMilliseconds);
 		}
 
+        /// <summary>As this object.</summary>
 		[Test]
 		public void A()
 		{

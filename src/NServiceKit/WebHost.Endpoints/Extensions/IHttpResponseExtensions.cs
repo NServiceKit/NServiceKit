@@ -13,10 +13,19 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.Endpoints.Extensions
 {
+    /// <summary>A HTTP response extensions.</summary>
     public static class HttpResponseExtensions
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HttpResponseExtensions));
 
+        /// <summary>Writes to output stream.</summary>
+        ///
+        /// <param name="response">  The response.</param>
+        /// <param name="result">    Whether or not it was implicity handled by NServiceKit's built-in handlers.</param>
+        /// <param name="bodyPrefix">Add prefix to response body if any.</param>
+        /// <param name="bodySuffix">Add suffix to response body if any.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WriteToOutputStream(IHttpResponse response, object result, byte[] bodyPrefix, byte[] bodySuffix)
         {
             var partialResult = result as IPartialWriter;
@@ -57,17 +66,40 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return false;
         }
 
+        /// <summary>Writes to response. Response headers are customizable by implementing IHasOptions an returning Dictionary of Http headers.</summary>
+        ///
+        /// <param name="httpRes">    The httpRes to act on.</param>
+        /// <param name="result">     Whether or not it was implicity handled by NServiceKit's built-in handlers.</param>
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WriteToResponse(this IHttpResponse httpRes, object result, string contentType)
         {
             var serializer = EndpointHost.AppHost.ContentTypeFilters.GetResponseSerializer(contentType);
             return httpRes.WriteToResponse(result, serializer, new SerializationContext(contentType));
         }
 
+        /// <summary>Writes to response. Response headers are customizable by implementing IHasOptions an returning Dictionary of Http headers.</summary>
+        ///
+        /// <param name="httpRes">The httpRes to act on.</param>
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="result"> Whether or not it was implicity handled by NServiceKit's built-in handlers.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WriteToResponse(this IHttpResponse httpRes, IHttpRequest httpReq, object result)
         {
             return WriteToResponse(httpRes, httpReq, result, null, null);
         }
 
+        /// <summary>Writes to response. Response headers are customizable by implementing IHasOptions an returning Dictionary of Http headers.</summary>
+        ///
+        /// <param name="httpRes">   The httpRes to act on.</param>
+        /// <param name="httpReq">   The HTTP request.</param>
+        /// <param name="result">    Whether or not it was implicity handled by NServiceKit's built-in handlers.</param>
+        /// <param name="bodyPrefix">Add prefix to response body if any.</param>
+        /// <param name="bodySuffix">Add suffix to response body if any.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WriteToResponse(this IHttpResponse httpRes, IHttpRequest httpReq, object result, byte[] bodyPrefix, byte[] bodySuffix)
         {
             if (result == null)
@@ -94,6 +126,14 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return httpRes.WriteToResponse(result, serializer, serializationContext, bodyPrefix, bodySuffix);
         }
 
+        /// <summary>Writes to response. Response headers are customizable by implementing IHasOptions an returning Dictionary of Http headers.</summary>
+        ///
+        /// <param name="httpRes">             The httpRes to act on.</param>
+        /// <param name="result">              Whether or not it was implicity handled by NServiceKit's built-in handlers.</param>
+        /// <param name="serializer">          The serializer.</param>
+        /// <param name="serializationContext">Context for the serialization.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WriteToResponse(this IHttpResponse httpRes, object result, ResponseSerializerDelegate serializer, IRequestContext serializationContext)
         {
             return httpRes.WriteToResponse(result, serializer, serializationContext, null, null);
@@ -265,6 +305,13 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>An IHttpResponse extension method that writes a text to response.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="response">          The response.</param>
+        /// <param name="text">              The text.</param>
+        /// <param name="defaultContentType">The default content type.</param>
         public static void WriteTextToResponse(this IHttpResponse response, string text, string defaultContentType)
         {
             try
@@ -285,12 +332,27 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>An IHttpResponse extension method that writes an error.</summary>
+        ///
+        /// <param name="httpRes">     The httpRes to act on.</param>
+        /// <param name="httpReq">     The HTTP request.</param>
+        /// <param name="dto">         The dto.</param>
+        /// <param name="errorMessage">Message describing the error.</param>
         public static void WriteError(this IHttpResponse httpRes, IHttpRequest httpReq, object dto, string errorMessage)
         {
             httpRes.WriteErrorToResponse(httpReq, httpReq.ResponseContentType, dto.GetType().Name, errorMessage, null,
                 (int)HttpStatusCode.InternalServerError);
         }
 
+        /// <summary>An IHttpResponse extension method that writes an error to response.</summary>
+        ///
+        /// <param name="httpRes">      The httpRes to act on.</param>
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="contentType">  Type of the content.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        /// <param name="errorMessage"> Message describing the error.</param>
+        /// <param name="ex">           The ex.</param>
+        /// <param name="statusCode">   The status code.</param>
         public static void WriteErrorToResponse(this IHttpResponse httpRes, IHttpRequest httpReq,
             string contentType, string operationName, string errorMessage, Exception ex, int statusCode)
         {
@@ -364,6 +426,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return dto;
         }
 
+        /// <summary>An IHttpResponse extension method that applies the global response headers described by httpRes.</summary>
+        ///
+        /// <param name="httpRes">The httpRes to act on.</param>
         public static void ApplyGlobalResponseHeaders(this HttpListenerResponse httpRes)
         {
             if (EndpointHost.Config == null) return;
@@ -373,6 +438,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>An IHttpResponse extension method that applies the global response headers described by httpRes.</summary>
+        ///
+        /// <param name="httpRes">The httpRes to act on.</param>
         public static void ApplyGlobalResponseHeaders(this HttpResponse httpRes)
         {
             if (EndpointHost.Config == null) return;
@@ -382,6 +450,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>An IHttpResponse extension method that applies the global response headers described by httpRes.</summary>
+        ///
+        /// <param name="httpRes">The httpRes to act on.</param>
         public static void ApplyGlobalResponseHeaders(this IHttpResponse httpRes)
         {
             if (EndpointHost.Config == null) return;
@@ -391,12 +462,20 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>(This method is obsolete) an IHttpResponse extension method that ends n service kit request.</summary>
+        ///
+        /// <param name="httpRes">    The httpRes to act on.</param>
+        /// <param name="skipHeaders">true to skip headers.</param>
         [Obsolete("Use EndRequest extension method")]
         public static void EndNServiceKitRequest(this HttpResponse httpRes, bool skipHeaders = false)
         {
             httpRes.EndRequest(skipHeaders);
         }
 
+        /// <summary>(This method is obsolete) an IHttpResponse extension method that ends n service kit request.</summary>
+        ///
+        /// <param name="httpRes">    The httpRes to act on.</param>
+        /// <param name="skipHeaders">true to skip headers.</param>
         [Obsolete("Use EndRequest extension method")]
         public static void EndNServiceKitRequest(this IHttpResponse httpRes, bool skipHeaders = false)
         {

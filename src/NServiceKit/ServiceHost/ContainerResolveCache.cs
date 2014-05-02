@@ -9,11 +9,15 @@ using System.Threading;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A container resolve cache.</summary>
 	public class ContainerResolveCache : ITypeFactory
 	{
 		private Container container;
 		private static Dictionary<Type, Func<Container, object>> resolveFnMap = new Dictionary<Type, Func<Container, object>>();
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.ContainerResolveCache class.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		public ContainerResolveCache(Container container)
 		{
 			this.container = container;

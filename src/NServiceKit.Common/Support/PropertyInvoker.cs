@@ -5,11 +5,27 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Support
 {
+    /// <summary>Property setter delegate.</summary>
+    ///
+    /// <param name="instance">The instance.</param>
+    /// <param name="value">   The value.</param>
     public delegate void PropertySetterDelegate(object instance, object value);
+
+    /// <summary>Property getter delegate.</summary>
+    ///
+    /// <param name="instance">The instance.</param>
+    ///
+    /// <returns>An object.</returns>
     public delegate object PropertyGetterDelegate(object instance);
 
+    /// <summary>A property invoker.</summary>
     public static class PropertyInvoker
     {
+        /// <summary>A PropertyInfo extension method that gets property setter function.</summary>
+        ///
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        ///
+        /// <returns>The property setter function.</returns>
         public static PropertySetterDelegate GetPropertySetterFn(this PropertyInfo propertyInfo)
         {
             var propertySetMethod = propertyInfo.SetMethod();
@@ -34,6 +50,13 @@ namespace NServiceKit.Common.Support
 #endif
         }
 
+        /// <summary>A PropertyInfo extension method that gets property getter function.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        ///
+        /// <returns>The property getter function.</returns>
         public static PropertyGetterDelegate GetPropertyGetterFn(this PropertyInfo propertyInfo)
         {
             var getMethodInfo = propertyInfo.GetMethodInfo();

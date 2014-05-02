@@ -4,13 +4,26 @@ using System.IO;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A directory information extensions.</summary>
     public static class DirectoryInfoExtensions
     {
+        /// <summary>Gets the matching files in this collection.</summary>
+        ///
+        /// <param name="rootDirPath">      Pathname of the root directory.</param>
+        /// <param name="fileSearchPattern">A pattern specifying the file search.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the matching files in this collection.</returns>
         public static IEnumerable<string> GetMatchingFiles(this DirectoryInfo rootDirPath, string fileSearchPattern)
         {
             return GetMatchingFiles(rootDirPath.FullName, fileSearchPattern);
         }
 
+        /// <summary>Gets the matching files in this collection.</summary>
+        ///
+        /// <param name="rootDirPath">      Pathname of the root directory.</param>
+        /// <param name="fileSearchPattern">A pattern specifying the file search.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the matching files in this collection.</returns>
         public static IEnumerable<string> GetMatchingFiles(string rootDirPath, string fileSearchPattern)
         {
             var pending = new Queue<string>();

@@ -10,6 +10,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.Xlinq
 {
+    /// <summary>An xlinq extensions tests.</summary>
 	[TestFixture]
 	public class XlinqExtensionsTests
 	{
@@ -33,17 +34,42 @@ namespace NServiceKit.Common.Tests.Xlinq
 		  + "  </Body>"
 		  + "</Envelope>";
 
+        /// <summary>An XML data.</summary>
 		public class XmlData : IHasId<int>
 		{
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
 			[AutoIncrement]
 			public int Id { get; set; }
+
+            /// <summary>Gets or sets the day.</summary>
+            ///
+            /// <value>The day.</value>
 			public string Day { get; set; }
+
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
 			public string Name { get; set; }
+
+            /// <summary>Gets or sets the time.</summary>
+            ///
+            /// <value>The time.</value>
 			public int Time { get; set; }
+
+            /// <summary>Gets or sets the amount.</summary>
+            ///
+            /// <value>The amount.</value>
 			public int Amount { get; set; }
+
+            /// <summary>Gets or sets the price.</summary>
+            ///
+            /// <value>The price.</value>
 			public decimal Price { get; set; }
 		}
 
+        /// <summary>Inserts a data from XML into database.</summary>
 		[Test]
 		public void Insert_data_from_xml_into_db()
 		{

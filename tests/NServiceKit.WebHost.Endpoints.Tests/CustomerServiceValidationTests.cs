@@ -24,27 +24,71 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.IntegrationTests.Services
 {
+    /// <summary>A customers.</summary>
 	[Route("/customers")]
 	[Route("/customers/{Id}")]
 	public class Customers
 	{
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		public int Id { get; set; }
+
+        /// <summary>Gets or sets the person's first name.</summary>
+        ///
+        /// <value>The name of the first.</value>
 		public string FirstName { get; set; }
+
+        /// <summary>Gets or sets the person's last name.</summary>
+        ///
+        /// <value>The name of the last.</value>
 		public string LastName { get; set; }
+
+        /// <summary>Gets or sets the company.</summary>
+        ///
+        /// <value>The company.</value>
 		public string Company { get; set; }
+
+        /// <summary>Gets or sets the discount.</summary>
+        ///
+        /// <value>The discount.</value>
 		public decimal Discount { get; set; }
+
+        /// <summary>Gets or sets the address.</summary>
+        ///
+        /// <value>The address.</value>
 		public string Address { get; set; }
+
+        /// <summary>Gets or sets the postcode.</summary>
+        ///
+        /// <value>The postcode.</value>
 		public string Postcode { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether this object has discount.</summary>
+        ///
+        /// <value>true if this object has discount, false if not.</value>
 		public bool HasDiscount { get; set; }
 	}
 
+    /// <summary>Interface for address validator.</summary>
 	public interface IAddressValidator
 	{
+        /// <summary>Valid address.</summary>
+        ///
+        /// <param name="address">The address.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool ValidAddress(string address);
 	}
 
+    /// <summary>The address validator.</summary>
 	public class AddressValidator : IAddressValidator
 	{
+        /// <summary>Valid address.</summary>
+        ///
+        /// <param name="address">The address.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool ValidAddress(string address)
 		{
 			return address != null
@@ -53,10 +97,15 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		}
 	}
 
+    /// <summary>The customers validator.</summary>
 	public class CustomersValidator : AbstractValidator<Customers>
 	{
+        /// <summary>Gets or sets the address validator.</summary>
+        ///
+        /// <value>The address validator.</value>
 		public IAddressValidator AddressValidator { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Services.CustomersValidator class.</summary>
 		public CustomersValidator()
 		{
 			RuleFor(x => x.Id).NotEqual(default(int));
@@ -79,48 +128,82 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 		}
 	}
 
+    /// <summary>The customers response.</summary>
 	public class CustomersResponse
 	{
+        /// <summary>Gets or sets the result.</summary>
+        ///
+        /// <value>The result.</value>
 		public Customers Result { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
+    /// <summary>A customer service.</summary>
     [DefaultRequest(typeof(Customers))]
 	public class CustomerService : ServiceInterface.Service
 	{
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Get(Customers request)
 		{
 			return new CustomersResponse { Result = request };
 		}
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Post(Customers request)
 		{
 			return new CustomersResponse { Result = request };
 		}
 
+        /// <summary>Puts the given request.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Put(Customers request)
 		{
 			return new CustomersResponse { Result = request };
 		}
 
+        /// <summary>Deletes the given request.</summary>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Delete(Customers request)
 		{
 			return new CustomersResponse { Result = request };
 		}
 	}
 
+    /// <summary>A customer service validation tests.</summary>
 	[TestFixture]
 	public class CustomerServiceValidationTests
 	{
 		private const string ListeningOn = "http://localhost:82/";
 
+        /// <summary>A validation application host HTTP listener.</summary>
 		public class ValidationAppHostHttpListener
 			: AppHostHttpListenerBase
 		{
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Services.CustomerServiceValidationTests.ValidationAppHostHttpListener class.</summary>
 			public ValidationAppHostHttpListener()
 				: base("Validation Tests", typeof(CustomerService).Assembly) { }
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
 			public override void Configure(Container container)
 			{
 				Plugins.Add(new ValidationFeature());
@@ -131,6 +214,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 
 		ValidationAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -139,6 +223,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -181,6 +266,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 
 		Customers validRequest;
 
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
@@ -196,6 +282,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			};
 		}
 
+        /// <summary>Validation feature add request filter once.</summary>
         [Test]
         public void ValidationFeature_add_request_filter_once()
         {
@@ -204,6 +291,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
             Assert.That(old, Is.EqualTo(appHost.RequestFilters.Count));
         }
 		
+        /// <summary>Validates valid request on post.</summary>
 		[Test]
 		public void Validates_ValidRequest_request_on_Post()
 		{
@@ -211,6 +299,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(errorFields.Count, Is.EqualTo(0));
 		}
 
+        /// <summary>Validates valid request on get.</summary>
 		[Test]
 		public void Validates_ValidRequest_request_on_Get()
 		{
@@ -218,6 +307,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(errorFields.Count, Is.EqualTo(0));
 		}
 
+        /// <summary>Validates conditional request on post.</summary>
 		[Test]
 		public void Validates_Conditional_Request_request_on_Post()
 		{
@@ -229,6 +319,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(errorFields[0].FieldName, Is.EqualTo("Discount"));
 		}
 
+        /// <summary>Validates empty request on post.</summary>
 		[Test]
 		public void Validates_empty_request_on_Post()
 		{
@@ -243,6 +334,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(fieldErrorCodes, Is.EquivalentTo(ExpectedPostErrorCodes));
 		}
 
+        /// <summary>Validates empty request on put.</summary>
 		[Test]
 		public void Validates_empty_request_on_Put()
 		{
@@ -257,6 +349,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(fieldErrorCodes, Is.EquivalentTo(ExpectedPostErrorCodes));
 		}
 
+        /// <summary>Validates empty request on get.</summary>
 		[Test]
 		public void Validates_empty_request_on_Get()
 		{
@@ -268,6 +361,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(errorFields[0].FieldName, Is.EqualTo("Id"));
 		}
 
+        /// <summary>Validates empty request on delete.</summary>
 		[Test]
 		public void Validates_empty_request_on_Delete()
 		{
@@ -279,12 +373,18 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			Assert.That(errorFields[0].FieldName, Is.EqualTo("Id"));
 		}
 
+        /// <summary>Unit test service client.</summary>
+        ///
+        /// <returns>An IServiceClient.</returns>
 		protected static IServiceClient UnitTestServiceClient()
 		{
             EndpointHandlerBase.ServiceManager = new ServiceManager(typeof(SecureService).Assembly).Init();
 			return new DirectServiceClient(EndpointHandlerBase.ServiceManager);
 		}
 
+        /// <summary>Gets the service clients.</summary>
+        ///
+        /// <value>The service clients.</value>
 		public static IEnumerable ServiceClients
 		{
 			get
@@ -301,6 +401,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			}
 		}
 
+        /// <summary>Posts an empty request throws validation exception.</summary>
+        ///
+        /// <exception cref="Validation">Thrown when a validation error condition occurs.</exception>
+        ///
+        /// <param name="factory">The factory.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Post_empty_request_throws_validation_exception(Func<IServiceClient> factory)
 		{
@@ -325,6 +430,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			}
 		}
 
+        /// <summary>Gets empty request throws validation exception.</summary>
+        ///
+        /// <exception cref="Validation">Thrown when a validation error condition occurs.</exception>
+        ///
+        /// <param name="factory">The factory.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Get_empty_request_throws_validation_exception(Func<IServiceClient> factory)
 		{
@@ -346,6 +456,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Services
 			}
 		}
 
+        /// <summary>Posts a valid request succeeds.</summary>
+        ///
+        /// <param name="factory">The factory.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Post_ValidRequest_succeeds(Func<IServiceClient> factory)
 		{

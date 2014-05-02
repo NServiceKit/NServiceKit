@@ -33,6 +33,9 @@ using System.Diagnostics;
 
 namespace NServiceKit.Net30.Collections.Concurrent
 {
+    /// <summary>Dictionary of concurrents.</summary>
+    /// <typeparam name="TKey">  Type of the key.</typeparam>
+    /// <typeparam name="TValue">Type of the value.</typeparam>
     public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
       ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>,
       IDictionary, ICollection, IEnumerable
@@ -41,21 +44,32 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
         SplitOrderedList<TKey, KeyValuePair<TKey, TValue>> internalDictionary;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
         public ConcurrentDictionary () : this (EqualityComparer<TKey>.Default)
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="collection">The collection.</param>
         public ConcurrentDictionary (IEnumerable<KeyValuePair<TKey, TValue>> collection)
             : this (collection, EqualityComparer<TKey>.Default)
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="comparer">The comparer.</param>
         public ConcurrentDictionary (IEqualityComparer<TKey> comparer)
         {
             this.comparer = comparer;
             this.internalDictionary = new SplitOrderedList<TKey, KeyValuePair<TKey, TValue>> (comparer);
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="collection">The collection.</param>
+        /// <param name="comparer">  The comparer.</param>
         public ConcurrentDictionary (IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
             : this (comparer)
         {
@@ -63,13 +77,21 @@ namespace NServiceKit.Net30.Collections.Concurrent
                 Add (pair.Key, pair.Value);
         }
 
-        // Parameters unused
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="concurrencyLevel">The concurrency level.</param>
+        /// <param name="capacity">        The capacity.</param>
         public ConcurrentDictionary (int concurrencyLevel, int capacity)
             : this (EqualityComparer<TKey>.Default)
         {
 
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="concurrencyLevel">The concurrency level.</param>
+        /// <param name="collection">      The collection.</param>
+        /// <param name="comparer">        The comparer.</param>
         public ConcurrentDictionary (int concurrencyLevel,
                                      IEnumerable<KeyValuePair<TKey, TValue>> collection,
                                      IEqualityComparer<TKey> comparer)
@@ -78,7 +100,11 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
         }
 
-        // Parameters unused
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt; class.</summary>
+        ///
+        /// <param name="concurrencyLevel">The concurrency level.</param>
+        /// <param name="capacity">        The capacity.</param>
+        /// <param name="comparer">        The comparer.</param>
         public ConcurrentDictionary (int concurrencyLevel, int capacity, IEqualityComparer<TKey> comparer)
             : this (comparer)
         {
@@ -95,6 +121,12 @@ namespace NServiceKit.Net30.Collections.Concurrent
             Add (key, value);
         }
 
+        /// <summary>Attempts to add from the given data.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool TryAdd (TKey key, TValue value)
         {
             return internalDictionary.Insert (Hash (key), key, Make (key, value));
@@ -105,6 +137,13 @@ namespace NServiceKit.Net30.Collections.Concurrent
             Add (pair.Key, pair.Value);
         }
 
+        /// <summary>Adds an or update.</summary>
+        ///
+        /// <param name="key">               The key.</param>
+        /// <param name="addValueFactory">   The add value factory.</param>
+        /// <param name="updateValueFactory">The update value factory.</param>
+        ///
+        /// <returns>A TValue.</returns>
         public TValue AddOrUpdate (TKey key, Func<TKey, TValue> addValueFactory, Func<TKey, TValue, TValue> updateValueFactory)
         {
             return internalDictionary.InsertOrUpdate (Hash (key),
@@ -113,6 +152,13 @@ namespace NServiceKit.Net30.Collections.Concurrent
                                                       (e) => Make (key, updateValueFactory (key, e.Value))).Value;
         }
 
+        /// <summary>Adds an or update.</summary>
+        ///
+        /// <param name="key">               The key.</param>
+        /// <param name="addValue">          The add value.</param>
+        /// <param name="updateValueFactory">The update value factory.</param>
+        ///
+        /// <returns>A TValue.</returns>
         public TValue AddOrUpdate (TKey key, TValue addValue, Func<TKey, TValue, TValue> updateValueFactory)
         {
             return AddOrUpdate (key, (_) => addValue, updateValueFactory);
@@ -134,6 +180,12 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return temp;
         }
 
+        /// <summary>Attempts to get value from the given data.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool TryGetValue (TKey key, out TValue value)
         {
             KeyValuePair<TKey, TValue> pair;
@@ -143,11 +195,23 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return result;
         }
 
+        /// <summary>Attempts to update from the given data.</summary>
+        ///
+        /// <param name="key">            The key.</param>
+        /// <param name="newValue">       The new value.</param>
+        /// <param name="comparisonValue">The comparison value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool TryUpdate (TKey key, TValue newValue, TValue comparisonValue)
         {
             return internalDictionary.CompareExchange (Hash (key), key, Make (key, newValue), (e) => e.Value.Equals (comparisonValue));
         }
 
+        /// <summary>Indexer to get or set items within this collection using array index syntax.</summary>
+        ///
+        /// <param name="key">The key.</param>
+        ///
+        /// <returns>The indexed item.</returns>
         public TValue this[TKey key] {
             get {
                 return GetValue (key);
@@ -157,16 +221,34 @@ namespace NServiceKit.Net30.Collections.Concurrent
             }
         }
 
+        /// <summary>Gets or add.</summary>
+        ///
+        /// <param name="key">         The key.</param>
+        /// <param name="valueFactory">The value factory.</param>
+        ///
+        /// <returns>The or add.</returns>
         public TValue GetOrAdd (TKey key, Func<TKey, TValue> valueFactory)
         {
             return internalDictionary.InsertOrGet (Hash (key), key, Make (key, default(TValue)), () => Make (key, valueFactory (key))).Value;
         }
 
+        /// <summary>Gets or add.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>The or add.</returns>
         public TValue GetOrAdd (TKey key, TValue value)
         {
             return internalDictionary.InsertOrGet (Hash (key), key, Make (key, value), null).Value;
         }
 
+        /// <summary>Attempts to remove from the given data.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool TryRemove (TKey key, out TValue value)
         {
             KeyValuePair<TKey, TValue> data;
@@ -192,6 +274,11 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return Remove (pair.Key);
         }
 
+        /// <summary>Query if 'key' contains key.</summary>
+        ///
+        /// <param name="key">The key.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool ContainsKey (TKey key)
         {
             KeyValuePair<TKey, TValue> dummy;
@@ -243,6 +330,9 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return ContainsKey (pair.Key);
         }
 
+        /// <summary>Convert this object into an array representation.</summary>
+        ///
+        /// <returns>An array that represents the data in this object.</returns>
         public KeyValuePair<TKey,TValue>[] ToArray ()
         {
             // This is most certainly not optimum but there is
@@ -251,18 +341,25 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return new List<KeyValuePair<TKey,TValue>> (this).ToArray ();
         }
 
+        /// <summary>Clears this object to its blank/initial state.</summary>
         public void Clear()
         {
             // Pronk
             internalDictionary = new SplitOrderedList<TKey, KeyValuePair<TKey, TValue>> (comparer);
         }
 
+        /// <summary>Gets the number of elements contained in the <see cref="T:System.Collections.ICollection" />.</summary>
+        ///
+        /// <value>The number of elements contained in the <see cref="T:System.Collections.ICollection" />.</value>
         public int Count {
             get {
                 return internalDictionary.Count;
             }
         }
 
+        /// <summary>Gets a value indicating whether this object is empty.</summary>
+        ///
+        /// <value>true if this object is empty, false if not.</value>
         public bool IsEmpty {
             get {
                 return Count == 0;
@@ -281,12 +378,18 @@ namespace NServiceKit.Net30.Collections.Concurrent
             }
         }
 
+        /// <summary>Gets an <see cref="T:System.Collections.ICollection" /> object containing the keys of the <see cref="T:System.Collections.IDictionary" /> object.</summary>
+        ///
+        /// <value>An <see cref="T:System.Collections.ICollection" /> object containing the keys of the <see cref="T:System.Collections.IDictionary" /> object.</value>
         public ICollection<TKey> Keys {
             get {
                 return GetPart<TKey> ((kvp) => kvp.Key);
             }
         }
 
+        /// <summary>Gets an <see cref="T:System.Collections.ICollection" /> object containing the values in the <see cref="T:System.Collections.IDictionary" /> object.</summary>
+        ///
+        /// <value>An <see cref="T:System.Collections.ICollection" /> object containing the values in the <see cref="T:System.Collections.IDictionary" /> object.</value>
         public ICollection<TValue> Values {
             get {
                 return GetPart<TValue> ((kvp) => kvp.Value);
@@ -344,6 +447,9 @@ namespace NServiceKit.Net30.Collections.Concurrent
             }
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        ///
+        /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator ()
         {
             return GetEnumeratorInternal ();
@@ -368,27 +474,44 @@ namespace NServiceKit.Net30.Collections.Concurrent
         {
             IEnumerator<KeyValuePair<TKey, TValue>> internalEnum;
 
+            /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.ConcurrentDictionary&lt;TKey, TValue&gt;.ConcurrentDictionaryEnumerator class.</summary>
+            ///
+            /// <param name="internalEnum">The internal enum.</param>
             public ConcurrentDictionaryEnumerator (IEnumerator<KeyValuePair<TKey, TValue>> internalEnum)
             {
                 this.internalEnum = internalEnum;
             }
 
+            /// <summary>Determines if we can move next.</summary>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public bool MoveNext ()
             {
                 return internalEnum.MoveNext ();
             }
 
+            /// <summary>Resets this object.</summary>
             public void Reset ()
             {
                 internalEnum.Reset ();
             }
 
+            /// <summary>Gets the current.</summary>
+            ///
+            /// <value>The current.</value>
             public object Current {
                 get {
                     return Entry;
                 }
             }
 
+            /// <summary>Gets both the key and the value of the current dictionary entry.</summary>
+            ///
+            /// <value>A <see cref="T:System.Collections.DictionaryEntry" /> containing both the key and the value of the current dictionary entry.</value>
+            ///
+            /// ### <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Collections.IDictionaryEnumerator" /> is positioned before the first entry of the dictionary or after the last
+            /// entry.
+            /// </exception>
             public DictionaryEntry Entry {
                 get {
                     KeyValuePair<TKey, TValue> current = internalEnum.Current;
@@ -396,12 +519,26 @@ namespace NServiceKit.Net30.Collections.Concurrent
                 }
             }
 
+            /// <summary>Gets the key of the current dictionary entry.</summary>
+            ///
+            /// <value>The key of the current element of the enumeration.</value>
+            ///
+            /// ### <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Collections.IDictionaryEnumerator" /> is positioned before the first entry of the dictionary or after the last
+            /// entry.
+            /// </exception>
             public object Key {
                 get {
                     return internalEnum.Current.Key;
                 }
             }
 
+            /// <summary>Gets the value of the current dictionary entry.</summary>
+            ///
+            /// <value>The value of the current element of the enumeration.</value>
+            ///
+            /// ### <exception cref="T:System.InvalidOperationException">The <see cref="T:System.Collections.IDictionaryEnumerator" /> is positioned before the first entry of the dictionary or after the last
+            /// entry.
+            /// </exception>
             public object Value {
                 get {
                     return internalEnum.Current.Value;

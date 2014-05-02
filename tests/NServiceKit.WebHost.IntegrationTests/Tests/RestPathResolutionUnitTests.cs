@@ -6,26 +6,33 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A rest path resolution unit tests.</summary>
 	[TestFixture]
 	public class RestPathResolutionUnitTests
 		: TestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Tests.RestPathResolutionUnitTests class.</summary>
 		public RestPathResolutionUnitTests()
 			: base(Config.NServiceKitBaseUri, typeof(ReverseService).Assembly)
 		{
 		}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container)
 		{
 			
 		}
 
+        /// <summary>Executes the before test action.</summary>
 		[SetUp]
 		public void OnBeforeTest()
 		{
 			base.OnBeforeEachTest();
 		}
 
+        /// <summary>Can execute echo request rest path.</summary>
 		[Test]
 		public void Can_execute_EchoRequest_rest_path()
 		{
@@ -35,6 +42,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request.String, Is.EqualTo("One"));
 		}
 
+        /// <summary>Can call echo request with query string.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_QueryString()
 		{
@@ -46,6 +54,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request.Bool, Is.EqualTo(true));
 		}
 
+        /// <summary>Can get empty basic wildcard.</summary>
         [Test]
         public void Can_get_empty_BasicWildcard()
         {
@@ -59,6 +68,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(request.Tail, Is.EqualTo("a/b/c"));
         }
 
+        /// <summary>Can call wild card request with alternate matching wild card defined.</summary>
         [Test]
         public void Can_call_WildCardRequest_with_alternate_matching_WildCard_defined()
         {
@@ -69,6 +79,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(request.RemainingPath, Is.Null);
         }
 
+        /// <summary>Can call wild card request wild card mapping.</summary>
 		[Test]
 		public void Can_call_WildCardRequest_WildCard_mapping()
 		{
@@ -79,6 +90,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request.RemainingPath, Is.EqualTo("remaining/path/to/here"));
 		}
 
+        /// <summary>Can call wild card request wild card mapping with query string.</summary>
 		[Test]
 		public void Can_call_WildCardRequest_WildCard_mapping_with_QueryString()
 		{
@@ -89,6 +101,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request.RemainingPath, Is.EqualTo("remaining/path/to/here"));
 		}
 
+        /// <summary>Can call get on verb match services.</summary>
 		[Test]
 		public void Can_call_GET_on_VerbMatch_Services()
 		{
@@ -99,6 +112,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request2.Name, Is.EqualTo("arg"));
 		}
 
+        /// <summary>Can call post on verb match services.</summary>
 		[Test]
 		public void Can_call_POST_on_VerbMatch_Services()
 		{
@@ -109,6 +123,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request2.Name, Is.EqualTo("arg"));
 		}
 
+        /// <summary>Can call delete on verb match services.</summary>
 		[Test]
 		public void Can_call_DELETE_on_VerbMatch_Services()
 		{
@@ -119,6 +134,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request2.Name, Is.EqualTo("arg"));
 		}
 
+        /// <summary>Can call put on verb match services.</summary>
 		[Test]
 		public void Can_call_PUT_on_VerbMatch_Services()
 		{
@@ -129,6 +145,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(request2.Name, Is.EqualTo("arg"));
 		}
 
+        /// <summary>Can call patch on verb match services.</summary>
 		[Test]
 		public void Can_call_PATCH_on_VerbMatch_Services()
 		{

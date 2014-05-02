@@ -1,5 +1,6 @@
 ﻿namespace NServiceKit.CacheAccess
 {
+    /// <summary>Interface for remove by pattern.</summary>
 	public interface IRemoveByPattern
 	{
 		/// <summary>

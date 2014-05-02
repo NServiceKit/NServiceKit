@@ -10,6 +10,11 @@ namespace NServiceKit.ServiceHost
     [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
     public interface IService<T>
     {
+        /// <summary>Executes the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         object Execute(T request);
     }
 }

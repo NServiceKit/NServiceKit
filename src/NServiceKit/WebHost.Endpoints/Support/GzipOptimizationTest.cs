@@ -14,6 +14,11 @@ namespace NServiceKit.WebHost.Endpoints.Support
 	/// </summary>
 	public static class GzipOptimizationTest
 	{
+        /// <summary>Gets a worker.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>The worker.</returns>
 		public static HttpWorkerRequest GetWorker(HttpContext context)
 		{
 			var provider = (IServiceProvider)context;
@@ -21,6 +26,11 @@ namespace NServiceKit.WebHost.Endpoints.Support
 			return worker;
 		}
 
+        /// <summary>Query if 'context' has support.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if support, false if not.</returns>
 		public static bool HasSupport(HttpContext context)
 		{
 			try
@@ -59,6 +69,11 @@ namespace NServiceKit.WebHost.Endpoints.Support
 			}
 		}
 
+        /// <summary>Slow way to check if g zip is supported.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public static bool SlowWayToCheckIfGZipIsSupported(HttpRequest request)
 		{
 			//using request.Headers[] builds the ASP.NET NameValueCollection which takes time

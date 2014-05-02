@@ -13,6 +13,8 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Plugins.MsgPack
 {
+    /// <summary>A message pack type.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class MsgPackType<T> : IMsgPackType
     {
         private static readonly Type type;
@@ -39,6 +41,9 @@ namespace NServiceKit.Plugins.MsgPack
             type = isGenericCollection ? genericType : typeof(T);
         }
 
+        /// <summary>Gets the type.</summary>
+        ///
+        /// <value>The type.</value>
         public Type Type
         {
             get
@@ -47,6 +52,11 @@ namespace NServiceKit.Plugins.MsgPack
             }
         }
 
+        /// <summary>Converts the given instance.</summary>
+        ///
+        /// <param name="instance">The instance.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Convert(object instance)
         {
             if (!isGenericCollection) 
@@ -60,12 +70,25 @@ namespace NServiceKit.Plugins.MsgPack
 
     internal interface IMsgPackType
     {
+        /// <summary>Gets the type.</summary>
+        ///
+        /// <value>The type.</value>
         Type Type { get; }
+
+        /// <summary>Converts the given instance.</summary>
+        ///
+        /// <param name="instance">The instance.</param>
+        ///
+        /// <returns>An object.</returns>
         object Convert(object instance);
     }
 
+    /// <summary>A message pack format.</summary>
     public class MsgPackFormat : IPlugin, IMsgPackPlugin
 	{
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
 		public void Register(IAppHost appHost)
 		{
             appHost.ContentTypeFilters.Register(ContentType.MsgPack,
@@ -97,6 +120,11 @@ namespace NServiceKit.Plugins.MsgPack
             return msgPackType;
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        ///
+        /// <param name="requestContext">Context for the request.</param>
+        /// <param name="dto">           The dto.</param>
+        /// <param name="outputStream">  Stream to write data to.</param>
         public static void Serialize(IRequestContext requestContext, object dto, Stream outputStream)
         {
             if (dto == null) return;
@@ -115,6 +143,12 @@ namespace NServiceKit.Plugins.MsgPack
             }
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        ///
+        /// <param name="type">      .</param>
+        /// <param name="fromStream">from stream.</param>
+        ///
+        /// <returns>An object.</returns>
         public static object Deserialize(Type type, Stream fromStream)
         {
             try

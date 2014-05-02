@@ -10,10 +10,17 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A file upload tests.</summary>
 	[TestFixture]
 	public class FileUploadTests
 		: RestsTestBase
 	{
+        /// <summary>Uploads a file.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        /// <param name="fileInfo">Information describing the file.</param>
+        ///
+        /// <returns>A WebResponse.</returns>
 		public WebResponse UploadFile(string pathInfo, FileInfo fileInfo)
 		{
 			//long length = 0;
@@ -80,6 +87,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			return httpWebRequest.GetResponse();
 		}
 
+        /// <summary>Can post upload file.</summary>
 		[Test]
 		public void Can_POST_upload_file()
 		{
@@ -96,6 +104,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can get upload file.</summary>
 		[Test]
 		public void Can_GET_upload_file()
 		{

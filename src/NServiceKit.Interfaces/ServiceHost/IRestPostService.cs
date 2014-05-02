@@ -11,6 +11,11 @@ namespace NServiceKit.ServiceHost
     [Obsolete("Use IService - NServiceKit's New API for future services")]
     public interface IRestPostService<T>
 	{
+        /// <summary>Post this message.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
 		object Post(T request);
 	}
 }

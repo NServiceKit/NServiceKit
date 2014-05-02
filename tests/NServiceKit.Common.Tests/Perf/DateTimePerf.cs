@@ -7,16 +7,19 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Common.Tests.Perf
 {
+    /// <summary>A date time performance.</summary>
 	[TestFixture]
 	public class DateTimePerf
 		: PerfTestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Perf.DateTimePerf class.</summary>
 		public DateTimePerf()
 		{
 			this.MultipleIterations = new List<int> { 10000 };
 		}
 
 
+        /// <summary>Print formats.</summary>
 		[Test]
 		public void PrintFormats()
 		{
@@ -41,6 +44,7 @@ namespace NServiceKit.Common.Tests.Perf
 			Log(DateTimeSerializer.ToShortestXsdDateTimeString(nowWithoutTime));
 		}
 
+        /// <summary>Compare date time serializtion.</summary>
 		[Test]
 		public void Compare_DateTime_Serializtion()
 		{
@@ -68,6 +72,7 @@ namespace NServiceKit.Common.Tests.Perf
 				);
 		}
 
+        /// <summary>Compare date time de serializtion.</summary>
 		[Test]
 		public void Compare_DateTime_DeSerializtion()
 		{
@@ -86,6 +91,7 @@ namespace NServiceKit.Common.Tests.Perf
 				);
 		}
 
+        /// <summary>Compare serialization.</summary>
 		[Test]
 		public void Compare_Serialization()
 		{
@@ -110,6 +116,7 @@ namespace NServiceKit.Common.Tests.Perf
 			Log("OK");
 		}
 
+        /// <summary>Compare parsing.</summary>
 		[Test]
 		public void Compare_Parsing()
 		{

@@ -28,18 +28,27 @@ namespace NServiceKit.FluentValidation
     using System.Reflection;
     using Internal;
 
+    /// <summary>A validator options.</summary>
     public static class ValidatorOptions {
+        /// <summary>The cascade mode.</summary>
         public static CascadeMode CascadeMode = CascadeMode.Continue;
+        /// <summary>Type of the resource provider.</summary>
         public static Type ResourceProviderType;
 
         private static Func<Type, MemberInfo, LambdaExpression, string> propertyNameResolver = DefaultPropertyNameResolver;
         private static Func<Type, MemberInfo, LambdaExpression, string> displayNameResolver = DefaultDisplayNameResolver;
 
+        /// <summary>Gets or sets the property name resolver.</summary>
+        ///
+        /// <value>The property name resolver.</value>
         public static Func<Type, MemberInfo, LambdaExpression, string> PropertyNameResolver {
             get { return propertyNameResolver; }
             set { propertyNameResolver = value ?? DefaultPropertyNameResolver; }
         }
 
+        /// <summary>Gets or sets the display name resolver.</summary>
+        ///
+        /// <value>The display name resolver.</value>
         public static Func<Type, MemberInfo, LambdaExpression, string> DisplayNameResolver {
             get { return displayNameResolver; }
             set { displayNameResolver = value ?? DefaultDisplayNameResolver; }

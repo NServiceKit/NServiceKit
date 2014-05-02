@@ -8,6 +8,9 @@ namespace NServiceKit.Common.Support
     /// </summary>
     public abstract class AdapterBase
     {
+        /// <summary>Gets the log.</summary>
+        ///
+        /// <value>The log.</value>
         protected abstract ILog Log { get; }
 
         /// <summary>

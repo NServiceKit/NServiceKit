@@ -20,16 +20,25 @@ using Windows.Storage.Streams;
 
 namespace NServiceKit.ServiceClient.Web
 {
+    /// <summary>Exception for signalling authentication errors.</summary>
     public class AuthenticationException : Exception
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.AuthenticationException class.</summary>
         public AuthenticationException()
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.AuthenticationException class.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public AuthenticationException(string message) : base(message)
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.AuthenticationException class.</summary>
+        ///
+        /// <param name="message">       The message.</param>
+        /// <param name="innerException">The inner exception.</param>
         public AuthenticationException(string message, Exception innerException) : base(message, innerException)
         {
         }
@@ -40,16 +49,46 @@ namespace NServiceKit.ServiceClient.Web
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(AuthenticationInfo));
 
+        /// <summary>Gets or sets the method.</summary>
+        ///
+        /// <value>The method.</value>
 		public string method {get;set;}
+
+        /// <summary>Gets or sets the realm.</summary>
+        ///
+        /// <value>The realm.</value>
 		public string realm {get;set;}
+
+        /// <summary>Gets or sets the qop.</summary>
+        ///
+        /// <value>The qop.</value>
 		public string qop {get;set;}
+
+        /// <summary>Gets or sets the nonce.</summary>
+        ///
+        /// <value>The nonce.</value>
 		public string nonce { get; set; }
+
+        /// <summary>Gets or sets the opaque.</summary>
+        ///
+        /// <value>The opaque.</value>
 		public string opaque { get; set; }
 
-		// these values used between requests, and not taken from WWW-Authenticate header of response
+        /// <summary>Gets or sets the cnonce.</summary>
+        ///
+        /// <value>The cnonce.</value>
 		public string cnonce { get; set; }
+
+        /// <summary>Gets or sets the non-client.</summary>
+        ///
+        /// <value>The non-client.</value>
 		public int nc { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.AuthenticationInfo class.</summary>
+        ///
+        /// <exception cref="AuthenticationException">Thrown when an Authentication error condition occurs.</exception>
+        ///
+        /// <param name="authHeader">The authentication header.</param>
 		public AuthenticationInfo(String authHeader) {
 			cnonce = "0a4f113b";
 			nc = 1;
@@ -107,12 +146,16 @@ namespace NServiceKit.ServiceClient.Web
 			}
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString ()
 		{
 			return string.Format ("[AuthenticationInfo: method={0}, realm={1}, qop={2}, nonce={3}, opaque={4}, cnonce={5}, nc={6}]", method, realm, qop, nonce, opaque, cnonce, nc);
 		}
 	}
 
+    /// <summary>A web request utilities.</summary>
     public static class WebRequestUtils
     {
 		
@@ -231,6 +274,11 @@ namespace NServiceKit.ServiceClient.Web
         /// </summary>
         public const string ResponseDtoSuffix = "Response";
 
+        /// <summary>Gets response dto name.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The response dto name.</returns>
         public static string GetResponseDtoName(object request)
         {
             var requestType = request.GetType();
@@ -239,6 +287,11 @@ namespace NServiceKit.ServiceClient.Web
                 : request.GetType().FullName + ResponseDtoSuffix;
         }
 
+        /// <summary>Gets error response dto type.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The error response dto type.</returns>
         public static Type GetErrorResponseDtoType(object request)
         {
             if (request == null) 

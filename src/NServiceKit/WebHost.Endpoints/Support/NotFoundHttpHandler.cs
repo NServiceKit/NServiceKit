@@ -12,18 +12,47 @@ using HttpResponseWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRespons
 
 namespace NServiceKit.WebHost.Endpoints.Support
 {
+    /// <summary>A not found HTTP handler.</summary>
 	public class NotFoundHttpHandler
 		: INServiceKitHttpHandler, IHttpHandler
 	{
         private static readonly ILog Log = LogManager.GetLogger(typeof(NotFoundHttpHandler));
 
+        /// <summary>Gets or sets the is integrated pipeline.</summary>
+        ///
+        /// <value>The is integrated pipeline.</value>
 		public bool? IsIntegratedPipeline { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the web host physical file.</summary>
+        ///
+        /// <value>The full pathname of the web host physical file.</value>
 		public string WebHostPhysicalPath { get; set; }
+
+        /// <summary>Gets or sets a list of names of the web host root files.</summary>
+        ///
+        /// <value>A list of names of the web host root files.</value>
 		public List<string> WebHostRootFileNames { get; set; }
+
+        /// <summary>Gets or sets URL of the application base.</summary>
+        ///
+        /// <value>The application base URL.</value>
 		public string ApplicationBaseUrl { get; set; }
+
+        /// <summary>Gets or sets the default root file name.</summary>
+        ///
+        /// <value>The default root file name.</value>
 		public string DefaultRootFileName { get; set; }
+
+        /// <summary>Gets or sets the default handler.</summary>
+        ///
+        /// <value>The default handler.</value>
 		public string DefaultHandler { get; set; }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <param name="request">      The HTTP request.</param>
+        /// <param name="response">     The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
 		public void ProcessRequest(IHttpRequest request, IHttpResponse response, string operationName)
 		{
             Log.ErrorFormat("{0} Request not found: {1}", request.UserHostAddress, request.RawUrl);
@@ -49,6 +78,11 @@ namespace NServiceKit.WebHost.Endpoints.Support
             response.EndHttpHandlerRequest(skipClose: true, afterBody: r => r.Write(text.ToString()));
 		}
 
+        /// <summary>Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler" /> interface.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to
+        /// service HTTP requests.
+        /// </param>
 		public void ProcessRequest(HttpContext context)
 		{
 			var request = context.Request;
@@ -114,6 +148,9 @@ namespace NServiceKit.WebHost.Endpoints.Support
             response.EndHttpHandlerRequest(skipClose:true, afterBody: r => r.Write(sb.ToString()));
 		}
 
+        /// <summary>Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler" /> instance.</summary>
+        ///
+        /// <value>true if the <see cref="T:System.Web.IHttpHandler" /> instance is reusable; otherwise, false.</value>
 		public bool IsReusable
 		{
 			get { return true; }

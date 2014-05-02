@@ -3,9 +3,15 @@ using NUnit.Framework;
 
 namespace NServiceKit.Common.Tests.Models
 {
+    /// <summary>A shipper factory.</summary>
 	public class ShipperFactory
 		: ModelFactoryBase<Shipper>
 	{
+        /// <summary>Creates an instance.</summary>
+        ///
+        /// <param name="i">Zero-based index of the.</param>
+        ///
+        /// <returns>The new instance.</returns>
 		public override Shipper CreateInstance(int i)
 		{
 			var hex = ((i % 240) + 16).ToString("X");
@@ -18,6 +24,10 @@ namespace NServiceKit.Common.Tests.Models
 			};
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public override void AssertIsEqual(Shipper actual, Shipper expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id));

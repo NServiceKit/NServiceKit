@@ -126,8 +126,12 @@ namespace NServiceKit.WebHost.Endpoints
         string ResolveAbsoluteUrl(string virtualPath, IHttpRequest httpReq);
 	}
 
+    /// <summary>Interface for has application host.</summary>
 	public interface IHasAppHost
 	{
+        /// <summary>Gets the application host.</summary>
+        ///
+        /// <value>The application host.</value>
 		IAppHost AppHost { get; }
 	}
 }

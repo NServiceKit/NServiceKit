@@ -3,6 +3,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Operations;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 {
+    /// <summary>A custom form data service.</summary>
 	public class CustomFormDataService : ServiceInterface.Service
 	{
 		//Parsing: &first-name=tom&item-0=blah&item-1-delete=1

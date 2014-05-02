@@ -6,24 +6,42 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Route naming convention delegate.</summary>
+    ///
+    /// <param name="routes">      The routes.</param>
+    /// <param name="requestType"> Type of the request.</param>
+    /// <param name="allowedVerbs">The allowed verbs.</param>
     public delegate void RouteNamingConventionDelegate(IServiceRoutes routes, Type requestType, string allowedVerbs);
 
+    /// <summary>A route naming convention.</summary>
     public static class RouteNamingConvention
     {
+        /// <summary>A match specifying the attribute names to.</summary>
         public static readonly List<string> AttributeNamesToMatch = new[] {
 			"PrimaryKeyAttribute",//typeof(PrimaryKeyAttribute),
 		}.ToList();
 
+        /// <summary>A match specifying the property names to.</summary>
         public static readonly List<string> PropertyNamesToMatch = new[] {
 			IdUtils.IdField,
 			"IDs",
 		}.ToList();
 
+        /// <summary>With request dto name.</summary>
+        ///
+        /// <param name="routes">      The routes.</param>
+        /// <param name="requestType"> Type of the request.</param>
+        /// <param name="allowedVerbs">The allowed verbs.</param>
         public static void WithRequestDtoName(IServiceRoutes routes, Type requestType, string allowedVerbs)
         {
             routes.Add(requestType, restPath: "/{0}".Fmt(requestType.Name), verbs: allowedVerbs);
         }
 
+        /// <summary>With matching attributes.</summary>
+        ///
+        /// <param name="routes">      The routes.</param>
+        /// <param name="requestType"> Type of the request.</param>
+        /// <param name="allowedVerbs">The allowed verbs.</param>
         public static void WithMatchingAttributes(IServiceRoutes routes, Type requestType, string allowedVerbs)
         {
             var membersWithAttribute = (from p in requestType.GetPublicProperties()
@@ -39,6 +57,11 @@ namespace NServiceKit.ServiceHost
             routes.Add(requestType, restPath: restPath, verbs: allowedVerbs);
         }
 
+        /// <summary>With matching property names.</summary>
+        ///
+        /// <param name="routes">      The routes.</param>
+        /// <param name="requestType"> Type of the request.</param>
+        /// <param name="allowedVerbs">The allowed verbs.</param>
         public static void WithMatchingPropertyNames(IServiceRoutes routes, Type requestType, string allowedVerbs)
         {
             var membersWithName = (from property in requestType.GetPublicProperties().Select(p => p.Name)

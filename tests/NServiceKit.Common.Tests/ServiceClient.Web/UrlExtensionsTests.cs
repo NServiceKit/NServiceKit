@@ -5,9 +5,11 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.ServiceClient.Web
 {
+    /// <summary>An URL extensions tests.</summary>
     [TestFixture]
     public class UrlExtensionsTests
     {
+        /// <summary>Format variable date time offset value is URL encoded.</summary>
         [Test]
         public void FormatVariable_DateTimeOffsetValue_ValueIsUrlEncoded()
         {
@@ -17,6 +19,7 @@ namespace NServiceKit.Common.Tests.ServiceClient.Web
             Assert.AreEqual(Uri.EscapeDataString(jsv), formattedVariable);
         }
 
+        /// <summary>Format query parameter value date time offset value is URL encoded.</summary>
         [Test]
         public void FormatQueryParameterValue_DateTimeOffsetValue_ValueIsUrlEncoded()
         {

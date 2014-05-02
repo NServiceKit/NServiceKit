@@ -8,32 +8,57 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>An application host listener echo request tests.</summary>
     [TestFixture]
     public class AppHostListenerEchoRequestTests
     {
+        /// <summary>An application host.</summary>
         public class AppHost : AppHostHttpListenerBase
         {
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.AppHostListenerEchoRequestTests.AppHost class.</summary>
             public AppHost()
                 : base("Echo AppHost", typeof(AppHost).Assembly) { }
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
             public override void Configure(Container container) {}
         }
 
+        /// <summary>An echo.</summary>
         [Route("/echo")]
         [Route("/echo/{PathInfoParam}")]
         public class Echo : IReturn<Echo>
         {
+            /// <summary>Gets or sets the parameter.</summary>
+            ///
+            /// <value>The parameter.</value>
             public string Param { get; set; }
+
+            /// <summary>Gets or sets the path information parameter.</summary>
+            ///
+            /// <value>The path information parameter.</value>
             public string PathInfoParam { get; set; }
         }
 
+        /// <summary>An echo service.</summary>
         public class EchoService : ServiceInterface.Service
         {
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>A RequestInfoResponse.</returns>
             public Echo Any(Echo request)
             {
                 return request;
             }
 
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>A RequestInfoResponse.</returns>
             public RequestInfoResponse Any(RequestInfo request)
             {
                 var requestInfo = RequestInfoHandler.GetRequestInfo(base.Request);
@@ -43,6 +68,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
         private AppHost appHost;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -51,12 +77,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost.Start(Config.AbsoluteBaseUri);
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
             appHost.Dispose();
         }
 
+        /// <summary>Does URL decode raw query string.</summary>
         [Test]
         public void Does_url_decode_raw_QueryString()
         {
@@ -69,6 +97,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Param, Is.EqualTo(testEncoding));
         }
 
+        /// <summary>Does URL decode raw path information.</summary>
         [Test]
         public void Does_url_decode_raw_PathInfo()
         {
@@ -81,6 +110,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.PathInfoParam, Is.EqualTo(testEncoding));
         }
 
+        /// <summary>Does URL transparently decode query string.</summary>
         [Test]
         public void Does_url_transparently_decode_QueryString()
         {
@@ -90,6 +120,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Param, Is.EqualTo(request.Param));
         }
 
+        /// <summary>Does URL transparently decode path information.</summary>
         [Test]
         public void Does_url_transparently_decode_PathInfo()
         {
@@ -99,6 +130,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Param, Is.EqualTo(request.Param));
         }
 
+        /// <summary>Does URL transparently decode request body.</summary>
         [Test]
         public void Does_url_transparently_decode_RequestBody()
         {

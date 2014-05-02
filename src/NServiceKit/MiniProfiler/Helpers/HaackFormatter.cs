@@ -9,6 +9,14 @@ namespace NServiceKit.MiniProfiler.Helpers
     // http://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx
     internal static class HaackFormatter
     {
+        /// <summary>A string extension method that formats.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="format">The format to act on.</param>
+        /// <param name="source">Source for the.</param>
+        ///
+        /// <returns>The formatted value.</returns>
         public static string Format(this string format, object source)
         {
 
@@ -115,10 +123,14 @@ namespace NServiceKit.MiniProfiler.Helpers
             return endBraceIndex;
         }
 
+        /// <summary>A format expression.</summary>
         public class FormatExpression : ITextExpression
         {
             bool _invalidExpression = false;
 
+            /// <summary>Initializes a new instance of the NServiceKit.MiniProfiler.Helpers.HaackFormatter.FormatExpression class.</summary>
+            ///
+            /// <param name="expression">The expression.</param>
             public FormatExpression(string expression)
             {
                 if (!expression.StartsWith("{") || !expression.EndsWith("}"))
@@ -142,18 +154,31 @@ namespace NServiceKit.MiniProfiler.Helpers
                 }
             }
 
+            /// <summary>Gets the expression.</summary>
+            ///
+            /// <value>The expression.</value>
             public string Expression
             {
                 get;
                 private set;
             }
 
+            /// <summary>Gets the format to use.</summary>
+            ///
+            /// <value>The format.</value>
             public string Format
             {
                 get;
                 private set;
             }
 
+            /// <summary>Evals the given o.</summary>
+            ///
+            /// <exception cref="FormatException">Thrown when the format of the ? is incorrect.</exception>
+            ///
+            /// <param name="o">The object to process.</param>
+            ///
+            /// <returns>A string.</returns>
             public string Eval(object o)
             {
                 if (_invalidExpression)
@@ -180,19 +205,31 @@ namespace NServiceKit.MiniProfiler.Helpers
             }
         }
 
+        /// <summary>A literal format.</summary>
         public class LiteralFormat : ITextExpression
         {
+            /// <summary>Initializes a new instance of the NServiceKit.MiniProfiler.Helpers.HaackFormatter.LiteralFormat class.</summary>
+            ///
+            /// <param name="literalText">The literal text.</param>
             public LiteralFormat(string literalText)
             {
                 LiteralText = literalText;
             }
 
+            /// <summary>Gets the literal text.</summary>
+            ///
+            /// <value>The literal text.</value>
             public string LiteralText
             {
                 get;
                 private set;
             }
 
+            /// <summary>Evals the given o.</summary>
+            ///
+            /// <param name="o">The object to process.</param>
+            ///
+            /// <returns>A string.</returns>
             public string Eval(object o)
             {
                 string literalText = LiteralText
@@ -202,6 +239,7 @@ namespace NServiceKit.MiniProfiler.Helpers
             }
         }
 
+        /// <summary>Interface for text expression.</summary>
         public interface ITextExpression
         {
             string Eval(object o);

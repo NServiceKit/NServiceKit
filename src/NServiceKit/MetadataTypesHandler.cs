@@ -17,10 +17,17 @@ using HttpResponseWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRespons
 
 namespace NServiceKit
 {
+    /// <summary>A metadata types handler.</summary>
     public class MetadataTypesHandler : HttpHandlerBase, INServiceKitHttpHandler
     {
+        /// <summary>Gets or sets the configuration.</summary>
+        ///
+        /// <value>The configuration.</value>
         public MetadataTypesConfig Config { get; set; }
 
+        /// <summary>Executes the given context.</summary>
+        ///
+        /// <param name="context">The context.</param>
         public override void Execute(HttpContext context)
         {
             ProcessRequest(
@@ -29,6 +36,11 @@ namespace NServiceKit
                 GetType().Name);
         }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
             var metadata = new MetadataTypes
@@ -114,8 +126,14 @@ namespace NServiceKit
         }
     }
 
+    /// <summary>A metadata type extensions.</summary>
     public static class MetadataTypeExtensions
     {
+        /// <summary>A Type extension method that converts a type to a type.</summary>
+        ///
+        /// <param name="type">The type to act on.</param>
+        ///
+        /// <returns>type as a MetadataType.</returns>
         public static MetadataType ToType(this Type type)
         {
             if (type == null) return null;
@@ -185,6 +203,11 @@ namespace NServiceKit
             return metaType;
         }
 
+        /// <summary>An IEnumerable&lt;Attribute&gt; extension method that converts the attrs to the attributes.</summary>
+        ///
+        /// <param name="type">The type to act on.</param>
+        ///
+        /// <returns>attrs as a List&lt;MetadataAttribute&gt;</returns>
         public static List<MetadataAttribute> ToAttributes(this Type type)
         {
             return !type.IsUserType() || type.IsOrHasGenericInterfaceTypeOf(typeof(IEnumerable<>))
@@ -192,6 +215,11 @@ namespace NServiceKit
                 : type.GetCustomAttributes(false).ToAttributes();
         }
 
+        /// <summary>A Type extension method that converts a type to the properties.</summary>
+        ///
+        /// <param name="type">The type to act on.</param>
+        ///
+        /// <returns>type as a List&lt;MetadataPropertyType&gt;</returns>
         public static List<MetadataPropertyType> ToProperties(this Type type)
         {
             var props = !type.IsUserType() || type.IsOrHasGenericInterfaceTypeOf(typeof(IEnumerable<>))
@@ -201,6 +229,11 @@ namespace NServiceKit
             return props == null || props.Count == 0 ? null : props;
         }
 
+        /// <summary>Exclude known attributes filter.</summary>
+        ///
+        /// <param name="x">The Attribute to process.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool ExcludeKnownAttrsFilter(Attribute x)
         {
             return x.GetType() != typeof(RouteAttribute)
@@ -209,6 +242,11 @@ namespace NServiceKit
                 && x.GetType().Name != "DataMemberAttribute";
         }
 
+        /// <summary>An IEnumerable&lt;Attribute&gt; extension method that converts the attrs to the attributes.</summary>
+        ///
+        /// <param name="attrs">The attrs to act on.</param>
+        ///
+        /// <returns>attrs as a List&lt;MetadataAttribute&gt;</returns>
         public static List<MetadataAttribute> ToAttributes(this object[] attrs)
         {
             var to = attrs.OfType<Attribute>()
@@ -218,6 +256,11 @@ namespace NServiceKit
             return to.Count == 0 ? null : to;
         }
 
+        /// <summary>An IEnumerable&lt;Attribute&gt; extension method that converts the attrs to the attributes.</summary>
+        ///
+        /// <param name="attrs">The attrs to act on.</param>
+        ///
+        /// <returns>attrs as a List&lt;MetadataAttribute&gt;</returns>
         public static List<MetadataAttribute> ToAttributes(this IEnumerable<Attribute> attrs)
         {
             var to = attrs
@@ -227,6 +270,11 @@ namespace NServiceKit
             return to.Count == 0 ? null : to;
         }
 
+        /// <summary>An Attribute extension method that converts an attr to an attribute.</summary>
+        ///
+        /// <param name="attr">The attr to act on.</param>
+        ///
+        /// <returns>attr as a MetadataAttribute.</returns>
         public static MetadataAttribute ToAttribute(this Attribute attr)
         {
             var firstCtor = attr.GetType().GetConstructors().OrderBy(x => x.GetParameters().Length).FirstOrDefault();
@@ -241,6 +289,11 @@ namespace NServiceKit
             return metaAttr;
         }
 
+        /// <summary>An Attribute extension method that non default properties.</summary>
+        ///
+        /// <param name="attr">The attr to act on.</param>
+        ///
+        /// <returns>A List&lt;MetadataPropertyType&gt;</returns>
         public static List<MetadataPropertyType> NonDefaultProperties(this Attribute attr)
         {
             return attr.GetType().GetPublicProperties()
@@ -250,6 +303,12 @@ namespace NServiceKit
                 .ToList();
         }
 
+        /// <summary>A ParameterInfo extension method that converts a pi to a property.</summary>
+        ///
+        /// <param name="pi">      The pi to act on.</param>
+        /// <param name="instance">The instance.</param>
+        ///
+        /// <returns>pi as a MetadataPropertyType.</returns>
         public static MetadataPropertyType ToProperty(this PropertyInfo pi, object instance = null)
         {
             var property = new MetadataPropertyType
@@ -273,6 +332,11 @@ namespace NServiceKit
             return property;
         }
 
+        /// <summary>A ParameterInfo extension method that converts a pi to a property.</summary>
+        ///
+        /// <param name="pi">The pi to act on.</param>
+        ///
+        /// <returns>pi as a MetadataPropertyType.</returns>
         public static MetadataPropertyType ToProperty(this ParameterInfo pi)
         {
             var propertyAttrs = pi.GetCustomAttributes(false);
@@ -292,6 +356,11 @@ namespace NServiceKit
             return property;
         }
 
+        /// <summary>A DataMemberAttribute extension method that converts an attr to a data member.</summary>
+        ///
+        /// <param name="attr">The attr to act on.</param>
+        ///
+        /// <returns>attr as a MetadataDataMember.</returns>
         public static MetadataDataMember ToDataMember(this DataMemberAttribute attr)
         {
             if (attr == null) return null;
@@ -307,6 +376,11 @@ namespace NServiceKit
             return metaAttr;
         }
 
+        /// <summary>A Type extension method that gets instance public properties.</summary>
+        ///
+        /// <param name="type">The type to act on.</param>
+        ///
+        /// <returns>An array of property information.</returns>
         public static PropertyInfo[] GetInstancePublicProperties(this Type type)
         {
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)

@@ -11,6 +11,7 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A CSV content type filter tests.</summary>
 	[TestFixture]
 	public class CsvContentTypeFilterTests
 	{
@@ -22,6 +23,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.Fail(ex.Message);
 		}
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
@@ -29,6 +31,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             RestsTestBase.GetWebResponse(HttpMethods.Post, ServiceClientBaseUri + "reset-movies", ContentType.Xml, 0);
         }
 
+        /// <summary>Can download movies in CSV.</summary>
 		[Test]
 		[Ignore("Fails because CSV Deserializer is not implemented")]
 		public void Can_download_movies_in_Csv()
@@ -49,6 +52,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response, Is.Not.Null, "No response received");
 		}
 
+        /// <summary>Can download CSV movies using CSV syncreply endpoint.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_syncreply_endpoint()
 		{
@@ -65,6 +69,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			//Console.WriteLine(csvRows.Join("\n"));
 		}
 
+        /// <summary>Can download CSV movies using CSV synchronise reply path and alternate XML accept header.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_SyncReply_Path_and_alternate_XML_Accept_Header()
 		{
@@ -81,6 +86,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Console.WriteLine(csvRows.Join("\n"));
 		}
 
+        /// <summary>Can download CSV movies using CSV accept and rest path.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_Accept_and_RestPath()
 		{
@@ -97,6 +103,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			//Console.WriteLine(csvRows.Join("\n"));
 		}
 
+        /// <summary>Can download CSV hello using CSV syncreply endpoint.</summary>
 		[Test]
 		public void Can_download_CSV_Hello_using_csv_syncreply_endpoint()
 		{
@@ -112,6 +119,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Console.WriteLine(csv);
 		}
 
+        /// <summary>Can download CSV hello using CSV accept and rest path.</summary>
 		[Test]
 		public void Can_download_CSV_Hello_using_csv_Accept_and_RestPath()
 		{

@@ -5,19 +5,33 @@ using System.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>A performance test base.</summary>
 	public class PerfTestBase
 	{
+        /// <summary>Gets or sets the default iterations.</summary>
+        ///
+        /// <value>The default iterations.</value>
 		protected int DefaultIterations { get; set; }
+
+        /// <summary>Gets or sets the multiple iterations.</summary>
+        ///
+        /// <value>The multiple iterations.</value>
 		protected List<int> MultipleIterations { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.PerfTestBase class.</summary>
 		public PerfTestBase()
 		{
 			this.DefaultIterations = 10000;
 			this.MultipleIterations = new List<int> { 1000, 10000, 100000, 1000000 };
 		}
 
+        /// <summary>The log.</summary>
 		protected StringBuilder SbLog = new StringBuilder();
 
+        /// <summary>Logs.</summary>
+        ///
+        /// <param name="message">The message.</param>
+        /// <param name="args">   A variable-length parameters list containing arguments.</param>
 		public void Log(string message, params object[] args)
 		{
 			Console.WriteLine(message, args);
@@ -26,6 +40,12 @@ namespace NServiceKit.Common.Tests
 			SbLog.AppendLine();
 		}
 
+        /// <summary>Compare multiple runs.</summary>
+        ///
+        /// <param name="run1Name">  Name of the run 1.</param>
+        /// <param name="run1Action">The run 1 action.</param>
+        /// <param name="run2Name">  Name of the run 2.</param>
+        /// <param name="run2Action">The run 2 action.</param>
 		protected void CompareMultipleRuns(string run1Name, Action run1Action, string run2Name, Action run2Action)
 		{
 			WarmUp(run1Action, run2Action);
@@ -36,11 +56,24 @@ namespace NServiceKit.Common.Tests
 			}
 		}
 
+        /// <summary>Compare runs.</summary>
+        ///
+        /// <param name="run1Name">  Name of the run 1.</param>
+        /// <param name="run1Action">The run 1 action.</param>
+        /// <param name="run2Name">  Name of the run 2.</param>
+        /// <param name="run2Action">The run 2 action.</param>
 		protected void CompareRuns(string run1Name, Action run1Action, string run2Name, Action run2Action)
 		{
 			CompareRuns(DefaultIterations, run1Name, run1Action, run2Name, run2Action);
 		}
 
+        /// <summary>Compare runs.</summary>
+        ///
+        /// <param name="iterations">The iterations.</param>
+        /// <param name="run1Name">  Name of the run 1.</param>
+        /// <param name="run1Action">The run 1 action.</param>
+        /// <param name="run2Name">  Name of the run 2.</param>
+        /// <param name="run2Action">The run 2 action.</param>
 		protected void CompareRuns(int iterations, string run1Name, Action run1Action, string run2Name, Action run2Action)
 		{
 			var run1 = RunAction(run1Action, iterations, run1Name);
@@ -57,6 +90,9 @@ namespace NServiceKit.Common.Tests
 			    slowerRun, runDiffTime, Math.Round(runDiffAvg, 2), fasterRun);
 		}
 
+        /// <summary>Warm up.</summary>
+        ///
+        /// <param name="actions">A variable-length parameters list containing actions.</param>
 		protected void WarmUp(params Action[] actions)
 		{
 			foreach (var action in actions)
@@ -66,6 +102,10 @@ namespace NServiceKit.Common.Tests
 			}
 		}
 
+        /// <summary>Executes the multiple times operation.</summary>
+        ///
+        /// <param name="action">    The action.</param>
+        /// <param name="actionName">Name of the action.</param>
 		protected void RunMultipleTimes(Action action, string actionName)
 		{
 			WarmUp(action);
@@ -76,11 +116,24 @@ namespace NServiceKit.Common.Tests
 			}
 		}
 
+        /// <summary>Executes the action.</summary>
+        ///
+        /// <param name="action">    The action.</param>
+        /// <param name="iterations">The iterations.</param>
+        ///
+        /// <returns>A TimeSpan.</returns>
 		protected TimeSpan RunAction(Action action, int iterations)
 		{
 			return RunAction(action, iterations, null);
 		}
 
+        /// <summary>Executes the action.</summary>
+        ///
+        /// <param name="action">    The action.</param>
+        /// <param name="iterations">The iterations.</param>
+        /// <param name="actionName">Name of the action.</param>
+        ///
+        /// <returns>A TimeSpan.</returns>
 		protected TimeSpan RunAction(Action action, int iterations, string actionName)
 		{
 			actionName = actionName ?? action.GetType().Name;
@@ -92,6 +145,12 @@ namespace NServiceKit.Common.Tests
 			return timeSpan; 
 		}
 
+        /// <summary>Measures.</summary>
+        ///
+        /// <param name="action">    The action.</param>
+        /// <param name="iterations">The iterations.</param>
+        ///
+        /// <returns>A long.</returns>
 		protected long Measure(Action action, decimal iterations)
 		{
 			GC.Collect();

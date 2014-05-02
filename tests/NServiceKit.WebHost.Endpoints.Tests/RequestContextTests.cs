@@ -11,17 +11,23 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Services;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A request context tests.</summary>
 	[TestFixture]
 	public class RequestContextTests
 	{
 		private const string ListeningOn = "http://localhost:82/";
 
+        /// <summary>The headers application host HTTP listener.</summary>
 		public class HeadersAppHostHttpListener
 			: AppHostHttpListenerBase
 		{
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.RequestContextTests.HeadersAppHostHttpListener class.</summary>
 			public HeadersAppHostHttpListener()
 				: base("Request Filters Tests", typeof(HeadersService).Assembly) { }
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
 			public override void Configure(Container container)
 			{
 				EndpointHostConfig.Instance.GlobalResponseHeaders.Clear();
@@ -53,6 +59,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 		HeadersAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -61,6 +68,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -80,6 +88,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			return response.Value;
 		}
 
+        /// <summary>Gets response headers.</summary>
+        ///
+        /// <param name="url">URL of the document.</param>
+        ///
+        /// <returns>The response headers.</returns>
 		public static Dictionary<string, string> GetResponseHeaders(String url)
 		{
 			var webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -96,6 +109,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			return map;
 		}
 
+        /// <summary>Can resolve custom header.</summary>
 		[Test]
 		public void Can_resolve_CustomHeader()
 		{
@@ -109,6 +123,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Value, Is.EqualTo("CustomValue"));
 		}
 
+        /// <summary>Does send global headers.</summary>
 		[Test]
 		public void Does_Send_Global_Headers()
 		{
@@ -117,6 +132,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(headers["Access-Control-Allow-Methods"], Is.EqualTo("GET, POST, PUT, DELETE, OPTIONS"));
 		}
 
+        /// <summary>Does return bare 401 status code.</summary>
+        ///
+        /// <exception cref="401">Thrown when a 401 error condition occurs.</exception>
 		[Test]
 		public void Does_return_bare_401_StatusCode()
 		{
@@ -136,6 +154,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Does return bare 401 with authentication required header.</summary>
+        ///
+        /// <exception cref="401">Thrown when a 401 error condition occurs.</exception>
 		[Test]
 		public void Does_return_bare_401_with_AuthRequired_header()
 		{

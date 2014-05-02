@@ -9,13 +9,22 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>A rest handler.</summary>
     public class RestHandler : EndpointHandlerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.RestHandler class.</summary>
         public RestHandler()
         {
             this.HandlerAttributes = EndpointAttributes.Reply;
         }
-        
+
+        /// <summary>Searches for the first matching rest path.</summary>
+        ///
+        /// <param name="httpMethod"> The HTTP method.</param>
+        /// <param name="pathInfo">   Information describing the path.</param>
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>The found matching rest path.</returns>
         public static IRestPath FindMatchingRestPath(string httpMethod, string pathInfo, out string contentType)
         {
             var controller = ServiceManager != null
@@ -46,6 +55,12 @@ namespace NServiceKit.WebHost.Endpoints
             return pathInfo;
         }
 
+        /// <summary>Gets rest path.</summary>
+        ///
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="pathInfo">  Information describing the path.</param>
+        ///
+        /// <returns>The rest path.</returns>
         public IRestPath GetRestPath(string httpMethod, string pathInfo)
         {
             if (this.RestPath == null)
@@ -59,11 +74,24 @@ namespace NServiceKit.WebHost.Endpoints
             return this.RestPath;
         }
 
+        /// <summary>Gets or sets the full pathname of the rest file.</summary>
+        ///
+        /// <value>The full pathname of the rest file.</value>
         public IRestPath RestPath { get; set; }
 
-        // Set from SSHHF.GetHandlerForPathInfo()
+        /// <summary>Set from SSHHF.GetHandlerForPathInfo()</summary>
+        ///
+        /// <value>The type of the response content.</value>
         public string ResponseContentType { get; set; }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        /// <exception cref="Exception">            Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public override void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
             try
@@ -110,6 +138,13 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Gets a response.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The response.</returns>
         public override object GetResponse(IHttpRequest httpReq, IHttpResponse httpRes, object request)
         {
             var requestContentType = ContentType.GetEndpointAttributes(httpReq.ResponseContentType);

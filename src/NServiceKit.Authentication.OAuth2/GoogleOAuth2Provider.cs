@@ -16,12 +16,18 @@ namespace NServiceKit.Authentication.OAuth2
             https://www.googleapis.com/auth/userinfo.email View your email address
             https://www.googleapis.com/auth/userinfo.profile View basic information about your account
      */
+    /// <summary>A google o authentication 2 provider.</summary>
     public class GoogleOAuth2Provider : OAuth2Provider
     {
+        /// <summary>The name.</summary>
         public const string Name = "GoogleOAuth";
 
+        /// <summary>The realm.</summary>
         public const string Realm = "https://accounts.google.com/o/oauth2/auth";
 
+        /// <summary>Initializes a new instance of the NServiceKit.Authentication.OAuth2.GoogleOAuth2Provider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
         public GoogleOAuth2Provider(IResourceManager appSettings)
             : base(appSettings, Realm, Name)
         {
@@ -38,6 +44,11 @@ namespace NServiceKit.Authentication.OAuth2
             }
         }
 
+        /// <summary>Creates authentication information.</summary>
+        ///
+        /// <param name="accessToken">The access token.</param>
+        ///
+        /// <returns>The new authentication information.</returns>
         protected override Dictionary<string, string> CreateAuthInfo(string accessToken)
         {
             var url = this.UserProfileUrl.AddQueryParam("access_token", accessToken);

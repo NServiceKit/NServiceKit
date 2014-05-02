@@ -4,56 +4,86 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Web
 {
+    /// <summary>A content type.</summary>
     public static class ContentType
     {
+        /// <summary>The UTF 8 suffix.</summary>
         public const string Utf8Suffix = "; charset=utf-8";
 
+        /// <summary>Type of the header content.</summary>
         public const string HeaderContentType = "Content-Type";
 
+        /// <summary>The form URL encoded.</summary>
         public const string FormUrlEncoded = "application/x-www-form-urlencoded";
 
+        /// <summary>Information describing the multi part form.</summary>
         public const string MultiPartFormData = "multipart/form-data";
 
+        /// <summary>The HTML.</summary>
         public const string Html = "text/html";
 
+        /// <summary>The JSON report.</summary>
         public const string JsonReport = "text/jsonreport";
 
+        /// <summary>The XML.</summary>
         public const string Xml = "application/xml";
 
+        /// <summary>The XML text.</summary>
         public const string XmlText = "text/xml";
 
+        /// <summary>The first SOAP 1.</summary>
         public const string Soap11 = " text/xml; charset=utf-8";
 
+        /// <summary>The second SOAP 1.</summary>
         public const string Soap12 = " application/soap+xml";
 
+        /// <summary>The JSON.</summary>
         public const string Json = "application/json";
 
+        /// <summary>The JSON text.</summary>
         public const string JsonText = "text/json";
 
+        /// <summary>The java script.</summary>
         public const string JavaScript = "application/javascript";
 
+        /// <summary>The jsv.</summary>
         public const string Jsv = "application/jsv";
 
+        /// <summary>The jsv text.</summary>
         public const string JsvText = "text/jsv";
 
+        /// <summary>The CSV.</summary>
         public const string Csv = "text/csv";
 
+        /// <summary>The yaml.</summary>
         public const string Yaml = "application/yaml";
 
+        /// <summary>The yaml text.</summary>
         public const string YamlText = "text/yaml";
 
+        /// <summary>The plain text.</summary>
         public const string PlainText = "text/plain";
 
+        /// <summary>The markdown text.</summary>
         public const string MarkdownText = "text/markdown";
 
+        /// <summary>Buffer for prototype data.</summary>
         public const string ProtoBuf = "application/x-protobuf";
 
+        /// <summary>The message pack.</summary>
         public const string MsgPack = "application/x-msgpack";
 
+        /// <summary>The bson.</summary>
         public const string Bson = "application/bson";
 
+        /// <summary>The binary.</summary>
         public const string Binary = "application/octet-stream";
 
+        /// <summary>Gets endpoint attributes.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>The endpoint attributes.</returns>
         public static EndpointAttributes GetEndpointAttributes(string contentType)
         {
             if (contentType == null)
@@ -101,6 +131,11 @@ namespace NServiceKit.Common.Web
             return EndpointAttributes.FormatOther;
         }
 
+        /// <summary>Gets real content type.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>The real content type.</returns>
         public static string GetRealContentType(string contentType)
         {
             return contentType == null
@@ -108,11 +143,22 @@ namespace NServiceKit.Common.Web
                        : contentType.Split(';')[0].Trim();
         }
 
+        /// <summary>A string extension method that matches content type.</summary>
+        ///
+        /// <param name="contentType">       The contentType to act on.</param>
+        /// <param name="matchesContentType">Type of the matches content.</param>
+        ///
+        /// <returns>true if matches content type, false if not.</returns>
         public static bool MatchesContentType(this string contentType, string matchesContentType)
         {
             return GetRealContentType(contentType) == GetRealContentType(matchesContentType);
         }
 
+        /// <summary>A string extension method that query if 'contentType' is binary.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>true if binary, false if not.</returns>
         public static bool IsBinary(this string contentType)
         {
             var realContentType = GetRealContentType(contentType);
@@ -137,6 +183,11 @@ namespace NServiceKit.Common.Web
             return false;
         }
 
+        /// <summary>A string extension method that converts a contentType to a feature.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>contentType as a Feature.</returns>
         public static Feature ToFeature(this string contentType)
         {
             if (contentType == null)
@@ -179,6 +230,11 @@ namespace NServiceKit.Common.Web
             return Feature.CustomFormat;
         }
 
+        /// <summary>Gets content format.</summary>
+        ///
+        /// <param name="format">Describes the format to use.</param>
+        ///
+        /// <returns>The content format.</returns>
         public static string GetContentFormat(Format format)
         {
             var formatStr = format.ToString().ToLower();
@@ -187,6 +243,11 @@ namespace NServiceKit.Common.Web
                 : formatStr;
         }
 
+        /// <summary>Gets content format.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>The content format.</returns>
         public static string GetContentFormat(string contentType)
         {
             if (contentType == null) 
@@ -196,11 +257,21 @@ namespace NServiceKit.Common.Web
             return parts[parts.Length - 1];
         }
 
+        /// <summary>A string extension method that converts a contentType to a content format.</summary>
+        ///
+        /// <param name="contentType">The contentType to act on.</param>
+        ///
+        /// <returns>contentType as a string.</returns>
         public static string ToContentFormat(this string contentType)
         {
             return GetContentFormat(contentType);
         }
 
+        /// <summary>A Format extension method that converts the formats to a content type.</summary>
+        ///
+        /// <param name="formats">The formats to act on.</param>
+        ///
+        /// <returns>formats as a string.</returns>
         public static string ToContentType(this Format formats)
         {
             switch (formats)

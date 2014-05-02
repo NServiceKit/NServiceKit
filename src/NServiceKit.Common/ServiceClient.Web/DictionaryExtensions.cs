@@ -5,8 +5,14 @@ using System.Collections.Specialized;
 
 namespace NServiceKit.ServiceModel.Extensions
 {
+    /// <summary>A dictionary extensions.</summary>
     public static class DictionaryExtensions
     {
+        /// <summary>A NameValueCollection extension method that converts the nameValues to a dictionary.</summary>
+        ///
+        /// <param name="nameValues">The nameValues to act on.</param>
+        ///
+        /// <returns>nameValues as a Dictionary&lt;string,string&gt;</returns>
         public static Dictionary<string, string> ToDictionary(this NameValueCollection nameValues)
         {
             var map = new Dictionary<string, string>();

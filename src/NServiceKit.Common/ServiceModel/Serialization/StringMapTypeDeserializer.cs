@@ -20,14 +20,21 @@ namespace NServiceKit.ServiceModel.Serialization
 
         internal class PropertySerializerEntry
         {
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceModel.Serialization.StringMapTypeDeserializer.PropertySerializerEntry class.</summary>
+            ///
+            /// <param name="propertySetFn">        The property set function.</param>
+            /// <param name="propertyParseStringFn">The property parse string function.</param>
             public PropertySerializerEntry(SetPropertyDelegate propertySetFn, ParseStringDelegate propertyParseStringFn)
             {
                 PropertySetFn = propertySetFn;
                 PropertyParseStringFn = propertyParseStringFn;
             }
 
+            /// <summary>The property set function.</summary>
             public SetPropertyDelegate PropertySetFn;
+            /// <summary>The property parse string function.</summary>
             public ParseStringDelegate PropertyParseStringFn;
+            /// <summary>Type of the property.</summary>
             public Type PropertyType;
         }
 
@@ -40,6 +47,11 @@ namespace NServiceKit.ServiceModel.Serialization
             Log = log;
         }
 
+        /// <summary>Gets parse function.</summary>
+        ///
+        /// <param name="propertyType">Type of the property.</param>
+        ///
+        /// <returns>The parse function.</returns>
         public ParseStringDelegate GetParseFn(Type propertyType)
         {
             //Don't JSV-decode string values for string properties
@@ -49,6 +61,9 @@ namespace NServiceKit.ServiceModel.Serialization
             return JsvReader.GetParseFn(propertyType);
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceModel.Serialization.StringMapTypeDeserializer class.</summary>
+        ///
+        /// <param name="type">The type.</param>
         public StringMapTypeDeserializer(Type type)
         {
             this.type = type;
@@ -83,6 +98,15 @@ namespace NServiceKit.ServiceModel.Serialization
 
         }
 
+        /// <summary>Populate from map.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <param name="instance">                      The instance.</param>
+        /// <param name="keyValuePairs">                 The key value pairs.</param>
+        /// <param name="ignoredWarningsOnPropertyNames">List of names of the ignored warnings on properties.</param>
+        ///
+        /// <returns>An object.</returns>
         public object PopulateFromMap(object instance, IDictionary<string, string> keyValuePairs, List<string> ignoredWarningsOnPropertyNames = null)
         {
             string propertyName = null;
@@ -148,6 +172,11 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Creates from map.</summary>
+        ///
+        /// <param name="keyValuePairs">The key value pairs.</param>
+        ///
+        /// <returns>The new from map.</returns>
         public object CreateFromMap(IDictionary<string, string> keyValuePairs)
         {
             return PopulateFromMap(null, keyValuePairs, null);

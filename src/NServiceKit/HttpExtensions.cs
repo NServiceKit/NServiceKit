@@ -15,6 +15,12 @@ namespace NServiceKit
     /// </summary>
     public static class HttpExtensions
     {
+        /// <summary>A HttpListenerContext extension method that converts this object to a request context.</summary>
+        ///
+        /// <param name="httpContext">The httpContext to act on.</param>
+        /// <param name="requestDto"> The request dto.</param>
+        ///
+        /// <returns>The given data converted to a HttpRequestContext.</returns>
         public static HttpRequestContext ToRequestContext(this HttpContext httpContext, object requestDto = null)
         {
             return new HttpRequestContext(
@@ -23,6 +29,12 @@ namespace NServiceKit
                 requestDto);
         }
 
+        /// <summary>A HttpListenerContext extension method that converts this object to a request context.</summary>
+        ///
+        /// <param name="httpContext">The httpContext to act on.</param>
+        /// <param name="requestDto"> The request dto.</param>
+        ///
+        /// <returns>The given data converted to a HttpRequestContext.</returns>
         public static HttpRequestContext ToRequestContext(this HttpListenerContext httpContext, object requestDto = null)
         {
             return new HttpRequestContext(
@@ -31,6 +43,13 @@ namespace NServiceKit
                 requestDto);
         }
 
+        /// <summary>An IReturn extension method that converts this object to an absolute URI.</summary>
+        ///
+        /// <param name="request">                        The request to act on.</param>
+        /// <param name="httpMethod">                     The HTTP method.</param>
+        /// <param name="formatFallbackToPredefinedRoute">The format fallback to predefined route.</param>
+        ///
+        /// <returns>The given data converted to a string.</returns>
         public static string ToAbsoluteUri(this IReturn request, string httpMethod = null, string formatFallbackToPredefinedRoute = null)
         {
             var relativeUrl = request.ToUrl(

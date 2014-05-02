@@ -27,13 +27,29 @@ namespace FluentValidation.Mvc {
 	using System.Linq;
 	using System.Web.Mvc;
 
+    /// <summary>Fluent validation model validation factory.</summary>
+    ///
+    /// <param name="metadata"> The metadata.</param>
+    /// <param name="context">  The context.</param>
+    /// <param name="rule">     The rule.</param>
+    /// <param name="validator">The validator.</param>
+    ///
+    /// <returns>A ModelValidator.</returns>
 	public delegate ModelValidator FluentValidationModelValidationFactory(ModelMetadata metadata, ControllerContext context, PropertyRule rule, IPropertyValidator validator);
 
 	/// <summary>
 	/// Implementation of ModelValidatorProvider that uses FluentValidation.
 	/// </summary>
 	public class FluentValidationModelValidatorProvider : ModelValidatorProvider {
+
+        /// <summary>Gets or sets a value indicating whether the add implicit required validator.</summary>
+        ///
+        /// <value>true if add implicit required validator, false if not.</value>
 		public bool AddImplicitRequiredValidator { get; set; }
+
+        /// <summary>Gets or sets the validator factory.</summary>
+        ///
+        /// <value>The validator factory.</value>
 		public IValidatorFactory ValidatorFactory { get; set; }
 
 		private Dictionary<Type, FluentValidationModelValidationFactory> validatorFactories = new Dictionary<Type, FluentValidationModelValidationFactory>() {
@@ -48,6 +64,9 @@ namespace FluentValidation.Mvc {
 			{ typeof(CreditCardValidator), (metadata, context, description, validator) => new CreditCardFluentValidationPropertyValidator(metadata, context, description, validator) }
 		};
 
+        /// <summary>Initializes a new instance of the FluentValidation.Mvc.FluentValidationModelValidatorProvider class.</summary>
+        ///
+        /// <param name="validatorFactory">The validator factory.</param>
 		public FluentValidationModelValidatorProvider(IValidatorFactory validatorFactory = null) {
 			AddImplicitRequiredValidator = true;
 			ValidatorFactory = validatorFactory ?? new AttributedValidatorFactory();
@@ -66,6 +85,12 @@ namespace FluentValidation.Mvc {
 			ModelValidatorProviders.Providers.Add(provider);
 		}
 
+        /// <summary>Adds validatorType.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="validatorType">Type of the validator.</param>
+        /// <param name="factory">      The factory.</param>
 		public void Add(Type validatorType, FluentValidationModelValidationFactory factory) {
 			if(validatorType == null) throw new ArgumentNullException("validatorType");
 			if(factory == null) throw new ArgumentNullException("factory");
@@ -73,6 +98,12 @@ namespace FluentValidation.Mvc {
 			validatorFactories[validatorType] = factory;
 		}
 
+        /// <summary>Gets a list of validators.</summary>
+        ///
+        /// <param name="metadata">The metadata.</param>
+        /// <param name="context"> The context.</param>
+        ///
+        /// <returns>A list of validators.</returns>
 		public override IEnumerable<ModelValidator> GetValidators(ModelMetadata metadata, ControllerContext context) {
 			if (IsValidatingProperty(metadata)) {
 				return GetValidatorsForProperty(metadata, context, ValidatorFactory.GetValidator(metadata.ContainerType));

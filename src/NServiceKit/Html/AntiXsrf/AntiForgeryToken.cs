@@ -15,6 +15,9 @@ namespace NServiceKit.Html.AntiXsrf
         private BinaryBlob _securityToken;
         private string _username;
 
+        /// <summary>Gets or sets information describing the additional.</summary>
+        ///
+        /// <value>Information describing the additional.</value>
         public string AdditionalData
         {
             get
@@ -27,10 +30,19 @@ namespace NServiceKit.Html.AntiXsrf
             }
         }
 
+        /// <summary>Gets or sets the claim UID.</summary>
+        ///
+        /// <value>The claim UID.</value>
         public BinaryBlob ClaimUid { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether this object is session token.</summary>
+        ///
+        /// <value>true if this object is session token, false if not.</value>
         public bool IsSessionToken { get; set; }
 
+        /// <summary>Gets or sets the security token.</summary>
+        ///
+        /// <value>The security token.</value>
         public BinaryBlob SecurityToken
         {
             get
@@ -46,6 +58,9 @@ namespace NServiceKit.Html.AntiXsrf
             }
         }
 
+        /// <summary>Gets or sets the username.</summary>
+        ///
+        /// <value>The username.</value>
         public string Username
         {
             get

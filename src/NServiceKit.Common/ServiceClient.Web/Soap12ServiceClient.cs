@@ -11,8 +11,12 @@ namespace NServiceKit.ServiceClient.Web
     using NServiceKit.Text;
     using NServiceKit.Service;
 
+    /// <summary>A SOAP 12 service client.</summary>
     public class Soap12ServiceClient : WcfServiceClient
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.Soap12ServiceClient class.</summary>
+        ///
+        /// <param name="uri">URI of the document.</param>
         public Soap12ServiceClient(string uri)
         {
             this.Uri = uri.WithTrailingSlash() + "Soap12";
@@ -44,16 +48,25 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets the binding.</summary>
+        ///
+        /// <value>The binding.</value>
         protected override Binding Binding
         {
             get { return this.WsHttpBinding; }
         }
 
+        /// <summary>Gets the message version.</summary>
+        ///
+        /// <value>The message version.</value>
         protected override MessageVersion MessageVersion
         {
             get { return MessageVersion.Default; }
         }
 
+        /// <summary>Sets a proxy.</summary>
+        ///
+        /// <param name="proxyAddress">The proxy address.</param>
         public override void SetProxy(Uri proxyAddress)
         {
             var wsHttpBinding = (WSHttpBinding)Binding;

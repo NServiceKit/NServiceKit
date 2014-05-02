@@ -7,8 +7,16 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.CacheAccess.Providers
 {
+    /// <summary>A cache client extensions.</summary>
 	public static class CacheClientExtensions
 	{
+        /// <summary>An ICacheClient extension method that sets.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="cacheClient">  Cache client.</param>
+        /// <param name="cacheKey">     The cache key.</param>
+        /// <param name="value">        The value.</param>
+        /// <param name="expireCacheIn">The expire cache in.</param>
 		public static void Set<T>(this ICacheClient cacheClient, string cacheKey, T value, TimeSpan? expireCacheIn)
 		{
 			if (expireCacheIn.HasValue)
@@ -17,6 +25,13 @@ namespace NServiceKit.CacheAccess.Providers
 				cacheClient.Set(cacheKey, value);
 		}
 
+        /// <summary>An ICacheClient extension method that resolve from cache.</summary>
+        ///
+        /// <param name="cacheClient">Cache client.</param>
+        /// <param name="cacheKey">   The cache key.</param>
+        /// <param name="context">    The context.</param>
+        ///
+        /// <returns>An object.</returns>
 		public static object ResolveFromCache(this ICacheClient cacheClient, 
 			string cacheKey, 
 			IRequestContext context)
@@ -70,6 +85,15 @@ namespace NServiceKit.CacheAccess.Providers
 		    return null;
 		}
 
+        /// <summary>An ICacheClient extension method that caches.</summary>
+        ///
+        /// <param name="cacheClient">  Cache client.</param>
+        /// <param name="cacheKey">     The cache key.</param>
+        /// <param name="responseDto">  The response dto.</param>
+        /// <param name="context">      The context.</param>
+        /// <param name="expireCacheIn">The expire cache in.</param>
+        ///
+        /// <returns>An object.</returns>
 		public static object Cache(this ICacheClient cacheClient, 
 			string cacheKey, 
 			object responseDto, 
@@ -126,6 +150,10 @@ namespace NServiceKit.CacheAccess.Providers
             }
 		}
 
+        /// <summary>An ICacheClient extension method that clears the caches.</summary>
+        ///
+        /// <param name="cacheClient">Cache client.</param>
+        /// <param name="cacheKeys">  A variable-length parameters list containing cache keys.</param>
 		public static void ClearCaches(this ICacheClient cacheClient, params string[] cacheKeys)
 		{
 			var allContentTypes = new List<string>(EndpointHost.ContentTypeFilter.ContentTypeFormats.Values)
@@ -151,11 +179,24 @@ namespace NServiceKit.CacheAccess.Providers
 			cacheClient.RemoveAll(allCacheKeys);
 		}
 
+        /// <summary>Gets cache key for serialized.</summary>
+        ///
+        /// <param name="cacheKey"> The cache key.</param>
+        /// <param name="mimeType"> Type of the mime.</param>
+        /// <param name="modifiers">The modifiers.</param>
+        ///
+        /// <returns>The cache key for serialized.</returns>
 		public static string GetCacheKeyForSerialized(string cacheKey, string mimeType, string modifiers)
 		{
 			return cacheKey + MimeTypes.GetExtension(mimeType) + modifiers;
 		}
 
+        /// <summary>Gets cache key for compressed.</summary>
+        ///
+        /// <param name="cacheKeySerialized">The cache key serialized.</param>
+        /// <param name="compressionType">   Type of the compression.</param>
+        ///
+        /// <returns>The cache key for compressed.</returns>
 		public static string GetCacheKeyForCompressed(string cacheKeySerialized, string compressionType)
 		{
 			return cacheKeySerialized + "." + compressionType;

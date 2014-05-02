@@ -25,32 +25,57 @@ namespace NServiceKit.FluentValidation.Validators
     using Resources;
     using Results;
 
+    /// <summary>A property validator.</summary>
     public abstract class PropertyValidator : IPropertyValidator {
         private readonly List<Func<object, object>> customFormatArgs = new List<Func<object, object>>();
         private IStringSource errorSource;
         private string errorCode;
 
+        /// <summary>Gets or sets the custom state provider.</summary>
+        ///
+        /// <value>The custom state provider.</value>
         public Func<object, object> CustomStateProvider { get; set; }
 
+        /// <summary>Gets the custom message format arguments.</summary>
+        ///
+        /// <value>The custom message format arguments.</value>
         public ICollection<Func<object, object>> CustomMessageFormatArguments {
             get { return customFormatArgs; }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.PropertyValidator class.</summary>
+        ///
+        /// <param name="errorMessageResourceName">Name of the error message resource.</param>
+        /// <param name="errorMessageResourceType">Type of the error message resource.</param>
+        /// <param name="errorCode">               The error code.</param>
         protected PropertyValidator(string errorMessageResourceName, Type errorMessageResourceType, string errorCode) {
             this.errorSource = new LocalizedStringSource(errorMessageResourceType, errorMessageResourceName, new FallbackAwareResourceAccessorBuilder());
             this.errorCode = errorCode;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.PropertyValidator class.</summary>
+        ///
+        /// <param name="errorMessage">Message describing the error.</param>
+        /// <param name="errorCode">   The error code.</param>
         protected PropertyValidator(string errorMessage, string errorCode) {
             this.errorSource = new StaticStringSource(errorMessage);
             this.errorCode = errorCode;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.PropertyValidator class.</summary>
+        ///
+        /// <param name="errorMessageResourceSelector">The error message resource selector.</param>
+        /// <param name="errorCode">                   The error code.</param>
         protected PropertyValidator(Expression<Func<string>> errorMessageResourceSelector, string errorCode) {
             this.errorSource = LocalizedStringSource.CreateFromExpression(errorMessageResourceSelector, new FallbackAwareResourceAccessorBuilder());
             this.errorCode = errorCode;
         }
 
+        /// <summary>Gets or sets the error message source.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <value>The error message source.</value>
         public IStringSource ErrorMessageSource {
             get { return errorSource; }
             set {
@@ -61,6 +86,11 @@ namespace NServiceKit.FluentValidation.Validators
             }
         }
 
+        /// <summary>Gets or sets the error code.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <value>The error code.</value>
         public string ErrorCode
         {
             get { return errorCode; }
@@ -72,6 +102,11 @@ namespace NServiceKit.FluentValidation.Validators
             }
         }
 
+        /// <summary>Enumerates validate in this collection.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process validate in this collection.</returns>
         public virtual IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context) {
             context.MessageFormatter.AppendPropertyName(context.PropertyDescription);
 
@@ -82,6 +117,11 @@ namespace NServiceKit.FluentValidation.Validators
             return Enumerable.Empty<ValidationFailure>();
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The validator context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected abstract bool IsValid(PropertyValidatorContext context);
 
         /// <summary>

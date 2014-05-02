@@ -10,6 +10,9 @@ namespace NServiceKit.ServiceInterface.Cors
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class EnableCorsAttribute : Attribute, IHasResponseFilter
     {
+        /// <summary>Order in which Response Filters are executed. &lt;0 Executed before global response filters &gt;0 Executed after global response filters.</summary>
+        ///
+        /// <value>The priority.</value>
         public int Priority { get { return 0; } }
 
         private readonly string allowedOrigins;
@@ -29,6 +32,11 @@ namespace NServiceKit.ServiceInterface.Cors
             this.allowCredentials = allowCredentials;
         }
 
+        /// <summary>The response filter is executed after the service.</summary>
+        ///
+        /// <param name="req">     The http request wrapper.</param>
+        /// <param name="res">     The http response wrapper.</param>
+        /// <param name="response">.</param>
         public void ResponseFilter(IHttpRequest req, IHttpResponse res, object response)
         {
             if (!string.IsNullOrEmpty(allowedOrigins))
@@ -41,6 +49,9 @@ namespace NServiceKit.ServiceInterface.Cors
                 res.AddHeader(HttpHeaders.AllowCredentials, "true");
         }
 
+        /// <summary>A new shallow copy of this filter is used on every request.</summary>
+        ///
+        /// <returns>An IHasResponseFilter.</returns>
         public IHasResponseFilter Copy()
         {
             return (IHasResponseFilter)MemberwiseClone();

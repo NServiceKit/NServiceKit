@@ -7,6 +7,7 @@ namespace NServiceKit.ServiceHost.Tests
     [TestFixture]
     class HttpRequestAuthenticatonTests
     {
+        /// <summary>Correct commas in digest authentication parsing.</summary>
         [Test]
         public void Correct_commas_in_digestAuth_parsing()
         {

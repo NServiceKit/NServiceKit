@@ -21,13 +21,19 @@ namespace MarkdownDeep
 {
 	internal class LinkInfo
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.LinkInfo class.</summary>
+        ///
+        /// <param name="def">      The definition.</param>
+        /// <param name="link_text">The link text.</param>
 		public LinkInfo(LinkDefinition def, string link_text)
 		{
 			this.def = def;
 			this.link_text = link_text;
 		}
 
+        /// <summary>The definition.</summary>
 		public LinkDefinition def;
+        /// <summary>The link text.</summary>
 		public string link_text;
 	}
 

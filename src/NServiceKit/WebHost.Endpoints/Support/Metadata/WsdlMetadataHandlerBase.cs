@@ -9,12 +9,19 @@ using NServiceKit.WebHost.Endpoints.Support.Templates;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Metadata
 {
+    /// <summary>A wsdl metadata handler base.</summary>
     public abstract class WsdlMetadataHandlerBase : HttpHandlerBase
     {
         private readonly ILog log = LogManager.GetLogger(typeof(WsdlMetadataHandlerBase));
 
+        /// <summary>Gets wsdl template.</summary>
+        ///
+        /// <returns>The wsdl template.</returns>
         protected abstract WsdlTemplateBase GetWsdlTemplate();
 
+        /// <summary>Executes the given context.</summary>
+        ///
+        /// <param name="context">The context.</param>
         public override void Execute(HttpContext context)
         {
             EndpointHost.Config.AssertFeatures(Feature.Metadata);
@@ -40,6 +47,10 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata
             }
         }
 
+        /// <summary>Executes.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
         public void Execute(IHttpRequest httpReq, IHttpResponse httpRes)
         {
 
@@ -65,6 +76,15 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata
             }
         }
 
+        /// <summary>Gets wsdl template.</summary>
+        ///
+        /// <param name="operations">      The operations.</param>
+        /// <param name="baseUri">         URI of the base.</param>
+        /// <param name="optimizeForFlash">true to optimize for flash.</param>
+        /// <param name="rawUrl">          URL of the raw.</param>
+        /// <param name="serviceName">     Name of the service.</param>
+        ///
+        /// <returns>The wsdl template.</returns>
         public WsdlTemplateBase GetWsdlTemplate(XsdMetadata operations, string baseUri, bool optimizeForFlash, string rawUrl, string serviceName)
         {
             var xsd = new XsdGenerator

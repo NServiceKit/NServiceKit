@@ -9,6 +9,7 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A service kit HTTP handler factory tests.</summary>
     [TestFixture]
     public class NServiceKitHttpHandlerFactoryTests
     {
@@ -37,18 +38,21 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			{"Soap12/Metadata", typeof(Soap12MetadataHandler)},
 		};
 
+        /// <summary>Setups this object.</summary>
         [TestFixtureSetUp]
         public void Setup()
         {
             RegisterConfig();
         }
 
+        /// <summary>Tear down.</summary>
         [TestFixtureTearDown]
         public void TearDown()
         {
             EndpointHost.CatchAllHandlers.Clear();
         }
 
+        /// <summary>Resolves the right handler for expexted paths.</summary>
         [Test]
         public void Resolves_the_right_handler_for_expexted_paths()
         {
@@ -72,6 +76,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             EndpointHost.CatchAllHandlers.Add(new MetadataFeature().ProcessRequest);
         }
 
+        /// <summary>Resolves the right handler for case insensitive expexted paths.</summary>
         [Test]
         public void Resolves_the_right_handler_for_case_insensitive_expexted_paths()
         {

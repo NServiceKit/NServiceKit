@@ -22,11 +22,17 @@ namespace NServiceKit.FluentValidation.Internal
     using System.Collections;
     using System.Collections.Generic;
 
+    /// <summary>Collection of trackings.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class TrackingCollection<T> : IEnumerable<T>
     {
         readonly List<T> innerCollection = new List<T>();
+        /// <summary>Occurs when Item Added.</summary>
         public event Action<T> ItemAdded;
 
+        /// <summary>Adds item.</summary>
+        ///
+        /// <param name="item">The item to add.</param>
         public void Add(T item) {
             innerCollection.Add(item);
 
@@ -35,11 +41,19 @@ namespace NServiceKit.FluentValidation.Internal
             }
         }
 
+        /// <summary>Executes the item added action.</summary>
+        ///
+        /// <param name="onItemAdded">The on item added.</param>
+        ///
+        /// <returns>An IDisposable.</returns>
         public IDisposable OnItemAdded(Action<T> onItemAdded) {
             ItemAdded += onItemAdded;
             return new EventDisposable(this, onItemAdded);
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        ///
+        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator() {
             return innerCollection.GetEnumerator();
         }
@@ -52,11 +66,16 @@ namespace NServiceKit.FluentValidation.Internal
             readonly TrackingCollection<T> parent;
             readonly Action<T> handler;
 
+            /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Internal.TrackingCollection&lt;T&gt;.EventDisposable class.</summary>
+            ///
+            /// <param name="parent"> The parent.</param>
+            /// <param name="handler">The handler.</param>
             public EventDisposable(TrackingCollection<T> parent, Action<T> handler) {
                 this.parent = parent;
                 this.handler = handler;
             }
 
+            /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
             public void Dispose() {
                 parent.ItemAdded -= handler;
             }

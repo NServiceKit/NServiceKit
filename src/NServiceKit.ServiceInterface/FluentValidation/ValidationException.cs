@@ -28,10 +28,17 @@ namespace NServiceKit.FluentValidation
     using Results;
     using System.Linq;
 
+    /// <summary>Exception for signalling validation errors.</summary>
     public class ValidationException : ArgumentException, IResponseStatusConvertible 
     {
+        /// <summary>Gets the errors.</summary>
+        ///
+        /// <value>The errors.</value>
         public IEnumerable<ValidationFailure> Errors { get; private set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.ValidationException class.</summary>
+        ///
+        /// <param name="errors">The errors.</param>
         public ValidationException(IEnumerable<ValidationFailure> errors) : base(BuildErrorMesage(errors)) {
             Errors = errors;
         }
@@ -41,6 +48,9 @@ namespace NServiceKit.FluentValidation
             return "Validation failed: " + string.Join("", arr);
         }
 
+        /// <summary>Converts this object to a response status.</summary>
+        ///
+        /// <returns>This object as the ResponseStatus.</returns>
         public ResponseStatus ToResponseStatus()
         {
             var errors = Errors.ConvertAll(x =>

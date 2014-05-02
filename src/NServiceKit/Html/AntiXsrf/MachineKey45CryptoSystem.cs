@@ -12,6 +12,9 @@ namespace NServiceKit.Html.AntiXsrf
         private static readonly string[] _purposes = new string[] { "NServiceKit.Html.AntiXsrf.AntiForgeryToken.v1" };
         private static readonly MachineKey45CryptoSystem _singletonInstance = GetSingletonInstance();
 
+        /// <summary>Gets the instance.</summary>
+        ///
+        /// <value>The instance.</value>
         public static MachineKey45CryptoSystem Instance
         {
             get
@@ -25,6 +28,11 @@ namespace NServiceKit.Html.AntiXsrf
             return new MachineKey45CryptoSystem();
         }
 
+        /// <summary>Protects the given data.</summary>
+        ///
+        /// <param name="data">The data.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Protect(byte[] data)
         {
 #if NET_4_0
@@ -35,6 +43,11 @@ namespace NServiceKit.Html.AntiXsrf
 #endif
             }
 
+        /// <summary>Unprotects.</summary>
+        ///
+        /// <param name="protectedData">Information describing the protected.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public byte[] Unprotect(string protectedData)
         {
 #if NET_4_0

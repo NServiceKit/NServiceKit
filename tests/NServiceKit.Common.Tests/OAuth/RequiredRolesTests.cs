@@ -7,38 +7,69 @@ using NServiceKit.ServiceInterface.Testing;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>A required roles tests.</summary>
     [TestFixture]
     public class RequiredRolesTests
     {
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
             AuthService.Init(() => new AuthUserSession(), new CredentialsAuthProvider());
         }
 
+        /// <summary>A mock user authentication repository.</summary>
         public class MockUserAuthRepository : InMemoryAuthRepository
         {
             private UserAuth userAuth;
+
+            /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.OAuth.RequiredRolesTests.MockUserAuthRepository class.</summary>
+            ///
+            /// <param name="userAuth">The user authentication.</param>
             public MockUserAuthRepository(UserAuth userAuth)
             {
                 this.userAuth = userAuth;
             }
 
+            /// <summary>Gets user authentication by user name.</summary>
+            ///
+            /// <param name="userNameOrEmail">The user name or email.</param>
+            ///
+            /// <returns>The user authentication by user name.</returns>
             public override UserAuth GetUserAuthByUserName(string userNameOrEmail)
             {
                 return null;
             }
 
+            /// <summary>Creates user authentication.</summary>
+            ///
+            /// <param name="newUser"> The new user.</param>
+            /// <param name="password">The password.</param>
+            ///
+            /// <returns>The new user authentication.</returns>
             public override UserAuth CreateUserAuth(UserAuth newUser, string password)
             {
                 return userAuth;
             }
 
+            /// <summary>Gets user authentication.</summary>
+            ///
+            /// <param name="authSession">The authentication session.</param>
+            /// <param name="tokens">     The tokens.</param>
+            ///
+            /// <returns>The user authentication.</returns>
             public override UserAuth GetUserAuth(IAuthSession authSession, IOAuthTokens tokens)
             {
                 return userAuth;
             }
 
+            /// <summary>Attempts to authenticate from the given data.</summary>
+            ///
+            /// <param name="userName">Name of the user.</param>
+            /// <param name="password">The password.</param>
+            /// <param name="userAuth">The user authentication.</param>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public override bool TryAuthenticate(string userName, string password, out UserAuth userAuth)
             {
                 userAuth = this.userAuth;
@@ -48,6 +79,7 @@ namespace NServiceKit.Common.Tests.OAuth
 
         private MockUserAuthRepository userAuth;
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
@@ -64,6 +96,7 @@ namespace NServiceKit.Common.Tests.OAuth
             return registrationService;
         }
 
+        /// <summary>Does validate required roles with user authentication repo when role not in session.</summary>
         [Test]
         public void Does_validate_RequiredRoles_with_UserAuthRepo_When_Role_not_in_Session()
         {
@@ -83,6 +116,7 @@ namespace NServiceKit.Common.Tests.OAuth
             Assert.That(!httpRes.IsClosed);
         }
 
+        /// <summary>Does validate assert required roles with user authentication repo when role not in session.</summary>
         [Test]
         public void Does_validate_AssertRequiredRoles_with_UserAuthRepo_When_Role_not_in_Session()
         {

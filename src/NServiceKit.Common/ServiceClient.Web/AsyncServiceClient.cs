@@ -44,14 +44,27 @@ namespace NServiceKit.ServiceClient.Web
         /// </summary>
         public Action<WebRequest> OnAuthenticationRequired { get; set; }
 
+        /// <summary>Size of the buffer.</summary>
         public static int BufferSize = 8192;
 
+        /// <summary>Gets or sets the credentials.</summary>
+        ///
+        /// <value>The credentials.</value>
         public ICredentials Credentials { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the always send basic authentication header.</summary>
+        ///
+        /// <value>true if always send basic authentication header, false if not.</value>
         public bool AlwaysSendBasicAuthHeader { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the store cookies.</summary>
+        ///
+        /// <value>true if store cookies, false if not.</value>
         public bool StoreCookies { get; set; }
 
+        /// <summary>Gets or sets the cookie container.</summary>
+        ///
+        /// <value>The cookie container.</value>
         public CookieContainer CookieContainer { get; set; }
 
         /// <summary>
@@ -67,12 +80,16 @@ namespace NServiceKit.ServiceClient.Web
         /// </summary>
         public Action<HttpWebResponse> LocalHttpWebResponseFilter { get; set; }
 
+        /// <summary>Gets or sets URI of the base.</summary>
+        ///
+        /// <value>The base URI.</value>
         public string BaseUri { get; set; }
 
         internal class RequestState<TResponse> : IDisposable
         {
             private bool _timedOut; // Pass the correct error back even on Async Calls
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.AsyncServiceClient.RequestState&lt;TResponse&gt; class.</summary>
             public RequestState()
             {
                 BufferRead = new byte[BufferSize];
@@ -82,42 +99,59 @@ namespace NServiceKit.ServiceClient.Web
                 ResponseStream = null;
             }
 
+            /// <summary>The HTTP method.</summary>
             public string HttpMethod;
 
+            /// <summary>URL of the document.</summary>
             public string Url;
 
+            /// <summary>Information describing the text.</summary>
             public StringBuilder TextData;
 
+            /// <summary>Information describing the bytes.</summary>
             public MemoryStream BytesData;
 
+            /// <summary>The buffer read.</summary>
             public byte[] BufferRead;
 
+            /// <summary>The request.</summary>
             public object Request;
 
+            /// <summary>The web request.</summary>
             public HttpWebRequest WebRequest;
 
+            /// <summary>The web response.</summary>
             public HttpWebResponse WebResponse;
 
+            /// <summary>The response stream.</summary>
             public Stream ResponseStream;
 
+            /// <summary>The completed.</summary>
             public int Completed;
 
+            /// <summary>Number of requests.</summary>
             public int RequestCount;
 
 #if NETFX_CORE// && !WINDOWS_PHONE
             public ThreadPoolTimer Timer;
 #else
+            /// <summary>The timer.</summary>
             public Timer Timer;
 #endif
 
+            /// <summary>The on success.</summary>
             public Action<TResponse> OnSuccess;
 
+            /// <summary>The on error.</summary>
             public Action<TResponse, Exception> OnError;
 
 #if SILVERLIGHT
             public bool HandleCallbackOnUIThread { get; set; }
 #endif
 
+            /// <summary>Handles the success described by response.</summary>
+            ///
+            /// <param name="response">The response.</param>
             public void HandleSuccess(TResponse response)
             {
                 StopTimer();
@@ -135,6 +169,10 @@ namespace NServiceKit.ServiceClient.Web
 #endif
             }
 
+            /// <summary>Handles the error.</summary>
+            ///
+            /// <param name="response">The response.</param>
+            /// <param name="ex">      The ex.</param>
             public void HandleError(TResponse response, Exception ex)
             {
                 StopTimer();
@@ -163,6 +201,9 @@ namespace NServiceKit.ServiceClient.Web
 #endif                
             }
 
+            /// <summary>Starts a timer.</summary>
+            ///
+            /// <param name="timeOut">The time out.</param>
             public void StartTimer(TimeSpan timeOut)
             {
 #if NETFX_CORE
@@ -172,6 +213,7 @@ namespace NServiceKit.ServiceClient.Web
 #endif
             }
 
+            /// <summary>Stops a timer.</summary>
             public void StopTimer()
             {
                 if (this.Timer != null)
@@ -203,6 +245,10 @@ namespace NServiceKit.ServiceClient.Web
                 this.Dispose();
             }
 #else
+
+            /// <summary>Timed out.</summary>
+            ///
+            /// <param name="state">The state.</param>
             public void TimedOut(object state)
             {
                 if (Interlocked.Increment(ref Completed) == 1)
@@ -227,6 +273,7 @@ namespace NServiceKit.ServiceClient.Web
             }
 #endif
 
+            /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
             public void Dispose()
             {
                 if (this.BytesData != null)
@@ -242,24 +289,49 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether the automatic compression is disabled.</summary>
+        ///
+        /// <value>true if disable automatic compression, false if not.</value>
         public bool DisableAutoCompression { get; set; }
 
+        /// <summary>Gets or sets the name of the user.</summary>
+        ///
+        /// <value>The name of the user.</value>
         public string UserName { get; set; }
 
+        /// <summary>Gets or sets the password.</summary>
+        ///
+        /// <value>The password.</value>
         public string Password { get; set; }
 
+        /// <summary>Sets the credentials.</summary>
+        ///
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
         public void SetCredentials(string userName, string password)
         {
             this.UserName = userName;
             this.Password = password;
         }
 
+        /// <summary>Gets or sets the timeout.</summary>
+        ///
+        /// <value>The timeout.</value>
         public TimeSpan? Timeout { get; set; }
 
+        /// <summary>Gets or sets the type of the content.</summary>
+        ///
+        /// <value>The type of the content.</value>
         public string ContentType { get; set; }
 
+        /// <summary>Gets or sets the stream serializer.</summary>
+        ///
+        /// <value>The stream serializer.</value>
         public StreamSerializerDelegate StreamSerializer { get; set; }
 
+        /// <summary>Gets or sets the stream deserializer.</summary>
+        ///
+        /// <value>The stream deserializer.</value>
         public StreamDeserializerDelegate StreamDeserializer { get; set; }
 
 #if SILVERLIGHT
@@ -270,12 +342,21 @@ namespace NServiceKit.ServiceClient.Web
         public bool ShareCookiesWithBrowser { get; set; }
 #endif
 
+        /// <summary>Sends the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpMethod"> The HTTP method.</param>
+        /// <param name="absoluteUrl">URL of the absolute.</param>
+        /// <param name="request">    The request.</param>
+        /// <param name="onSuccess">  The on success.</param>
+        /// <param name="onError">    The on error.</param>
         public void SendAsync<TResponse>(string httpMethod, string absoluteUrl, object request,
             Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             SendWebRequest(httpMethod, absoluteUrl, request, onSuccess, onError);
         }
 
+        /// <summary>Cancel asynchronous.</summary>
         public void CancelAsync()
         {
             if (_webRequest != null)
@@ -699,6 +780,7 @@ namespace NServiceKit.ServiceClient.Web
                 HttpWebRequestFilter(client);
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose() { }
     }
 

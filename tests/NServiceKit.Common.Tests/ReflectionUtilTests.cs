@@ -10,76 +10,153 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>A reflection utility tests.</summary>
 	[TestFixture]
 	public class ReflectionUtilTests
 	{
+        /// <summary>Values that represent TestClassType.</summary>
 		public enum TestClassType
 		{
+            /// <summary>An enum constant representing the one option.</summary>
 			One = 1,
+
+            /// <summary>An enum constant representing the two option.</summary>
 			Two = 2,
+
+            /// <summary>An enum constant representing the three option.</summary>
 			Three = 3
 		}
 
+        /// <summary>A test class 2.</summary>
 		public class TestClass2
 		{
+            /// <summary>Gets or sets the type.</summary>
+            ///
+            /// <value>The type.</value>
 			public TestClassType Type { get; set; }
 		}
 
+        /// <summary>A test class.</summary>
 		public class TestClass
 		{
+            /// <summary>Gets or sets the member 1.</summary>
+            ///
+            /// <value>The member 1.</value>
 			[Required]
 			public string Member1 { get; set; }
 
+            /// <summary>Gets or sets the member 2.</summary>
+            ///
+            /// <value>The member 2.</value>
 			public string Member2 { get; set; }
 
+            /// <summary>Gets or sets the member 3.</summary>
+            ///
+            /// <value>The member 3.</value>
 			[Required]
 			public string Member3 { get; set; }
 
+            /// <summary>Gets or sets the member 4.</summary>
+            ///
+            /// <value>The member 4.</value>
 			[StringLength(1)]
 			public string Member4 { get; set; }
 		}
 
+        /// <summary>A dto with string array.</summary>
         public class DtoWithStringArray
         {
+            /// <summary>Gets or sets the data.</summary>
+            ///
+            /// <value>The data.</value>
             public string[] Data { get; set; }
         }
 
+        /// <summary>A dto with enum array.</summary>
         public class DtoWithEnumArray
         {
+            /// <summary>Gets or sets the data.</summary>
+            ///
+            /// <value>The data.</value>
             public TestClassType[] Data { get; set; }
         }
 
+        /// <summary>A recursive dto.</summary>
         public class RecursiveDto
         {
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
+
+            /// <summary>Gets or sets the child.</summary>
+            ///
+            /// <value>The child.</value>
             public RecursiveDto Child { get; set; }
         }
 
+        /// <summary>A dto with recursive array.</summary>
         public class DtoWithRecursiveArray
         {
+            /// <summary>Gets or sets the paths.</summary>
+            ///
+            /// <value>The paths.</value>
             public RecursiveDto[] Paths { get; set; }
         }
 
+        /// <summary>A recursive array dto.</summary>
         public class RecursiveArrayDto
         {
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
+
+            /// <summary>Gets or sets the nodes.</summary>
+            ///
+            /// <value>The nodes.</value>
             public RecursiveArrayDto[] Nodes { get; set; }
         }
 
+        /// <summary>A mind twister.</summary>
         public class MindTwister
         {
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
+
+            /// <summary>Gets or sets the arrays.</summary>
+            ///
+            /// <value>The arrays.</value>
             public RecursiveArrayDto[] Arrays { get; set; }
+
+            /// <summary>Gets or sets the vortex.</summary>
+            ///
+            /// <value>The vortex.</value>
             public Vortex Vortex { get; set; }
         }
 
+        /// <summary>A vortex.</summary>
         public class Vortex
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public int Id { get; set; }
+
+            /// <summary>Gets or sets the arrays.</summary>
+            ///
+            /// <value>The arrays.</value>
             public RecursiveArrayDto Arrays { get; set; }
+
+            /// <summary>Gets or sets the twisters.</summary>
+            ///
+            /// <value>The twisters.</value>
             public MindTwister[] Twisters { get; set; }
         }
 
+        /// <summary>Can populate recursive dto.</summary>
         [Test]
         public void Can_PopulateRecursiveDto()
         {
@@ -89,6 +166,7 @@ namespace NServiceKit.Common.Tests
             Assert.IsNotNullOrEmpty(obj.Child.Name);
         }
 
+        /// <summary>Can populate array of recursive dto.</summary>
         [Test]
         public void Can_PopulateArrayOfRecursiveDto()
         {
@@ -101,6 +179,7 @@ namespace NServiceKit.Common.Tests
             Assert.IsNotNullOrEmpty(obj.Paths[0].Child.Name);
         }
 
+        /// <summary>Can populate recursive array dto.</summary>
         [Test]
         public void Can_PopulateRecursiveArrayDto()
         {
@@ -112,6 +191,7 @@ namespace NServiceKit.Common.Tests
             Assert.IsNotNullOrEmpty(obj.Nodes[0].Nodes[0].Name);
         }
 
+        /// <summary>Can populate the vortex.</summary>
         [Test]
         public void Can_PopulateTheVortex()
         {
@@ -123,6 +203,7 @@ namespace NServiceKit.Common.Tests
             Assert.IsNotNull(obj.Vortex);
         }
 
+        /// <summary>Can populate object with string array.</summary>
         [Test]
         public void Can_PopulateObjectWithStringArray()
         {
@@ -132,6 +213,7 @@ namespace NServiceKit.Common.Tests
             Assert.IsNotNull(obj.Data[0]);
         }
 
+        /// <summary>Can populate object with non zero enum array.</summary>
         [Test]
         public void Can_PopulateObjectWithNonZeroEnumArray()
         {
@@ -141,6 +223,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(Enum.IsDefined(typeof(TestClassType), obj.Data[0]), "Values in created array should be valid for the enum");
         }
 
+        /// <summary>Populate object uses defined enum.</summary>
 		[Test]
 		public void PopulateObject_UsesDefinedEnum()
 		{
@@ -148,6 +231,7 @@ namespace NServiceKit.Common.Tests
 			Assert.True(Enum.IsDefined(typeof(TestClassType), requestObj.Type));
 		}
 
+        /// <summary>Populate object uses defined enum on nested types.</summary>
 		[Test]
 		public void PopulateObject_UsesDefinedEnum_OnNestedTypes()
 		{
@@ -155,6 +239,7 @@ namespace NServiceKit.Common.Tests
 			Assert.True(Enum.IsDefined(typeof(TestClassType), requestObj.First().Value.Type));
 		}
 
+        /// <summary>Tests get.</summary>
 		[Test]
 		public void GetTest()
 		{
@@ -163,6 +248,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(propertyNames, Is.EquivalentTo(new[] { "Member1", "Member3" }));
 		}
 
+        /// <summary>Populate same objects.</summary>
 		[Test]
 		public void Populate_Same_Objects()
 		{
@@ -181,6 +267,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(obj3.Name, Is.EqualTo(fromObj.Name));
 		}
 
+        /// <summary>Populate different objects with different property types.</summary>
 		[Test]
 		public void Populate_Different_Objects_with_different_property_types()
 		{
@@ -194,6 +281,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(obj3.Name, Is.EqualTo(fromObj.Name));
 		}
 
+        /// <summary>Populate from properties with attribute.</summary>
 		[Test]
 		public void Populate_From_Properties_With_Attribute()
 		{
@@ -212,6 +300,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(toObj.AlbumName, Is.EqualTo(fromObj.AlbumName));
 		}
 
+        /// <summary>Populate from properties with non default values.</summary>
 		[Test]
 		public void Populate_From_Properties_With_Non_Default_Values()
 		{
@@ -237,6 +326,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(toObj.DateTime, Is.EqualTo(fromObj.DateTime));
 		}
 
+        /// <summary>Populate from nullable properties with non default values.</summary>
         [Test]
         public void Populate_From_Nullable_Properties_With_Non_Default_Values()
         {
@@ -262,6 +352,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(toObj.DateTime, Is.EqualTo(fromObj.DateTime));
         }
 
+        /// <summary>Translate between models of differrent types and nullables.</summary>
 		[Test]
 		public void Translate_Between_Models_of_differrent_types_and_nullables()
 		{
@@ -274,6 +365,7 @@ namespace NServiceKit.Common.Tests
 			ModelWithFieldsOfDifferentTypesAsNullables.AssertIsEqual(fromObj, toObj);
 		}
 
+        /// <summary>Translate between models of nullables and differrent types.</summary>
 		[Test]
 		public void Translate_Between_Models_of_nullables_and_differrent_types()
 		{

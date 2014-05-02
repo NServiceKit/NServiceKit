@@ -12,6 +12,7 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceInterface
 {
+    /// <summary>A service routes extensions.</summary>
     public static class ServiceRoutesExtensions
     {
         /// <summary>
@@ -131,11 +132,27 @@ namespace NServiceKit.ServiceInterface
             }
         }
 
+        /// <summary>The IServiceRoutes extension method that adds serviceRoutes.</summary>
+        ///
+        /// <typeparam name="TRequest">Type of the request.</typeparam>
+        /// <param name="routes">  The <see cref="IServiceRoutes"/> instance.</param>
+        /// <param name="restPath">Full pathname of the rest file.</param>
+        /// <param name="verbs">   The verbs.</param>
+        ///
+        /// <returns>The IServiceRoutes.</returns>
         public static IServiceRoutes Add<TRequest>(this IServiceRoutes routes, string restPath, ApplyTo verbs)
         {
             return routes.Add<TRequest>(restPath, verbs.ToVerbsString());
         }
 
+        /// <summary>The IServiceRoutes extension method that adds routes.</summary>
+        ///
+        /// <param name="routes">     The <see cref="IServiceRoutes"/> instance.</param>
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="restPath">   Full pathname of the rest file.</param>
+        /// <param name="verbs">      The verbs.</param>
+        ///
+        /// <returns>The IServiceRoutes.</returns>
         public static IServiceRoutes Add(this IServiceRoutes routes, Type requestType, string restPath, ApplyTo verbs)
         {
             return routes.Add(requestType, restPath, verbs.ToVerbsString());
@@ -153,6 +170,12 @@ namespace NServiceKit.ServiceInterface
             return string.Join(" ", allowedMethods.ToArray());
         }
 
+        /// <summary>A Type extension method that query if 'toCheck' is subclass of raw generic.</summary>
+        ///
+        /// <param name="toCheck">The toCheck to act on.</param>
+        /// <param name="generic">The generic.</param>
+        ///
+        /// <returns>true if subclass of raw generic, false if not.</returns>
         public static bool IsSubclassOfRawGeneric(this Type toCheck, Type generic)
         {
             while (toCheck != typeof(object))
@@ -178,6 +201,15 @@ namespace NServiceKit.ServiceInterface
             return (lambdaExpression.Body is UnaryExpression ? (MemberExpression)((UnaryExpression)lambdaExpression.Body).Operand : (MemberExpression)lambdaExpression.Body).Member.Name;
         }
 
+        /// <summary>The IServiceRoutes extension method that adds serviceRoutes.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="serviceRoutes">      The serviceRoutes to act on.</param>
+        /// <param name="restPath">           Full pathname of the rest file.</param>
+        /// <param name="verbs">              The verbs.</param>
+        /// <param name="propertyExpressions">A variable-length parameters list containing property expressions.</param>
+        ///
+        /// <returns>The IServiceRoutes.</returns>
         public static IServiceRoutes Add<T>(this IServiceRoutes serviceRoutes, string restPath, ApplyTo verbs, params Expression<Func<T, object>>[] propertyExpressions)
         {
             return serviceRoutes.Add<T>(FormatRoute(restPath, propertyExpressions), verbs);

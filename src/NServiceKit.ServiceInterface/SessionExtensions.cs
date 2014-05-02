@@ -15,9 +15,12 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.ServiceInterface
 {
+    /// <summary>A session options.</summary>
     public class SessionOptions
     {
+        /// <summary>The temporary.</summary>
         public const string Temporary = "temp";
+        /// <summary>The permanent.</summary>
         public const string Permanent = "perm";
     }
 
@@ -26,6 +29,11 @@ namespace NServiceKit.ServiceInterface
     /// </summary>
     public static class SessionExtensions 
     {
+        /// <summary>An IHttpRequest extension method that gets session identifier.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The session identifier.</returns>
         public static string GetSessionId(this IHttpRequest httpReq)
         {
             var sessionOptions = GetSessionOptions(httpReq);
@@ -35,11 +43,21 @@ namespace NServiceKit.ServiceInterface
                 : httpReq.GetItemOrCookie(SessionFeature.SessionId);
         }
 
+        /// <summary>An IHttpRequest extension method that gets permanent session identifier.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The permanent session identifier.</returns>
         public static string GetPermanentSessionId(this IHttpRequest httpReq)
         {
             return httpReq.GetItemOrCookie(SessionFeature.PermanentSessionId);
         }
 
+        /// <summary>An IHttpRequest extension method that gets temporary session identifier.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The temporary session identifier.</returns>
         public static string GetTemporarySessionId(this IHttpRequest httpReq)
         {
             return httpReq.GetItemOrCookie(SessionFeature.SessionId);
@@ -79,6 +97,12 @@ namespace NServiceKit.ServiceInterface
             return Convert.ToBase64String(data);
         }
 
+        /// <summary>An IHttpResponse extension method that creates permanent session identifier.</summary>
+        ///
+        /// <param name="res">The res to act on.</param>
+        /// <param name="req">The request.</param>
+        ///
+        /// <returns>The new permanent session identifier.</returns>
         public static string CreatePermanentSessionId(this IHttpResponse res, IHttpRequest req)
         {
             var sessionId = CreateRandomSessionId();
@@ -87,6 +111,12 @@ namespace NServiceKit.ServiceInterface
             return sessionId;
         }
 
+        /// <summary>An IHttpResponse extension method that creates temporary session identifier.</summary>
+        ///
+        /// <param name="res">The res to act on.</param>
+        /// <param name="req">The request.</param>
+        ///
+        /// <returns>The new temporary session identifier.</returns>
         public static string CreateTemporarySessionId(this IHttpResponse res, IHttpRequest req)
         {
             var sessionId = CreateRandomSessionId();
@@ -96,6 +126,11 @@ namespace NServiceKit.ServiceInterface
             return sessionId;
         }
 
+        /// <summary>An IHttpRequest extension method that gets session options.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The session options.</returns>
         public static HashSet<string> GetSessionOptions(this IHttpRequest httpReq)
         {
             var sessionOptions = httpReq.GetItemOrCookie(SessionFeature.SessionOptionsKey);
@@ -104,6 +139,10 @@ namespace NServiceKit.ServiceInterface
                 : sessionOptions.Split(',').ToHashSet();
         }
 
+        /// <summary>An IAuthSession extension method that updates the session.</summary>
+        ///
+        /// <param name="session"> The session to act on.</param>
+        /// <param name="userAuth">The user authentication.</param>
         public static void UpdateSession(this IAuthSession session, UserAuth userAuth)
         {
             if (userAuth == null || session == null) return;
@@ -111,6 +150,11 @@ namespace NServiceKit.ServiceInterface
             session.Permissions = userAuth.Permissions;
         }
 
+        /// <summary>An IAuthSession extension method that updates from user authentication repo.</summary>
+        ///
+        /// <param name="session">     The session to act on.</param>
+        /// <param name="req">         The request.</param>
+        /// <param name="userAuthRepo">The user authentication repo.</param>
         public static void UpdateFromUserAuthRepo(this IAuthSession session, IHttpRequest req, IUserAuthRepository userAuthRepo = null)
         {
             if (userAuthRepo == null)
@@ -122,6 +166,13 @@ namespace NServiceKit.ServiceInterface
             session.UpdateSession(userAuth);
         }
 
+        /// <summary>An IHttpResponse extension method that adds a session options.</summary>
+        ///
+        /// <param name="res">    The res to act on.</param>
+        /// <param name="req">    The request.</param>
+        /// <param name="options">Options for controlling the operation.</param>
+        ///
+        /// <returns>A HashSet&lt;string&gt;</returns>
         public static HashSet<string> AddSessionOptions(this IHttpResponse res, IHttpRequest req, params string[] options)
         {
             if (res == null || req == null || options.Length == 0) return new HashSet<string>();
@@ -146,12 +197,25 @@ namespace NServiceKit.ServiceInterface
             return existingOptions;
         }
 
+        /// <summary>Gets session key.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The session key.</returns>
         public static string GetSessionKey(IHttpRequest httpReq = null)
         {
             var sessionId = SessionFeature.GetSessionId(httpReq);
             return sessionId == null ? null : SessionFeature.GetSessionKey(sessionId);
         }
 
+        /// <summary>An ICacheClient extension method that session as.</summary>
+        ///
+        /// <typeparam name="TUserSession">Type of the user session.</typeparam>
+        /// <param name="cache">  The cache to act on.</param>
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        ///
+        /// <returns>A TUserSession.</returns>
         public static TUserSession SessionAs<TUserSession>(this ICacheClient cache,
             IHttpRequest httpReq = null, IHttpResponse httpRes = null)
         {
@@ -171,6 +235,10 @@ namespace NServiceKit.ServiceInterface
             return unAuthorizedSession;
         }
 
+        /// <summary>An ICacheClient extension method that clears the session.</summary>
+        ///
+        /// <param name="cache">  The cache to act on.</param>
+        /// <param name="httpReq">The HTTP request.</param>
         public static void ClearSession(this ICacheClient cache, IHttpRequest httpReq = null)
         {
             cache.Remove(GetSessionKey(httpReq));

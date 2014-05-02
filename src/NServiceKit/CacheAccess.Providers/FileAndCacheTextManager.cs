@@ -19,22 +19,40 @@ namespace NServiceKit.CacheAccess.Providers
 		private readonly string baseCachePath;
 		private readonly ICacheTextManager cacheManager;
 
+        /// <summary>Initializes a new instance of the NServiceKit.CacheAccess.Providers.FileAndCacheTextManager class.</summary>
+        ///
+        /// <param name="baseCachePath">Full pathname of the base cache file.</param>
+        /// <param name="cacheManager"> Manager for cache.</param>
 		public FileAndCacheTextManager(string baseCachePath, ICacheTextManager cacheManager)
 		{
 			this.baseCachePath = baseCachePath;
 			this.cacheManager = cacheManager;
 		}
 
+        /// <summary>Gets the cache client.</summary>
+        ///
+        /// <value>The cache client.</value>
 		public ICacheClient CacheClient
 		{
 			get { return this.cacheManager.CacheClient; }
 		}
 
+        /// <summary>Gets the type of the content.</summary>
+        ///
+        /// <value>The type of the content.</value>
 		public string ContentType
 		{
 			get { return cacheManager.ContentType; }
 		}
 
+        /// <summary>Resolves.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="compressionType">Type of the compression.</param>
+        /// <param name="cacheKey">       The cache key.</param>
+        /// <param name="createCacheFn">  The create cache function.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Resolve<T>(string compressionType, string cacheKey, Func<T> createCacheFn) 
 			where T : class
 		{
@@ -78,11 +96,17 @@ namespace NServiceKit.CacheAccess.Providers
 			return cacheValueString;
 		}
 
+        /// <summary>Clears this object to its blank/initial state.</summary>
+        ///
+        /// <param name="cacheKeys">A variable-length parameters list containing cache keys.</param>
 		public void Clear(IEnumerable<string> cacheKeys)
 		{
 			Clear(cacheKeys.ToArray());
 		}
 
+        /// <summary>Clears this object to its blank/initial state.</summary>
+        ///
+        /// <param name="cacheKeys">A variable-length parameters list containing cache keys.</param>
 		public void Clear(params string[] cacheKeys)
 		{
 			this.cacheManager.Clear(cacheKeys);
@@ -111,6 +135,12 @@ namespace NServiceKit.CacheAccess.Providers
 			}
 		}
 
+        /// <summary>Gets compressed bytes from cache.</summary>
+        ///
+        /// <param name="compressionType">Type of the compression.</param>
+        /// <param name="cacheKey">       The cache key.</param>
+        ///
+        /// <returns>The compressed bytes from cache.</returns>
 		public CompressedResult GetCompressedBytesFromCache(string compressionType, string cacheKey)
 		{
 			var result = this.CacheClient.Get<byte[]>(cacheKey);
@@ -119,6 +149,12 @@ namespace NServiceKit.CacheAccess.Providers
 			       	: null;
 		}
 
+        /// <summary>Gets compressed bytes from file.</summary>
+        ///
+        /// <param name="compressionType">Type of the compression.</param>
+        /// <param name="cacheKey">       The cache key.</param>
+        ///
+        /// <returns>The compressed bytes from file.</returns>
 		public CompressedFileResult GetCompressedBytesFromFile(string compressionType, string cacheKey)
 		{
 			var filePath = Path.Combine(this.baseCachePath, cacheKey);
@@ -132,6 +168,11 @@ namespace NServiceKit.CacheAccess.Providers
 			);
 		}
 
+        /// <summary>Gets from file.</summary>
+        ///
+        /// <param name="cacheKey">The cache key.</param>
+        ///
+        /// <returns>The data that was read from the file.</returns>
 		public HttpResult GetFromFile(string cacheKey)
 		{
 			try
@@ -147,6 +188,10 @@ namespace NServiceKit.CacheAccess.Providers
 			}
 		}
 
+        /// <summary>Writes to file.</summary>
+        ///
+        /// <param name="cacheKey">The cache key.</param>
+        /// <param name="bytes">   The bytes.</param>
 		public void WriteToFile(string cacheKey, byte[] bytes)
 		{
 			var filePath = Path.Combine(this.baseCachePath, cacheKey);

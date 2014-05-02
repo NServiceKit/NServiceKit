@@ -24,18 +24,30 @@ namespace NServiceKit.FluentValidation.TestHelper
     using System.Reflection;
     using Internal;
 
+    /// <summary>A validator tester.</summary>
+    /// <typeparam name="T">     Generic type parameter.</typeparam>
+    /// <typeparam name="TValue">Type of the value.</typeparam>
     public class ValidatorTester<T, TValue> where T : class {
         private readonly IValidator<T> validator;
         private readonly TValue value;
         private readonly MemberInfo member;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.TestHelper.ValidatorTester&lt;T, TValue&gt; class.</summary>
+        ///
+        /// <param name="expression">The expression.</param>
+        /// <param name="validator"> The validator.</param>
+        /// <param name="value">     The value.</param>
         public ValidatorTester(Expression<Func<T, TValue>> expression, IValidator<T> validator, TValue value) {
             this.validator = validator;
             this.value = value;
             member = expression.GetMember();
         }
 
-
+        /// <summary>Validates the no error described by instanceToValidate.</summary>
+        ///
+        /// <exception cref="ValidationTestException">Thrown when a Validation Test error condition occurs.</exception>
+        ///
+        /// <param name="instanceToValidate">The instance to validate.</param>
         public void ValidateNoError(T instanceToValidate) {
             SetValue(instanceToValidate);
 
@@ -46,6 +58,11 @@ namespace NServiceKit.FluentValidation.TestHelper
             }
         }
 
+        /// <summary>Validates the error described by instanceToValidate.</summary>
+        ///
+        /// <exception cref="ValidationTestException">Thrown when a Validation Test error condition occurs.</exception>
+        ///
+        /// <param name="instanceToValidate">The instance to validate.</param>
         public void ValidateError(T instanceToValidate) {
             SetValue(instanceToValidate);
             var count = validator.Validate(instanceToValidate).Errors.Count(x => x.PropertyName == member.Name);

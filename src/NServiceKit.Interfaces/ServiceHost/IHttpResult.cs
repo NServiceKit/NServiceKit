@@ -3,6 +3,7 @@ using System.Net;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Interface for HTTP result.</summary>
 	public interface IHttpResult : IHasOptions
 	{
         /// <summary>

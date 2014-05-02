@@ -15,14 +15,31 @@ namespace NServiceKit.ServiceInterface.Auth
     /// </summary>
     public class FacebookAuthProvider : OAuthProvider
     {
+        /// <summary>The name.</summary>
         public const string Name = "facebook";
+        /// <summary>The realm.</summary>
         public static string Realm = "https://graph.facebook.com/";
+        /// <summary>URL of the pre authentication.</summary>
         public static string PreAuthUrl = "https://www.facebook.com/dialog/oauth";
 
+        /// <summary>Gets or sets the identifier of the application.</summary>
+        ///
+        /// <value>The identifier of the application.</value>
         public string AppId { get; set; }
+
+        /// <summary>Gets or sets the application secret.</summary>
+        ///
+        /// <value>The application secret.</value>
         public string AppSecret { get; set; }
+
+        /// <summary>Gets or sets the permissions.</summary>
+        ///
+        /// <value>The permissions.</value>
         public string[] Permissions { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.FacebookAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
         public FacebookAuthProvider(IResourceManager appSettings)
             : base(appSettings, Realm, Name, "AppId", "AppSecret")
         {
@@ -31,6 +48,13 @@ namespace NServiceKit.ServiceInterface.Auth
             this.Permissions = appSettings.Get("oauth.facebook.Permissions", new string[0]);
         }
 
+        /// <summary>The entry point for all AuthProvider providers. Runs inside the AuthService so exceptions are treated normally. Overridable so you can provide your own Auth implementation.</summary>
+        ///
+        /// <param name="authService">.</param>
+        /// <param name="session">    .</param>
+        /// <param name="request">    .</param>
+        ///
+        /// <returns>An object.</returns>
         public override object Authenticate(IServiceBase authService, IAuthSession session, Auth request)
         {
             var tokens = Init(authService, ref session, request);
@@ -82,6 +106,11 @@ namespace NServiceKit.ServiceInterface.Auth
             return authService.Redirect(session.ReferrerUrl.AddHashParam("f", "Unknown"));
         }
 
+        /// <summary>Loads user authentication information.</summary>
+        ///
+        /// <param name="userSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         protected override void LoadUserAuthInfo(AuthUserSession userSession, IOAuthTokens tokens, System.Collections.Generic.Dictionary<string, string> authInfo)
         {
             try
@@ -103,6 +132,10 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Loads user o authentication provider.</summary>
+        ///
+        /// <param name="authSession">The authentication session.</param>
+        /// <param name="tokens">     The tokens.</param>
         public override void LoadUserOAuthProvider(IAuthSession authSession, IOAuthTokens tokens)
         {
             var userSession = authSession as AuthUserSession;

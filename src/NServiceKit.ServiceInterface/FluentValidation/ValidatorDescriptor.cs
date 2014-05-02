@@ -29,12 +29,24 @@ namespace NServiceKit.FluentValidation
     /// Used for providing metadata about a validator.
     /// </summary>
     public class ValidatorDescriptor<T> : IValidatorDescriptor {
+
+        /// <summary>Gets the rules.</summary>
+        ///
+        /// <value>The rules.</value>
         protected IEnumerable<IValidationRule> Rules { get; private set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.ValidatorDescriptor&lt;T&gt; class.</summary>
+        ///
+        /// <param name="ruleBuilders">The rule builders.</param>
         public ValidatorDescriptor(IEnumerable<IValidationRule> ruleBuilders) {
             Rules = ruleBuilders;
         }
 
+        /// <summary>Gets the name display name for a property.</summary>
+        ///
+        /// <param name="property">The property.</param>
+        ///
+        /// <returns>The name.</returns>
         public virtual string GetName(string property) {
             var nameUsed = Rules
                 .OfType<PropertyRule>()
@@ -44,6 +56,9 @@ namespace NServiceKit.FluentValidation
             return nameUsed;
         }
 
+        /// <summary>Gets a collection of validators grouped by property.</summary>
+        ///
+        /// <returns>The members with validators.</returns>
         public virtual ILookup<string, IPropertyValidator> GetMembersWithValidators() {
             var query = from rule in Rules.OfType<PropertyRule>()
                         where rule.Member != null
@@ -53,10 +68,20 @@ namespace NServiceKit.FluentValidation
             return query.ToLookup(x => x.memberName, x => x.validator);
         }
 
+        /// <summary>Gets validators for a particular property.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the validators for members in this collection.</returns>
         public IEnumerable<IPropertyValidator> GetValidatorsForMember(string name) {
             return GetMembersWithValidators()[name];
         }
 
+        /// <summary>Gets rules for a property.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the rules for members in this collection.</returns>
         public IEnumerable<IValidationRule> GetRulesForMember(string name) {
             var query = from rule in Rules.OfType<PropertyRule>()
                         where rule.Member.Name == name
@@ -65,6 +90,13 @@ namespace NServiceKit.FluentValidation
             return query.ToList();
         }
 
+        /// <summary>Gets a name.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="propertyExpression">The property expression.</param>
+        ///
+        /// <returns>The name.</returns>
         public virtual string GetName(Expression<Func<T, object>> propertyExpression) {
             var member = propertyExpression.GetMember();
 

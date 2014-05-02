@@ -9,6 +9,7 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>A registration service tests.</summary>
 	[TestFixture]
 	public class RegistrationServiceTests
 	{
@@ -28,12 +29,16 @@ namespace NServiceKit.Common.Tests.OAuth
             return _appHost;
         }
         
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
             AuthService.Init(() => authUserSession, new CredentialsAuthProvider());            
 		}
 
+        /// <summary>Gets stub repo.</summary>
+        ///
+        /// <returns>The stub repo.</returns>
 		public static IUserAuthRepository GetStubRepo()
 		{
 			var mock = new Mock<IUserAuthRepository>();
@@ -45,6 +50,13 @@ namespace NServiceKit.Common.Tests.OAuth
 			return mock.Object;
 		}
 
+        /// <summary>Gets registration service.</summary>
+        ///
+        /// <param name="validator">  The validator.</param>
+        /// <param name="authRepo">   The authentication repo.</param>
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>The registration service.</returns>
 		public static RegistrationService GetRegistrationService(
 			AbstractValidator<Registration> validator = null, 
 			IUserAuthRepository authRepo=null,
@@ -69,6 +81,7 @@ namespace NServiceKit.Common.Tests.OAuth
             return service;
 		}
 
+        /// <summary>Empty registration is invalid.</summary>
 	    [Test]
 		public void Empty_Registration_is_invalid()
 		{
@@ -92,6 +105,7 @@ namespace NServiceKit.Common.Tests.OAuth
 	        return response;
 	    }
 
+        /// <summary>Empty registration is invalid with full registration validator.</summary>
 	    [Test]
 		public void Empty_Registration_is_invalid_with_FullRegistrationValidator()
 		{
@@ -111,6 +125,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(errors[3].FieldName, Is.EqualTo("DisplayName"));
 		}
 
+        /// <summary>Accepts valid registration.</summary>
 		[Test]
 		public void Accepts_valid_registration()
 		{
@@ -123,6 +138,11 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(response as RegistrationResponse, Is.Not.Null);
 		}
 
+        /// <summary>Gets valid registration.</summary>
+        ///
+        /// <param name="autoLogin">true to automatically login.</param>
+        ///
+        /// <returns>The valid registration.</returns>
 		public static Registration GetValidRegistration(bool autoLogin=false)
 		{
 			var request = new Registration {
@@ -137,6 +157,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			return request;
 		}
 
+        /// <summary>Requires unique user name and email.</summary>
 		[Test]
 		public void Requires_unique_UserName_and_Email()
 		{
@@ -169,6 +190,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(errors[1].FieldName, Is.EqualTo("Email"));
 		}
 
+        /// <summary>Registration with HTML content type and continue returns 302 with location.</summary>
 		[Test]
 		public void Registration_with_Html_ContentType_And_Continue_returns_302_with_Location()
 		{
@@ -184,6 +206,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(response.Headers[HttpHeaders.Location], Is.EqualTo("http://localhost/home"));
 		}
 
+        /// <summary>Registration with empty string continue returns registration response.</summary>
 		[Test]
 		public void Registration_with_EmptyString_Continue_returns_RegistrationResponse()
 		{
@@ -198,6 +221,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(response as RegistrationResponse, Is.Not.Null);
 		}
 
+        /// <summary>Registration with JSON content type and continue returns registration response with referrer URL.</summary>
 		[Test]
 		public void Registration_with_Json_ContentType_And_Continue_returns_RegistrationResponse_with_ReferrerUrl()
 		{

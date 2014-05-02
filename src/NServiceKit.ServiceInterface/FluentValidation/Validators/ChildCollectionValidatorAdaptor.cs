@@ -24,19 +24,36 @@ namespace NServiceKit.FluentValidation.Validators
     using Internal;
     using Results;
 
+    /// <summary>A child collection validator adaptor.</summary>
     public class ChildCollectionValidatorAdaptor : NoopPropertyValidator {
         readonly IValidator childValidator;
 
+        /// <summary>Gets the validator.</summary>
+        ///
+        /// <value>The validator.</value>
         public IValidator Validator {
             get { return childValidator; }
         }
 
+        /// <summary>Gets or sets the predicate.</summary>
+        ///
+        /// <value>The predicate.</value>
         public Func<object, bool> Predicate { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.ChildCollectionValidatorAdaptor class.</summary>
+        ///
+        /// <param name="childValidator">The child validator.</param>
         public ChildCollectionValidatorAdaptor(IValidator childValidator) {
             this.childValidator = childValidator;
         }
 
+        /// <summary>Enumerates validate in this collection.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process validate in this collection.</returns>
         public override IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context) {
             if (context.Rule.Member == null) {
                 throw new InvalidOperationException(string.Format("Nested validators can only be used with Member Expressions."));

@@ -10,12 +10,14 @@ using NServiceKit.ServiceHost.Tests.Formats_Razor;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A text block tests.</summary>
 	[TestFixture]
 	public class TextBlockTests
 	{
 		string dynamicListPagePath;
 		string dynamicListPageContent;
 
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
@@ -23,6 +25,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			dynamicListPageContent = File.ReadAllText(dynamicListPagePath);
 		}
 
+        /// <summary>Does replace foreach statements with expression placeholders.</summary>
 		[Test]
 		public void Does_replace_foreach_statements_with_expr_placeholders()
 		{
@@ -41,6 +44,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(statements[0].Statement, Is.EqualTo("  - @link.Name - @link.Href\r\n"));
 		}
 
+        /// <summary>Does handle foreach when enumerable is empty first time.</summary>
         [Test]
         public void Does_handle_foreach_when_enumerable_is_empty_first_time()
         {
@@ -59,6 +63,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             Assert.That(html, Contains.Substring(expected));
         }
 
+        /// <summary>Does replace multiple statements with expression placeholders.</summary>
 		[Test]
 		public void Does_replace_multiple_statements_with_expr_placeholders()
 		{
@@ -117,6 +122,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(statements[3].Statement, Is.EqualTo("### This is not valid\n"));
 		}
 
+        /// <summary>Does parse parens free statements.</summary>
 		[Test]
 		public void Does_parse_parens_free_statements()
 		{
@@ -188,6 +194,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(stat4.Statement, Is.EqualTo("### This is not valid\n"));
 		}
 
+        /// <summary>Does transform escaped HTML start tags.</summary>
 		[Test]
 		public void Does_transform_escaped_html_start_tags()
 		{

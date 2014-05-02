@@ -10,6 +10,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Services;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>An IOC service tests.</summary>
 	[TestFixture]
 	public class IocServiceTests
 	{
@@ -19,6 +20,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         
         IocAppHost appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -27,6 +29,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -37,6 +40,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Can resolve all dependencies.</summary>
 		[Test]
 		public void Can_resolve_all_dependencies()
 		{
@@ -62,6 +66,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Does dispose service.</summary>
 		[Test]
 		public void Does_dispose_service()
 		{
@@ -74,6 +79,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(IocService.DisposedCount, Is.EqualTo(1));
 		}
 
+        /// <summary>Does dispose service when there is an error.</summary>
         [Test]
         public void Does_dispose_service_when_there_is_an_error()
         {
@@ -86,6 +92,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(IocService.DisposedCount, Is.EqualTo(1));
         }
 
+        /// <summary>Does create correct instances per scope.</summary>
         [Test]
         public void Does_create_correct_instances_per_scope()
         {
@@ -108,6 +115,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(AltRequestScopeDepDisposableProperty.DisposeCount, Is.EqualTo(2));
         }
 
+        /// <summary>Does create correct instances per scope with exception.</summary>
         [Test]
         public void Does_create_correct_instances_per_scope_with_exception()
         {
@@ -128,6 +136,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(AltRequestScopeDepDisposableProperty.DisposeCount, Is.EqualTo(2));
         }
 
+        /// <summary>Does automatic wire action level request filters.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
 	    [Test]
 	    public void Does_AutoWire_ActionLevel_RequestFilters()
 	    {
@@ -167,6 +178,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
                 0;
         }
 
+        /// <summary>Does dispose service and request and none scope but not singletons.</summary>
         [Test]
         public void Does_dispose_service_and_Request_and_None_scope_but_not_singletons()
         {

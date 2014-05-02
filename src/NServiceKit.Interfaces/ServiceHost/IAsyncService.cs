@@ -8,6 +8,11 @@ namespace NServiceKit.ServiceHost
 	/// <typeparam name="T"></typeparam>
 	public interface IAsyncService<T>
 	{
+        /// <summary>Executes the asynchronous operation.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
 		object ExecuteAsync(T request);
 	}
 }

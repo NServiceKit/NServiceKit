@@ -10,44 +10,76 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Common.Tests.Messaging
 {
+    /// <summary>any test mq.</summary>
     public class AnyTestMq
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public int Id { get; set; }
     }
 
+    /// <summary>any test mq response.</summary>
     public class AnyTestMqResponse
     {
+        /// <summary>Gets or sets the identifier of the correlation.</summary>
+        ///
+        /// <value>The identifier of the correlation.</value>
         public int CorrelationId { get; set; }
     }
 
+    /// <summary>A post test mq.</summary>
     public class PostTestMq
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public int Id { get; set; }
     }
 
+    /// <summary>A post test mq response.</summary>
     public class PostTestMqResponse
     {
+        /// <summary>Gets or sets the identifier of the correlation.</summary>
+        ///
+        /// <value>The identifier of the correlation.</value>
         public int CorrelationId { get; set; }
     }
 
+    /// <summary>A test mq service.</summary>
     public class TestMqService : IService
     {
+        /// <summary>Anies the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Any(AnyTestMq request)
         {
             return new AnyTestMqResponse { CorrelationId = request.Id };
         }
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Post(PostTestMq request)
         {
             return new PostTestMqResponse { CorrelationId = request.Id };
         }
     }
 
+    /// <summary>An application host.</summary>
     public class AppHost : AppHostHttpListenerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Messaging.AppHost class.</summary>
         public AppHost()
             : base("Service Name", typeof(AnyTestMq).Assembly) { }
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Container container)
         {
             var appSettings = new AppSettings();
@@ -64,16 +96,19 @@ namespace NServiceKit.Common.Tests.Messaging
         }
     }
 
+    /// <summary>The redis mq server tests.</summary>
     [TestFixture]
     [Ignore]
     public class RedisMqServerTests
     {
         private const string ListeningOn = "http://*:1337/";
+        /// <summary>The host.</summary>
         public const string Host = "http://localhost:1337";
         private const string BaseUri = Host + "/";
 
         AppHost appHost;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -85,6 +120,7 @@ namespace NServiceKit.Common.Tests.Messaging
                 redis.FlushAll();
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
@@ -92,6 +128,7 @@ namespace NServiceKit.Common.Tests.Messaging
             appHost = null;
         }
 
+        /// <summary>Can publish to any test mq service.</summary>
         [Test]
         public void Can_Publish_to_AnyTestMq_Service()
         {
@@ -105,6 +142,7 @@ namespace NServiceKit.Common.Tests.Messaging
             }
         }
 
+        /// <summary>Can publish to post test mq service.</summary>
         [Test]
         public void Can_Publish_to_PostTestMq_Service()
         {
@@ -118,6 +156,7 @@ namespace NServiceKit.Common.Tests.Messaging
             }
         }
 
+        /// <summary>Sends the one way calls any test mq service via mq.</summary>
         [Test]
         public void SendOneWay_calls_AnyTestMq_Service_via_MQ()
         {
@@ -134,6 +173,7 @@ namespace NServiceKit.Common.Tests.Messaging
             }
         }
 
+        /// <summary>Sends the one way calls post test mq service via mq.</summary>
         [Test]
         public void SendOneWay_calls_PostTestMq_Service_via_MQ()
         {

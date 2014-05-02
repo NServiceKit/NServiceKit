@@ -6,9 +6,11 @@ using NServiceKit.VirtualPath;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>A stand alone example tests.</summary>
     [TestFixture]
     public class StandAloneExampleTests
     {
+        /// <summary>Simple static example.</summary>
         [Test]
         public void Simple_static_example()
         {

@@ -7,38 +7,107 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.Models
 {
+    /// <summary>A model with fields of different and nullable types.</summary>
 	public class ModelWithFieldsOfDifferentAndNullableTypes
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(ModelWithFieldsOfDifferentAndNullableTypes));
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		[AutoIncrement]
 		public int Id { get; set; }
+
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The n identifier.</value>
 		public int? NId { get; set; }
 
+        /// <summary>Gets or sets the identifier of the long.</summary>
+        ///
+        /// <value>The identifier of the long.</value>
 		public long LongId { get; set; }
+
+        /// <summary>Gets or sets the identifier of the long.</summary>
+        ///
+        /// <value>The identifier of the long.</value>
 		public long? NLongId { get; set; }
 
+        /// <summary>Gets or sets a unique identifier.</summary>
+        ///
+        /// <value>The identifier of the unique.</value>
 		public Guid Guid { get; set; }
+
+        /// <summary>Gets or sets a unique identifier.</summary>
+        ///
+        /// <value>The identifier of the unique.</value>
 		public Guid? NGuid { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the. </summary>
+        ///
+        /// <value>true if , false if not.</value>
 		public bool Bool { get; set; }
+
+        /// <summary>Gets or sets the bool.</summary>
+        ///
+        /// <value>The n bool.</value>
 		public bool? NBool { get; set; }
 
+        /// <summary>Gets or sets the date time.</summary>
+        ///
+        /// <value>The date time.</value>
 		public DateTime DateTime { get; set; }
+
+        /// <summary>Gets or sets the date time.</summary>
+        ///
+        /// <value>The date time.</value>
 		public DateTime? NDateTime { get; set; }
 
+        /// <summary>Gets or sets the float.</summary>
+        ///
+        /// <value>The float.</value>
 		public float Float { get; set; }
+
+        /// <summary>Gets or sets the float.</summary>
+        ///
+        /// <value>The n float.</value>
 		public float? NFloat { get; set; }
 
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The double.</value>
 		public double Double { get; set; }
+
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The n double.</value>
 		public double? NDouble { get; set; }
 
+        /// <summary>Gets or sets the decimal.</summary>
+        ///
+        /// <value>The decimal.</value>
 		public decimal Decimal { get; set; }
+
+        /// <summary>Gets or sets the decimal.</summary>
+        ///
+        /// <value>The n decimal.</value>
 		public decimal? NDecimal { get; set; }
 
+        /// <summary>Gets or sets the time span.</summary>
+        ///
+        /// <value>The time span.</value>
 		public TimeSpan TimeSpan { get; set; }
+
+        /// <summary>Gets or sets the time span.</summary>
+        ///
+        /// <value>The n time span.</value>
 		public TimeSpan? NTimeSpan { get; set; }
 
+        /// <summary>Creates a new ModelWithFieldsOfDifferentAndNullableTypes.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The ModelWithFieldsOfDifferentAndNullableTypes.</returns>
 		public static ModelWithFieldsOfDifferentAndNullableTypes Create(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentAndNullableTypes {
@@ -56,6 +125,11 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Creates a constant.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The new constant.</returns>
 		public static ModelWithFieldsOfDifferentAndNullableTypes CreateConstant(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentAndNullableTypes {
@@ -73,6 +147,10 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public static void AssertIsEqual(ModelWithFieldsOfDifferentAndNullableTypes actual, ModelWithFieldsOfDifferentAndNullableTypes expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id));

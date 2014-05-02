@@ -10,10 +10,12 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A movie service tests.</summary>
 	[TestFixture]
 	public class MovieServiceTests
 		: RestsTestBase
 	{
+        /// <summary>The new movie.</summary>
 		public Movie NewMovie = new Movie {
 			ImdbId = "tt0111161",
 			Title = "The Shawshank Redemption",
@@ -26,6 +28,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 
 		IDbConnectionFactory DbFactory { get; set; }
 
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public override void OnBeforeEachTest()
 		{
@@ -40,6 +43,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			this.DbFactory.Run(db => db.CreateTable<Movie>(true));
 		}
 
+        /// <summary>Can patch movie from dto.</summary>
 		[Test]
 		public void Can_PATCH_Movie_from_dto()
 		{
@@ -57,6 +61,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can create new movie from form data.</summary>
 		[Test]
 		public void Can_create_new_Movie_from_FormData()
 		{
@@ -72,6 +77,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can create new movie from dto.</summary>
 		[Test]
 		public void Can_create_new_Movie_from_dto()
 		{
@@ -85,6 +91,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can post to resetmovies.</summary>
 		[Test]
 		public void Can_POST_to_resetmovies()
 		{
@@ -96,6 +103,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Error calling get on resetmovies.</summary>
+        ///
+        /// <exception cref="HTTP">Thrown when a HTTP error condition occurs.</exception>
 		[Test]
 		public void Error_calling_GET_on_resetmovies()
 		{

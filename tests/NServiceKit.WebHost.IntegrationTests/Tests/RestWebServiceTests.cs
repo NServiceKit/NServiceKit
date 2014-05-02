@@ -8,11 +8,13 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A rest web service tests.</summary>
 	[TestFixture]
 	public class RestWebServiceTests
 		: RestsTestBase
 	{
 
+        /// <summary>Can call echo request with accept all.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_AcceptAll()
 		{
@@ -24,6 +26,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(contents.Contains("\"string\":\"One\""));
 		}
 
+        /// <summary>Can call echo request with accept JSON.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_AcceptJson()
 		{
@@ -35,6 +38,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call echo request with accept XML.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_AcceptXml()
 		{
@@ -46,6 +50,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call echo request with accept jsv.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_AcceptJsv()
 		{
@@ -57,6 +62,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call echo request with query string.</summary>
 		[Test]
 		public void Can_call_EchoRequest_with_QueryString()
 		{
@@ -82,6 +88,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			return response;
 		}
 
+        /// <summary>Can emulate put HTTP method with post.</summary>
 		[Test]
 		public void Can_emulate_Put_HttpMethod_with_POST()
 		{
@@ -91,6 +98,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 				Assert.That(x.Result, Is.EqualTo(HttpMethods.Put)));
 		}
 
+        /// <summary>Can emulate put HTTP method with get.</summary>
 		[Test]
 		public void Can_emulate_Put_HttpMethod_with_GET()
 		{
@@ -100,6 +108,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 				Assert.That(x.Result, Is.EqualTo(HttpMethods.Put)));
 		}
 
+        /// <summary>Can emulate delete HTTP method with get.</summary>
 		[Test]
 		public void Can_emulate_Delete_HttpMethod_with_GET()
 		{
@@ -109,6 +118,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 				Assert.That(x.Result, Is.EqualTo(HttpMethods.Delete)));
 		}
 
+        /// <summary>Can call wild card request with alternate wild card defined.</summary>
 		[Test]
 		public void Can_call_WildCardRequest_with_alternate_WildCard_defined()
 		{
@@ -122,6 +132,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call wild card request wild card mapping.</summary>
 		[Test]
 		public void Can_call_WildCardRequest_WildCard_mapping()
 		{
@@ -135,6 +146,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call wild card request wild card mapping with query string.</summary>
 		[Test]
 		public void Can_call_WildCardRequest_WildCard_mapping_with_QueryString()
 		{
@@ -148,6 +160,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can call reset movies mapping with empty XML post.</summary>
 		[Test(Description = "Test for error processing empty XML request")]
 		public void Can_call_ResetMovies_mapping_with_empty_Xml_post()
 		{
@@ -157,6 +170,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			});
 		}
 
+        /// <summary>Can post new movie with form data.</summary>
+        ///
+        /// <exception cref="WebException">Thrown when a Web error condition occurs.</exception>
 		[Test]
 		public void Can_POST_new_movie_with_FormData()
 		{

@@ -7,21 +7,34 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Mvc.MiniProfiler
 {
+    /// <summary>A mini profiler route handler.</summary>
     public class MiniProfilerRouteHandler : IRouteHandler
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Mvc.MiniProfiler.MiniProfilerRouteHandler class.</summary>
+        ///
+        /// <param name="miniProfilerHandler">The mini profiler handler.</param>
     	public MiniProfilerRouteHandler(MiniProfilerHandler miniProfilerHandler)
     	{
     		MiniProfilerHandler = miniProfilerHandler;
     	}
 
+        /// <summary>Gets or sets the mini profiler handler.</summary>
+        ///
+        /// <value>The mini profiler handler.</value>
     	public MiniProfilerHandler MiniProfilerHandler { get; set; }
 
+        /// <summary>Provides the object that processes the request.</summary>
+        ///
+        /// <param name="requestContext">An object that encapsulates information about the request.</param>
+        ///
+        /// <returns>An object that processes the request.</returns>
     	public IHttpHandler GetHttpHandler(RequestContext requestContext)
     	{
     		return MiniProfilerHandler;
     	}
     }
 
+    /// <summary>A mini profiler.</summary>
 	public static class MiniProfiler
 	{
 		internal static void RegisterRoutes()
@@ -53,6 +66,16 @@ namespace NServiceKit.Mvc.MiniProfiler
 			}
 		}
 
+        /// <summary>Renders the includes.</summary>
+        ///
+        /// <param name="position">            The position.</param>
+        /// <param name="showTrivial">         The show trivial.</param>
+        /// <param name="showTimeWithChildren">The show time with children.</param>
+        /// <param name="maxTracesToShow">     The maximum traces to show.</param>
+        /// <param name="xhtml">               true to xhtml.</param>
+        /// <param name="showControls">        The show controls.</param>
+        ///
+        /// <returns>A System.Web.IHtmlString.</returns>
 		public static System.Web.IHtmlString RenderIncludes(RenderPosition? position = null, bool? showTrivial = null, bool? showTimeWithChildren = null, int? maxTracesToShow = null, bool xhtml = false, bool? showControls = null)
 		{
 			var path = VirtualPathUtility.ToAbsolute("~");
@@ -60,6 +83,11 @@ namespace NServiceKit.Mvc.MiniProfiler
 				.ToMvcHtmlString();
 		}		 
 
+        /// <summary>A NServiceKit.MiniProfiler.IHtmlString extension method that converts a htmlString to a mvc HTML string.</summary>
+        ///
+        /// <param name="htmlString">The HTML string.</param>
+        ///
+        /// <returns>htmlString as a System.Web.Mvc.MvcHtmlString.</returns>
 		public static System.Web.Mvc.MvcHtmlString ToMvcHtmlString(this NServiceKit.MiniProfiler.IHtmlString htmlString)
 		{
 			return System.Web.Mvc.MvcHtmlString.Create(htmlString.ToString());

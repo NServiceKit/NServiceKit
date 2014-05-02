@@ -17,22 +17,40 @@ using NServiceKit.WebHost.Endpoints.Tests.Mocks;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A partial file.</summary>
     [Route("/partialfiles/{RelativePath*}")]
     public class PartialFile
     {
+        /// <summary>Gets or sets the full pathname of the relative file.</summary>
+        ///
+        /// <value>The full pathname of the relative file.</value>
         public string RelativePath { get; set; }
 
+        /// <summary>Gets or sets the type of the mime.</summary>
+        ///
+        /// <value>The type of the mime.</value>
         public string MimeType { get; set; }
     }
 
+    /// <summary>A partial from memory.</summary>
     [Route("/partialfiles/memory")]
     public class PartialFromMemory { }
 
+    /// <summary>A partial from text.</summary>
     [Route("/partialfiles/text")]
     public class PartialFromText { }
 
+    /// <summary>A partial content service.</summary>
     public class PartialContentService : ServiceInterface.Service
     {
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the requested file is not present.</exception>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(PartialFile request)
         {
             if (request.RelativePath.IsNullOrEmpty())
@@ -45,6 +63,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             return new HttpResult(new FileInfo(filePath), request.MimeType);
         }
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(PartialFromMemory request)
         {
             var customText = "123456789012345678901234567890";
@@ -56,6 +79,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             return httpResult;
         }
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(PartialFromText request)
         {
             const string customText = "123456789012345678901234567890";
@@ -64,16 +92,25 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
 
+    /// <summary>A partial content application host.</summary>
     public class PartialContentAppHost : AppHostHttpListenerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.PartialContentAppHost class.</summary>
         public PartialContentAppHost() : base(typeof(PartialFile).Name, typeof(PartialFile).Assembly) { }
+
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Container container) {}
     }
 
+    /// <summary>A partial content result tests.</summary>
     [TestFixture]
     public class PartialContentResultTests
     {
+        /// <summary>URI of the base.</summary>
         public const string BaseUri = Config.NServiceKitBaseUri;
+        /// <summary>The listening on.</summary>
         public const string ListeningOn = Config.AbsoluteBaseUri;
 
         private PartialContentAppHost appHost;
@@ -81,6 +118,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         readonly FileInfo uploadedFile = new FileInfo("~/TestExistingDir/upload.html".MapProjectPath());
         readonly FileInfo uploadedTextFile = new FileInfo("~/TestExistingDir/textfile.txt".MapProjectPath());
 
+        /// <summary>Text fixture set up.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         [TestFixtureSetUp]
         public void TextFixtureSetUp()
         {
@@ -96,6 +136,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
@@ -103,6 +144,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost = null;
         }
 
+        /// <summary>Can static file get 200 ok response for file with no range header.</summary>
         [Test]
         public void Can_StaticFile_GET_200_OK_response_for_file_with_no_range_header()
         {
@@ -116,6 +158,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents.Length, Is.EqualTo(uploadedFile.Length));
         }
 
+        /// <summary>Can get 200 ok response for file with no range header.</summary>
         [Test]
         public void Can_GET_200_OK_response_for_file_with_no_range_header()
         {
@@ -129,6 +172,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents.Length, Is.EqualTo(uploadedFile.Length));
         }
 
+        /// <summary>Can static file get 206 partial response for file with range header.</summary>
         [Test]
         public void Can_StaticFile_GET_206_Partial_response_for_file_with_range_header()
         {
@@ -144,6 +188,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents, Is.EqualTo("DOCTYPE"));
         }
 
+        /// <summary>Can get 206 partial response for file with range header.</summary>
         [Test]
         public void Can_GET_206_Partial_response_for_file_with_range_header()
         {
@@ -159,6 +204,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents, Is.EqualTo("DOCTYPE"));
         }
 
+        /// <summary>Can get 206 partial response for memory with range header.</summary>
         [Test]
         public void Can_GET_206_Partial_response_for_memory_with_range_header()
         {
@@ -170,6 +216,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents, Is.EqualTo("67890"));
         }
 
+        /// <summary>Can get 206 partial response for text with range header.</summary>
         [Test]
         public void Can_GET_206_Partial_response_for_text_with_range_header()
         {
@@ -181,6 +228,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(actualContents, Is.EqualTo("67890"));
         }
 
+        /// <summary>Can respond to non range requests with 200 ok response.</summary>
         [Test]
         public void Can_respond_to_non_range_requests_with_200_OK_response()
         {
@@ -205,6 +253,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(200));
         }
 
+        /// <summary>Can seek from beginning to end.</summary>
         [Test]
         public void Can_seek_from_beginning_to_end()
         {
@@ -232,6 +281,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Can seek from beginning to further than end.</summary>
         [Test]
         public void Can_seek_from_beginning_to_further_than_end()
         {
@@ -263,6 +313,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Can seek from beginning to middle.</summary>
         [Test]
         public void Can_seek_from_beginning_to_middle()
         {
@@ -291,6 +342,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Can seek from middle to end.</summary>
         [Test]
         public void Can_seek_from_middle_to_end()
         {
@@ -318,6 +370,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Can seek from middle to middle.</summary>
         [Test]
         public void Can_seek_from_middle_to_middle()
         {
@@ -345,6 +398,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Can use file stream.</summary>
         [Test]
         public void Can_use_fileStream()
         {
@@ -372,6 +426,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(mockResponse.StatusCode, Is.EqualTo(206));
         }
 
+        /// <summary>Executes for 30secs operation.</summary>
         [Test]
         [Explicit("Helps debugging when you need to find out WTF is going on")]
         public void Run_for_30secs()

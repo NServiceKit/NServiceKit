@@ -13,6 +13,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>An authentication user session without test source tests.</summary>
     [TestFixture, Explicit("Manual OAuth Test with iteration over data stores")]
     [Ignore]
     public class OAuthUserSessionWithoutTestSourceTests
@@ -23,6 +24,9 @@ namespace NServiceKit.Common.Tests.OAuth
         OrmLiteConnectionFactory dbFactory = new OrmLiteConnectionFactory(
             ":memory:", false, SqliteOrmLiteDialectProvider.Instance);
 
+        /// <summary>Sets the up.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         [SetUp]
         public void SetUp()
         {
@@ -69,24 +73,28 @@ namespace NServiceKit.Common.Tests.OAuth
 			}
 		}
 		
+        /// <summary>Does persist twitter o authentication.</summary>
         [Test]
         public void Does_persist_TwitterOAuth()
         {
             userAuthRepositorys.ForEach(x => tests.Does_persist_TwitterOAuth(x));
         }
 
+        /// <summary>Does persist facebook o authentication.</summary>
         [Test]
         public void Does_persist_FacebookOAuth()
         {
             userAuthRepositorys.ForEach(x => tests.Does_persist_FacebookOAuth(x));
         }
 
+        /// <summary>Does merge facebook o authentication twitter o authentication.</summary>
         [Test]
         public void Does_merge_FacebookOAuth_TwitterOAuth()
         {
             userAuthRepositorys.ForEach(x => tests.Does_merge_FacebookOAuth_TwitterOAuth(x));
         }
 
+        /// <summary>Can login with user created create user authentication.</summary>
         [Test]
         public void Can_login_with_user_created_CreateUserAuth()
         {

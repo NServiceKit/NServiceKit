@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+#pragma warning disable 1591
 namespace MarkdownDeep
 {
 	/*
@@ -25,6 +25,7 @@ namespace MarkdownDeep
 	 * Maintains a current position with various operations to inspect the current
 	 * character, skip forward, check for matches, skip whitespace etc...
 	 */
+    /// <summary>A string scanner.</summary>
 	public class StringScanner
 	{
 		// Constructor
@@ -448,6 +449,11 @@ namespace MarkdownDeep
 			return true;
 		}
 
+        /// <summary>Skip footnote identifier.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool SkipFootnoteID(out string id)
 		{
 			int savepos = position;
@@ -539,3 +545,4 @@ namespace MarkdownDeep
 		int mark;
 	}
 }
+#pragma warning restore 1591

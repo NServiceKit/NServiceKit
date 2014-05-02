@@ -4,9 +4,11 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A filter tests.</summary>
 	[TestFixture]
 	public class FilterTests
 	{
+        /// <summary>Can call service returning string.</summary>
 		[Test]
 		public void Can_call_service_returning_string()
 		{

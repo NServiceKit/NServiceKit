@@ -10,6 +10,7 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>An application host HTTP listener long running base.</summary>
     public abstract class AppHostHttpListenerLongRunningBase : AppHostHttpListenerBase
     {
         private class ThreadPoolManager : IDisposable
@@ -19,12 +20,20 @@ namespace NServiceKit.WebHost.Endpoints
             private readonly AutoResetEvent autoResetEvent;
             private int avalaibleThreadCount = 0;
 
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase.ThreadPoolManager class.</summary>
+            ///
+            /// <param name="poolSize">Size of the pool.</param>
             public ThreadPoolManager(int poolSize)
             {
                 autoResetEvent = new AutoResetEvent(false);
                 avalaibleThreadCount = poolSize;
             }
 
+            /// <summary>Returns the top-of-stack object without removing it.</summary>
+            ///
+            /// <param name="threadStart">The thread start to peek.</param>
+            ///
+            /// <returns>The current top-of-stack object.</returns>
             public Thread Peek(ThreadStart threadStart)
             {
                 while (!isDisposing && avalaibleThreadCount == 0)
@@ -42,6 +51,7 @@ namespace NServiceKit.WebHost.Endpoints
                 return new Thread(threadStart);
             }
 
+            /// <summary>Frees this object.</summary>
             public void Free()
             {
                 Interlocked.Increment(ref avalaibleThreadCount);
@@ -68,22 +78,49 @@ namespace NServiceKit.WebHost.Endpoints
         private readonly ThreadPoolManager threadPoolManager;
         private readonly ILog log = LogManager.GetLogger(typeof(HttpListenerBase));
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase class.</summary>
+        ///
+        /// <param name="poolSize">Size of the pool.</param>
         protected AppHostHttpListenerLongRunningBase(int poolSize = 500) { threadPoolManager = new ThreadPoolManager(poolSize); }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
         protected AppHostHttpListenerLongRunningBase(string serviceName, params Assembly[] assembliesWithServices)
             : this(serviceName, 500, assembliesWithServices) { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="poolSize">              Size of the pool.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
         protected AppHostHttpListenerLongRunningBase(string serviceName, int poolSize, params Assembly[] assembliesWithServices)
             : base(serviceName, assembliesWithServices) { threadPoolManager = new ThreadPoolManager(poolSize); }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="handlerPath">           Full pathname of the handler file.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
         protected AppHostHttpListenerLongRunningBase(string serviceName, string handlerPath, params Assembly[] assembliesWithServices)
             : this(serviceName, handlerPath, 500, assembliesWithServices) { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase class.</summary>
+        ///
+        /// <param name="serviceName">           Name of the service.</param>
+        /// <param name="handlerPath">           Full pathname of the handler file.</param>
+        /// <param name="poolSize">              Size of the pool.</param>
+        /// <param name="assembliesWithServices">A variable-length parameters list containing assemblies with services.</param>
         protected AppHostHttpListenerLongRunningBase(string serviceName, string handlerPath, int poolSize, params Assembly[] assembliesWithServices)
             : base(serviceName, handlerPath, assembliesWithServices) { threadPoolManager = new ThreadPoolManager(poolSize); }
 
 
         private bool disposed = false;
+
+        /// <summary>Releases the unmanaged resources used by the NServiceKit.WebHost.Endpoints.AppHostHttpListenerLongRunningBase and optionally releases the managed resources.</summary>
+        ///
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposed) return;
@@ -104,6 +141,9 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Starts.</summary>
+        ///
+        /// <param name="urlBase">The URL base.</param>
         public override void Start(string urlBase)
         {
             Start(urlBase, Listen);

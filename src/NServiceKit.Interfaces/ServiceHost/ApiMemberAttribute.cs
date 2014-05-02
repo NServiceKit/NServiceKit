@@ -2,9 +2,11 @@
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Attribute for API member.</summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class ApiMemberAttribute : Attribute
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.ApiMemberAttribute class.</summary>
         public ApiMemberAttribute()
         {
             ParameterType = "path";

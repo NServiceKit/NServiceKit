@@ -5,9 +5,11 @@ using NServiceKit.Mvc.Tests.Stubs;
 
 namespace NServiceKit.Mvc.Tests
 {
+    /// <summary>A funq controller factory tests.</summary>
     [TestFixture]
     public class FunqControllerFactoryTests
     {
+        /// <summary>Construct factory populates local controller by default.</summary>
         [Test]
         public void ConstructFactoryPopulatesLocalControllerByDefault()
         {
@@ -17,6 +19,7 @@ namespace NServiceKit.Mvc.Tests
             Assert.That(testController, Is.Not.Null);
         }
 
+        /// <summary>Construct factory populates local controller and external controller by default.</summary>
         [Test]
         public void ConstructFactoryPopulatesLocalControllerAndExternalControllerByDefault()
         {

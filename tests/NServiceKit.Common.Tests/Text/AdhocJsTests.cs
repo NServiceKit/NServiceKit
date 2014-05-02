@@ -5,16 +5,24 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.Text
 {
+    /// <summary>Values that represent EnumValues.</summary>
 	public enum EnumValues
 	{
+        /// <summary>An enum constant representing the enum 1 option.</summary>
 		Enum1,
+
+        /// <summary>An enum constant representing the enum 2 option.</summary>
 		Enum2,
+
+        /// <summary>An enum constant representing the enum 3 option.</summary>
 		Enum3,
 	}
 
+    /// <summary>An adhoc js tests.</summary>
 	[TestFixture]
 	public class AdhocJsTests
 	{
+        /// <summary>Can deserialize.</summary>
 		[Test]
 		public void Can_Deserialize()
 		{
@@ -24,6 +32,7 @@ namespace NServiceKit.Common.Tests.Text
 			Console.WriteLine(items.Dump());
 		}
 
+        /// <summary>Can serialize array of enums.</summary>
 		[Test]
 		public void Can_Serialize_Array_of_enums()
 		{
@@ -32,6 +41,7 @@ namespace NServiceKit.Common.Tests.Text
 			Assert.That(json, Is.EqualTo("[\"Enum1\",\"Enum2\",\"Enum3\"]"));
 		}
 
+        /// <summary>Can serialize array of characters.</summary>
 		[Test]
 		public void Can_Serialize_Array_of_chars()
 		{
@@ -40,6 +50,7 @@ namespace NServiceKit.Common.Tests.Text
 			Assert.That(json, Is.EqualTo("[\"A\",\"B\",\"C\"]"));
 		}
 
+        /// <summary>Can serialize array with nulls.</summary>
 		[Test]
 		public void Can_Serialize_Array_with_nulls()
 		{
@@ -58,9 +69,13 @@ namespace NServiceKit.Common.Tests.Text
 
 		class A
 		{
+            /// <summary>Gets or sets the value.</summary>
+            ///
+            /// <value>The value.</value>
 			public string Value { get; set; }
 		}
 
+        /// <summary>Dumps the fail.</summary>
 		[Test]
 		public void DumpFail()
 		{
@@ -68,6 +83,7 @@ namespace NServiceKit.Common.Tests.Text
 			Console.WriteLine(arrayOfA.Dump());
 		}
 
+        /// <summary>Deserialize array with null elements.</summary>
 		[Test]
 		public void Deserialize_array_with_null_elements()
 		{

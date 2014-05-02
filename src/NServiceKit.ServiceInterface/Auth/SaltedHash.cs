@@ -4,11 +4,39 @@ using System.Text;
 
 namespace NServiceKit.ServiceInterface.Auth
 {
+    /// <summary>Interface for hash provider.</summary>
     public interface IHashProvider
     {
+        /// <summary>Gets hash and salt.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
         void GetHashAndSalt(byte[] Data, out byte[] Hash, out byte[] Salt);
+
+        /// <summary>Gets hash and salt string.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
         void GetHashAndSaltString(string Data, out string Hash, out string Salt);
+
+        /// <summary>Verify hash.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         bool VerifyHash(byte[] Data, byte[] Hash, byte[] Salt);
+
+        /// <summary>Verify hash string.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         bool VerifyHashString(string Data, string Hash, string Salt);
     }
 
@@ -21,12 +49,17 @@ namespace NServiceKit.ServiceInterface.Auth
         readonly HashAlgorithm HashProvider;
         readonly int SalthLength;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.SaltedHash class.</summary>
+        ///
+        /// <param name="HashAlgorithm">The hash algorithm.</param>
+        /// <param name="theSaltLength">Length of the salt.</param>
         public SaltedHash(HashAlgorithm HashAlgorithm, int theSaltLength)
         {
             HashProvider = HashAlgorithm;
             SalthLength = theSaltLength;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.SaltedHash class.</summary>
         public SaltedHash() : this(new SHA256Managed(), 4) {}
 
         private byte[] ComputeHash(byte[] Data, byte[] Salt)
@@ -38,6 +71,11 @@ namespace NServiceKit.ServiceInterface.Auth
             return HashProvider.ComputeHash(DataAndSalt);
         }
 
+        /// <summary>Gets hash and salt.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
         public void GetHashAndSalt(byte[] Data, out byte[] Hash, out byte[] Salt)
         {
             Salt = new byte[SalthLength];
@@ -48,6 +86,11 @@ namespace NServiceKit.ServiceInterface.Auth
             Hash = ComputeHash(Data, Salt);
         }
 
+        /// <summary>Gets hash and salt string.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
         public void GetHashAndSaltString(string Data, out string Hash, out string Salt)
         {
             byte[] HashOut;
@@ -59,6 +102,13 @@ namespace NServiceKit.ServiceInterface.Auth
             Salt = Convert.ToBase64String(SaltOut);
         }
 
+        /// <summary>Verify hash.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool VerifyHash(byte[] Data, byte[] Hash, byte[] Salt)
         {
             var NewHash = ComputeHash(Data, Salt);
@@ -72,6 +122,13 @@ namespace NServiceKit.ServiceInterface.Auth
             return true;
         }
 
+        /// <summary>Verify hash string.</summary>
+        ///
+        /// <param name="Data">The data.</param>
+        /// <param name="Hash">The hash.</param>
+        /// <param name="Salt">The salt.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool VerifyHashString(string Data, string Hash, string Salt)
         {
             byte[] HashToVerify = Convert.FromBase64String(Hash);

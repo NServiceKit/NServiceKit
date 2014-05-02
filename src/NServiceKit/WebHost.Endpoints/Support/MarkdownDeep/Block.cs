@@ -69,6 +69,9 @@ namespace MarkdownDeep
 			blockType = type;
 		}
 
+        /// <summary>Gets the content.</summary>
+        ///
+        /// <value>The content.</value>
 		public string Content
 		{
 			get
@@ -93,6 +96,9 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Gets the line start.</summary>
+        ///
+        /// <value>The line start.</value>
 		public int LineStart
 		{
 			get
@@ -421,6 +427,7 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Revert to plain.</summary>
 		public void RevertToPlain()
 		{
 			blockType = BlockType.p;
@@ -428,6 +435,9 @@ namespace MarkdownDeep
 			contentLen = lineLen;
 		}
 
+        /// <summary>Gets or sets the content end.</summary>
+        ///
+        /// <value>The content end.</value>
 		public int contentEnd
 		{
 			get
@@ -463,12 +473,20 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
 			string c = Content;
 			return blockType.ToString() + " - " + (c==null ? "<null>" : c);
 		}
 
+        /// <summary>Copies from described by other.</summary>
+        ///
+        /// <param name="other">Another instance to copy.</param>
+        ///
+        /// <returns>A Block.</returns>
 		public Block CopyFrom(Block other)
 		{
 			blockType = other.blockType;

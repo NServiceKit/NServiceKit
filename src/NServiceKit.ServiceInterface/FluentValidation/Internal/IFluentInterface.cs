@@ -24,12 +24,30 @@ namespace NServiceKit.FluentValidation.Internal
     //From Kzu's blog: http://www.clariusconsulting.net/blogs/kzu/archive/2008/03/10/58301.aspx
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IFluentInterface {
+
+        /// <summary>Gets the type.</summary>
+        ///
+        /// <returns>The type.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         Type GetType();
+
+        /// <summary>Returns a hash code for this object.</summary>
+        ///
+        /// <returns>A hash code for this object.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         int GetHashCode();
+
+        /// <summary>Convert this object into a string representation.</summary>
+        ///
+        /// <returns>A string that represents this object.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         string ToString();
+
+        /// <summary>Tests if this object is considered equal to another.</summary>
+        ///
+        /// <param name="obj">The object to compare to this object.</param>
+        ///
+        /// <returns>true if the objects are considered equal, false if they are not.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         bool Equals(object obj);
     }

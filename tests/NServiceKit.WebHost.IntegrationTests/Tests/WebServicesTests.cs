@@ -21,19 +21,25 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 	{
 		private const string TestString = "NServiceKit";
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Tests.WebServicesTests class.</summary>
 		protected WebServicesTests()
 			: base(Config.NServiceKitBaseUri, typeof(ReverseService).Assembly)
 		{
 		}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container) { }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
             EndpointHandlerBase.ServiceManager = null;
         }
 
+        /// <summary>Does execute reverse service.</summary>
 		[Test]
 		public void Does_Execute_ReverseService()
 		{
@@ -45,6 +51,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.Result, Is.EqualTo(expectedValue));
 		}
 
+        /// <summary>Does execute rot 13 service.</summary>
 		[Test]
 		public void Does_Execute_Rot13Service()
 		{
@@ -55,6 +62,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.Result, Is.EqualTo(expectedValue));
 		}
 
+        /// <summary>Can handle exception from always throw service.</summary>
+        ///
+        /// <exception cref="HTTP">Thrown when a HTTP error condition occurs.</exception>
 		[Test]
 		public void Can_Handle_Exception_from_AlwaysThrowService()
 		{
@@ -78,6 +88,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Request items are preserved between filters.</summary>
         [Test]
         public void Request_items_are_preserved_between_filters()
         {
@@ -95,6 +106,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 	/// </summary>
 	public class UnitTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
             EndpointHandlerBase.ServiceManager = new ServiceManager(typeof(ReverseService).Assembly).Init();
@@ -102,40 +116,60 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 		}
 	}
 
+    /// <summary>An XML integration tests.</summary>
 	public class XmlIntegrationTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
 			return new XmlServiceClient(ServiceClientBaseUri);
 		}
 	}
 
+    /// <summary>A JSON integration tests.</summary>
 	public class JsonIntegrationTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
 			return new JsonServiceClient(ServiceClientBaseUri);
 		}
 	}
 
+    /// <summary>A jsv integration tests.</summary>
 	public class JsvIntegrationTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
 			return new JsvServiceClient(ServiceClientBaseUri);
 		}
 	}
 
+    /// <summary>A SOAP 11 integration tests.</summary>
 	public class Soap11IntegrationTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
 			return new Soap11ServiceClient(ServiceClientBaseUri);
 		}
 	}
 
+    /// <summary>A SOAP 12 integration tests.</summary>
 	public class Soap12IntegrationTests : WebServicesTests
 	{
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected override IServiceClient CreateNewServiceClient()
 		{
 			return new Soap12ServiceClient(ServiceClientBaseUri);

@@ -10,10 +10,16 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceClient.Web
 {
+    /// <summary>A web request extensions.</summary>
     public static class WebRequestExtensions
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof (WebRequestExtensions));
 
+        /// <summary>A WebResponse extension method that downloads the text described by webRes.</summary>
+        ///
+        /// <param name="webRes">The webRes to act on.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string DownloadText(this WebResponse webRes)
         {
             using (var stream = webRes.GetResponseStream())
@@ -23,6 +29,11 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>A WebResponse extension method that downloads the binary described by webRes.</summary>
+        ///
+        /// <param name="webRes">The webRes to act on.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public static byte[] DownloadBinary(this WebResponse webRes)
         {
             using (var stream = webRes.GetResponseStream())
@@ -31,6 +42,11 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>A string extension method that gets error response.</summary>
+        ///
+        /// <param name="url">The URL to act on.</param>
+        ///
+        /// <returns>The error response.</returns>
         public static HttpWebResponse GetErrorResponse(this string url)
         {
             try
@@ -47,6 +63,15 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>A string extension method that posts a file to URL.</summary>
+        ///
+        /// <param name="url">               The URL to act on.</param>
+        /// <param name="uploadFileInfo">    Information describing the upload file.</param>
+        /// <param name="uploadFileMimeType">Type of the upload file mime.</param>
+        /// <param name="acceptContentType"> Type of the accept content.</param>
+        /// <param name="requestFilter">     A filter specifying the request.</param>
+        ///
+        /// <returns>A WebResponse.</returns>
         public static WebResponse PostFileToUrl(this string url,
             FileInfo uploadFileInfo, string uploadFileMimeType,
             string acceptContentType = null,
@@ -63,6 +88,15 @@ namespace NServiceKit.ServiceClient.Web
             return webReq.GetResponse();
         }
 
+        /// <summary>A string extension method that puts file to URL.</summary>
+        ///
+        /// <param name="url">               The URL to act on.</param>
+        /// <param name="uploadFileInfo">    Information describing the upload file.</param>
+        /// <param name="uploadFileMimeType">Type of the upload file mime.</param>
+        /// <param name="acceptContentType"> Type of the accept content.</param>
+        /// <param name="requestFilter">     A filter specifying the request.</param>
+        ///
+        /// <returns>A WebResponse.</returns>
         public static WebResponse PutFileToUrl(this string url,
             FileInfo uploadFileInfo, string uploadFileMimeType,
             string acceptContentType = null,
@@ -79,6 +113,13 @@ namespace NServiceKit.ServiceClient.Web
             return webReq.GetResponse();
         }
 
+        /// <summary>A WebRequest extension method that uploads a file.</summary>
+        ///
+        /// <param name="webRequest">        The webRequest to act on.</param>
+        /// <param name="uploadFileInfo">    Information describing the upload file.</param>
+        /// <param name="uploadFileMimeType">Type of the upload file mime.</param>
+        ///
+        /// <returns>A WebResponse.</returns>
         public static WebResponse UploadFile(this WebRequest webRequest,
             FileInfo uploadFileInfo, string uploadFileMimeType)
         {
@@ -92,6 +133,15 @@ namespace NServiceKit.ServiceClient.Web
             return webRequest.GetResponse();
         }
 
+        /// <summary>A WebRequest extension method that uploads a file.</summary>
+        ///
+        /// <param name="webRequest">       The webRequest to act on.</param>
+        /// <param name="fileStream">       The file stream.</param>
+        /// <param name="fileName">         Filename of the file.</param>
+        /// <param name="mimeType">         Type of the mime.</param>
+        /// <param name="acceptContentType">Type of the accept content.</param>
+        /// <param name="requestFilter">    A filter specifying the request.</param>
+        /// <param name="method">           The method.</param>
         public static void UploadFile(this WebRequest webRequest, Stream fileStream, string fileName, string mimeType,
             string acceptContentType = null, Action<HttpWebRequest> requestFilter = null, string method="POST")
         {
@@ -140,7 +190,13 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
-
+        /// <summary>A WebRequest extension method that uploads a file.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="webRequest">The webRequest to act on.</param>
+        /// <param name="fileStream">The file stream.</param>
+        /// <param name="fileName">  Filename of the file.</param>
         public static void UploadFile(this WebRequest webRequest, Stream fileStream, string fileName)
         {
             fileName.ThrowIfNull("fileName");

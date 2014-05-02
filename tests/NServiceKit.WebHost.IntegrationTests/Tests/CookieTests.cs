@@ -8,9 +8,11 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A cookie tests.</summary>
     [TestFixture]
     public class CookieTests
     {
+        /// <summary>Handles malicious PHP cookies.</summary>
         [Test]
         public void Handles_malicious_php_cookies()
         {

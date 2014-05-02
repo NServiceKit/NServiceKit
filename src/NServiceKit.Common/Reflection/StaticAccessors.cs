@@ -13,8 +13,17 @@ namespace NServiceKit.Common.Reflection
 #else
     using System.Linq.Expressions;
 
+    /// <summary>A static accessors.</summary>
     public static class StaticAccessors
     {
+        /// <summary>Gets value getter.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="type">        The type.</param>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        ///
+        /// <returns>The value getter.</returns>
         public static Func<object, object> GetValueGetter(Type type, PropertyInfo propertyInfo)
         {
             if (type != propertyInfo.DeclaringType)
@@ -29,6 +38,14 @@ namespace NServiceKit.Common.Reflection
             return Expression.Lambda<Func<object, object>>(convertProperty, instance).Compile();
         }
 
+        /// <summary>A PropertyInfo extension method that gets value getter.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        ///
+        /// <returns>The value getter.</returns>
         public static Func<T, object> GetValueGetter<T>(this PropertyInfo propertyInfo)
         {
             if (typeof(T) != propertyInfo.DeclaringType)
@@ -42,6 +59,14 @@ namespace NServiceKit.Common.Reflection
             return Expression.Lambda<Func<T, object>>(convert, instance).Compile();
         }
 
+        /// <summary>A PropertyInfo extension method that gets value setter.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="propertyInfo">The propertyInfo to act on.</param>
+        ///
+        /// <returns>The value setter.</returns>
         public static Action<T, object> GetValueSetter<T>(this PropertyInfo propertyInfo)
         {
             if (typeof(T) != propertyInfo.DeclaringType)
@@ -65,6 +90,8 @@ namespace NServiceKit.Common.Reflection
 
 #endif
 
+    /// <summary>A static accessors.</summary>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     public static class StaticAccessors<TEntity>
     {
         /// <summary>
@@ -85,6 +112,11 @@ namespace NServiceKit.Common.Reflection
             return x => typedPropertyFn(x);
         }
 
+        /// <summary>Value un typed get property type function.</summary>
+        ///
+        /// <param name="pi">The pi.</param>
+        ///
+        /// <returns>A Func&lt;TEntity,object&gt;</returns>
         public static Func<TEntity, object> ValueUnTypedGetPropertyTypeFn(PropertyInfo pi)
         {
             var mi = typeof(StaticAccessors<TEntity>).GetMethodInfo("TypedGetPropertyFn");
@@ -111,6 +143,12 @@ namespace NServiceKit.Common.Reflection
 #endif
         }
 
+        /// <summary>Un typed get property function.</summary>
+        ///
+        /// <typeparam name="TId">Type of the identifier.</typeparam>
+        /// <param name="pi">The pi.</param>
+        ///
+        /// <returns>A Func&lt;object,object&gt;</returns>
         public static Func<object, object> UnTypedGetPropertyFn<TId>(PropertyInfo pi)
         {
             var typedPropertyFn = TypedGetPropertyFn<TId>(pi);
@@ -135,6 +173,11 @@ namespace NServiceKit.Common.Reflection
             return (x, y) => typedPropertyFn(x, (TId)y);
         }
 
+        /// <summary>Value un typed set property type function.</summary>
+        ///
+        /// <param name="pi">The pi.</param>
+        ///
+        /// <returns>An Action&lt;TEntity,object&gt;</returns>
         public static Action<TEntity, object> ValueUnTypedSetPropertyTypeFn(PropertyInfo pi)
         {
             var mi = typeof(StaticAccessors<TEntity>).GetMethodInfo("TypedSetPropertyFn");

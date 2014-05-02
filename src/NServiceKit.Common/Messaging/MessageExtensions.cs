@@ -7,8 +7,14 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Messaging
 {
+    /// <summary>A message extensions.</summary>
     public static class MessageExtensions
     {
+        /// <summary>Convert this object into a string representation.</summary>
+        ///
+        /// <param name="bytes">The bytes to act on.</param>
+        ///
+        /// <returns>A string that represents this object.</returns>
         public static string ToString(byte[] bytes)
         {
 #if !SILVERLIGHT 
@@ -43,6 +49,12 @@ namespace NServiceKit.Messaging
             return toMessageFn;
         }
 
+        /// <summary>A byte[] extension method that converts this object to a message.</summary>
+        ///
+        /// <param name="bytes"> The bytes to act on.</param>
+        /// <param name="ofType">Type of the of.</param>
+        ///
+        /// <returns>The given data converted to an IMessage.</returns>
         public static IMessage ToMessage(this byte[] bytes, Type ofType)
         {
             var msgFn = GetToMessageFn(ofType);
@@ -50,24 +62,46 @@ namespace NServiceKit.Messaging
             return msg;
         }
 
+        /// <summary>A byte[] extension method that converts the bytes to a message.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="bytes">The bytes to act on.</param>
+        ///
+        /// <returns>bytes as a Message&lt;T&gt;</returns>
         public static Message<T> ToMessage<T>(this byte[] bytes)
         {
             var messageText = ToString(bytes);
             return JsonSerializer.DeserializeFromString<Message<T>>(messageText);
         }
 
+        /// <summary>An IMessage extension method that converts a message to the bytes.</summary>
+        ///
+        /// <param name="message">The message to act on.</param>
+        ///
+        /// <returns>message as a byte[].</returns>
         public static byte[] ToBytes(this IMessage message)
         {
             var serializedMessage = JsonSerializer.SerializeToString((object)message);
             return System.Text.Encoding.UTF8.GetBytes(serializedMessage);
         }
 
+        /// <summary>An IMessage&lt;T&gt; extension method that converts a message to the bytes.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="message">The message to act on.</param>
+        ///
+        /// <returns>message as a byte[].</returns>
         public static byte[] ToBytes<T>(this IMessage<T> message)
         {
             var serializedMessage = JsonSerializer.SerializeToString(message);
             return System.Text.Encoding.UTF8.GetBytes(serializedMessage);
         }
 
+        /// <summary>An IMessage extension method that converts a message to an in queue name.</summary>
+        ///
+        /// <param name="message">The message to act on.</param>
+        ///
+        /// <returns>message as a string.</returns>
         public static string ToInQueueName(this IMessage message)
         {
             var queueName = message.Priority > 0
@@ -77,6 +111,12 @@ namespace NServiceKit.Messaging
             return queueName;
         }
 
+        /// <summary>An IMessage&lt;T&gt; extension method that converts a message to an in queue name.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="message">The message to act on.</param>
+        ///
+        /// <returns>message as a string.</returns>
         public static string ToInQueueName<T>(this IMessage<T> message)
         {
             return message.Priority > 0
@@ -89,6 +129,11 @@ namespace NServiceKit.Messaging
 
     internal static class MessageExtensions<T>
     {
+        /// <summary>Converts the oBytes to a message.</summary>
+        ///
+        /// <param name="oBytes">The bytes.</param>
+        ///
+        /// <returns>The given data converted to a message.</returns>
         public static IMessage ConvertToMessage(object oBytes)
         {
             var bytes = (byte[]) oBytes;

@@ -47,6 +47,13 @@ namespace NServiceKit.ServiceInterface
             throw new NotImplementedException("This base method should be overridden but not called");
         }
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(TRequest request)
         {
             try
@@ -83,6 +90,13 @@ namespace NServiceKit.ServiceInterface
             throw new NotImplementedException("This base method should be overridden but not called");
         }
 
+        /// <summary>Puts the given request.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="request">The request to put.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Put(TRequest request)
         {
             try
@@ -119,6 +133,13 @@ namespace NServiceKit.ServiceInterface
             throw new NotImplementedException("This base method should be overridden but not called");
         }
 
+        /// <summary>Post this message.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Post(TRequest request)
         {
             try
@@ -155,6 +176,13 @@ namespace NServiceKit.ServiceInterface
             throw new NotImplementedException("This base method should be overridden but not called");
         }
 
+        /// <summary>Deletes the given request.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="request">The request to delete.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Delete(TRequest request)
         {
             try
@@ -191,6 +219,13 @@ namespace NServiceKit.ServiceInterface
             throw new NotImplementedException("This base method should be overridden but not called");
         }
 
+        /// <summary>Patches the given request.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Patch(TRequest request)
         {
             try

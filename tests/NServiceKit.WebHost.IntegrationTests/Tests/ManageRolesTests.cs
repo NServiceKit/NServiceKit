@@ -10,25 +10,39 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A manage roles tests.</summary>
 	[TestFixture]
 	public class ManageRolesTests : AuthTestsBase
 	{
+        /// <summary>The registration.</summary>
 		protected Registration registration;
 
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
 			registration = CreateAdminUser();
 		}
 
+        /// <summary>The first role name.</summary>
 		public string RoleName1 = "Role1";
+        /// <summary>The second role name.</summary>
 		public string RoleName2 = "Role2";
+        /// <summary>Manager for content.</summary>
 		public const string ContentManager = "ContentManager";
+        /// <summary>The content permission.</summary>
 		public const string ContentPermission = "ContentPermission";
 
+        /// <summary>The first permission.</summary>
 		public string Permission1 = "Permission1";
+        /// <summary>The second permission.</summary>
 		public string Permission2 = "Permission2";
 
+        /// <summary>Registers the new user described by autoLogin.</summary>
+        ///
+        /// <param name="autoLogin">The automatic login.</param>
+        ///
+        /// <returns>A Registration.</returns>
 		public Registration RegisterNewUser(bool? autoLogin = null)
 		{
 			var userId = Environment.TickCount % 10000;
@@ -49,6 +63,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 		}
 
 
+        /// <summary>Cannot assign roles with normal user.</summary>
 		[Test]
 		public void Cannot_assign_roles_with_normal_user()
 		{
@@ -74,6 +89,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Can assign roles and permissions to new user.</summary>
 		[Test]
 		public void Can_Assign_Roles_and_Permissions_to_new_User()
 		{
@@ -94,6 +110,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.AllPermissions, Is.EquivalentTo(new[] { Permission1, Permission2 }));
 		}
 
+        /// <summary>Can un assign roles and permissions to new user.</summary>
 		[Test]
 		public void Can_UnAssign_Roles_and_Permissions_to_new_User()
 		{
@@ -121,6 +138,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.AllPermissions, Is.EquivalentTo(new[] { Permission1 }));
 		}
 
+        /// <summary>Can only access content manager only service after assigned role.</summary>
 		[Test]
 		public void Can_only_access_ContentManagerOnlyService_service_after_Assigned_Role()
 		{
@@ -173,6 +191,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.Result, Is.EqualTo("Haz Access"));
 		}
 
+        /// <summary>Can only access content permission only service after assigned permission.</summary>
 		[Test]
 		public void Can_only_access_ContentPermissionOnlyService_service_after_Assigned_Permission()
 		{
@@ -225,6 +244,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.Result, Is.EqualTo("Haz Access"));
 		}
 
+        /// <summary>Cannot access admin service by default.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         [Test]
         public void Cannot_access_Admin_service_by_default()
         {
@@ -243,6 +265,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             }
         }
 
+        /// <summary>Can access admin service with authentication secret.</summary>
         [Test]
         public void Can_access_Admin_service_with_AuthSecret()
         {

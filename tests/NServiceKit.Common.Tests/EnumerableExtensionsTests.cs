@@ -5,6 +5,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>An enumerable extensions tests.</summary>
 	[TestFixture]
 	public class EnumerableExtensionsTests
 	{
@@ -18,60 +19,70 @@ namespace NServiceKit.Common.Tests
 		readonly string[] StringValues = new[] { "A", "B", "C" };
 		readonly string[] NoStringValues = new string[] { };
 
+        /// <summary>Can join.</summary>
 		[Test]
 		public void Can_Join()
 		{
 			Assert.That(IntValues.Join(), Is.EqualTo("1,2,3"));
 		}
 
+        /// <summary>Equivalent to self.</summary>
 		[Test]
 		public void EquivalentTo_self()
 		{
 			Assert.That(IntValues.EquivalentTo(IntValues), Is.True);
 		}
 
+        /// <summary>Equivalent to list.</summary>
 		[Test]
 		public void EquivalentTo_List()
 		{
 			Assert.That(IntValues.EquivalentTo(IntValues.ToList()), Is.True);
 		}
 
+        /// <summary>Not equivalent to no values.</summary>
 		[Test]
 		public void Not_EquivalentTo_NoValues()
 		{
 			Assert.That(IntValues.EquivalentTo(NoValues), Is.False);
 		}
 
+        /// <summary>Not equivalent to different values.</summary>
 		[Test]
 		public void Not_EquivalentTo_DifferentValues()
 		{
 			Assert.That(IntValues.EquivalentTo(DifferentValues), Is.False);
 		}
 
+        /// <summary>Not equivalent to less int values.</summary>
 		[Test]
 		public void Not_EquivalentTo_LessIntValues()
 		{
 			Assert.That(IntValues.EquivalentTo(LessIntValues), Is.False);
 		}
 
+        /// <summary>Not equivalent to more int values.</summary>
 		[Test]
 		public void Not_EquivalentTo_MoreIntValues()
 		{
 			Assert.That(IntValues.EquivalentTo(MoreIntValues), Is.False);
 		}
 
+        /// <summary>Not equivalent to unordered int values.</summary>
 		[Test]
 		public void Not_EquivalentTo_UnorderedIntValues()
 		{
 			Assert.That(IntValues.EquivalentTo(UnorderedIntValues), Is.False);
 		}
 
+        /// <summary>Not equivalent to null.</summary>
 		[Test]
 		public void Not_EquivalentTo_null()
 		{
 			Assert.That(IntValues.EquivalentTo(null), Is.False);
 		}
 
+        /// <summary>Equivalent to string values.</summary>
 		[Test]
 		public void EquivalentTo_StringValues()
 		{

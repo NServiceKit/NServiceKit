@@ -25,16 +25,25 @@ namespace NServiceKit.FluentValidation.Validators
     using Resources;
     using Results;
 
+    /// <summary>A regular expression validator.</summary>
     public class RegularExpressionValidator : PropertyValidator, IRegularExpressionValidator {
         readonly string expression;
         readonly Regex regex;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.RegularExpressionValidator class.</summary>
+        ///
+        /// <param name="expression">The expression.</param>
         public RegularExpressionValidator(string expression) : base(() => Messages.regex_error, ValidationErrors.RegularExpression) {
             this.expression = expression;
             regex = new Regex(expression);
 
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The validator context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             if (context.PropertyValue != null && !regex.IsMatch((string)context.PropertyValue)) {
                 return false;
@@ -42,12 +51,20 @@ namespace NServiceKit.FluentValidation.Validators
             return true;
         }
 
+        /// <summary>Gets the expression.</summary>
+        ///
+        /// <value>The expression.</value>
         public string Expression {
             get { return expression; }
         }
     }
 
+    /// <summary>Interface for regular expression validator.</summary>
     public interface IRegularExpressionValidator : IPropertyValidator {
+
+        /// <summary>Gets the expression.</summary>
+        ///
+        /// <value>The expression.</value>
         string Expression { get; }
     }
 }

@@ -24,16 +24,33 @@ namespace NServiceKit.FluentValidation.Validators
     using Resources;
     using Results;
 
+    /// <summary>A predicate validator.</summary>
     public class PredicateValidator : PropertyValidator, IPredicateValidator {
+
+        /// <summary>Predicates.</summary>
+        ///
+        /// <param name="instanceToValidate">      The instance to validate.</param>
+        /// <param name="propertyValue">           The property value.</param>
+        /// <param name="propertyValidatorContext">Context for the property validator.</param>
+        ///
+        /// <returns>A bool.</returns>
         public delegate bool Predicate(object instanceToValidate, object propertyValue, PropertyValidatorContext propertyValidatorContext);
 
         private readonly Predicate predicate;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.PredicateValidator class.</summary>
+        ///
+        /// <param name="predicate">The predicate.</param>
         public PredicateValidator(Predicate predicate) : base(() => Messages.predicate_error, ValidationErrors.Predicate) {
             predicate.Guard("A predicate must be specified.");
             this.predicate = predicate;
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             if (!predicate(context.Instance, context.PropertyValue, context)) {
                 return false;
@@ -43,5 +60,6 @@ namespace NServiceKit.FluentValidation.Validators
         }
     }
 
+    /// <summary>Interface for predicate validator.</summary>
     public interface IPredicateValidator : IPropertyValidator { }
 }

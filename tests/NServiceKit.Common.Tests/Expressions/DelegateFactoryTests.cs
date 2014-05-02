@@ -5,12 +5,14 @@ using NServiceKit.Common.Expressions;
 
 namespace NServiceKit.Common.Tests.Expressions
 {
+    /// <summary>A delegate factory tests.</summary>
 	[TestFixture]
 	public class DelegateFactoryTests
 	{
 		const string TextValue = "Hello, World!";
 		private const int Times = 10000;
 
+        /// <summary>String test with function call.</summary>
 		[Test]
 		public void String_test_with_func_call()
 		{
@@ -28,6 +30,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Console.WriteLine("Delegate took: {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
+        /// <summary>String test with direct call.</summary>
 		[Test]
 		public void String_test_with_direct_call()
 		{
@@ -43,6 +46,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Console.WriteLine("Delegate took: {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
+        /// <summary>String test with reflection.</summary>
 		[Test]
 		public void String_test_with_reflection()
 		{
@@ -60,6 +64,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Console.WriteLine("Reflection took: {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
+        /// <summary>String test with delegate.</summary>
 		[Test]
 		public void String_test_with_delegate()
 		{

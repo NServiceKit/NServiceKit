@@ -14,6 +14,7 @@ using HttpRequestWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRequestW
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>A service kit HTTP handler factory.</summary>
     public class NServiceKitHttpHandlerFactory
         : IHttpHandlerFactory
     {
@@ -31,6 +32,7 @@ namespace NServiceKit.WebHost.Endpoints
         private static readonly bool AutoRedirectsDirs = false;
         private static Func<IHttpRequest, IHttpHandler>[] RawHttpHandlers;
 
+        /// <summary>The debug last handler arguments.</summary>
         [ThreadStatic]
         public static string DebugLastHandlerArgs;
 
@@ -143,7 +145,16 @@ namespace NServiceKit.WebHost.Endpoints
             RawHttpHandlers = rawHandlers.ToArray();
         }
 
-        // Entry point for ASP.NET
+        /// <summary>Entry point for ASP.NET.</summary>
+        ///
+        /// <param name="context">       An instance of the <see cref="T:System.Web.HttpContext" /> class that provides references to intrinsic server objects (for example, Request, Response, Session, and
+        /// Server) used to service HTTP requests.
+        /// </param>
+        /// <param name="requestType">   The HTTP data transfer method (GET or POST) that the client uses.</param>
+        /// <param name="url">           The <see cref="P:System.Web.HttpRequest.RawUrl" /> of the requested resource.</param>
+        /// <param name="pathTranslated">The <see cref="P:System.Web.HttpRequest.PhysicalApplicationPath" /> to the requested resource.</param>
+        ///
+        /// <returns>The handler.</returns>
         public IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
         {
             DebugLastHandlerArgs = requestType + "|" + url + "|" + pathTranslated;
@@ -217,12 +228,19 @@ namespace NServiceKit.WebHost.Endpoints
                 NonRootModeDefaultHttpHandler.RelativeUrl);
         }
 
+        /// <summary>Gets base URL.</summary>
+        ///
+        /// <returns>The base URL.</returns>
         public static string GetBaseUrl()
         {
             return EndpointHost.Config.WebHostUrl ?? ApplicationBaseUrl;
         }
 
-        // Entry point for HttpListener
+        /// <summary>Entry point for HttpListener.</summary>
+        ///
+        /// <param name="httpReq">.</param>
+        ///
+        /// <returns>The handler.</returns>
         public static IHttpHandler GetHandler(IHttpRequest httpReq)
         {
             foreach (var rawHttpHandler in RawHttpHandlers)
@@ -323,6 +341,14 @@ namespace NServiceKit.WebHost.Endpoints
             return EndpointHost.Config.AllowFileExtensions.Contains(fileExt.Substring(1));
         }
 
+        /// <summary>Gets handler for path information.</summary>
+        ///
+        /// <param name="httpMethod"> The HTTP method.</param>
+        /// <param name="pathInfo">   Information describing the path.</param>
+        /// <param name="requestPath">Full pathname of the request file.</param>
+        /// <param name="filePath">   Full pathname of the file.</param>
+        ///
+        /// <returns>The handler for path information.</returns>
         public static IHttpHandler GetHandlerForPathInfo(string httpMethod, string pathInfo, string requestPath, string filePath)
         {
             var pathParts = pathInfo.TrimStart('/').Split('/');
@@ -395,6 +421,9 @@ namespace NServiceKit.WebHost.Endpoints
             return null;
         }
 
+        /// <summary>Enables a factory to reuse an existing handler instance.</summary>
+        ///
+        /// <param name="handler">The <see cref="T:System.Web.IHttpHandler" /> object to reuse.</param>
         public void ReleaseHandler(IHttpHandler handler)
         {
         }

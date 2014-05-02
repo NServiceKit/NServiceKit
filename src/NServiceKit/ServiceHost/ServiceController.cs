@@ -14,17 +14,48 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Service execute function.</summary>
+    ///
+    /// <param name="requestContext">Context for the request.</param>
+    /// <param name="request">       The request.</param>
+    ///
+    /// <returns>An object.</returns>
     public delegate object ServiceExecFn(IRequestContext requestContext, object request);
+
+    /// <summary>Instance execute function.</summary>
+    ///
+    /// <param name="requestContext">Context for the request.</param>
+    /// <param name="intance">       The intance.</param>
+    /// <param name="request">       The request.</param>
+    ///
+    /// <returns>An object.</returns>
     public delegate object InstanceExecFn(IRequestContext requestContext, object intance, object request);
+
+    /// <summary>Action invoker function.</summary>
+    ///
+    /// <param name="intance">The intance.</param>
+    /// <param name="request">The request.</param>
+    ///
+    /// <returns>An object.</returns>
     public delegate object ActionInvokerFn(object intance, object request);
+
+    /// <summary>Void action invoker function.</summary>
+    ///
+    /// <param name="intance">The intance.</param>
+    /// <param name="request">The request.</param>
     public delegate void VoidActionInvokerFn(object intance, object request);
 
+    /// <summary>A controller for handling services.</summary>
     public class ServiceController
         : IServiceController
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(ServiceController));
         private const string ResponseDtoSuffix = "Response";
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.ServiceController class.</summary>
+        ///
+        /// <param name="resolveServicesFn">The resolve services function.</param>
+        /// <param name="metadata">         The metadata.</param>
         public ServiceController(Func<IEnumerable<Type>> resolveServicesFn, ServiceMetadata metadata = null)
         {
             this.Metadata = metadata ?? new ServiceMetadata();
@@ -40,25 +71,49 @@ namespace NServiceKit.ServiceHost
         readonly Dictionary<Type, RestrictAttribute> requestServiceAttrs
 			= new Dictionary<Type, RestrictAttribute>();
 
+        /// <summary>Gets or sets a value indicating whether the access restrictions is enabled.</summary>
+        ///
+        /// <value>true if enable access restrictions, false if not.</value>
         public bool EnableAccessRestrictions { get; set; }
 
+        /// <summary>Gets the metadata.</summary>
+        ///
+        /// <value>The metadata.</value>
         public ServiceMetadata Metadata { get; internal set; }
 
+        /// <summary>Gets or sets the request type factory map.</summary>
+        ///
+        /// <value>The request type factory map.</value>
         public Dictionary<Type, Func<IHttpRequest, object>> RequestTypeFactoryMap { get; set; }
 
+        /// <summary>Gets or sets the default operations namespace.</summary>
+        ///
+        /// <value>The default operations namespace.</value>
         public string DefaultOperationsNamespace { get; set; }
 
+        /// <summary>Allow the registration of custom routes.</summary>
+        ///
+        /// <value>The routes.</value>
         public IServiceRoutes Routes { get { return Metadata.Routes; } }
 
         private IResolver resolver;
+
+        /// <summary>Gets or sets the resolver.</summary>
+        ///
+        /// <value>The resolver.</value>
         public IResolver Resolver
         {
             get { return resolver ?? EndpointHost.AppHost; }
             set { resolver = value; }
         }
 
+        /// <summary>Gets or sets the resolve services function.</summary>
+        ///
+        /// <value>The resolve services function.</value>
         public Func<IEnumerable<Type>> ResolveServicesFn { get; set; }
 
+
+        /// <summary>.</summary>
         [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
         public void Register<TReq>(Func<IService<TReq>> invoker)
         {
@@ -76,6 +131,9 @@ namespace NServiceKit.ServiceHost
             requestExecMap.Add(requestType, handlerFn);
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="serviceFactoryFn">The service factory function.</param>
         public void Register(ITypeFactory serviceFactoryFn)
         {
             foreach (var serviceType in ResolveServicesFn())
@@ -85,6 +143,10 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Registers the g service.</summary>
+        ///
+        /// <param name="serviceFactoryFn">The service factory function.</param>
+        /// <param name="serviceType">     Type of the service.</param>
         public void RegisterGService(ITypeFactory serviceFactoryFn, Type serviceType)
         {
             if (serviceType.IsAbstract || serviceType.ContainsGenericParameters) return;
@@ -107,6 +169,10 @@ namespace NServiceKit.ServiceHost
 #pragma warning restore 618
         }
 
+        /// <summary>Registers the n service.</summary>
+        ///
+        /// <param name="serviceFactoryFn">The service factory function.</param>
+        /// <param name="serviceType">     Type of the service.</param>
         public void RegisterNService(ITypeFactory serviceFactoryFn, Type serviceType)
         {
             var processedReqs = new HashSet<Type>();
@@ -134,6 +200,11 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Registers the common.</summary>
+        ///
+        /// <param name="serviceType"> Type of the service.</param>
+        /// <param name="requestType"> Type of the request.</param>
+        /// <param name="responseType">Type of the response.</param>
         public void RegisterCommon(Type serviceType, Type requestType, Type responseType)
         {
             RegisterRestPaths(requestType);
@@ -153,8 +224,14 @@ namespace NServiceKit.ServiceHost
                 (responseType != null ? "Reply" : "OneWay"), serviceType.Name, requestType.Name);
         }
 
+        /// <summary>The rest path map.</summary>
         public readonly Dictionary<string, List<RestPath>> RestPathMap = new Dictionary<string, List<RestPath>>();
 
+        /// <summary>Registers the rest paths described by requestType.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <param name="requestType">Type of the request.</param>
         public void RegisterRestPaths(Type requestType)
         {
             var attrs = TypeDescriptor.GetAttributes(requestType).OfType<RouteAttribute>();
@@ -191,6 +268,11 @@ namespace NServiceKit.ServiceHost
 
         private static readonly char[] InvalidRouteChars = new[] {'?', '&'};
 
+        /// <summary>Registers the rest path described by restPath.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="restPath">Full pathname of the rest file.</param>
         public void RegisterRestPath(RestPath restPath)
         {
             if (!EndpointHostConfig.SkipRouteValidation)
@@ -211,6 +293,7 @@ namespace NServiceKit.ServiceHost
             pathsAtFirstMatch.Add(restPath);
         }
 
+        /// <summary>After initialise.</summary>
         public void AfterInit()
         {
             //Register any routes configured on Metadata.Routes
@@ -226,6 +309,12 @@ namespace NServiceKit.ServiceHost
             Metadata.AfterInit();
         }
 
+        /// <summary>Returns the first matching RestPath.</summary>
+        ///
+        /// <param name="httpMethod">.</param>
+        /// <param name="pathInfo">  .</param>
+        ///
+        /// <returns>The rest path for request.</returns>
         public IRestPath GetRestPathForRequest(string httpMethod, string pathInfo)
         {
             var matchUsingPathParts = RestPath.GetPathPartsForMatching(pathInfo);
@@ -281,17 +370,29 @@ namespace NServiceKit.ServiceHost
         {
             private readonly Func<Type, object> typeCreator;
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.ServiceController.TypeFactoryWrapper class.</summary>
+            ///
+            /// <param name="typeCreator">The type creator.</param>
             public TypeFactoryWrapper(Func<Type, object> typeCreator)
             {
                 this.typeCreator = typeCreator;
             }
 
+            /// <summary>Creates an instance.</summary>
+            ///
+            /// <param name="type">The type.</param>
+            ///
+            /// <returns>The new instance.</returns>
             public object CreateInstance(Type type)
             {
                 return typeCreator(type);
             }
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="serviceType">Type of the service.</param>
         public void Register(Type requestType, Type serviceType)
         {
             var handlerFactoryFn = Expression.Lambda<Func<Type, object>>
@@ -303,11 +404,21 @@ namespace NServiceKit.ServiceHost
             RegisterGServiceExecutor(requestType, serviceType, new TypeFactoryWrapper(handlerFactoryFn));
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="requestType">     Type of the request.</param>
+        /// <param name="serviceType">     Type of the service.</param>
+        /// <param name="handlerFactoryFn">The handler factory function.</param>
         public void Register(Type requestType, Type serviceType, Func<Type, object> handlerFactoryFn)
         {
             RegisterGServiceExecutor(requestType, serviceType, new TypeFactoryWrapper(handlerFactoryFn));
         }
 
+        /// <summary>Registers the g service executor.</summary>
+        ///
+        /// <param name="requestType">     Type of the request.</param>
+        /// <param name="serviceType">     Type of the service.</param>
+        /// <param name="serviceFactoryFn">The service factory function.</param>
         public void RegisterGServiceExecutor(Type requestType, Type serviceType, ITypeFactory serviceFactoryFn)
         {
             var typeFactoryFn = CallServiceExecuteGeneric(requestType, serviceType);
@@ -328,6 +439,11 @@ namespace NServiceKit.ServiceHost
             AddToRequestExecMap(requestType, serviceType, handlerFn);
         }
 
+        /// <summary>Registers the n service executor.</summary>
+        ///
+        /// <param name="requestType">     Type of the request.</param>
+        /// <param name="serviceType">     Type of the service.</param>
+        /// <param name="serviceFactoryFn">The service factory function.</param>
         public void RegisterNServiceExecutor(Type requestType, Type serviceType, ITypeFactory serviceFactoryFn)
         {
             var serviceExecDef = typeof(NServiceRequestExec<,>).MakeGenericType(serviceType, requestType);
@@ -461,24 +577,45 @@ namespace NServiceKit.ServiceHost
             }
         }
 
-        //Execute MQ
+        /// <summary>Execute MQ.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="mqMessage">Message describing the mq.</param>
+        ///
+        /// <returns>An object.</returns>
         public object ExecuteMessage<T>(IMessage<T> mqMessage)
         {
             return Execute(mqMessage.Body, new MqRequestContext(this.Resolver, mqMessage));
         }
 
-        //Execute MQ with requestContext
+        /// <summary>Execute MQ with requestContext.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="dto">           The dto.</param>
+        /// <param name="requestContext">Context for the request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object ExecuteMessage<T>(IMessage<T> dto, IRequestContext requestContext)
         {
             return Execute(dto.Body, requestContext);
         }
 
+        /// <summary>Executes the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Execute(object request)
         {
             return Execute(request, null);
         }
 
-        //Execute HTTP
+        /// <summary>Execute HTTP.</summary>
+        ///
+        /// <param name="request">       .</param>
+        /// <param name="requestContext">.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Execute(object request, IRequestContext requestContext)
         {
             var requestType = request.GetType();
@@ -493,6 +630,13 @@ namespace NServiceKit.ServiceHost
             return handlerFn(requestContext, request);
         }
 
+        /// <summary>Gets a service.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="requestType">Type of the request.</param>
+        ///
+        /// <returns>The service.</returns>
         public ServiceExecFn GetService(Type requestType)
         {
             ServiceExecFn handlerFn;
@@ -504,6 +648,13 @@ namespace NServiceKit.ServiceHost
             return handlerFn;
         }
 
+        /// <summary>Executes the text operation.</summary>
+        ///
+        /// <param name="requestXml">    The request XML.</param>
+        /// <param name="requestType">   Type of the request.</param>
+        /// <param name="requestContext">Context for the request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object ExecuteText(string requestXml, Type requestType, IRequestContext requestContext)
         {
             var request = DataContractDeserializer.Instance.Parse(requestXml, requestType);
@@ -512,6 +663,12 @@ namespace NServiceKit.ServiceHost
             return responseXml;
         }
 
+        /// <summary>Assert service restrictions.</summary>
+        ///
+        /// <exception cref="UnauthorizedAccessException">Thrown when an Unauthorized Access error condition occurs.</exception>
+        ///
+        /// <param name="requestType">     Type of the request.</param>
+        /// <param name="actualAttributes">The actual attributes.</param>
         public void AssertServiceRestrictions(Type requestType, EndpointAttributes actualAttributes)
         {
             if (EndpointHost.Config != null && !EndpointHost.Config.EnableAccessRestrictions) return;

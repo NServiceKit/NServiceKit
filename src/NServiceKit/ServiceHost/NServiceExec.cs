@@ -8,11 +8,22 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>Interface for in service execute.</summary>
     public interface INServiceExec
     {
+        /// <summary>Executes.</summary>
+        ///
+        /// <param name="requestContext">Context for the request.</param>
+        /// <param name="instance">      The instance.</param>
+        /// <param name="request">       The request.</param>
+        ///
+        /// <returns>An object.</returns>
         object Execute(IRequestContext requestContext, object instance, object request);
     }
 
+    /// <summary>A service request execute.</summary>
+    /// <typeparam name="TService">Type of the service.</typeparam>
+    /// <typeparam name="TRequest">Type of the request.</typeparam>
     public class NServiceRequestExec<TService, TRequest> : INServiceExec
     {
         static NServiceRequestExec()
@@ -28,6 +39,13 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Executes.</summary>
+        ///
+        /// <param name="requestContext">Context for the request.</param>
+        /// <param name="instance">      The instance.</param>
+        /// <param name="request">       The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Execute(IRequestContext requestContext, object instance, object request)
         {
             return NServiceExec<TService>.Execute(requestContext, instance, request,
@@ -35,8 +53,14 @@ namespace NServiceKit.ServiceHost
         }
     }
 
+    /// <summary>A service execute extensions.</summary>
     public static class NServiceExecExtensions
     {
+        /// <summary>Gets the actions in this collection.</summary>
+        ///
+        /// <param name="serviceType">The serviceType to act on.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the actions in this collection.</returns>
         public static IEnumerable<MethodInfo> GetActions(this Type serviceType)
         {
             foreach (var mi in serviceType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
@@ -53,6 +77,8 @@ namespace NServiceKit.ServiceHost
         }
     }
 
+    /// <summary>A service execute.</summary>
+    /// <typeparam name="TService">Type of the service.</typeparam>
     public class NServiceExec<TService>
     {
         private static Dictionary<Type, List<ActionContext>> actionMap
@@ -114,6 +140,12 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Creates execute function.</summary>
+        ///
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="mi">         The mi.</param>
+        ///
+        /// <returns>The new execute function.</returns>
         public static ActionInvokerFn CreateExecFn(Type requestType, MethodInfo mi)
         {
             var serviceType = typeof(TService);
@@ -147,6 +179,11 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Gets actions for.</summary>
+        ///
+        /// <typeparam name="TRequest">Type of the request.</typeparam>
+        ///
+        /// <returns>The actions for.</returns>
         public static List<ActionContext> GetActionsFor<TRequest>()
         {
             List<ActionContext> requestActions;
@@ -155,6 +192,9 @@ namespace NServiceKit.ServiceHost
                    : new List<ActionContext>();
         }
 
+        /// <summary>Creates service runners for.</summary>
+        ///
+        /// <typeparam name="TRequest">Type of the request.</typeparam>
         public static void CreateServiceRunnersFor<TRequest>()
         {
             foreach (var actionCtx in GetActionsFor<TRequest>())
@@ -166,6 +206,16 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Executes.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="requestContext">Context for the request.</param>
+        /// <param name="instance">      The instance.</param>
+        /// <param name="request">       The request.</param>
+        /// <param name="requestName">   Name of the request.</param>
+        ///
+        /// <returns>An object.</returns>
         public static object Execute(IRequestContext requestContext,
                                      object instance, object request, string requestName)
         {

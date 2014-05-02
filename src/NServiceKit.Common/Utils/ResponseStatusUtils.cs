@@ -5,6 +5,7 @@ using NServiceKit.Validation;
 
 namespace NServiceKit.Common.Utils
 {
+    /// <summary>A response status utilities.</summary>
     public static class ResponseStatusUtils
     {
         /// <summary>

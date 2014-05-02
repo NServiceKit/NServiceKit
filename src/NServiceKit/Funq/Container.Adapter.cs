@@ -9,6 +9,7 @@ using NServiceKit.Text;
 
 namespace Funq
 {
+    /// <content>A container.</content>
 	public partial class Container
 	{
         /// <summary>

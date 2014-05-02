@@ -21,12 +21,18 @@ namespace MarkdownDeep
 {
 	class FootnoteReference
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.FootnoteReference class.</summary>
+        ///
+        /// <param name="index">Zero-based index of the.</param>
+        /// <param name="id">   The identifier.</param>
 		public FootnoteReference(int index, string id)
 		{
 			this.index = index;
 			this.id = id;
 		}
+        /// <summary>Zero-based index of the.</summary>
 		public int index;
+        /// <summary>The identifier.</summary>
 		public string id;
 	}
 }

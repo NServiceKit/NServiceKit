@@ -7,27 +7,46 @@ using NServiceKit.Configuration;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A HTTP request context.</summary>
 	public class HttpRequestContext
 		: IRequestContext
 	{
 		private readonly IHttpRequest httpReq;
 		private readonly IHttpResponse httpRes;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="dto">The dto.</param>
 		public HttpRequestContext(object dto)
 			: this(dto, null)
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="dto">               The dto.</param>
+        /// <param name="endpointAttributes">The endpoint attributes.</param>
 		public HttpRequestContext(object dto, EndpointAttributes endpointAttributes)
 			: this(dto, endpointAttributes, null)
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        /// <param name="dto">    The dto.</param>
 		public HttpRequestContext(IHttpRequest httpReq, IHttpResponse httpRes, object dto)
 			: this(httpReq, httpRes, dto, EndpointAttributes.None)
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="httpReq">           The HTTP request.</param>
+        /// <param name="httpRes">           The HTTP resource.</param>
+        /// <param name="dto">               The dto.</param>
+        /// <param name="endpointAttributes">The endpoint attributes.</param>
 		public HttpRequestContext(IHttpRequest httpReq, IHttpResponse httpRes, object dto, EndpointAttributes endpointAttributes)
 			: this(dto, endpointAttributes, null)
 		{
@@ -43,11 +62,20 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="requestDto">The request dto.</param>
+        /// <param name="factory">   The factory.</param>
 		public HttpRequestContext(object requestDto, IFactoryProvider factory)
 			: this(requestDto, EndpointAttributes.None, factory)
 		{
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
+        ///
+        /// <param name="dto">               The dto.</param>
+        /// <param name="endpointAttributes">The endpoint attributes.</param>
+        /// <param name="factory">           The factory.</param>
 		public HttpRequestContext(object dto, EndpointAttributes endpointAttributes, IFactoryProvider factory)
 		{
 			this.Dto = dto;
@@ -57,31 +85,58 @@ namespace NServiceKit.ServiceHost
 			this.Files = new IFile[0];
 		}
 
+        /// <summary>Gets or sets a value indicating whether the automatic dispose.</summary>
+        ///
+        /// <value>true if automatic dispose, false if not.</value>
 		public bool AutoDispose { get; set; }
 
+        /// <summary>Gets or sets the dto.</summary>
+        ///
+        /// <value>The dto.</value>
 		public object Dto { get; set; }
 
+        /// <summary>Gets the cookies.</summary>
+        ///
+        /// <value>The cookies.</value>
 		public IDictionary<string, System.Net.Cookie> Cookies
 		{
 			get { return this.httpReq.Cookies; }
 		}
 
+        /// <summary>Gets the endpoint attributes.</summary>
+        ///
+        /// <value>The endpoint attributes.</value>
 		public EndpointAttributes EndpointAttributes { get; private set; }
 
+        /// <summary>Gets the request attributes.</summary>
+        ///
+        /// <value>The request attributes.</value>
 		public IRequestAttributes RequestAttributes { get; private set; }
-		
+
+        /// <summary>Gets the type of the content.</summary>
+        ///
+        /// <value>The type of the content.</value>
 		public string ContentType
 		{
 			get { return this.httpReq.ContentType; }
 		}
 
 	    private string responseContentType;
+
+        /// <summary>Gets or sets the type of the response content.</summary>
+        ///
+        /// <value>The type of the response content.</value>
 		public string ResponseContentType
 		{
             get { return responseContentType ?? this.httpReq.ResponseContentType; }
             set { responseContentType = value; }
 		}
 
+        /// <summary>Gets the get.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        ///
+        /// <returns>A T.</returns>
 		public T Get<T>() where T : class
 		{
 			if (typeof(T) == typeof(IHttpRequest))
@@ -93,13 +148,24 @@ namespace NServiceKit.ServiceHost
 			return isDto ?? (this.Factory != null ? this.Factory.Resolve<T>() : null);
 		}
 
+        /// <summary>Gets a header.</summary>
+        ///
+        /// <param name="headerName">Name of the header.</param>
+        ///
+        /// <returns>The header.</returns>
 		public string GetHeader(string headerName)
 		{
 			return this.httpReq.Headers.Get(headerName);
 		}
 
+        /// <summary>Gets or sets the factory.</summary>
+        ///
+        /// <value>The factory.</value>
 		public IFactoryProvider Factory { get; set; }
 
+        /// <summary>Gets the type of the mime.</summary>
+        ///
+        /// <value>The type of the mime.</value>
 		public string MimeType
 		{
 			get
@@ -123,6 +189,9 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets the type of the compression.</summary>
+        ///
+        /// <value>The type of the compression.</value>
 		public string CompressionType
 		{
 			get
@@ -137,6 +206,9 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets URI of the absolute.</summary>
+        ///
+        /// <value>The absolute URI.</value>
 		public string AbsoluteUri
 		{
 			get
@@ -145,14 +217,24 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets information describing the path.</summary>
+        ///
+        /// <value>Information describing the path.</value>
 		public string PathInfo
 		{
 			get { return this.httpReq != null ? this.httpReq.PathInfo : null; }
 		}
 
+        /// <summary>Gets or sets the files.</summary>
+        ///
+        /// <value>The files.</value>
 		public IFile[] Files { get; set; }
 
 		private string ipAddress;
+
+        /// <summary>Gets the IP address.</summary>
+        ///
+        /// <value>The IP address.</value>
 		public string IpAddress
 		{
 			get
@@ -165,6 +247,9 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets IP address.</summary>
+        ///
+        /// <returns>The IP address.</returns>
 		public static string GetIpAddress()
 		{
 			return HttpContext.Current != null
@@ -172,6 +257,7 @@ namespace NServiceKit.ServiceHost
 				: null;
 		}
 
+        /// <summary>Finalizes an instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
 		~HttpRequestContext()
 		{
 			if (this.AutoDispose)
@@ -180,11 +266,15 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Releases the unmanaged resources used by the NServiceKit.ServiceHost.HttpRequestContext and optionally releases the managed resources.</summary>
 		public void Dispose()
 		{
 			Dispose(true);
 		}
 
+        /// <summary>Releases the unmanaged resources used by the NServiceKit.ServiceHost.HttpRequestContext and optionally releases the managed resources.</summary>
+        ///
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
 		public virtual void Dispose(bool disposing)
 		{
 			if (disposing)

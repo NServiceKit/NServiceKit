@@ -20,16 +20,33 @@ namespace NServiceKit.FluentValidation
 {
     using System;
 
+    /// <summary>A validator factory base.</summary>
     public abstract class ValidatorFactoryBase : IValidatorFactory {
+
+        /// <summary>Gets the validator for the specified type.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        ///
+        /// <returns>The validator.</returns>
         public IValidator<T> GetValidator<T>() {
             return (IValidator<T>)GetValidator(typeof(T));
         }
 
+        /// <summary>Gets the validator for the specified type.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The validator.</returns>
         public IValidator GetValidator(Type type) {
             var genericType = typeof(IValidator<>).MakeGenericType(type);
             return CreateInstance(genericType);
         }
 
+        /// <summary>Creates an instance.</summary>
+        ///
+        /// <param name="validatorType">Type of the validator.</param>
+        ///
+        /// <returns>The new instance.</returns>
         public abstract IValidator CreateInstance(Type validatorType);
     }
 }

@@ -1,5 +1,6 @@
 namespace NServiceKit.Configuration
 {
+    /// <summary>Interface for settings.</summary>
     public interface ISettings
     {
         /// <summary>

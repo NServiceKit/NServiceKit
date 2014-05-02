@@ -17,8 +17,10 @@ namespace NServiceKit.Common.Utils
     [DataContract(Namespace = "http://schemas.NServiceKit.net/types")]
     public class CustomHttpResult { }
 
+    /// <summary>A reflection utilities.</summary>
     public class ReflectionUtils
     {
+        /// <summary>The log.</summary>
         public static readonly ILog Log = LogManager.GetLogger(typeof(ReflectionUtils));
 
         /// <summary>
@@ -75,6 +77,11 @@ namespace NServiceKit.Common.Utils
         private static readonly Dictionary<Type, object> DefaultValueTypes 
             = new Dictionary<Type, object>();
 
+        /// <summary>Gets default value.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The default value.</returns>
         public static object GetDefaultValue(Type type)
         {
             if (!type.IsValueType()) return null;
@@ -95,6 +102,12 @@ namespace NServiceKit.Common.Utils
         private static readonly ConcurrentDictionary<string, AssignmentDefinition> AssignmentDefinitionCache 
             = new ConcurrentDictionary<string, AssignmentDefinition>();
 
+        /// <summary>Gets assignment definition.</summary>
+        ///
+        /// <param name="toType">  Type of to.</param>
+        /// <param name="fromType">Type of from.</param>
+        ///
+        /// <returns>The assignment definition.</returns>
         public static AssignmentDefinition GetAssignmentDefinition(Type toType, Type fromType)
         {
             var cacheKey = toType.FullName + "<" + fromType.FullName;
@@ -193,6 +206,14 @@ namespace NServiceKit.Common.Utils
             return map;
         }
 
+        /// <summary>Populate object.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">  to.</param>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateObject<To, From>(To to, From from)
         {
             if (Equals(to, default(To)) || Equals(from, default(From))) return default(To);
@@ -204,6 +225,14 @@ namespace NServiceKit.Common.Utils
             return to;
         }
 
+        /// <summary>Populate with non default values.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">  to.</param>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateWithNonDefaultValues<To, From>(To to, From from)
         {
             if (Equals(to, default(To)) || Equals(from, default(From))) return default(To);
@@ -215,6 +244,15 @@ namespace NServiceKit.Common.Utils
             return to;
         }
 
+        /// <summary>Populate from properties with attribute.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">           to.</param>
+        /// <param name="from">         Source for the.</param>
+        /// <param name="attributeType">Type of the attribute.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateFromPropertiesWithAttribute<To, From>(To to, From from,
             Type attributeType)
         {
@@ -227,6 +265,11 @@ namespace NServiceKit.Common.Utils
             return to;
         }
 
+        /// <summary>Sets a property.</summary>
+        ///
+        /// <param name="obj">         .</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <param name="value">       The value.</param>
         public static void SetProperty(object obj, PropertyInfo propertyInfo, object value)
         {
             if (!propertyInfo.CanWrite)
@@ -242,6 +285,12 @@ namespace NServiceKit.Common.Utils
             }
         }
 
+        /// <summary>Gets a property.</summary>
+        ///
+        /// <param name="obj">         .</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        ///
+        /// <returns>The property.</returns>
         public static object GetProperty(object obj, PropertyInfo propertyInfo)
         {
             if (propertyInfo == null || !propertyInfo.CanRead)
@@ -251,6 +300,12 @@ namespace NServiceKit.Common.Utils
             return getMethod != null ? getMethod.Invoke(obj, new object[0]) : null;
         }
 
+        /// <summary>Sets a value.</summary>
+        ///
+        /// <param name="fieldInfo">   Information describing the field.</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        /// <param name="obj">         .</param>
+        /// <param name="value">       The value.</param>
         public static void SetValue(FieldInfo fieldInfo, PropertyInfo propertyInfo, object obj, object value)
         {
             try
@@ -272,6 +327,12 @@ namespace NServiceKit.Common.Utils
             }
         }
 
+        /// <summary>Query if 'fieldInfo' is unsettable value.</summary>
+        ///
+        /// <param name="fieldInfo">   Information describing the field.</param>
+        /// <param name="propertyInfo">Information describing the property.</param>
+        ///
+        /// <returns>true if unsettable value, false if not.</returns>
         public static bool IsUnsettableValue(FieldInfo fieldInfo, PropertyInfo propertyInfo)
         {
 #if NETFX_CORE
@@ -303,6 +364,12 @@ namespace NServiceKit.Common.Utils
             return false;
         }
 
+        /// <summary>Creates default values.</summary>
+        ///
+        /// <param name="types">        The types.</param>
+        /// <param name="recursionInfo">Tracks how deeply nested we are.</param>
+        ///
+        /// <returns>A new array of object.</returns>
         public static object[] CreateDefaultValues(IEnumerable<Type> types, Dictionary<Type, int> recursionInfo)
         {
             var values = new List<object>();
@@ -315,6 +382,12 @@ namespace NServiceKit.Common.Utils
 
         private const int MaxRecursionLevelForDefaultValues = 2; // do not nest a single type more than this deep.
 
+        /// <summary>Creates default value.</summary>
+        ///
+        /// <param name="type">         The type.</param>
+        /// <param name="recursionInfo">Tracks how deeply nested we are.</param>
+        ///
+        /// <returns>The new default value.</returns>
         public static object CreateDefaultValue(Type type, Dictionary<Type, int> recursionInfo)
         {
             if (type == typeof(string))
@@ -404,6 +477,11 @@ namespace NServiceKit.Common.Utils
             return genericCollectionType;
         }
 
+        /// <summary>Sets generic collection.</summary>
+        ///
+        /// <param name="realisedListType">Type of the realised list.</param>
+        /// <param name="genericObj">      The generic object.</param>
+        /// <param name="recursionInfo">   Tracks how deeply nested we are.</param>
         public static void SetGenericCollection(Type realisedListType, object genericObj, Dictionary<Type, int> recursionInfo)
         {
             var args = realisedListType.GenericTypeArguments();
@@ -423,6 +501,12 @@ namespace NServiceKit.Common.Utils
             }
         }
 
+        /// <summary>Populate array.</summary>
+        ///
+        /// <param name="type">         The type.</param>
+        /// <param name="recursionInfo">Tracks how deeply nested we are.</param>
+        ///
+        /// <returns>An Array.</returns>
         public static Array PopulateArray(Type type, Dictionary<Type, int> recursionInfo)
         {
             var elementType = type.GetElementType();
@@ -433,7 +517,12 @@ namespace NServiceKit.Common.Utils
             return objArray;
         }
 
-        //TODO: replace with InAssignableFrom
+        /// <summary>TODO: replace with InAssignableFrom.</summary>
+        ///
+        /// <param name="toType">  Type of to.</param>
+        /// <param name="fromType">Type of from.</param>
+        ///
+        /// <returns>true if we can cast, false if not.</returns>
         public static bool CanCast(Type toType, Type fromType)
         {
             if (toType.IsInterface())
@@ -457,6 +546,12 @@ namespace NServiceKit.Common.Utils
             return false;
         }
 
+        /// <summary>Gets the property attributes in this collection.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="fromType">Type of from.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the property attributes in this collection.</returns>
         public static IEnumerable<KeyValuePair<PropertyInfo, T>> GetPropertyAttributes<T>(Type fromType) where T : Attribute
         {
             var attributeType = typeof(T);

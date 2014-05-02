@@ -3,17 +3,25 @@ using System.IO;
 
 namespace NServiceKit.Razor.Compilation.CodeTransformers
 {
+    /// <summary>A mvc web configuration transformer.</summary>
     public class MvcWebConfigTransformer : AggregateCodeTransformer
     {
         private const string DefaultBaseType = "System.Web.Mvc.WebViewPage";
         private const string RazorWebPagesSectionName = "system.web.webPages.razor/pages";
         private readonly List<RazorCodeTransformerBase> _transformers = new List<RazorCodeTransformerBase>();
 
+        /// <summary>Gets the code transformers.</summary>
+        ///
+        /// <value>The code transformers.</value>
         protected override IEnumerable<RazorCodeTransformerBase> CodeTransformers
         {
             get { return _transformers; }
         }
 
+        /// <summary>Initializes this object.</summary>
+        ///
+        /// <param name="razorHost"> The razor host.</param>
+        /// <param name="directives">The directives.</param>
         public override void Initialize(RazorPageHost razorHost, IDictionary<string, string> directives)
         {
             //string projectPath = GetProjectRoot(razorHost.ProjectRelativePath, razorHost.FullPath).TrimEnd(Path.DirectorySeparatorChar);

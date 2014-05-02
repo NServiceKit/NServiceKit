@@ -11,11 +11,16 @@ using NServiceKit.WebHost.Endpoints.Tests.Support;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A HTTP result tests.</summary>
 	[TestFixture]
 	public class HttpResultTests : TestBase
 	{
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container) { }
 
+        /// <summary>Can send response text test with custom header.</summary>
 		[Test]
 		public void Can_send_ResponseText_test_with_Custom_Header()
 		{
@@ -39,6 +44,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(mockResponse.Headers["X-Custom"], Is.EqualTo("Header"));
 		}
 
+        /// <summary>Can send response stream test with custom header.</summary>
 		[Test]
 		public void Can_send_ResponseStream_test_with_Custom_Header()
 		{
@@ -66,6 +72,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(mockResponse.Headers["X-Custom"], Is.EqualTo("Header"));
 		}
 
+        /// <summary>Can send response text test with status description.</summary>
 		[Test]
 		public void Can_send_ResponseText_test_with_StatusDescription()
 		{
@@ -88,6 +95,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(statusDesc, Is.EqualTo(customStatus));
 		}
 
+        /// <summary>Can handle null HTTP result status description.</summary>
 		[Test]
 		public void Can_handle_null_HttpResult_StatusDescription()
 		{

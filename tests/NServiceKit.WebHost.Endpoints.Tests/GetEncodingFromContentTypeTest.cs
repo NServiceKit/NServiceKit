@@ -7,10 +7,12 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.TestExistingDir
 {
+    /// <summary>A get encoding from content type test.</summary>
     [TestFixture]
     public class GetEncodingFromContentTypeTest
     {
 
+        /// <summary>Can get correct encoding.</summary>
         [Test]
         public void Can_Get_Correct_Encoding()
         {
@@ -22,6 +24,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.TestExistingDir
 
         }
 
+        /// <summary>Returns null when no encoding.</summary>
         [Test]
         public void Return_Null_When_No_Encoding()
         {
@@ -33,6 +36,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.TestExistingDir
 
         }
 
+        /// <summary>Returns null when wrong encoding.</summary>
         [Test]
         public void Return_Null_When_Wrong_Encoding()
         {

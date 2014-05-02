@@ -6,6 +6,9 @@ namespace Funq
 {
 	internal sealed class ServiceEntry<TService, TFunc> : ServiceEntry, IRegistration<TService>
 	{
+        /// <summary>Initializes a new instance of the Funq.ServiceEntry&lt;TService, TFunc&gt; class.</summary>
+        ///
+        /// <param name="factory">The Func delegate that creates instances of the service.</param>
 		public ServiceEntry(TFunc factory)
 		{
 			this.Factory = factory;
@@ -69,8 +72,11 @@ namespace Funq
 				Initializer(Container, instance);
 		}
 
-
-
+        /// <summary>Initialized by.</summary>
+        ///
+        /// <param name="initializer">The Func delegate that initializes the object after creation.</param>
+        ///
+        /// <returns>An IReusedOwned.</returns>
 		public IReusedOwned InitializedBy(Action<Container, TService> initializer)
 		{
 			this.Initializer = initializer;
@@ -92,6 +98,9 @@ namespace Funq
 			};
 		}
 
+        /// <summary>Aquire lock if needed.</summary>
+        ///
+        /// <returns>An IDisposable.</returns>
 	    public IDisposable AquireLockIfNeeded()
 	    {
             if (Reuse == ReuseScope.None || Reuse == ReuseScope.Request || Instance != null)
@@ -104,11 +113,15 @@ namespace Funq
 	    {
 	        private readonly object syncRoot;
 
+            /// <summary>Initializes a new instance of the Funq.ServiceEntry&lt;TService, TFunc&gt;.AquiredLock class.</summary>
+            ///
+            /// <param name="syncRoot">The synchronise root.</param>
 	        public AquiredLock(object syncRoot)
 	        {
                 Monitor.Enter(this.syncRoot = syncRoot);
 	        }
 
+            /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 	        public void Dispose()
 	        {
 	            Monitor.Exit(syncRoot);

@@ -15,6 +15,14 @@ namespace NServiceKit.Common.Extensions
     /// </summary>
     public static class IPAddressExtensions
     {
+        /// <summary>The IPAddress extension method that gets broadcast address.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="address">   The address.</param>
+        /// <param name="subnetMask">The subnet mask.</param>
+        ///
+        /// <returns>The broadcast address.</returns>
         public static IPAddress GetBroadcastAddress(this IPAddress address, IPAddress subnetMask)
         {
             var ipAdressBytes = address.GetAddressBytes();
@@ -30,7 +38,13 @@ namespace NServiceKit.Common.Extensions
             }
             return new IPAddress(broadcastAddress);
         }
-        
+
+        /// <summary>The IPAddress extension method that gets network address.</summary>
+        ///
+        /// <param name="address">   The address.</param>
+        /// <param name="subnetMask">The subnet mask.</param>
+        ///
+        /// <returns>The network address.</returns>
         public static IPAddress GetNetworkAddress(this IPAddress address, IPAddress subnetMask)
         {
             var ipAdressBytes = address.GetAddressBytes();
@@ -39,6 +53,14 @@ namespace NServiceKit.Common.Extensions
             return new IPAddress(GetNetworkAddressBytes(ipAdressBytes, subnetMaskBytes));
         }
 
+        /// <summary>Gets network address bytes.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="ipAdressBytes">  The IP adress in bytes.</param>
+        /// <param name="subnetMaskBytes">The subnet mask in bytes.</param>
+        ///
+        /// <returns>An array of byte.</returns>
         public static byte[] GetNetworkAddressBytes(byte[] ipAdressBytes, byte[] subnetMaskBytes) 
         {
             if (ipAdressBytes.Length != subnetMaskBytes.Length)
@@ -52,6 +74,14 @@ namespace NServiceKit.Common.Extensions
             return broadcastAddress;
         }
 
+        /// <summary>A byte[] extension method that query if 'address1Bytes' is in same IPv 6 subnet.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="address2">The address2 to act on.</param>
+        /// <param name="address"> The address.</param>
+        ///
+        /// <returns>true if in same IPv 6 subnet, false if not.</returns>
         public static bool IsInSameIpv6Subnet(this IPAddress address2, IPAddress address)
         {
             if (address2.AddressFamily != AddressFamily.InterNetworkV6 || address.AddressFamily != AddressFamily.InterNetworkV6)
@@ -64,6 +94,14 @@ namespace NServiceKit.Common.Extensions
             return IsInSameIpv6Subnet(address1Bytes, address2Bytes);
         }
 
+        /// <summary>A byte[] extension method that query if 'address1Bytes' is in same IPv 6 subnet.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="address1Bytes">The address1Bytes to act on.</param>
+        /// <param name="address2Bytes">The address 2 in bytes.</param>
+        ///
+        /// <returns>true if in same IPv 6 subnet, false if not.</returns>
         public static bool IsInSameIpv6Subnet(this byte[] address1Bytes, byte[] address2Bytes) 
         {
             if (address1Bytes.Length != address2Bytes.Length)
@@ -80,6 +118,15 @@ namespace NServiceKit.Common.Extensions
             return true;
         }
 
+        /// <summary>A byte[] extension method that query if 'address1Bytes' is in same IPv 4 subnet.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="address2">  The address2 to act on.</param>
+        /// <param name="address">   The address.</param>
+        /// <param name="subnetMask">The subnet mask.</param>
+        ///
+        /// <returns>true if in same IPv 4 subnet, false if not.</returns>
         public static bool IsInSameIpv4Subnet(this IPAddress address2, IPAddress address, IPAddress subnetMask)
         {
             if (address2.AddressFamily != AddressFamily.InterNetwork || address.AddressFamily != AddressFamily.InterNetwork)
@@ -92,6 +139,15 @@ namespace NServiceKit.Common.Extensions
             return network1.Equals(network2);
         }
 
+        /// <summary>A byte[] extension method that query if 'address1Bytes' is in same IPv 4 subnet.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="address1Bytes">  The address1Bytes to act on.</param>
+        /// <param name="address2Bytes">  The address 2 in bytes.</param>
+        /// <param name="subnetMaskBytes">The subnet mask in bytes.</param>
+        ///
+        /// <returns>true if in same IPv 4 subnet, false if not.</returns>
         public static bool IsInSameIpv4Subnet(this byte[] address1Bytes, byte[] address2Bytes, byte[] subnetMaskBytes)
         {
             if (address1Bytes.Length != address2Bytes.Length)

@@ -12,6 +12,7 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>The rests test base.</summary>
 	public class RestsTestBase
 		: TestBase
 	{
@@ -19,14 +20,24 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 
 		readonly EndpointHostConfig defaultConfig = new EndpointHostConfig();
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Tests.RestsTestBase class.</summary>
 		public RestsTestBase()
 			: base(Config.NServiceKitBaseUri, typeof(HelloService).Assembly)
 			//: base("http://localhost:4000", typeof(HelloService).Assembly) //Uncomment to test on dev web server
 		{
 		}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container) { }
 
+        /// <summary>Gets web response.</summary>
+        ///
+        /// <param name="uri">               URI of the document.</param>
+        /// <param name="acceptContentTypes">List of types of the accept contents.</param>
+        ///
+        /// <returns>The web response.</returns>
 		public HttpWebResponse GetWebResponse(string uri, string acceptContentTypes)
 		{
 			var webRequest = (HttpWebRequest)WebRequest.Create(uri);
@@ -34,6 +45,14 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			return (HttpWebResponse)webRequest.GetResponse();
 		}
 
+        /// <summary>Gets web response.</summary>
+        ///
+        /// <param name="httpMethod">   The HTTP method.</param>
+        /// <param name="uri">          URI of the document.</param>
+        /// <param name="contentType">  Type of the content.</param>
+        /// <param name="contentLength">Length of the content.</param>
+        ///
+        /// <returns>The web response.</returns>
 		public static HttpWebResponse GetWebResponse(string httpMethod, string uri, string contentType, int contentLength)
 		{
 			var webRequest = (HttpWebRequest)WebRequest.Create(uri);
@@ -44,6 +63,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			return (HttpWebResponse)webRequest.GetResponse();
 		}
 
+        /// <summary>Gets the contents.</summary>
+        ///
+        /// <param name="webResponse">The web response.</param>
+        ///
+        /// <returns>The contents.</returns>
 		public static string GetContents(WebResponse webResponse)
 		{
 			using (var stream = webResponse.GetResponseStream())
@@ -53,6 +77,12 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Deserialize contents.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">The web response.</param>
+        ///
+        /// <returns>A T.</returns>
 		public T DeserializeContents<T>(WebResponse webResponse)
 		{
 			var contentType = webResponse.ContentType ?? defaultConfig.DefaultContentType;
@@ -95,6 +125,10 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Assert response.</summary>
+        ///
+        /// <param name="response">   The response.</param>
+        /// <param name="contentType">Type of the content.</param>
 		public void AssertResponse(HttpWebResponse response, string contentType)
 		{
 			var statusCode = (int)response.StatusCode;
@@ -102,6 +136,12 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.ContentType.StartsWith(contentType));
 		}
 
+        /// <summary>Assert error response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">     The web response.</param>
+        /// <param name="statusCode">      The status code.</param>
+        /// <param name="responseStatusFn">The response status function.</param>
 		public void AssertErrorResponse<T>(HttpWebResponse webResponse, HttpStatusCode statusCode, Func<T, ResponseStatus> responseStatusFn)
 		{
 			Assert.That(webResponse.StatusCode, Is.EqualTo(statusCode));
@@ -109,6 +149,13 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(responseStatusFn(response).ErrorCode, Is.Not.Null);
 		}
 
+        /// <summary>Assert error response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">     The web response.</param>
+        /// <param name="statusCode">      The status code.</param>
+        /// <param name="responseStatusFn">The response status function.</param>
+        /// <param name="errorCode">       The error code.</param>
 		public void AssertErrorResponse<T>(HttpWebResponse webResponse, HttpStatusCode statusCode, Func<T, ResponseStatus> responseStatusFn, string errorCode)
 		{
 			Assert.That(webResponse.StatusCode, Is.EqualTo(statusCode));
@@ -116,6 +163,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(responseStatusFn(response).ErrorCode, Is.EqualTo(errorCode));
 		}
 
+        /// <summary>Assert error response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">The web response.</param>
+        /// <param name="statusCode"> The status code.</param>
 		public void AssertErrorResponse<T>(HttpWebResponse webResponse, HttpStatusCode statusCode)
 			where T : IHasResponseStatus
 		{
@@ -124,6 +176,12 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.ResponseStatus.ErrorCode, Is.Not.Null);
 		}
 
+        /// <summary>Assert error response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="webResponse">The web response.</param>
+        /// <param name="statusCode"> The status code.</param>
+        /// <param name="errorCode">  The error code.</param>
 		public void AssertErrorResponse<T>(HttpWebResponse webResponse, HttpStatusCode statusCode, string errorCode)
 			where T : IHasResponseStatus
 		{
@@ -132,6 +190,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			Assert.That(response.ResponseStatus.ErrorCode, Is.EqualTo(errorCode));
 		}
 
+        /// <summary>Assert response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="response">    The response.</param>
+        /// <param name="customAssert">The custom assert.</param>
 		public void AssertResponse<T>(HttpWebResponse response, Action<T> customAssert)
 		{
 			var contentType = response.ContentType ?? defaultConfig.DefaultContentType;
@@ -143,6 +206,12 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			customAssert(result);
 		}
 
+        /// <summary>Assert response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="response">    The response.</param>
+        /// <param name="contentType"> Type of the content.</param>
+        /// <param name="customAssert">The custom assert.</param>
 		public void AssertResponse<T>(HttpWebResponse response, string contentType, Action<T> customAssert)
 		{
 			contentType = contentType ?? defaultConfig.DefaultContentType;

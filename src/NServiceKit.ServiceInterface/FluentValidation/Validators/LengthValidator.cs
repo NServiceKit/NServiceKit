@@ -23,13 +23,33 @@ namespace NServiceKit.FluentValidation.Validators
     using Attributes;
     using Resources;
 
+    /// <summary>A length validator.</summary>
     public class LengthValidator : PropertyValidator, ILengthValidator {
+
+        /// <summary>Gets the minimum.</summary>
+        ///
+        /// <value>The minimum value.</value>
         public int Min { get; private set; }
+
+        /// <summary>Gets the maximum.</summary>
+        ///
+        /// <value>The maximum value.</value>
         public int Max { get; private set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.LengthValidator class.</summary>
+        ///
+        /// <param name="min">The minimum.</param>
+        /// <param name="max">The maximum.</param>
         public LengthValidator(int min, int max) : this(min, max, () => Messages.length_error) {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.LengthValidator class.</summary>
+        ///
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        ///
+        /// <param name="min">                         The minimum.</param>
+        /// <param name="max">                         The maximum.</param>
+        /// <param name="errorMessageResourceSelector">The error message resource selector.</param>
         public LengthValidator(int min, int max, Expression<Func<string>> errorMessageResourceSelector) : base(errorMessageResourceSelector, ValidationErrors.Length) {
             Max = max;
             Min = min;
@@ -40,6 +60,11 @@ namespace NServiceKit.FluentValidation.Validators
 
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             int length = context.PropertyValue == null ? 0 : context.PropertyValue.ToString().Length;
 
@@ -56,14 +81,28 @@ namespace NServiceKit.FluentValidation.Validators
         }
     }
 
+    /// <summary>An exact length validator.</summary>
     public class ExactLengthValidator : LengthValidator {
+
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.ExactLengthValidator class.</summary>
+        ///
+        /// <param name="length">The length.</param>
         public ExactLengthValidator(int length) : base(length,length, () => Messages.exact_length_error) {
             
         }
     }
 
+    /// <summary>Interface for length validator.</summary>
     public interface ILengthValidator : IPropertyValidator {
+
+        /// <summary>Gets the minimum.</summary>
+        ///
+        /// <value>The minimum value.</value>
         int Min { get; }
+
+        /// <summary>Gets the maximum.</summary>
+        ///
+        /// <value>The maximum value.</value>
         int Max { get; }
     }
 }

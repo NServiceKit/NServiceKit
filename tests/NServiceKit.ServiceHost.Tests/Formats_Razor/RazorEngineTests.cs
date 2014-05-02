@@ -9,16 +9,26 @@ using NServiceKit.VirtualPath;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>A razor engine tests.</summary>
     [TestFixture]
     public class RazorEngineTests
     {
         const string LayoutHtml = "<html><body><div>@RenderSection(\"Title\")</div>@RenderBody()</body></html>";
 
+        /// <summary>The razor format.</summary>
         protected RazorFormat RazorFormat;
 
+        /// <summary>Gets a value indicating whether the precompile is enabled.</summary>
+        ///
+        /// <value>true if precompile enabled, false if not.</value>
         public virtual bool PrecompileEnabled { get { return false; } }
+
+        /// <summary>Gets a value indicating whether the wait for precompile is enabled.</summary>
+        ///
+        /// <value>true if wait for precompile enabled, false if not.</value>
         public virtual bool WaitForPrecompileEnabled { get { return false; } }
 
+        /// <summary>Executes the before each test action.</summary>
         [SetUp]
         public void OnBeforeEachTest()
         {
@@ -38,10 +48,14 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             }.Init();
         }
 
+        /// <summary>Initializes the file system.</summary>
+        ///
+        /// <param name="fileSystem">The file system.</param>
         protected virtual void InitializeFileSystem(InMemoryVirtualPathProvider fileSystem)
         {
         }
 
+        /// <summary>Can compile simple template.</summary>
         [Test]
         public void Can_compile_simple_template()
         {
@@ -51,6 +65,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(result, Is.EqualTo("This is my sample template, Hello World!"));
         }
 
+        /// <summary>Can compile simple template by name.</summary>
         [Test]
         public void Can_compile_simple_template_by_name()
         {
@@ -61,6 +76,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(result, Is.EqualTo("This is my sample template, Hello World!"));
         }
 
+        /// <summary>Can compile simple template by name with layout.</summary>
         [Test]
         public void Can_compile_simple_template_by_name_with_layout()
         {
@@ -74,6 +90,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(result2, Is.EqualTo("This is my sample template, Hello World2!"));
         }
 
+        /// <summary>Can get executed template by name with layout.</summary>
         [Test]
         public void Can_get_executed_template_by_name_with_layout()
         {
@@ -85,6 +102,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(result, Is.EqualTo("<html><body><div></div>This is my sample template, Hello World!</body></html>"));
         }
 
+        /// <summary>Can get executed template by name with section.</summary>
         [Test]
         public void Can_get_executed_template_by_name_with_section()
         {
@@ -104,6 +122,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(titleResult, Is.EqualTo("<h1>Hello World!</h1>"));
         }
 
+        /// <summary>Can compile template with render body.</summary>
         [Test]
         public void Can_compile_template_with_RenderBody()
         {
@@ -116,6 +135,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(result, Is.EqualTo("<html><body><div><h1>Hello World!</h1></div>This is my sample template, </body></html>"));
         }
 
+        /// <summary>Rendering is thread safe.</summary>
         [Test]
         public void Rendering_is_thread_safe()
         {

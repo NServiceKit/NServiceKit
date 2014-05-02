@@ -6,21 +6,28 @@ using NServiceKit.ServiceInterface.ServiceModel;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A with status response.</summary>
 	[DataContract]
 	public class WithStatusResponse
 	{
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		[DataMember]
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
+    /// <summary>A no status response.</summary>
 	[DataContract]
 	public class NoStatusResponse
 	{
 	}
 
+    /// <summary>A web service exception tests.</summary>
 	[TestFixture]
 	public class WebServiceExceptionTests
 	{
+        /// <summary>Can retrieve errors from dto with status response.</summary>
 		[Test]
 		public void Can_retrieve_Errors_from_Dto_WithStatusResponse()
 		{
@@ -42,6 +49,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(webEx.ServerStackTrace, Is.EqualTo("stackTrace"));
 		}
 
+        /// <summary>Can retrieve empty errors from dto no status response.</summary>
 		[Test]
 		public void Can_retrieve_empty_Errors_from_Dto_NoStatusResponse()
 		{
@@ -55,6 +63,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(webEx.ServerStackTrace, Is.Null);
 		}
 
+        /// <summary>Can retrieve errors from response body if response dto does not contain response status.</summary>
 	    [Test]
 	    public void Can_Retrieve_Errors_From_ResponseBody_If_ResponseDto_Does_Not_Contain_ResponseStatus()
 	    {

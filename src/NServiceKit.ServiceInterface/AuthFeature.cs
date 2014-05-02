@@ -11,16 +11,30 @@ namespace NServiceKit.ServiceInterface
     /// </summary>
     public class AuthFeature : IPlugin
     {
+        /// <summary>The add user identifier HTTP header.</summary>
         public static bool AddUserIdHttpHeader = true;
 
         private readonly Func<IAuthSession> sessionFactory;
         private readonly IAuthProvider[] authProviders;
 
+        /// <summary>Gets or sets the service routes.</summary>
+        ///
+        /// <value>The service routes.</value>
         public Dictionary<Type, string[]> ServiceRoutes { get; set; }
+
+        /// <summary>Gets or sets the register plugins.</summary>
+        ///
+        /// <value>The register plugins.</value>
         public List<IPlugin> RegisterPlugins { get; set; }
 
+        /// <summary>Gets or sets the HTML redirect.</summary>
+        ///
+        /// <value>The HTML redirect.</value>
         public string HtmlRedirect { get; set; }
 
+        /// <summary>Sets a value indicating whether the assign role services should be included.</summary>
+        ///
+        /// <value>true if include assign role services, false if not.</value>
         public bool IncludeAssignRoleServices
         {
             set
@@ -36,6 +50,11 @@ namespace NServiceKit.ServiceInterface
             }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.AuthFeature class.</summary>
+        ///
+        /// <param name="sessionFactory">The session factory.</param>
+        /// <param name="authProviders"> The authentication providers.</param>
+        /// <param name="htmlRedirect">  The HTML redirect.</param>
         public AuthFeature(Func<IAuthSession> sessionFactory, IAuthProvider[] authProviders, string htmlRedirect = "~/login")
         {
             this.sessionFactory = sessionFactory;
@@ -54,6 +73,9 @@ namespace NServiceKit.ServiceInterface
             this.HtmlRedirect = htmlRedirect;
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
         public void Register(IAppHost appHost)
         {
             AuthService.Init(sessionFactory, authProviders);
@@ -70,6 +92,9 @@ namespace NServiceKit.ServiceInterface
             RegisterPlugins.ForEach(x => appHost.LoadPlugin(x));
         }
 
+        /// <summary>Gets default session expiry.</summary>
+        ///
+        /// <returns>The default session expiry.</returns>
         public static TimeSpan? GetDefaultSessionExpiry()
         {
             if (AuthService.AuthProviders == null)

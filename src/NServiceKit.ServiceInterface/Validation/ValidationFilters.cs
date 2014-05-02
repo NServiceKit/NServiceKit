@@ -6,8 +6,14 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.ServiceInterface.Validation
 {
+    /// <summary>A validation filters.</summary>
     public static class ValidationFilters
     {
+        /// <summary>Request filter.</summary>
+        ///
+        /// <param name="req">       The request.</param>
+        /// <param name="res">       The resource.</param>
+        /// <param name="requestDto">The request dto.</param>
         public static void RequestFilter(IHttpRequest req, IHttpResponse res, object requestDto)
         {
             var validator = ValidatorCache.GetValidator(req, requestDto.GetType());

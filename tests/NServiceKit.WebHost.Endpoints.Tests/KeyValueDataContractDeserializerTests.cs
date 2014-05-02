@@ -7,9 +7,11 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Operations;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A key value data contract deserializer tests.</summary>
 	[TestFixture]
 	public class KeyValueDataContractDeserializerTests
 	{
+        /// <summary>Can create request of all types from string map.</summary>
 		[Test]
 		public void Can_Create_RequestOfAllTypes_from_string_map()
 		{
@@ -36,6 +38,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(request.Equals(toRequest), Is.True);
 		}
 
+        /// <summary>Can create request of all types from partial string map.</summary>
 		[Test]
 		public void Can_Create_RequestOfAllTypes_from_partial_string_map()
 		{
@@ -62,6 +65,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(toRequest.UInt, Is.EqualTo(request.UInt));
 		}
 
+        /// <summary>Can create request of complex types from string map.</summary>
 		[Test]
 		public void Can_Create_RequestOfComplexTypes_from_string_map()
 		{

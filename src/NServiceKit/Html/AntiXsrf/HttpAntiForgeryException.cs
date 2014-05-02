@@ -7,9 +7,11 @@ using System.Web;
 
 namespace NServiceKit.Html.AntiXsrf
 {
+    /// <summary>Exception for signalling HTTP anti forgery errors.</summary>
     [Serializable]
     public sealed class HttpAntiForgeryException : HttpException
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Html.AntiXsrf.HttpAntiForgeryException class.</summary>
         public HttpAntiForgeryException()
         {
         }
@@ -19,6 +21,9 @@ namespace NServiceKit.Html.AntiXsrf
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.AntiXsrf.HttpAntiForgeryException class.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public HttpAntiForgeryException(string message)
             : base(message)
         {
@@ -29,6 +34,10 @@ namespace NServiceKit.Html.AntiXsrf
         {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.AntiXsrf.HttpAntiForgeryException class.</summary>
+        ///
+        /// <param name="message">       The message.</param>
+        /// <param name="innerException">The inner exception.</param>
         public HttpAntiForgeryException(string message, Exception innerException)
             : base(message, innerException)
         {

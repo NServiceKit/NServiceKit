@@ -5,9 +5,11 @@ using NServiceKit.WebHost.Endpoints.Tests;
 
 namespace NServiceKit.Auth.Tests
 {
+    /// <summary>A secure tests.</summary>
 	[TestFixture, Explicit]
 	public class SecureTests:TestBase
 	{
+        /// <summary>Can execute secure service.</summary>
 		[Test]
 		public void can_execute_secure_service ()
 		{

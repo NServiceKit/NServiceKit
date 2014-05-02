@@ -36,12 +36,24 @@ namespace NServiceKit.Net30.Collections.Concurrent
     {
         class Node
         {
+            /// <summary>true if marked.</summary>
             public bool Marked;
+            /// <summary>The key.</summary>
             public ulong Key;
+            /// <summary>The sub key.</summary>
             public TKey SubKey;
+            /// <summary>The data.</summary>
             public T Data;
+            /// <summary>The next.</summary>
             public Node Next;
 
+            /// <summary>Initialises this object.</summary>
+            ///
+            /// <param name="key">   The key.</param>
+            /// <param name="subKey">The sub key.</param>
+            /// <param name="data">  The data.</param>
+            ///
+            /// <returns>A Node.</returns>
             public Node Init (ulong key, TKey subKey, T data)
             {
                 this.Key = key;
@@ -82,6 +94,10 @@ namespace NServiceKit.Net30.Collections.Concurrent
         }
 
         class NodeObjectPool : ObjectPool<Node> {
+
+            /// <summary>Gets the creator.</summary>
+            ///
+            /// <returns>A Node.</returns>
             protected override Node Creator ()
             {
                 return new Node ();
@@ -103,6 +119,9 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
         readonly IEqualityComparer<TKey> comparer;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Net30.Collections.Concurrent.SplitOrderedList&lt;TKey, T&gt; class.</summary>
+        ///
+        /// <param name="comparer">The comparer.</param>
         public SplitOrderedList (IEqualityComparer<TKey> comparer)
         {
             this.comparer = comparer;
@@ -112,12 +131,23 @@ namespace NServiceKit.Net30.Collections.Concurrent
             SetBucket (0, head);
         }
 
+        /// <summary>Gets the number of. </summary>
+        ///
+        /// <value>The count.</value>
         public int Count {
             get {
                 return count;
             }
         }
 
+        /// <summary>Inserts an or update.</summary>
+        ///
+        /// <param name="key">         The key.</param>
+        /// <param name="subKey">      The sub key.</param>
+        /// <param name="addGetter">   The add getter.</param>
+        /// <param name="updateGetter">The update getter.</param>
+        ///
+        /// <returns>A T.</returns>
         public T InsertOrUpdate (uint key, TKey subKey, Func<T> addGetter, Func<T, T> updateGetter)
         {
             Node current;
@@ -130,6 +160,14 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return current.Data = updateGetter (current.Data);
         }
 
+        /// <summary>Inserts an or update.</summary>
+        ///
+        /// <param name="key">        The key.</param>
+        /// <param name="subKey">     The sub key.</param>
+        /// <param name="addValue">   The add value.</param>
+        /// <param name="updateValue">The update value.</param>
+        ///
+        /// <returns>A T.</returns>
         public T InsertOrUpdate (uint key, TKey subKey, T addValue, T updateValue)
         {
             Node current;
@@ -139,13 +177,28 @@ namespace NServiceKit.Net30.Collections.Concurrent
             // FIXME: this should have a CAS-like behavior
             return current.Data = updateValue;
         }
-        
+
+        /// <summary>Inserts.</summary>
+        ///
+        /// <param name="key">   The key.</param>
+        /// <param name="subKey">The sub key.</param>
+        /// <param name="data">  The data.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool Insert (uint key, TKey subKey, T data)
         {
             Node current;
             return InsertInternal (key, subKey, data, null, out current);
         }
 
+        /// <summary>Inserts an or get.</summary>
+        ///
+        /// <param name="key">        The key.</param>
+        /// <param name="subKey">     The sub key.</param>
+        /// <param name="data">       The data.</param>
+        /// <param name="dataCreator">The data creator.</param>
+        ///
+        /// <returns>A T.</returns>
         public T InsertOrGet (uint key, TKey subKey, T data, Func<T> dataCreator)
         {
             Node current;
@@ -174,7 +227,14 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
             return true;
         }
-        
+
+        /// <summary>Searches for the first match.</summary>
+        ///
+        /// <param name="key">   The key.</param>
+        /// <param name="subKey">The sub key.</param>
+        /// <param name="data">  The data.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool Find (uint key, TKey subKey, out T data)
         {
             Node node;
@@ -193,6 +253,14 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return !node.Marked;
         }
 
+        /// <summary>Compare exchange.</summary>
+        ///
+        /// <param name="key">   The key.</param>
+        /// <param name="subKey">The sub key.</param>
+        /// <param name="data">  The data.</param>
+        /// <param name="check"> The check.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool CompareExchange (uint key, TKey subKey, T data, Func<T, bool> check)
         {
             Node node;
@@ -213,6 +281,13 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return true;
         }
 
+        /// <summary>Deletes this object.</summary>
+        ///
+        /// <param name="key">   The key.</param>
+        /// <param name="subKey">The sub key.</param>
+        /// <param name="data">  The data.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool Delete (uint key, TKey subKey, out T data)
         {
             uint b = key % (uint)size;
@@ -228,6 +303,9 @@ namespace NServiceKit.Net30.Collections.Concurrent
             return true;
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        ///
+        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator ()
         {
             Node node = head.Next;
@@ -442,6 +520,7 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
             int rwlock;
 
+            /// <summary>Enter read lock.</summary>
             public void EnterReadLock ()
             {
                 SpinWait sw = new SpinWait ();
@@ -456,11 +535,13 @@ namespace NServiceKit.Net30.Collections.Concurrent
                 } while (true);
             }
 
+            /// <summary>Exit read lock.</summary>
             public void ExitReadLock ()
             {
                 Interlocked.Add (ref rwlock, -RwRead);
             }
 
+            /// <summary>Enter write lock.</summary>
             public void EnterWriteLock ()
             {
                 SpinWait sw = new SpinWait ();
@@ -480,6 +561,7 @@ namespace NServiceKit.Net30.Collections.Concurrent
                 } while (true);
             }
 
+            /// <summary>Exit write lock.</summary>
             public void ExitWriteLock ()
             {
                 Interlocked.Add (ref rwlock, -RwWrite);
@@ -497,6 +579,7 @@ namespace NServiceKit.Net30.Collections.Concurrent
 
         int ntime;
 
+        /// <summary>Spin once.</summary>
         public void SpinOnce ()
         {
             ntime += 1;

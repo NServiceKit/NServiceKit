@@ -22,6 +22,10 @@ namespace NServiceKit.ServiceClient.Web
     /// </remarks>
     public class CookieManagerEndpointBehavior : IEndpointBehavior
     {
+        /// <summary>Implement to pass data at runtime to bindings to support custom behavior.</summary>
+        ///
+        /// <param name="endpoint">         The endpoint to modify.</param>
+        /// <param name="bindingParameters">The objects that binding elements require to support the behavior.</param>
         public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
         {
             return;
@@ -39,11 +43,18 @@ namespace NServiceKit.ServiceClient.Web
             clientRuntime.MessageInspectors.Add(cm);
         }
 
+        /// <summary>Implements a modification or extension of the service across an endpoint.</summary>
+        ///
+        /// <param name="endpoint">          The endpoint that exposes the contract.</param>
+        /// <param name="endpointDispatcher">The endpoint dispatcher to be modified or extended.</param>
         public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
         {
             return;
         }
 
+        /// <summary>Implement to confirm that the endpoint meets some intended criteria.</summary>
+        ///
+        /// <param name="endpoint">The endpoint to validate.</param>
         public void Validate(ServiceEndpoint endpoint)
         {
             return;
@@ -63,6 +74,10 @@ namespace NServiceKit.ServiceClient.Web
     {
         private static CookieManagerMessageInspector instance;
         private CookieContainer cookieContainer;
+
+        /// <summary>Gets or sets URI of the document.</summary>
+        ///
+        /// <value>The URI.</value>
         public string Uri { get; set; }
 
         /// <summary>
@@ -74,6 +89,9 @@ namespace NServiceKit.ServiceClient.Web
             Uri = "http://tempuri.org";
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.CookieManagerMessageInspector class.</summary>
+        ///
+        /// <param name="uri">URI of the document.</param>
         public CookieManagerMessageInspector(string uri)
         {
             cookieContainer = new CookieContainer();
@@ -142,6 +160,7 @@ namespace NServiceKit.ServiceClient.Web
         }
     }
 
+    /// <summary>A WCF service client.</summary>
     public abstract class WcfServiceClient : IWcfServiceClient
     {
         const string XPATH_SOAP_FAULT = "/s:Fault";
@@ -149,10 +168,24 @@ namespace NServiceKit.ServiceClient.Web
         const string NAMESPACE_SOAP = "http://www.w3.org/2003/05/soap-envelope";
         const string NAMESPACE_SOAP_ALIAS = "s";
 
+        /// <summary>Gets or sets URI of the document.</summary>
+        ///
+        /// <value>The URI.</value>
         public string Uri { get; set; }
 
+        /// <summary>Sets a proxy.</summary>
+        ///
+        /// <param name="proxyAddress">The proxy address.</param>
         public abstract void SetProxy(Uri proxyAddress);
+
+        /// <summary>Gets the message version.</summary>
+        ///
+        /// <value>The message version.</value>
         protected abstract MessageVersion MessageVersion { get; }
+
+        /// <summary>Gets the binding.</summary>
+        ///
+        /// <value>The binding.</value>
         protected abstract Binding Binding { get; }
 
         /// <summary>
@@ -161,6 +194,7 @@ namespace NServiceKit.ServiceClient.Web
         // CCB Custom
         public bool StoreCookies { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.WcfServiceClient class.</summary>
         public WcfServiceClient()
         {
             // CCB Custom
@@ -203,21 +237,43 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A Message.</returns>
         public Message Send(object request)
         {
             return Send(request, request.GetType().Name);
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        /// <param name="action"> The action.</param>
+        ///
+        /// <returns>A Message.</returns>
         public Message Send(object request, string action)
         {
             return Send(Message.CreateMessage(MessageVersion, action, request));
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <param name="reader">The reader.</param>
+        /// <param name="action">The action.</param>
+        ///
+        /// <returns>A Message.</returns>
         public Message Send(XmlReader reader, string action)
         {
             return Send(Message.CreateMessage(MessageVersion, action, reader));
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <param name="message">The message.</param>
+        ///
+        /// <returns>A Message.</returns>
         public Message Send(Message message)
         {
             using (var client = new GenericProxy<ISyncReply>(SyncReply))
@@ -230,6 +286,14 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets a body.</summary>
+        ///
+        /// <exception cref="CreateException">Thrown when a Create error condition occurs.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="message">The message.</param>
+        ///
+        /// <returns>The body.</returns>
         public static T GetBody<T>(Message message)
         {
             var buffer = message.CreateBufferedCopy(int.MaxValue);
@@ -243,6 +307,14 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <exception cref="WebServiceException">Thrown when a Web Service error condition occurs.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public T Send<T>(object request)
         {
             try
@@ -281,16 +353,32 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public TResponse Send<TResponse>(IReturn<TResponse> request)
         {
             return Send<TResponse>((object)request);
         }
 
+        /// <summary>Send this message.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="request">The request.</param>
         public void Send(IReturnVoid request)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Gets response status.</summary>
+        ///
+        /// <param name="response">The response.</param>
+        ///
+        /// <returns>The response status.</returns>
         public ResponseStatus GetResponseStatus(object response)
         {
             if (response == null)
@@ -307,36 +395,75 @@ namespace NServiceKit.ServiceClient.Web
             return ReflectionUtils.GetProperty(response, propertyInfo) as ResponseStatus;
         }
 
+        /// <summary>Posts a file.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="mimeType">             Type of the mime.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public TResponse PostFile<TResponse>(string relativeOrAbsoluteUrl, FileInfo fileToUpload, string mimeType)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Posts a file.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="fileName">             Filename of the file.</param>
+        /// <param name="mimeType">             Type of the mime.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public TResponse PostFile<TResponse>(string relativeOrAbsoluteUrl, Stream fileToUpload, string fileName, string mimeType)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="request">The request.</param>
         public void SendOneWay(object request)
         {
             SendOneWay(request, request.GetType().Name);
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
         public void SendOneWay(string relativeOrAbsoluteUrl, object request)
         {
             SendOneWay(Message.CreateMessage(MessageVersion, relativeOrAbsoluteUrl, request));
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        /// <param name="action"> The action.</param>
         public void SendOneWay(object request, string action)
         {
             SendOneWay(Message.CreateMessage(MessageVersion, action, request));
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="reader">The reader.</param>
+        /// <param name="action">The action.</param>
         public void SendOneWay(XmlReader reader, string action)
         {
             SendOneWay(Message.CreateMessage(MessageVersion, action, reader));
         }
 
+        /// <summary>Sends an one way.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public void SendOneWay(Message message)
         {
             using (var client = new GenericProxy<IOneWay>(SyncReply))
@@ -345,75 +472,189 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Sends the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void SendAsync<TResponse>(object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Sets the credentials.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
         public void SetCredentials(string userName, string password)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Gets the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void GetAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Gets the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public void GetAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Deletes the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public void DeleteAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Deletes the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void DeleteAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Posts the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void PostAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Posts the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public void PostAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Puts the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void PutAsync<TResponse>(IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Puts the asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="request">              The request.</param>
+        /// <param name="onSuccess">            The on success.</param>
+        /// <param name="onError">              The on error.</param>
         public void PutAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Custom method asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpVerb"> The HTTP verb.</param>
+        /// <param name="request">  The request.</param>
+        /// <param name="onSuccess">The on success.</param>
+        /// <param name="onError">  The on error.</param>
         public void CustomMethodAsync<TResponse>(string httpVerb, IReturn<TResponse> request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Cancel asynchronous.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
         public void CancelAsync()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
         }
 
+        /// <summary>Posts a file with request.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public TResponse PostFileWithRequest<TResponse>(string relativeOrAbsoluteUrl, FileInfo fileToUpload, object request)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Posts a file with request.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="relativeOrAbsoluteUrl">URL of the relative or absolute.</param>
+        /// <param name="fileToUpload">         The file to upload.</param>
+        /// <param name="fileName">             Filename of the file.</param>
+        /// <param name="request">              The request.</param>
+        ///
+        /// <returns>A TResponse.</returns>
         public TResponse PostFileWithRequest<TResponse>(string relativeOrAbsoluteUrl, Stream fileToUpload, string fileName, object request)
         {
             throw new NotImplementedException();

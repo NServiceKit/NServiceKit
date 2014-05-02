@@ -10,6 +10,7 @@
 namespace NServiceKit.WebHost.IntegrationTests {
     
     
+    /// <content>A default.</content>
     public partial class Default {
     }
 }

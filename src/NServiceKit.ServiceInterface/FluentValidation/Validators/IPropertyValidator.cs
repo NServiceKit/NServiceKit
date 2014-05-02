@@ -30,10 +30,31 @@ namespace NServiceKit.FluentValidation.Validators
     /// </summary>
     public interface IPropertyValidator
     {
+        /// <summary>Enumerates validate in this collection.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process validate in this collection.</returns>
         IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context);
+
+        /// <summary>Gets the custom message format arguments.</summary>
+        ///
+        /// <value>The custom message format arguments.</value>
         ICollection<Func<object, object>> CustomMessageFormatArguments { get; }
+
+        /// <summary>Gets or sets the custom state provider.</summary>
+        ///
+        /// <value>The custom state provider.</value>
         Func<object, object> CustomStateProvider { get; set; }
+
+        /// <summary>Gets or sets the error message source.</summary>
+        ///
+        /// <value>The error message source.</value>
         IStringSource ErrorMessageSource { get; set; }
+
+        /// <summary>Gets or sets the error code.</summary>
+        ///
+        /// <value>The error code.</value>
         string ErrorCode { get; set; }
     }
 }

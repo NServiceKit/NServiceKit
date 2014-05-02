@@ -8,18 +8,28 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Common.Tests.Perf
 {
+    /// <summary>A property accessor performance.</summary>
 	[Ignore("Benchmark for comparing property access")]
 	[TestFixture]
 	public class PropertyAccessorPerf
 		: PerfTestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Perf.PropertyAccessorPerf class.</summary>
 		public PropertyAccessorPerf()
 		{
 			this.MultipleIterations = new List<int> { 1000000 };
 		}
 
+        /// <summary>A test acessor.</summary>
+        /// <typeparam name="TEntity">Type of the entity.</typeparam>
 		public static class TestAcessor<TEntity>
 		{
+            /// <summary>Typed get property function.</summary>
+            ///
+            /// <typeparam name="TId">Type of the identifier.</typeparam>
+            /// <param name="pi">The pi.</param>
+            ///
+            /// <returns>A Func&lt;TEntity,TId&gt;</returns>
 			public static Func<TEntity, TId> TypedGetPropertyFn<TId>(PropertyInfo pi)
 			{
 				var mi = pi.GetGetMethod();
@@ -35,6 +45,11 @@ namespace NServiceKit.Common.Tests.Perf
 				return x => typedPropertyFn(x);
 			}
 
+            /// <summary>Value un typed get property type function reflection.</summary>
+            ///
+            /// <param name="pi">The pi.</param>
+            ///
+            /// <returns>A Func&lt;TEntity,object&gt;</returns>
 			public static Func<TEntity, object> ValueUnTypedGetPropertyTypeFn_Reflection(PropertyInfo pi)
 			{
 				var mi = typeof(StaticAccessors<TEntity>).GetMethod("TypedGetPropertyFn");
@@ -43,6 +58,11 @@ namespace NServiceKit.Common.Tests.Perf
 				return x => typedGetPropertyFn.Method.Invoke(x, new object[] { });
 			}
 
+            /// <summary>Value un typed get property type function expression.</summary>
+            ///
+            /// <param name="pi">The pi.</param>
+            ///
+            /// <returns>A Func&lt;TEntity,object&gt;</returns>
 			public static Func<TEntity, object> ValueUnTypedGetPropertyTypeFn_Expr(PropertyInfo pi)
 			{
 				var mi = typeof(StaticAccessors<TEntity>).GetMethod("TypedGetPropertyFn");
@@ -83,6 +103,11 @@ namespace NServiceKit.Common.Tests.Perf
 				return (x, y) => typedPropertyFn(x, (TId)y);
 			}
 
+            /// <summary>Value un typed set property type function reflection.</summary>
+            ///
+            /// <param name="pi">The pi.</param>
+            ///
+            /// <returns>An Action&lt;TEntity,object&gt;</returns>
 			public static Action<TEntity, object> ValueUnTypedSetPropertyTypeFn_Reflection(PropertyInfo pi)
 			{
 				var mi = typeof (StaticAccessors<TEntity>).GetMethod("TypedSetPropertyFn");
@@ -92,6 +117,11 @@ namespace NServiceKit.Common.Tests.Perf
 				return (x, y) => typedSetPropertyFn.Method.Invoke(x, new[] { y });
 			}
 
+            /// <summary>Value un typed set property type function expression.</summary>
+            ///
+            /// <param name="pi">The pi.</param>
+            ///
+            /// <returns>An Action&lt;TEntity,object&gt;</returns>
 			public static Action<TEntity, object> ValueUnTypedSetPropertyTypeFn_Expr(PropertyInfo pi)
 			{
 				var mi = typeof(StaticAccessors<TEntity>).GetMethod("TypedSetPropertyFn");
@@ -135,6 +165,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare get int.</summary>
 		[Test]
 		public void Compare_get_int()
 		{
@@ -152,6 +183,7 @@ namespace NServiceKit.Common.Tests.Perf
 				);
 		}
 
+        /// <summary>Compare get string.</summary>
 		[Test]
 		public void Compare_get_string()
 		{

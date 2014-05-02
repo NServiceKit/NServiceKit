@@ -6,9 +6,11 @@ using NServiceKit.ServiceInterface;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A session tests.</summary>
 	[TestFixture]
 	public class SessionTests
 	{
+        /// <summary>Adhocs this object.</summary>
         [Test]		 
         public void Adhoc()
         {

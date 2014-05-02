@@ -25,12 +25,17 @@ namespace NServiceKit.AuthWeb.Tests
 #if HTTP_LISTENER
     public class AppHost : AppHostHttpListenerBase
 #else
+    /// <summary>An application host.</summary>
     public class AppHost : AppHostBase
 #endif
     {
+        /// <summary>Initializes a new instance of the NServiceKit.AuthWeb.Tests.AppHost class.</summary>
         public AppHost()
             : base("Test Auth", typeof(AppHost).Assembly) { }
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Container container)
         {
             Plugins.Add(new RazorFormat());
@@ -122,6 +127,7 @@ namespace NServiceKit.AuthWeb.Tests
     //Provide extra validation for the registration process
     public class CustomRegistrationValidator : RegistrationValidator
     {
+        /// <summary>Initializes a new instance of the NServiceKit.AuthWeb.Tests.CustomRegistrationValidator class.</summary>
         public CustomRegistrationValidator()
         {
             RuleSet(ApplyTo.Post, () =>
@@ -131,22 +137,39 @@ namespace NServiceKit.AuthWeb.Tests
         }
     }
 
+    /// <summary>A custom user session.</summary>
     public class CustomUserSession : AuthUserSession
     {
+        /// <summary>Executes the authenticated action.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         public override void OnAuthenticated(IServiceBase authService, IAuthSession session, IOAuthTokens tokens, System.Collections.Generic.Dictionary<string, string> authInfo)
         {
             "OnAuthenticated()".Print();
         }
     }
 
+    /// <summary>A data source.</summary>
     public class DataSource
     {
+        /// <summary>The items.</summary>
         public string[] Items = new[] { "Eeny", "meeny", "miny", "moe" };
     }
 
+    /// <summary>A user table.</summary>
     public class UserTable
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public int Id { get; set; }
+
+        /// <summary>Gets or sets the custom field.</summary>
+        ///
+        /// <value>The custom field.</value>
         public string CustomField { get; set; }
     }
 }

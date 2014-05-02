@@ -6,6 +6,7 @@ using NServiceKit.ServiceHost.Tests.Support;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A performance tests.</summary>
 	[Ignore("Perf Test Only")]
 	[TestFixture]
 	public class PerfTests
@@ -13,12 +14,14 @@ namespace NServiceKit.ServiceHost.Tests
 		private const int Times = 100000;
 		private ServiceController serviceController;
 
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public void OnBeforeEachTest()
 		{
 			serviceController = new ServiceController(null);
 		}
 
+        /// <summary>Executes all operation.</summary>
 		[Test]
 		public void RunAll()
 		{
@@ -30,6 +33,7 @@ namespace NServiceKit.ServiceHost.Tests
 		}
 
 
+        /// <summary>With native.</summary>
 		[Test]
 		public void With_Native()
 		{
@@ -38,6 +42,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("Native(): {0}", Measure(() => new BasicService().Any(request), Times));
 		}
 
+        /// <summary>With n service kit funq.</summary>
 		[Test]
 		public void With_NServiceKitFunq()
 		{
@@ -47,6 +52,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_TypedArguments(): {0}", Measure(() => serviceController.Execute(request), Times));
 		}
 
+        /// <summary>With typed arguments.</summary>
 		[Test]
 		public void With_TypedArguments()
 		{
@@ -56,6 +62,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_TypedArguments(): {0}", Measure(() => serviceController.Execute(request), Times));
 		}
 
+        /// <summary>With expressions.</summary>
 		[Test]
 		public void With_Expressions()
 		{
@@ -67,6 +74,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_Expressions(): {0}", Measure(() => serviceController.Execute(request), Times));
 		}
 
+        /// <summary>With custom function.</summary>
 		[Test]
 		public void With_CustomFunc()
 		{
@@ -79,14 +87,21 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_CustomFunc(): {0}", Measure(() => serviceController.Execute(request), Times));
 		}
 
+        /// <summary>A basic service type factory.</summary>
 		public class BasicServiceTypeFactory : ITypeFactory
 		{
+            /// <summary>Creates an instance.</summary>
+            ///
+            /// <param name="type">The type.</param>
+            ///
+            /// <returns>The new instance.</returns>
 			public object CreateInstance(Type type)
 			{
 				return new BasicService();
 			}
 		}
 
+        /// <summary>With type factory.</summary>
 		[Test]
 		public void With_TypeFactory()
 		{

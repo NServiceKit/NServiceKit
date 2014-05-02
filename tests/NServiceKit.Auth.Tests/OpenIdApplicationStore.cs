@@ -6,6 +6,7 @@ using DotNetOpenAuth.OpenId;
 
 namespace NServiceKit.Auth.Tests
 {
+    /// <summary>An in memory open identifier application store.</summary>
     public class InMemoryOpenIdApplicationStore : IOpenIdApplicationStore, ICryptoKeyStore, INonceStore
     {
         /// <summary>

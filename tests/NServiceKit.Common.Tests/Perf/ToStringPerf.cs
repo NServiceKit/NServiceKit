@@ -7,16 +7,19 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Common.Tests.Perf
 {
+    /// <summary>to string performance.</summary>
 	[Ignore("Bencharks for serializing basic .NET types")]
 	[TestFixture]
 	public class ToStringPerf
 		: PerfTestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Perf.ToStringPerf class.</summary>
 		public ToStringPerf()
 		{
 			this.MultipleIterations = new List<int> { 10000 };
 		}
 
+        /// <summary>Compare string.</summary>
 		[Test]
 		public void Compare_string()
 		{
@@ -26,6 +29,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare escaped string.</summary>
 		[Test]
 		public void Compare_escaped_string()
 		{
@@ -35,6 +39,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare ints.</summary>
 		[Test]
 		public void Compare_ints()
 		{
@@ -44,6 +49,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare longs.</summary>
 		[Test]
 		public void Compare_longs()
 		{
@@ -53,6 +59,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare guids.</summary>
 		[Test]
 		public void Compare_Guids()
 		{
@@ -63,6 +70,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare date time.</summary>
 		[Test]
 		public void Compare_DateTime()
 		{
@@ -73,6 +81,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare int list.</summary>
 		[Test]
 		public void Compare_IntList()
 		{
@@ -87,6 +96,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare long list.</summary>
 		[Test]
 		public void Compare_LongList()
 		{
@@ -101,6 +111,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string array.</summary>
 		[Test]
 		public void Compare_StringArray()
 		{
@@ -119,6 +130,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string list.</summary>
 		[Test]
 		public void Compare_StringList()
 		{
@@ -133,6 +145,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare double list.</summary>
 		[Test]
 		public void Compare_DoubleList()
 		{
@@ -147,6 +160,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare unique identifier list.</summary>
 		[Test]
 		public void Compare_GuidList()
 		{
@@ -168,6 +182,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string hash set.</summary>
 		[Test]
 		public void Compare_StringHashSet()
 		{
@@ -186,6 +201,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare int hash set.</summary>
 		[Test]
 		public void Compare_IntHashSet()
 		{
@@ -204,6 +220,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare double hash set.</summary>
 		[Test]
 		public void Compare_DoubleHashSet()
 		{
@@ -222,6 +239,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string map.</summary>
 		[Test]
 		public void Compare_StringStringMap()
 		{
@@ -245,6 +263,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string int map.</summary>
 		[Test]
 		public void Compare_StringIntMap()
 		{
@@ -268,6 +287,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare string int sorted dictionary.</summary>
 		[Test]
 		public void Compare_StringInt_SortedDictionary()
 		{
@@ -291,6 +311,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare byte array.</summary>
 		[Test]
 		public void Compare_ByteArray()
 		{

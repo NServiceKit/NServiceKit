@@ -14,11 +14,13 @@ using System.Diagnostics;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A buffered request tests.</summary>
     [TestFixture]
     public class BufferedRequestTests
     {
         private BufferedRequestAppHost appHost;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -27,6 +29,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost.Start(Config.AbsoluteBaseUri);
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
@@ -34,6 +37,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost = null;
         }
 
+        /// <summary>Bufferred request allows rereading of request input stream.</summary>
         [Test]
         public void BufferredRequest_allows_rereading_of_Request_InputStream()
         {
@@ -48,6 +52,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(appHost.LastRequestBody, Is.EqualTo(request.ToJson()));
         }
 
+        /// <summary>Cannot reread request input stream without bufferring.</summary>
         [Test]
         public void Cannot_reread_Request_InputStream_without_bufferring()
         {
@@ -63,6 +68,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Data, Is.Null);
         }
 
+        /// <summary>Cannot see request body in request logger without bufferring.</summary>
         [Test]
         public void Cannot_see_RequestBody_in_RequestLogger_without_bufferring()
         {
@@ -83,12 +89,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
 
+    /// <summary>A buffered request logger tests.</summary>
     [TestFixture]
     public class BufferedRequestLoggerTests
     {
         private BufferedRequestAppHost appHost;
         MyRequest request = new MyRequest { Data = "RequestData" };
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -97,6 +105,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost.Start(Config.AbsoluteBaseUri);
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
@@ -104,6 +113,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost = null;
         }
 
+        /// <summary>Can see request body in request logger when enable request body tracking.</summary>
         [Test]
         public void Can_see_RequestBody_in_RequestLogger_when_EnableRequestBodyTracking()
         {
@@ -112,6 +122,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(logBody, Is.EqualTo(request.ToJson()));
         }
 
+        /// <summary>Can see request body in request logger when enable request body tracking SOAP 12.</summary>
         [Test]
         public void Can_see_RequestBody_in_RequestLogger_when_EnableRequestBodyTracking_Soap12()
         {
@@ -127,6 +138,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
 
 
+        /// <summary>Can see request body in request logger when enable request body tracking SOAP 11.</summary>
         [Test]
         public void Can_see_RequestBody_in_RequestLogger_when_EnableRequestBodyTracking_Soap11()
         {
@@ -155,14 +167,30 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         
     }
 
+    /// <summary>A buffered request application host.</summary>
     public class BufferedRequestAppHost : AppHostHttpListenerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.BufferedRequestAppHost class.</summary>
         public BufferedRequestAppHost() : base(typeof(BufferedRequestTests).Name, typeof(MyService).Assembly) { }
 
+        /// <summary>Gets or sets the last request body.</summary>
+        ///
+        /// <value>The last request body.</value>
         public string LastRequestBody { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether this object use bufferred stream.</summary>
+        ///
+        /// <value>true if use bufferred stream, false if not.</value>
         public bool UseBufferredStream { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the request body tracking is enabled.</summary>
+        ///
+        /// <value>true if enable request body tracking, false if not.</value>
         public bool EnableRequestBodyTracking { get; set; }
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Container container)
         {
             PreRequestFilters.Add((httpReq, httpRes) => {
@@ -177,15 +205,25 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
 
+    /// <summary>my request.</summary>
     [DataContract]
     public class MyRequest : IReturn<MyRequest>
     {
+        /// <summary>Gets or sets the data.</summary>
+        ///
+        /// <value>The data.</value>
         [DataMember]
         public string Data { get; set; }
     }
 
+    /// <summary>my service.</summary>
     public class MyService : IService
     {
+        /// <summary>Anies the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Any(MyRequest request)
         {
             return request;

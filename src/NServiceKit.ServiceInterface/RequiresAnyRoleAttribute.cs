@@ -17,8 +17,15 @@ namespace NServiceKit.ServiceInterface
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class RequiresAnyRoleAttribute : AuthenticateAttribute
     {
+        /// <summary>Gets or sets the required roles.</summary>
+        ///
+        /// <value>The required roles.</value>
         public List<string> RequiredRoles { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.RequiresAnyRoleAttribute class.</summary>
+        ///
+        /// <param name="applyTo">The apply to.</param>
+        /// <param name="roles">  A variable-length parameters list containing roles.</param>
         public RequiresAnyRoleAttribute(ApplyTo applyTo, params string[] roles)
         {
             this.RequiredRoles = roles.ToList();
@@ -26,9 +33,17 @@ namespace NServiceKit.ServiceInterface
             this.Priority = (int)RequestFilterPriority.RequiredRole;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.RequiresAnyRoleAttribute class.</summary>
+        ///
+        /// <param name="roles">A variable-length parameters list containing roles.</param>
         public RequiresAnyRoleAttribute(params string[] roles)
             : this(ApplyTo.All, roles) { }
 
+        /// <summary>This method is only executed if the HTTP method matches the <see cref="ApplyTo"/> property.</summary>
+        ///
+        /// <param name="req">       The http request wrapper.</param>
+        /// <param name="res">       The http response wrapper.</param>
+        /// <param name="requestDto">The request DTO.</param>
         public override void Execute(IHttpRequest req, IHttpResponse res, object requestDto)
         {
             if (EndpointHost.Config.HasValidAuthSecret(req))
@@ -47,6 +62,13 @@ namespace NServiceKit.ServiceInterface
             res.EndRequest();
         }
 
+        /// <summary>Query if 'session' has any roles.</summary>
+        ///
+        /// <param name="req">         The request.</param>
+        /// <param name="session">     The session.</param>
+        /// <param name="userAuthRepo">The user authentication repo.</param>
+        ///
+        /// <returns>true if any roles, false if not.</returns>
         public bool HasAnyRoles(IHttpRequest req, IAuthSession session, IUserAuthRepository userAuthRepo = null)
         {
             if (HasAnyRoles(session)) return true;
@@ -61,6 +83,11 @@ namespace NServiceKit.ServiceInterface
             return false;
         }
 
+        /// <summary>Query if 'session' has any roles.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        ///
+        /// <returns>true if any roles, false if not.</returns>
         public bool HasAnyRoles(IAuthSession session)
         {
             return this.RequiredRoles

@@ -11,8 +11,10 @@ using NServiceKit.Markdown;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A model metadata.</summary>
 	public class ModelMetadata
 	{
+        /// <summary>The default order.</summary>
 		public const int DefaultOrder = 10000;
 
 		// Explicit backing store for the things we want initialized by default, so don't have to call
@@ -33,6 +35,15 @@ namespace NServiceKit.Html
 		private bool _showForEdit = true;
 		private string _simpleDisplayText;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.ModelMetadata class.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="provider">     The provider.</param>
+        /// <param name="containerType">The type of the container.</param>
+        /// <param name="modelAccessor">The model accessor.</param>
+        /// <param name="modelType">    The type of the model.</param>
+        /// <param name="propertyName"> The name of the property.</param>
 		public ModelMetadata(ModelMetadataProvider provider, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
 		{
 			if (provider == null)
@@ -53,6 +64,9 @@ namespace NServiceKit.Html
 			_propertyName = propertyName;
 		}
 
+        /// <summary>Gets the additional values.</summary>
+        ///
+        /// <value>The additional values.</value>
 		public virtual Dictionary<string, object> AdditionalValues
 		{
 			get
@@ -61,6 +75,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the type of the container.</summary>
+        ///
+        /// <value>The type of the container.</value>
 		public Type ContainerType
 		{
 			get
@@ -69,6 +86,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets a value indicating whether the convert empty string to null.</summary>
+        ///
+        /// <value>true if convert empty string to null, false if not.</value>
 		public virtual bool ConvertEmptyStringToNull
 		{
 			get
@@ -81,42 +101,63 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the name of the data type.</summary>
+        ///
+        /// <value>The name of the data type.</value>
 		public virtual string DataTypeName
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the description.</summary>
+        ///
+        /// <value>The description.</value>
 		public virtual string Description
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the display format string.</summary>
+        ///
+        /// <value>The display format string.</value>
 		public virtual string DisplayFormatString
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the name of the display.</summary>
+        ///
+        /// <value>The name of the display.</value>
 		public virtual string DisplayName
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the edit format string.</summary>
+        ///
+        /// <value>The edit format string.</value>
 		public virtual string EditFormatString
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets a value indicating whether the surrounding HTML is hidden.</summary>
+        ///
+        /// <value>true if hide surrounding html, false if not.</value>
 		public virtual bool HideSurroundingHtml
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets a value indicating whether this object is complex type.</summary>
+        ///
+        /// <value>true if this object is complex type, false if not.</value>
 		public virtual bool IsComplexType
 		{
 			get
@@ -125,6 +166,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets a value indicating whether this object is nullable value type.</summary>
+        ///
+        /// <value>true if this object is nullable value type, false if not.</value>
 		public bool IsNullableValueType
 		{
 			get
@@ -133,12 +177,18 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets a value indicating whether this object is read only.</summary>
+        ///
+        /// <value>true if this object is read only, false if not.</value>
 		public virtual bool IsReadOnly
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets a value indicating whether this object is required.</summary>
+        ///
+        /// <value>true if this object is required, false if not.</value>
 		public virtual bool IsRequired
 		{
 			get
@@ -151,6 +201,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the model.</summary>
+        ///
+        /// <value>The model.</value>
 		public object Model
 		{
 			get
@@ -171,6 +224,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the type of the model.</summary>
+        ///
+        /// <value>The type of the model.</value>
 		public Type ModelType
 		{
 			get
@@ -179,12 +235,18 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the null display text.</summary>
+        ///
+        /// <value>The null display text.</value>
 		public virtual string NullDisplayText
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the order.</summary>
+        ///
+        /// <value>The order.</value>
 		public virtual int Order
 		{
 			get
@@ -197,6 +259,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the properties.</summary>
+        ///
+        /// <value>The properties.</value>
 		public virtual IEnumerable<ModelMetadata> Properties
 		{
 			get
@@ -209,6 +274,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the name of the property.</summary>
+        ///
+        /// <value>The name of the property.</value>
 		public string PropertyName
 		{
 			get
@@ -217,6 +285,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the provider.</summary>
+        ///
+        /// <value>The provider.</value>
 		protected ModelMetadataProvider Provider
 		{
 			get;
@@ -243,6 +314,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets a value indicating whether the request validation is enabled.</summary>
+        ///
+        /// <value>true if request validation enabled, false if not.</value>
 		public virtual bool RequestValidationEnabled
 		{
 			get
@@ -255,12 +329,18 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the name of the short display.</summary>
+        ///
+        /// <value>The name of the short display.</value>
 		public virtual string ShortDisplayName
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets a value indicating whether for display is shown.</summary>
+        ///
+        /// <value>true if show for display, false if not.</value>
 		public virtual bool ShowForDisplay
 		{
 			get
@@ -273,6 +353,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets a value indicating whether for edit is shown.</summary>
+        ///
+        /// <value>true if show for edit, false if not.</value>
 		public virtual bool ShowForEdit
 		{
 			get
@@ -285,6 +368,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the simple display text.</summary>
+        ///
+        /// <value>The simple display text.</value>
 		public virtual string SimpleDisplayText
 		{
 			get
@@ -301,18 +387,35 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets or sets the template hint.</summary>
+        ///
+        /// <value>The template hint.</value>
 		public virtual string TemplateHint
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the watermark.</summary>
+        ///
+        /// <value>The watermark.</value>
 		public virtual string Watermark
 		{
 			get;
 			set;
 		}
 
+        /// <summary>From lambda expression.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">    Thrown when one or more required arguments are null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <typeparam name="TParameter">Type of the parameter.</typeparam>
+        /// <typeparam name="TValue">    Type of the value.</typeparam>
+        /// <param name="expression">The expression.</param>
+        /// <param name="viewData">  Information describing the view.</param>
+        ///
+        /// <returns>A ModelMetadata.</returns>
 		public static ModelMetadata FromLambdaExpression<TParameter, TValue>(
 			Expression<Func<TParameter, TValue>> expression, ViewDataDictionary<TParameter> viewData)
 		{
@@ -382,6 +485,14 @@ namespace NServiceKit.Html
 			return viewData.ModelMetadata ?? GetMetadataFromProvider(null, typeof(string), null, null);
 		}
 
+        /// <summary>From string expression.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="expression">The expression.</param>
+        /// <param name="viewData">  Information describing the view.</param>
+        ///
+        /// <returns>A ModelMetadata.</returns>
 		public static ModelMetadata FromStringExpression(string expression, ViewDataDictionary viewData)
 		{
 			if (expression == null)
@@ -436,6 +547,9 @@ namespace NServiceKit.Html
 			return GetMetadataFromProvider(modelAccessor, modelType ?? typeof(string), propertyName, containerType);
 		}
 
+        /// <summary>Gets display name.</summary>
+        ///
+        /// <returns>The display name.</returns>
 		public string GetDisplayName()
 		{
 			return DisplayName ?? PropertyName ?? ModelType.Name;
@@ -450,6 +564,9 @@ namespace NServiceKit.Html
 			return ModelMetadataProviders.Current.GetMetadataForType(modelAccessor, modelType);
 		}
 
+        /// <summary>Gets simple display text.</summary>
+        ///
+        /// <returns>The simple display text.</returns>
 		protected virtual string GetSimpleDisplayText()
 		{
 			if (Model == null)

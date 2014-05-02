@@ -17,6 +17,11 @@ namespace NServiceKit.Html.AntiXsrf
             _serializer = serializer;
         }
 
+        /// <summary>Gets cookie token.</summary>
+        ///
+        /// <param name="httpContext">Context for the HTTP.</param>
+        ///
+        /// <returns>The cookie token.</returns>
         public AntiForgeryToken GetCookieToken(HttpContextBase httpContext)
         {
             HttpCookie cookie = httpContext.Request.Cookies[_config.CookieName];
@@ -28,6 +33,11 @@ namespace NServiceKit.Html.AntiXsrf
             return _serializer.Deserialize(cookie.Value);
         }
 
+        /// <summary>Gets form token.</summary>
+        ///
+        /// <param name="httpContext">Context for the HTTP.</param>
+        ///
+        /// <returns>The form token.</returns>
         public AntiForgeryToken GetFormToken(HttpContextBase httpContext)
         {
             string value = httpContext.Request.Form[_config.FormFieldName];
@@ -39,6 +49,10 @@ namespace NServiceKit.Html.AntiXsrf
             return _serializer.Deserialize(value);
         }
 
+        /// <summary>Saves a cookie token.</summary>
+        ///
+        /// <param name="httpContext">Context for the HTTP.</param>
+        /// <param name="token">      The token.</param>
         public void SaveCookieToken(HttpContextBase httpContext, AntiForgeryToken token)
         {
             string serializedToken = _serializer.Serialize(token);

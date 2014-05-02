@@ -9,6 +9,7 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A binary serialized tests.</summary>
     [TestFixture]
     public class BinarySerializedTests
     {
@@ -23,6 +24,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             return Convert.ToBase64String(tmp.ToString().ToUtf8Bytes());
         }
 
+        /// <summary>Can serialize random string.</summary>
         [Test]
         public void Can_serialize_RandomString()
         {
@@ -37,6 +39,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             }
         }
 
+        /// <summary>Can call cached web service with protobuf.</summary>
         [Test]
         public void Can_call_cached_WebService_with_Protobuf()
         {
@@ -62,6 +65,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             }
         }
 
+        /// <summary>Can call web service with protobuf.</summary>
         [Test]
         public void Can_call_WebService_with_Protobuf()
         {

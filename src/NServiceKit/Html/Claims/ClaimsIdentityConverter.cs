@@ -44,6 +44,11 @@ namespace NServiceKit.Html.Claims
                 || claimsIdentity is GenericIdentity;
         }
 
+        /// <summary>Try convert.</summary>
+        ///
+        /// <param name="identity">The identity.</param>
+        ///
+        /// <returns>A ClaimsIdentity.</returns>
         public ClaimsIdentity TryConvert(IIdentity identity)
         {
             if (IsGrandfatheredIdentityType(identity)) {

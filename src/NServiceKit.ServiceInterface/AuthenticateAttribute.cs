@@ -32,27 +32,49 @@ namespace NServiceKit.ServiceInterface
         /// </summary>
         public string HtmlRedirect { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.AuthenticateAttribute class.</summary>
+        ///
+        /// <param name="applyTo">The apply to.</param>
         public AuthenticateAttribute(ApplyTo applyTo)
             : base(applyTo)
         {
             this.Priority = (int) RequestFilterPriority.Authenticate;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.AuthenticateAttribute class.</summary>
         public AuthenticateAttribute()
             : this(ApplyTo.All) {}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.AuthenticateAttribute class.</summary>
+        ///
+        /// <param name="provider">Restrict authentication to a specific <see cref="IAuthProvider"/>. For example, if this attribute should only permit access if the user is authenticated with
+        /// <see cref="BasicAuthProvider"/>, you should set this property to <see cref="BasicAuthProvider.Name"/>.
+        /// </param>
         public AuthenticateAttribute(string provider)
             : this(ApplyTo.All)
         {
             this.Provider = provider;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.AuthenticateAttribute class.</summary>
+        ///
+        /// <param name="applyTo"> The apply to.</param>
+        /// <param name="provider">Restrict authentication to a specific <see cref="IAuthProvider"/>. For example, if this attribute should only permit access if the user is authenticated with
+        /// <see cref="BasicAuthProvider"/>, you should set this property to <see cref="BasicAuthProvider.Name"/>.
+        /// </param>
         public AuthenticateAttribute(ApplyTo applyTo, string provider)
             : this(applyTo)
         {
             this.Provider = provider;
         }
 
+        /// <summary>This method is only executed if the HTTP method matches the <see cref="ApplyTo"/> property.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <param name="req">       The http request wrapper.</param>
+        /// <param name="res">       The http response wrapper.</param>
+        /// <param name="requestDto">The request DTO.</param>
         public override void Execute(IHttpRequest req, IHttpResponse res, object requestDto)
         {
             if (AuthService.AuthProviders == null) 
@@ -86,6 +108,13 @@ namespace NServiceKit.ServiceInterface
             }
         }
 
+        /// <summary>Executes the HTML redirect if configured operation.</summary>
+        ///
+        /// <param name="req">                 The request.</param>
+        /// <param name="res">                 The resource.</param>
+        /// <param name="includeRedirectParam">true to include, false to exclude the redirect parameter.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected bool DoHtmlRedirectIfConfigured(IHttpRequest req, IHttpResponse res, bool includeRedirectParam = false)
         {
             var htmlRedirect = this.HtmlRedirect ?? AuthService.HtmlRedirect;
@@ -105,6 +134,10 @@ namespace NServiceKit.ServiceInterface
             return false;
         }
 
+        /// <summary>Authenticate if basic authentication.</summary>
+        ///
+        /// <param name="req">The request.</param>
+        /// <param name="res">The resource.</param>
         public static void AuthenticateIfBasicAuth(IHttpRequest req, IHttpResponse res)
         {
             //Need to run SessionFeature filter since its not executed before this attribute (Priority -100)			
@@ -122,6 +155,11 @@ namespace NServiceKit.ServiceInterface
                 });
             }
         }
+
+        /// <summary>Authenticate if digest authentication.</summary>
+        ///
+        /// <param name="req">The request.</param>
+        /// <param name="res">The resource.</param>
         public static void AuthenticateIfDigestAuth(IHttpRequest req, IHttpResponse res)
         {
             //Need to run SessionFeature filter since its not executed before this attribute (Priority -100)			

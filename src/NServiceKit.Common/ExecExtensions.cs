@@ -7,14 +7,25 @@ using NServiceKit.Logging;
 
 namespace NServiceKit.Common
 {
+    /// <summary>An execute extensions.</summary>
     public static class ExecExtensions
     {
+        /// <summary>Logs an error.</summary>
+        ///
+        /// <param name="declaringType">   Type of the declaring.</param>
+        /// <param name="clientMethodName">Name of the client method.</param>
+        /// <param name="ex">              The ex.</param>
         public static void LogError(Type declaringType, string clientMethodName, Exception ex)
         {
             var log = LogManager.GetLogger(declaringType);
             log.Error(string.Format("'{0}' threw an error on {1}: {2}", declaringType.FullName, clientMethodName, ex.Message), ex);
         }
 
+        /// <summary>An IEnumerable&lt;T&gt; extension method that executes all operation.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="instances">The instances to act on.</param>
+        /// <param name="action">   The action.</param>
         public static void ExecAll<T>(this IEnumerable<T> instances, Action<T> action)
         {
             foreach (var instance in instances)
@@ -30,6 +41,13 @@ namespace NServiceKit.Common
             }
         }
 
+        /// <summary>An IEnumerable&lt;T&gt; extension method that executes all with first out operation.</summary>
+        ///
+        /// <typeparam name="T">      Generic type parameter.</typeparam>
+        /// <typeparam name="TReturn">Type of the return.</typeparam>
+        /// <param name="instances">  The instances to act on.</param>
+        /// <param name="action">     The action.</param>
+        /// <param name="firstResult">The first result.</param>
         public static void ExecAllWithFirstOut<T, TReturn>(this IEnumerable<T> instances, Func<T, TReturn> action, ref TReturn firstResult)
         {
             foreach (var instance in instances)
@@ -49,6 +67,14 @@ namespace NServiceKit.Common
             }
         }
 
+        /// <summary>An IEnumerable&lt;T&gt; extension method that executes the return first with result operation.</summary>
+        ///
+        /// <typeparam name="T">      Generic type parameter.</typeparam>
+        /// <typeparam name="TReturn">Type of the return.</typeparam>
+        /// <param name="instances">The instances to act on.</param>
+        /// <param name="action">   The action.</param>
+        ///
+        /// <returns>A TReturn.</returns>
         public static TReturn ExecReturnFirstWithResult<T, TReturn>(this IEnumerable<T> instances, Func<T, TReturn> action)
         {
             foreach (var instance in instances)
@@ -70,6 +96,12 @@ namespace NServiceKit.Common
             return default(TReturn);
         }
 
+        /// <summary>Retry until true.</summary>
+        ///
+        /// <exception cref="TimeoutException">Thrown when a Timeout error condition occurs.</exception>
+        ///
+        /// <param name="action"> The action.</param>
+        /// <param name="timeOut">The time out.</param>
         public static void RetryUntilTrue(Func<bool> action, TimeSpan? timeOut)
         {
             var i = 0;
@@ -88,6 +120,12 @@ namespace NServiceKit.Common
             throw new TimeoutException(string.Format("Exceeded timeout of {0}", timeOut.Value));
         }
 
+        /// <summary>Retry on exception.</summary>
+        ///
+        /// <exception cref="TimeoutException">Thrown when a Timeout error condition occurs.</exception>
+        ///
+        /// <param name="action"> The action.</param>
+        /// <param name="timeOut">The time out.</param>
         public static void RetryOnException(Action action, TimeSpan? timeOut)
         {
             var i = 0;
@@ -113,6 +151,10 @@ namespace NServiceKit.Common
             throw new TimeoutException(string.Format("Exceeded timeout of {0}", timeOut.Value), lastEx);
         }
 
+        /// <summary>Retry on exception.</summary>
+        ///
+        /// <param name="action">    The action.</param>
+        /// <param name="maxRetries">The maximum retries.</param>
         public static void RetryOnException(Action action, int maxRetries)
         {
             for (var i = 0; i < maxRetries; i++)

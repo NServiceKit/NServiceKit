@@ -24,17 +24,39 @@ namespace FluentValidation.Mvc {
 	using System.Reflection;
 	using System.Web.Mvc;
 
+    /// <summary>Attribute for customize validator.</summary>
 	public class CustomizeValidatorAttribute : CustomModelBinderAttribute, IModelBinder {
+
+        /// <summary>Gets or sets the set the rule belongs to.</summary>
+        ///
+        /// <value>The rule set.</value>
 		public string RuleSet { get; set; }
+
+        /// <summary>Gets or sets the properties.</summary>
+        ///
+        /// <value>The properties.</value>
 		public string Properties { get; set; }
+
+        /// <summary>Gets or sets the interceptor.</summary>
+        ///
+        /// <value>The interceptor.</value>
 		public Type Interceptor { get; set; }
 
 		private const string key = "_FV_CustomizeValidator" ;
 
+        /// <summary>Retrieves the associated model binder.</summary>
+        ///
+        /// <returns>A reference to an object that implements the <see cref="T:System.Web.Mvc.IModelBinder" /> interface.</returns>
 		public override IModelBinder GetBinder() {
 			return this;
 		}
 
+        /// <summary>Binds the model to a value by using the specified controller context and binding context.</summary>
+        ///
+        /// <param name="controllerContext">The controller context.</param>
+        /// <param name="bindingContext">   The binding context.</param>
+        ///
+        /// <returns>The bound value.</returns>
 		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
 			// Originally I thought about storing this inside ModelMetadata.AdditionalValues.
 			// Unfortunately, DefaultModelBinder overwrites this property internally.
@@ -53,6 +75,11 @@ namespace FluentValidation.Mvc {
 			return result;
 		}
 
+        /// <summary>Gets from controller context.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>The data that was read from the controller context.</returns>
 		public static CustomizeValidatorAttribute GetFromControllerContext(ControllerContext context) {
 			return context.HttpContext.Items[key] as CustomizeValidatorAttribute;
 		}
@@ -79,6 +106,11 @@ namespace FluentValidation.Mvc {
 
 		}
 
+        /// <summary>Gets the interceptor.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <returns>The interceptor.</returns>
 		public IValidatorInterceptor GetInterceptor() {
 			if (Interceptor == null) return null;
 

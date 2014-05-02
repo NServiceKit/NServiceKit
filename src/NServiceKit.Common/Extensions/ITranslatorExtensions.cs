@@ -4,6 +4,7 @@ using NServiceKit.DesignPatterns.Translator;
 
 namespace NServiceKit.Common.Extensions
 {
+    /// <summary>A translator extensions.</summary>
     [Obsolete("Use ConvertAll")]
     public static class TranslatorExtensions
     {

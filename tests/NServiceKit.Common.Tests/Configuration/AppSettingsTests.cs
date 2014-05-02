@@ -5,6 +5,7 @@ using NServiceKit.Configuration;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>An application settings test.</summary>
     public class AppSettingsTest
     {
         private static AppSettingsBase GetAppSettings()
@@ -22,6 +23,7 @@ namespace NServiceKit.Common.Tests
                 });
         }
 
+        /// <summary>Gets nullable string returns null.</summary>
         [Test]
         public void GetNullable_String_Returns_Null()
         {
@@ -31,6 +33,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(value, Is.Null);
         }
 
+        /// <summary>Gets string returns value.</summary>
         [Test]
         public void GetString_Returns_Value()
         {
@@ -40,6 +43,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(value, Is.EqualTo("This is a real value"));
         }
 
+        /// <summary>Gets returns default value on null key.</summary>
         [Test]
         public void Get_Returns_Default_Value_On_Null_Key()
         {
@@ -49,6 +53,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(value, Is.EqualTo("default"));
         }
 
+        /// <summary>Gets casts to specified type.</summary>
         [Test]
         public void Get_Casts_To_Specified_Type()
         {
@@ -58,6 +63,9 @@ namespace NServiceKit.Common.Tests
             Assert.That(value, Is.EqualTo(42));
         }
 
+        /// <summary>Gets throws exception bad value.</summary>
+        ///
+        /// <exception cref="a">Thrown when a error condition occurs.</exception>
         [Test]
         public void Get_Throws_Exception_On_Bad_Value()
         {
@@ -74,6 +82,9 @@ namespace NServiceKit.Common.Tests
             }
         }
 
+        /// <summary>Gets string throws exception nonexistent key.</summary>
+        ///
+        /// <exception cref="a">Thrown when a error condition occurs.</exception>
         [Test]
         public void GetString_Throws_Exception_On_Nonexistent_Key()
         {
@@ -90,6 +101,7 @@ namespace NServiceKit.Common.Tests
         }
 
 
+        /// <summary>Gets list parses list from setting.</summary>
         [Test]
         public void GetList_Parses_List_From_Setting()
         {
@@ -100,6 +112,9 @@ namespace NServiceKit.Common.Tests
             Assert.That(value, Is.EqualTo(new List<string> { "A", "B", "C", "D", "E" }));
         }
 
+        /// <summary>Gets list throws exception null key.</summary>
+        ///
+        /// <exception cref="a">Thrown when a error condition occurs.</exception>
         [Test]
         public void GetList_Throws_Exception_On_Null_Key()
         {
@@ -115,6 +130,7 @@ namespace NServiceKit.Common.Tests
             }
         }
 
+        /// <summary>Gets dictionary parses dictionary from setting.</summary>
         [Test]
         public void GetDictionary_Parses_Dictionary_From_Setting()
         {
@@ -126,6 +142,9 @@ namespace NServiceKit.Common.Tests
             Assert.That(value.Values, Is.EqualTo(new List<string> { "1", "2", "3", "4", "5" }));
         }
 
+        /// <summary>Gets dictionary throws exception null key.</summary>
+        ///
+        /// <exception cref="a">Thrown when a error condition occurs.</exception>
         [Test]
         public void GetDictionary_Throws_Exception_On_Null_Key()
         {
@@ -142,6 +161,9 @@ namespace NServiceKit.Common.Tests
             }
         }
 
+        /// <summary>Gets dictionary throws exception bad value.</summary>
+        ///
+        /// <exception cref="a">Thrown when a error condition occurs.</exception>
         [Test]
         public void GetDictionary_Throws_Exception_On_Bad_Value()
         {

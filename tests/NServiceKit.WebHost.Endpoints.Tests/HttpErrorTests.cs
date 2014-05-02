@@ -9,6 +9,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Services;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A HTTP error tests.</summary>
 	[TestFixture]
 	public class HttpErrorTests
 	{
@@ -16,6 +17,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -24,6 +26,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -35,11 +38,15 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.Fail(ex.Message);
 		}
 
+        /// <summary>Creates rest client.</summary>
+        ///
+        /// <returns>The new rest client.</returns>
 		public IRestClientAsync CreateRestClient()
 		{
 			return new JsonServiceClient();
 		}
 
+        /// <summary>Gets returns argument null exception.</summary>
 		[Test]
 		public void GET_returns_ArgumentNullException()
 		{
@@ -60,6 +67,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.ResponseStatus.ErrorCode, Is.EqualTo(typeof(ArgumentNullException).Name));
 		}
 
+        /// <summary>Gets returns custom exception and status code.</summary>
 		[Test]
 		public void GET_returns_custom_Exception_and_StatusCode()
 		{
@@ -81,6 +89,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.ResponseStatus.ErrorCode, Is.EqualTo(typeof(FileNotFoundException).Name));
 		}
 
+        /// <summary>Gets returns custom exception message and status code.</summary>
 		[Test]
 		public void GET_returns_custom_Exception_Message_and_StatusCode()
 		{

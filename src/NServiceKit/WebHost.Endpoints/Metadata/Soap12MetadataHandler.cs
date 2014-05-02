@@ -7,10 +7,19 @@ using NServiceKit.WebHost.Endpoints.Support.Metadata.Controls;
 
 namespace NServiceKit.WebHost.Endpoints.Metadata
 {
+    /// <summary>A SOAP 12 metadata handler.</summary>
 	public class Soap12MetadataHandler : BaseSoapMetadataHandler
 	{
+        /// <summary>Gets the format to use.</summary>
+        ///
+        /// <value>The format.</value>
         public override Format Format { get { return Format.Soap12; } }
 
+        /// <summary>Creates a message.</summary>
+        ///
+        /// <param name="dtoType">Type of the dto.</param>
+        ///
+        /// <returns>The new message.</returns>
 		protected override string CreateMessage(Type dtoType)
 		{
 			var requestObj = ReflectionUtils.PopulateObject(Activator.CreateInstance(dtoType));
@@ -26,6 +35,14 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
 			return soapEnvelope;
 		}
 
+        /// <summary>Renders the operation.</summary>
+        ///
+        /// <param name="writer">         The writer.</param>
+        /// <param name="httpReq">        The HTTP request.</param>
+        /// <param name="operationName">  Name of the operation.</param>
+        /// <param name="requestMessage"> Message describing the request.</param>
+        /// <param name="responseMessage">Message describing the response.</param>
+        /// <param name="metadataHtml">   The metadata HTML.</param>
         protected override void RenderOperation(System.Web.UI.HtmlTextWriter writer, IHttpRequest httpReq, string operationName, string requestMessage, string responseMessage, string metadataHtml)
         {
             var operationControl = new Soap12OperationControl

@@ -28,6 +28,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
         }
 
         private readonly string methodExpr;
+        /// <summary>Called when [first run].</summary>
         protected override void OnFirstRun()
         {
             Prepare(Page);

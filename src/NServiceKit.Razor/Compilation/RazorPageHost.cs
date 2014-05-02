@@ -22,6 +22,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Razor.Compilation
 {
+    /// <summary>A razor page host.</summary>
     public class RazorPageHost : RazorEngineHost, IRazorHost
     {
         private static ILog log = LogManager.GetLogger(typeof(RazorPageHost));
@@ -42,9 +43,25 @@ namespace NServiceKit.Razor.Compilation
         private readonly IDictionary<string, string> _directives;
         private string _defaultClassName;
 
+        /// <summary>Gets the path provider.</summary>
+        ///
+        /// <value>The path provider.</value>
         public IVirtualPathProvider PathProvider { get; protected set; }
+
+        /// <summary>Gets the file.</summary>
+        ///
+        /// <value>The file.</value>
         public IVirtualFile File { get; protected set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Compilation.RazorPageHost class.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="pathProvider">   The path provider.</param>
+        /// <param name="file">           The file.</param>
+        /// <param name="codeTransformer">The code transformer.</param>
+        /// <param name="codeDomProvider">The code dom provider.</param>
+        /// <param name="directives">     The directives.</param>
         public RazorPageHost(IVirtualPathProvider pathProvider,
                               IVirtualFile file,
                               IRazorCodeTransformer codeTransformer,
@@ -99,6 +116,9 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>Gets or sets the default class name.</summary>
+        ///
+        /// <value>The default class name.</value>
         public override string DefaultClassName
         {
             get
@@ -115,12 +135,26 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>Gets or sets the parser.</summary>
+        ///
+        /// <value>The parser.</value>
         public ParserBase Parser { get; set; }
 
+        /// <summary>Gets or sets the code generator.</summary>
+        ///
+        /// <value>The code generator.</value>
         public RazorCodeGenerator CodeGenerator { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the line pragmas is enabled.</summary>
+        ///
+        /// <value>true if enable line pragmas, false if not.</value>
         public bool EnableLinePragmas { get; set; }
 
+        /// <summary>Gets the generate.</summary>
+        ///
+        /// <exception cref="HttpParseException">Thrown when a HTTP Parse error condition occurs.</exception>
+        ///
+        /// <returns>The GeneratorResults.</returns>
         public GeneratorResults Generate()
         {
             lock (this)
@@ -157,8 +191,14 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>The debug source files.</summary>
         public Dictionary<string, string> DebugSourceFiles = new Dictionary<string, string>();
 
+        /// <summary>Gets the compile.</summary>
+        ///
+        /// <exception cref="HttpCompileException">Thrown when a HTTP Compile error condition occurs.</exception>
+        ///
+        /// <returns>A Type.</returns>
         public Type Compile()
         {
             Type forceLoadOfRuntimeBinder = typeof(Microsoft.CSharp.RuntimeBinder.Binder);
@@ -239,6 +279,9 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>Generates a source code.</summary>
+        ///
+        /// <returns>The source code.</returns>
         public string GenerateSourceCode()
         {
             var razorResults = Generate();
@@ -265,11 +308,19 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>Posts the process generated code.</summary>
+        ///
+        /// <param name="context">The context.</param>
         public override void PostProcessGeneratedCode(CodeGeneratorContext context)
         {
             _codeTransformer.ProcessGeneratedCode(context.CompileUnit, context.Namespace, context.GeneratedClass, context.TargetMethod);
         }
 
+        /// <summary>Decorate code generator.</summary>
+        ///
+        /// <param name="incomingCodeGenerator">The incoming code generator.</param>
+        ///
+        /// <returns>A RazorCodeGenerator.</returns>
         public override RazorCodeGenerator DecorateCodeGenerator(RazorCodeGenerator incomingCodeGenerator)
         {
             var codeGenerator = CodeGenerator ?? base.DecorateCodeGenerator(incomingCodeGenerator);
@@ -277,12 +328,20 @@ namespace NServiceKit.Razor.Compilation
             return codeGenerator;
         }
 
+        /// <summary>Gets class name.</summary>
+        ///
+        /// <returns>The class name.</returns>
         protected virtual string GetClassName()
         {
             string filename = Path.GetFileNameWithoutExtension(this.File.VirtualPath);
             return "__" + ParserHelpers.SanitizeClassName(filename);
         }
 
+        /// <summary>Decorate code parser.</summary>
+        ///
+        /// <param name="incomingCodeParser">The incoming code parser.</param>
+        ///
+        /// <returns>A ParserBase.</returns>
         public override ParserBase DecorateCodeParser(ParserBase incomingCodeParser)
         {
             if (incomingCodeParser is System.Web.Razor.Parser.CSharpCodeParser)
@@ -292,16 +351,26 @@ namespace NServiceKit.Razor.Compilation
         }
     }
 
+    /// <summary>A service kit c sharp razor code generator.</summary>
     public class NServiceKitCSharpRazorCodeGenerator : CSharpRazorCodeGenerator
     {
         private const string DefaultModelTypeName = "dynamic";
         private const string HiddenLinePragma = "#line hidden";
 
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Compilation.NServiceKitCSharpRazorCodeGenerator class.</summary>
+        ///
+        /// <param name="className">        Name of the class.</param>
+        /// <param name="rootNamespaceName">Name of the root namespace.</param>
+        /// <param name="sourceFileName">   Filename of the source file.</param>
+        /// <param name="host">             The host.</param>
         public NServiceKitCSharpRazorCodeGenerator(string className, string rootNamespaceName, string sourceFileName, RazorEngineHost host)
             : base(className, rootNamespaceName, sourceFileName, host)
         {
         }
 
+        /// <summary>Initializes this object.</summary>
+        ///
+        /// <param name="context">The context.</param>
         protected override void Initialize(CodeGeneratorContext context)
         {
             base.Initialize(context);
@@ -310,6 +379,7 @@ namespace NServiceKit.Razor.Compilation
         }
     }
 
+    /// <summary>A service kit c sharp code parser.</summary>
     public class NServiceKitCSharpCodeParser : System.Web.Razor.Parser.CSharpCodeParser
     {
         private const string ModelKeyword = "model";
@@ -317,11 +387,13 @@ namespace NServiceKit.Razor.Compilation
         private SourceLocation? _endInheritsLocation;
         private bool _modelStatementFound;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Compilation.NServiceKitCSharpCodeParser class.</summary>
         public NServiceKitCSharpCodeParser()
         {
             MapDirectives(ModelDirective, ModelKeyword);
         }
 
+        /// <summary>Inherits directive.</summary>
         protected override void InheritsDirective()
         {
             // Verify we're on the right keyword and accept
@@ -341,6 +413,7 @@ namespace NServiceKit.Razor.Compilation
             }
         }
 
+        /// <summary>Model directive.</summary>
         protected virtual void ModelDirective()
         {
             // Verify we're on the right keyword and accept
@@ -369,6 +442,7 @@ namespace NServiceKit.Razor.Compilation
             return new SetModelTypeCodeGenerator(model, GenericTypeFormatString);
         }
 
+        /// <summary>Layout directive.</summary>
         protected override void LayoutDirective()
         {
             AssertDirective(SyntaxConstants.CSharp.LayoutKeyword);
@@ -381,15 +455,26 @@ namespace NServiceKit.Razor.Compilation
             return new SetLayoutCodeGenerator(layoutPath);
         }
 
+        /// <summary>A set layout code generator.</summary>
         public class SetLayoutCodeGenerator : SpanCodeGenerator
         {
+            /// <summary>Initializes a new instance of the NServiceKit.Razor.Compilation.NServiceKitCSharpCodeParser.SetLayoutCodeGenerator class.</summary>
+            ///
+            /// <param name="layoutPath">The full pathname of the layout file.</param>
             public SetLayoutCodeGenerator(string layoutPath)
             {
                 LayoutPath = layoutPath != null ? layoutPath.Trim(' ', '"') : null;
             }
 
+            /// <summary>Gets or sets the full pathname of the layout file.</summary>
+            ///
+            /// <value>The full pathname of the layout file.</value>
             public string LayoutPath { get; set; }
 
+            /// <summary>Generates a code.</summary>
+            ///
+            /// <param name="target"> Target for the.</param>
+            /// <param name="context">The context.</param>
             public override void GenerateCode(Span target, CodeGeneratorContext context)
             {
                 if (!context.Host.DesignTimeMode && !String.IsNullOrEmpty(context.Host.GeneratedClassContext.LayoutPropertyName))
@@ -407,17 +492,28 @@ namespace NServiceKit.Razor.Compilation
                 }
             }
 
+            /// <summary>Returns a string that represents the current object.</summary>
+            ///
+            /// <returns>A string that represents the current object.</returns>
             public override string ToString()
             {
                 return "Layout: " + LayoutPath;
             }
 
+            /// <summary>Tests if this object is considered equal to another.</summary>
+            ///
+            /// <param name="obj">The object to compare to this object.</param>
+            ///
+            /// <returns>true if the objects are considered equal, false if they are not.</returns>
             public override bool Equals(object obj)
             {
                 var other = obj as SetLayoutCodeGenerator;
                 return other != null && String.Equals(other.LayoutPath, LayoutPath, StringComparison.Ordinal);
             }
 
+            /// <summary>Returns a hash code for this object.</summary>
+            ///
+            /// <returns>A hash code for this object.</returns>
             public override int GetHashCode()
             {
                 return LayoutPath.GetHashCode();
@@ -428,12 +524,22 @@ namespace NServiceKit.Razor.Compilation
         {
             private readonly string _genericTypeFormat;
 
+            /// <summary>Initializes a new instance of the NServiceKit.Razor.Compilation.NServiceKitCSharpCodeParser.SetModelTypeCodeGenerator class.</summary>
+            ///
+            /// <param name="modelType">        Type of the model.</param>
+            /// <param name="genericTypeFormat">The generic type format.</param>
             public SetModelTypeCodeGenerator(string modelType, string genericTypeFormat)
                 : base(modelType)
             {
                 _genericTypeFormat = genericTypeFormat;
             }
 
+            /// <summary>Resolve type.</summary>
+            ///
+            /// <param name="context"> The context.</param>
+            /// <param name="baseType">Type of the base.</param>
+            ///
+            /// <returns>A string.</returns>
             protected override string ResolveType(CodeGeneratorContext context, string baseType)
             {
                 var typeString = string.Format(
@@ -441,6 +547,11 @@ namespace NServiceKit.Razor.Compilation
                 return typeString;
             }
 
+            /// <summary>Tests if this object is considered equal to another.</summary>
+            ///
+            /// <param name="obj">The object to compare to this object.</param>
+            ///
+            /// <returns>true if the objects are considered equal, false if they are not.</returns>
             public override bool Equals(object obj)
             {
                 var other = obj as SetModelTypeCodeGenerator;
@@ -449,11 +560,17 @@ namespace NServiceKit.Razor.Compilation
                        String.Equals(_genericTypeFormat, other._genericTypeFormat, StringComparison.Ordinal);
             }
 
+            /// <summary>Returns a hash code for this object.</summary>
+            ///
+            /// <returns>A hash code for this object.</returns>
             public override int GetHashCode()
             {
                 return (base.GetHashCode() + _genericTypeFormat).GetHashCode();
             }
 
+            /// <summary>Convert this object into a string representation.</summary>
+            ///
+            /// <returns>A string that represents this object.</returns>
             public override string ToString()
             {
                 return "Model:" + BaseType;

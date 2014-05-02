@@ -6,9 +6,11 @@ using NUnit.Framework;
 
 namespace NServiceKit.Common.Tests.ServiceClient.Web
 {
+    /// <summary>A service client base tests.</summary>
     [TestFixture]
     public class ServiceClientBaseTests
     {
+        /// <summary>Sets base URI format loaded format used in synchronise and asynchronous URI.</summary>
         [Test]
         public void SetBaseUri_FormatLoaded_LoadedFormatUsedInSyncAndAsyncUri()
         {

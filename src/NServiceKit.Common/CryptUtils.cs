@@ -5,16 +5,30 @@ using System.Text;
 
 namespace NServiceKit.Common
 {
+    /// <summary>Values that represent RsaKeyLengths.</summary>
     public enum RsaKeyLengths
     {
+        /// <summary>An enum constant representing the bit 1024 option.</summary>
         Bit1024 = 1024,
+
+        /// <summary>An enum constant representing the bit 2048 option.</summary>
         Bit2048 = 2048,
+
+        /// <summary>An enum constant representing the bit 4096 option.</summary>
         Bit4096 = 4096
     }
 
+    /// <summary>A rsa key pair.</summary>
     public class RsaKeyPair
     {
+        /// <summary>Gets or sets the private key.</summary>
+        ///
+        /// <value>The private key.</value>
         public string PrivateKey { get; set; }
+
+        /// <summary>Gets or sets the public key.</summary>
+        ///
+        /// <value>The public key.</value>
         public string PublicKey { get; set; }
     }
 
@@ -24,7 +38,13 @@ namespace NServiceKit.Common
     /// </summary>
     public static class CryptUtils
     {
-
+        /// <summary>Encrypt an arbitrary string of data under the supplied public key.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="data">The data to encrypt.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string Encrypt(this string data)
         {
             if (KeyPair != null)
@@ -32,6 +52,13 @@ namespace NServiceKit.Common
             else throw new ArgumentNullException("No KeyPair given for encryption in CryptUtils");
         }
 
+        /// <summary>Decrypts.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="data">The data to encrypt.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string Decrypt(this string data)
         {
             if (KeyPair !=null)
@@ -39,7 +66,9 @@ namespace NServiceKit.Common
             else throw new ArgumentNullException("No KeyPair given for encryption in CryptUtils");
         }
 
+        /// <summary>The length.</summary>
         public static RsaKeyLengths Length;
+        /// <summary>The key pair.</summary>
         public static RsaKeyPair KeyPair;
         
 
@@ -129,6 +158,13 @@ namespace NServiceKit.Common
             return encryptedData.ToString();
         }
 
+        /// <summary>Decrypts.</summary>
+        ///
+        /// <param name="privateKey">The private key.</param>
+        /// <param name="data">      The data to encrypt.</param>
+        /// <param name="length">    The bit length or strength of the public key: 1024, 2048 or 4096 bits. This must match the value actually used to create the publicKey.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string Decrypt(string privateKey, string data, RsaKeyLengths length = RsaKeyLengths.Bit2048)
         {
             var dwKeySize = (int)length;
@@ -159,6 +195,11 @@ namespace NServiceKit.Common
             return Encoding.Unicode.GetString(arrayList.ToArray(typeof(byte)) as byte[]);
         }
 
+        /// <summary>Create Public and Private Key Pair based on settings already in static class.</summary>
+        ///
+        /// <param name="length">The bit length or strength of the public key: 1024, 2048 or 4096 bits. This must match the value actually used to create the publicKey.</param>
+        ///
+        /// <returns>RsaKeyPair.</returns>
         public static RsaKeyPair CreatePublicAndPrivateKeyPair(RsaKeyLengths length = RsaKeyLengths.Bit2048)
         {
             var rsaProvider = new RSACryptoServiceProvider((int)length);

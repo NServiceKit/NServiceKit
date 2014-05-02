@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Funq
 {
+    /// <content>A container.</content>
 	public sealed partial class Container
 	{
 		/* The following regions contain just the typed overloads

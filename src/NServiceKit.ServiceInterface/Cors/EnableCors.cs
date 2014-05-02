@@ -4,8 +4,12 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.ServiceInterface.Cors
 {
+    /// <summary>An enable cors.</summary>
     public class EnableCors : IHasRequestFilter
     {
+        /// <summary>Order in which Request Filters are executed. &lt;0 Executed before global request filters &gt;0 Executed after global request filters.</summary>
+        ///
+        /// <value>The priority.</value>
         public int Priority { get { return 0; } }
 
         private readonly string allowedOrigins;
@@ -33,6 +37,11 @@ namespace NServiceKit.ServiceInterface.Cors
             this.applyWhere = applyWhere;
         }
 
+        /// <summary>The request filter is executed before the service.</summary>
+        ///
+        /// <param name="req">       The http request wrapper.</param>
+        /// <param name="res">       The http response wrapper.</param>
+        /// <param name="requestDto">The request DTO.</param>
         public void RequestFilter(IHttpRequest req, IHttpResponse res, object requestDto)
         {
             if (applyWhere != null && !applyWhere(req, requestDto))
@@ -48,6 +57,9 @@ namespace NServiceKit.ServiceInterface.Cors
                 res.AddHeader(HttpHeaders.AllowCredentials, "true");
         }
 
+        /// <summary>A new shallow copy of this filter is used on every request.</summary>
+        ///
+        /// <returns>An IHasRequestFilter.</returns>
         public IHasRequestFilter Copy()
         {
             return (IHasRequestFilter)MemberwiseClone();

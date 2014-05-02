@@ -8,9 +8,11 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Services;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A service kit host tests.</summary>
 	[TestFixture]
 	public class NServiceKitHostTests
 	{
+        /// <summary>Can run nested service.</summary>
 		[Test]
 		public void Can_run_nested_service()
 		{
@@ -23,6 +25,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response, Is.Not.Null);
 		}
 
+        /// <summary>Can run test service.</summary>
 		[Test]
 		public void Can_run_test_service()
 		{
@@ -36,6 +39,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Foo, Is.Not.Null);
 		}
 
+        /// <summary>Call asynchronous one way endpoint on test service calls execute.</summary>
 		[Test]
 		public void Call_AsyncOneWay_endpoint_on_TestService_calls_Execute()
 		{
@@ -52,6 +56,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.ExecuteAsyncTimes, Is.EqualTo(0));
 		}
 
+        /// <summary>Call asynchronous one way endpoint on asynchronous test service calls execute asynchronous.</summary>
 		[Test]
 		public void Call_AsyncOneWay_endpoint_on_AsyncTestService_calls_ExecuteAsync()
 		{

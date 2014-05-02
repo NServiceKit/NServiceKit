@@ -8,11 +8,20 @@ using NServiceKit.WebHost.Endpoints.Support.Markdown;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A markdown test base.</summary>
 	public class MarkdownTestBase
 	{
+        /// <summary>Name of the template.</summary>
 		public const string TemplateName = "Template";
+        /// <summary>Name of the page.</summary>
 		protected const string PageName = "Page";
 
+        /// <summary>Creates a new MarkdownFormat.</summary>
+        ///
+        /// <param name="websiteTemplate">The website template.</param>
+        /// <param name="pageTemplate">   The page template.</param>
+        ///
+        /// <returns>A MarkdownFormat.</returns>
 		public MarkdownFormat Create(string websiteTemplate, string pageTemplate)
 		{
 			var markdownFormat = new MarkdownFormat {
@@ -28,6 +37,11 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			return markdownFormat;
 		}
 
+        /// <summary>Creates a new MarkdownFormat.</summary>
+        ///
+        /// <param name="pageTemplate">The page template.</param>
+        ///
+        /// <returns>A MarkdownFormat.</returns>
 		public MarkdownFormat Create(string pageTemplate)
 		{
 			var markdownFormat = new MarkdownFormat();
@@ -37,6 +51,12 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			return markdownFormat;
 		}
 
+        /// <summary>Renders to HTML.</summary>
+        ///
+        /// <param name="pageTemplate">The page template.</param>
+        /// <param name="scopeArgs">   The scope arguments.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string RenderToHtml(string pageTemplate, Dictionary<string, object> scopeArgs)
 		{
 			var markdown = Create(pageTemplate);
@@ -44,6 +64,13 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			return html;
 		}
 
+        /// <summary>Renders to HTML.</summary>
+        ///
+        /// <param name="pageTemplate">   The page template.</param>
+        /// <param name="scopeArgs">      The scope arguments.</param>
+        /// <param name="websiteTemplate">The website template.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string RenderToHtml(string pageTemplate, Dictionary<string, object> scopeArgs, string websiteTemplate)
 		{
 			var markdown = Create(pageTemplate);
@@ -51,6 +78,12 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			return html;
 		}
 
+        /// <summary>Renders to HTML.</summary>
+        ///
+        /// <param name="pageTemplate">The page template.</param>
+        /// <param name="model">       The model.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string RenderToHtml(string pageTemplate, object model)
 		{
 			var markdown = Create(pageTemplate);
@@ -59,13 +92,24 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 		}
 	}
 
+    /// <summary>A markdown test extensions.</summary>
 	public static class MarkdownTestExtensions
 	{
+        /// <summary>A string extension method that normalize new lines.</summary>
+        ///
+        /// <param name="text">The text to act on.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string NormalizeNewLines(this string text)
         {
             return text.Replace("\r\n", "\n");
         }
-    
+
+        /// <summary>A string extension method that strip lines and whitespace.</summary>
+        ///
+        /// <param name="text">The text to act on.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string StripLinesAndWhitespace(this string text)
         {
             var sb = new StringBuilder();

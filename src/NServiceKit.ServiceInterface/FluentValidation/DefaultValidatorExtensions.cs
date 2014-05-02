@@ -516,6 +516,17 @@ namespace NServiceKit.FluentValidation
             return validator.Validate(context);
         }
 
+        /// <summary>Validates certain properties of the specified instance.</summary>
+        ///
+        /// <exception cref="InvalidOperationException">Thrown when the requested operation is invalid.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="validator">The current validator.</param>
+        /// <param name="instance"> The object to validate.</param>
+        /// <param name="selector"> The selector.</param>
+        /// <param name="ruleSet">  Set the rule belongs to.</param>
+        ///
+        /// <returns>A ValidationResult object containing any validation failures.</returns>
         public static ValidationResult Validate<T>(this IValidator<T> validator, T instance, IValidatorSelector selector = null, string ruleSet = null) {
             if(selector != null && ruleSet != null) {
                 throw new InvalidOperationException("Cannot specify both an IValidatorSelector and a RuleSet.");
@@ -544,11 +555,25 @@ namespace NServiceKit.FluentValidation
             }
         }
 
+        /// <summary>Performs validation and then throws an exception if validation fails.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="validator">The current validator.</param>
+        /// <param name="instance"> The object to validate.</param>
+        /// <param name="ruleSet">  Set the rule belongs to.</param>
         public static void ValidateAndThrow<T>(this IValidator<T> validator, T instance, ApplyTo ruleSet)
         {
             validator.ValidateAndThrow(instance, ruleSet.ToString().ToUpper());
         }
 
+        /// <summary>Performs validation and then throws an exception if validation fails.</summary>
+        ///
+        /// <exception cref="ValidationException">Thrown when a Validation error condition occurs.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="validator">The current validator.</param>
+        /// <param name="instance"> The object to validate.</param>
+        /// <param name="ruleSet">  Set the rule belongs to.</param>
         public static void ValidateAndThrow<T>(this IValidator<T> validator, T instance, string ruleSet)
         {
             var result = validator.Validate(instance, (IValidatorSelector)null, ruleSet);

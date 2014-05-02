@@ -5,19 +5,38 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Markdown
 {
+    /// <summary>A markdown view base.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
 	public abstract class MarkdownViewBase<T> : MarkdownViewBase
 	{
 		private HtmlHelper<T> html;
+
+        /// <summary>Gets the HTML.</summary>
+        ///
+        /// <value>The HTML.</value>
 		public new HtmlHelper<T> Html
 		{
 			get { return html ?? (html = (HtmlHelper<T>)base.Html); }
 		}
 
+        /// <summary>Ensure the same instance is used for subclasses.</summary>
+        ///
+        /// <returns>The HTML helper.</returns>
 		protected override HtmlHelper GetHtmlHelper()
 		{
 			return base.Html ?? new HtmlHelper<T>();
 		}
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <param name="appHost">     The AppHost so you can access configuration and resolve dependencies, etc.</param>
+        /// <param name="markdownPage">This precompiled Markdown page with Metadata.</param>
+        /// <param name="scopeArgs">   All variables passed to and created by your page. The Response DTO is stored and accessible via the 'Model' variable.
+        /// 
+        ///  All variables and outputs created are stored in ScopeArgs which is what's available to your website template. The Generated page is stored in the 'Body' variable.
+        /// </param>
+        /// <param name="model">       .</param>
+        /// <param name="renderHtml">  Whether HTML or Markdown output is requested.</param>
 		public override void Init(IAppHost appHost, MarkdownPage markdownPage, Dictionary<string, object> scopeArgs, object model, bool renderHtml)
 		{
 			this.AppHost = appHost;
@@ -32,6 +51,7 @@ namespace NServiceKit.Markdown
 		}
 	}
 
+    /// <summary>A markdown view base.</summary>
 	public abstract class MarkdownViewBase : ITemplatePage
 	{
         /// <summary>
@@ -73,6 +93,7 @@ namespace NServiceKit.Markdown
 		/// </summary>
 		public object Model { get; protected set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Markdown.MarkdownViewBase class.</summary>
 		protected MarkdownViewBase()
 		{
 			Html = GetHtmlHelper();
@@ -86,6 +107,16 @@ namespace NServiceKit.Markdown
 			return Html ?? new HtmlHelper();
 		}
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <param name="appHost">     The AppHost so you can access configuration and resolve dependencies, etc.</param>
+        /// <param name="markdownPage">This precompiled Markdown page with Metadata.</param>
+        /// <param name="scopeArgs">   All variables passed to and created by your page. The Response DTO is stored and accessible via the 'Model' variable.
+        /// 
+        /// All variables and outputs created are stored in ScopeArgs which is what's available to your website template. The Generated page is stored in the 'Body' variable.
+        /// </param>
+        /// <param name="model">       .</param>
+        /// <param name="renderHtml">  Whether HTML or Markdown output is requested.</param>
 		public virtual void Init(IAppHost appHost, MarkdownPage markdownPage, Dictionary<string, object> scopeArgs, object model, bool renderHtml)
 		{
 			this.AppHost = appHost;
@@ -140,16 +171,32 @@ namespace NServiceKit.Markdown
 			return this.AppHost.TryResolve<T>();
 		}
 
+        /// <summary>Lowers.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string Lower(string name)
 		{
 			return name == null ? null : name.ToLower();
 		}
 
+        /// <summary>Uppers.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string Upper(string name)
 		{
 			return name == null ? null : name.ToUpper();
 		}
 
+        /// <summary>Combines.</summary>
+        ///
+        /// <param name="separator">The separator.</param>
+        /// <param name="parts">    A variable-length parameters list containing parts.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string Combine(string separator, params string[] parts)
 		{
 			return string.Join(separator, parts);

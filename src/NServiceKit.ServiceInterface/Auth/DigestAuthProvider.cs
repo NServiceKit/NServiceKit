@@ -15,10 +15,12 @@ using HttpResponseExtensions = NServiceKit.WebHost.Endpoints.Extensions.HttpResp
 
 namespace NServiceKit.ServiceInterface.Auth
 {
+    /// <summary>A digest authentication provider.</summary>
     public class DigestAuthProvider : AuthProvider
     {
         class DigestAuthValidator : AbstractValidator<Auth>
         {
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.DigestAuthProvider.DigestAuthValidator class.</summary>
             public DigestAuthValidator()
             {
                 RuleFor(x => x.UserName).NotEmpty();
@@ -26,23 +28,48 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>The name.</summary>
         public static string Name = AuthService.DigestProvider;
+        /// <summary>The realm.</summary>
         public static string Realm = "/auth/" + AuthService.DigestProvider;
+        /// <summary>The nonce time out.</summary>
         public static int NonceTimeOut = 600;
+        /// <summary>The private key.</summary>
         public string PrivateKey;
+
+        /// <summary>Gets or sets the application settings.</summary>
+        ///
+        /// <value>The application settings.</value>
         public IResourceManager AppSettings { get; set; }
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.DigestAuthProvider class.</summary>
         public DigestAuthProvider()
         {
             this.Provider = Name;
             PrivateKey = Guid.NewGuid().ToString();
             this.AuthRealm = Realm;
         }
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.DigestAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">  The application settings.</param>
+        /// <param name="authRealm">    The authentication realm.</param>
+        /// <param name="oAuthProvider">The authentication provider.</param>
         public DigestAuthProvider(IResourceManager appSettings, string authRealm, string oAuthProvider)
             : base(appSettings, authRealm, oAuthProvider) { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.DigestAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
         public DigestAuthProvider(IResourceManager appSettings)
             : base(appSettings, Realm, Name) { }
 
+        /// <summary>Attempts to authenticate from the given data.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="userName">   Name of the user.</param>
+        /// <param name="password">   The password.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public virtual bool TryAuthenticate(IServiceBase authService, string userName, string password)
         {
             var authRepo = authService.TryResolve<IUserAuthRepository>();
@@ -69,6 +96,13 @@ namespace NServiceKit.ServiceInterface.Auth
             return false;
         }
 
+        /// <summary>Determine if the current session is already authenticated with this AuthProvider.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="tokens"> The tokens.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>true if authorized, false if not.</returns>
         public override bool IsAuthorized(IAuthSession session, IOAuthTokens tokens, Auth request = null)
         {
             if (request != null)
@@ -79,12 +113,29 @@ namespace NServiceKit.ServiceInterface.Auth
             return !session.UserAuthName.IsNullOrEmpty();
         }
 
+        /// <summary>The entry point for all AuthProvider providers. Runs inside the AuthService so exceptions are treated normally. Overridable so you can provide your own Auth implementation.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="request">    The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public override object Authenticate(IServiceBase authService, IAuthSession session, Auth request)
         {
             //new CredentialsAuthValidator().ValidateAndThrow(request);
             return Authenticate(authService, session, request.UserName, request.Password);
         }
 
+        /// <summary>Authenticates.</summary>
+        ///
+        /// <exception cref="Unauthorized">Thrown when an unauthorized error condition occurs.</exception>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="userName">   Name of the user.</param>
+        /// <param name="password">   The password.</param>
+        ///
+        /// <returns>An object.</returns>
         protected object Authenticate(IServiceBase authService, IAuthSession session, string userName, string password)
         {
             if (!LoginMatchesSession(session, userName))
@@ -110,6 +161,12 @@ namespace NServiceKit.ServiceInterface.Auth
             throw HttpError.Unauthorized("Invalid UserName or Password");
         }
 
+        /// <summary>Executes the authenticated action.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         public override void OnAuthenticated(IServiceBase authService, IAuthSession session, IOAuthTokens tokens, Dictionary<string, string> authInfo)
         {
             var userSession = session as AuthUserSession;
@@ -149,6 +206,12 @@ namespace NServiceKit.ServiceInterface.Auth
             authService.SaveSession(session, SessionExpiry);
             session.OnAuthenticated(authService, session, tokens, authInfo);
         }
+
+        /// <summary>Executes the failed authentication action.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
         public override void OnFailedAuthentication(IAuthSession session, IHttpRequest httpReq, IHttpResponse httpRes)
         {
             var digestHelper = new DigestAuthFunctions();

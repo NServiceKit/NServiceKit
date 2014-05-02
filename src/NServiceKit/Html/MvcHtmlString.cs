@@ -4,21 +4,30 @@ using System.Web;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A mvc HTML string.</summary>
 	public class MvcHtmlString
 	{
 		private delegate MvcHtmlString MvcHtmlStringCreator(string value);
 		private static readonly MvcHtmlStringCreator _creator = GetCreator();
 
-		// imporant: this declaration must occur after the _creator declaration
+        /// <summary>imporant: this declaration must occur after the _creator declaration.</summary>
 		public static readonly MvcHtmlString Empty = Create(String.Empty);
 
 		private readonly string _value;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.MvcHtmlString class.</summary>
+        ///
+        /// <param name="value">The value.</param>
 		protected MvcHtmlString(string value)
 		{
 			_value = value ?? String.Empty;
 		}
 
+        /// <summary>Creates a new MvcHtmlString.</summary>
+        ///
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString Create(string value)
 		{
 			return _creator(value);
@@ -48,17 +57,27 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Queries if a null or is empty.</summary>
+        ///
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if a null or is empty, false if not.</returns>
 		public static bool IsNullOrEmpty(MvcHtmlString value)
 		{
 			return (value == null || value._value.Length == 0);
 		}
 
-		// IHtmlString.ToHtmlString()
+        /// <summary>IHtmlString.ToHtmlString()</summary>
+        ///
+        /// <returns>This object as a string.</returns>
 		public string ToHtmlString()
 		{
 			return _value;
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
 			return _value;

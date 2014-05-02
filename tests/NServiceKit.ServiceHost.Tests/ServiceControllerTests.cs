@@ -8,15 +8,18 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A service controller tests.</summary>
     [TestFixture]
     public class ServiceControllerTests
     {
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
             EndpointHostConfig.SkipRouteValidation = true;
         }
 
+        /// <summary>Can register all services in an assembly.</summary>
         [Test]
         public void Can_register_all_services_in_an_assembly()
         {
@@ -36,6 +39,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(response, Is.Not.Null);
         }
 
+        /// <summary>Can override service creation with custom implementation.</summary>
         [Test]
         public void Can_override_service_creation_with_custom_implementation()
         {
@@ -69,6 +73,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(response.Bar as Bar2, Is.Not.Null);
         }
 
+        /// <summary>Can inject request context for i requires request context services.</summary>
         [Test]
         public void Can_inject_RequestContext_for_IRequiresRequestContext_services()
         {
@@ -84,6 +89,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(response, Is.Not.Null);
         }
 
+        /// <summary>Generic service should not get registered with generic parameter.</summary>
         [Test]
         public void Generic_Service_should_not_get_registered_with_generic_parameter()
         {
@@ -98,6 +104,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(exception.Message, Is.StringContaining("Unable to resolve service"));
         }
 
+        /// <summary>Generic service with recursive ceneric type should not get registered.</summary>
         [Test]
         public void Generic_service_with_recursive_ceneric_type_should_not_get_registered()
         {
@@ -112,6 +119,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(exception.Message, Is.StringContaining("Unable to resolve service"));
         }
 
+        /// <summary>Generic service can be registered with closed types.</summary>
         [Test]
         public void Generic_service_can_be_registered_with_closed_types()
         {
@@ -135,31 +143,51 @@ namespace NServiceKit.ServiceHost.Tests
         }
 
 
+        /// <summary>A no slash prefix.</summary>
         [Route("route/{Id}")]
         public class NoSlashPrefix : IReturn
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public long Id { get; set; }
         }
 
+        /// <summary>The uses query string.</summary>
         [Route("/route?id={Id}")]
         public class UsesQueryString : IReturn
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public long Id { get; set; }
         }
 
+        /// <summary>my service.</summary>
         public class MyService : IService
         {
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>An object.</returns>
             public object Any(NoSlashPrefix request)
             {
                 return null;
             }
 
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>An object.</returns>
             public object Any(UsesQueryString request)
             {
                 return null;
             }
         }
 
+        /// <summary>Does throw on invalid route definitions.</summary>
         [Test]
         public void Does_throw_on_invalid_Route_Definitions()
         {
@@ -176,6 +204,7 @@ namespace NServiceKit.ServiceHost.Tests
             EndpointHostConfig.SkipRouteValidation = true;
         }
 
+        /// <summary>Service with generic i get marker interface can be registered without default request attribute.</summary>
         [Test]
         public void Service_with_generic_IGet_marker_interface_can_be_registered_without_DefaultRequestAttribute()
         {
@@ -190,23 +219,36 @@ namespace NServiceKit.ServiceHost.Tests
         }
     }
 
+    /// <summary>A get request.</summary>
     public class GetRequest {}
 
+    /// <summary>A get request response.</summary>
     public class GetRequestResponse {}
 
+    /// <summary>A get marker service.</summary>
     [DefaultRequest(typeof(GetRequest))]
     public class GetMarkerService : ServiceInterface.Service
     {
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(GetRequest request)
         {
             return new GetRequestResponse();
         }
     }
 
+    /// <summary>An application host.</summary>
     public class AppHost : AppHostHttpListenerBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.AppHost class.</summary>
         public AppHost() : base("Test", typeof(AppHost).Assembly) {}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Container container)
         {
         }

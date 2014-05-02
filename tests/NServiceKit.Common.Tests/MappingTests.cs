@@ -8,121 +8,245 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>An user.</summary>
     public class User
     {
+        /// <summary>Gets or sets the person's first name.</summary>
+        ///
+        /// <value>The name of the first.</value>
         public string FirstName { get; set; }
+
+        /// <summary>Gets or sets the person's last name.</summary>
+        ///
+        /// <value>The name of the last.</value>
         [DataMember]
         public string LastName { get; set; }
+
+        /// <summary>Gets or sets the car.</summary>
+        ///
+        /// <value>The car.</value>
         public Car Car { get; set; }
     }
 
+    /// <summary>A user fields.</summary>
     public class UserFields
     {
+        /// <summary>The person's first name.</summary>
         public string FirstName;
+        /// <summary>The person's last name.</summary>
         public string LastName;
+        /// <summary>The car.</summary>
         public Car Car;
     }
 
+    /// <summary>A sub user.</summary>
     public class SubUser : User { }
+    /// <summary>A sub user fields.</summary>
     public class SubUserFields : UserFields { }
 
+    /// <summary>A car.</summary>
     public class Car
     {
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the age.</summary>
+        ///
+        /// <value>The age.</value>
         public int Age { get; set; }
     }
 
+    /// <summary>A user dto.</summary>
     public class UserDto
     {
+        /// <summary>Gets or sets the person's first name.</summary>
+        ///
+        /// <value>The name of the first.</value>
         public string FirstName { get; set; }
+
+        /// <summary>Gets or sets the person's last name.</summary>
+        ///
+        /// <value>The name of the last.</value>
         public string LastName { get; set; }
+
+        /// <summary>Gets or sets the car.</summary>
+        ///
+        /// <value>The car.</value>
         public string Car { get; set; }
     }
 
+    /// <summary>Values that represent Color.</summary>
     public enum Color
     {
+        /// <summary>An enum constant representing the red option.</summary>
         Red,
+
+        /// <summary>An enum constant representing the green option.</summary>
         Green,
+
+        /// <summary>An enum constant representing the blue option.</summary>
         Blue
     }
 
+    /// <summary>Values that represent OtherColor.</summary>
     public enum OtherColor
     {
+        /// <summary>An enum constant representing the red option.</summary>
         Red,
+
+        /// <summary>An enum constant representing the green option.</summary>
         Green,
+
+        /// <summary>An enum constant representing the blue option.</summary>
         Blue
     }
 
 
+    /// <summary>An int nullable identifier.</summary>
     public class IntNullableId
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public int? Id { get; set; }
     }
 
+    /// <summary>An int identifier.</summary>
     public class IntId
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public int Id { get; set; }
     }
 
+    /// <summary>A bcl types.</summary>
     public class BclTypes
     {
+        /// <summary>Gets or sets the int.</summary>
+        ///
+        /// <value>The int.</value>
         public int Int { get; set; }
+
+        /// <summary>Gets or sets the long.</summary>
+        ///
+        /// <value>The long.</value>
         public long Long { get; set; }
+
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The double.</value>
         public double Double { get; set; }
+
+        /// <summary>Gets or sets the decimal.</summary>
+        ///
+        /// <value>The decimal.</value>
         public decimal Decimal { get; set; }
     }
 
+    /// <summary>A bcl type strings.</summary>
     public class BclTypeStrings
     {
+        /// <summary>Gets or sets the int.</summary>
+        ///
+        /// <value>The int.</value>
         public string Int { get; set; }
+
+        /// <summary>Gets or sets the long.</summary>
+        ///
+        /// <value>The long.</value>
         public string Long { get; set; }
+
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The double.</value>
         public string Double { get; set; }
+
+        /// <summary>Gets or sets the decimal.</summary>
+        ///
+        /// <value>The decimal.</value>
         public string Decimal { get; set; }
     }
 
+    /// <summary>A nullable conversion.</summary>
     public class NullableConversion
     {
+        /// <summary>Gets or sets the amount.</summary>
+        ///
+        /// <value>The amount.</value>
         public decimal Amount { get; set; }
     }
 
+    /// <summary>A nullable conversion dto.</summary>
     public class NullableConversionDto
     {
+        /// <summary>Gets or sets the amount.</summary>
+        ///
+        /// <value>The amount.</value>
         public decimal? Amount { get; set; }
     }
 
+    /// <summary>A nullable enum conversion.</summary>
     public class NullableEnumConversion
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public Color Color { get; set; }
     }
 
+    /// <summary>An enum conversion.</summary>
     public class EnumConversion
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public Color Color { get; set; }
     }
 
+    /// <summary>A nullable enum conversion dto.</summary>
     public class NullableEnumConversionDto
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public OtherColor? Color { get; set; }
     }
 
+    /// <summary>An enum conversion dto.</summary>
     public class EnumConversionDto
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public OtherColor Color { get; set; }
     }
 
+    /// <summary>An enum conversion string dto.</summary>
     public class EnumConversionStringDto
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public string Color { get; set; }
     }
 
+    /// <summary>An enum conversion int dto.</summary>
     public class EnumConversionIntDto
     {
+        /// <summary>Gets or sets the color.</summary>
+        ///
+        /// <value>The color.</value>
         public int Color { get; set; }
     }
 
+    /// <summary>A mapping tests.</summary>
     [TestFixture]
     public class MappingTests
     {
+        /// <summary>Does populate.</summary>
         [Test]
         public void Does_populate()
         {
@@ -139,6 +263,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(userDto.Car, Is.EqualTo("{Name:BMW X6,Age:3}"));
         }
 
+        /// <summary>Does translate.</summary>
         [Test]
         public void Does_translate()
         {
@@ -155,6 +280,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(userDto.Car, Is.EqualTo("{Name:BMW X6,Age:3}"));
         }
 
+        /// <summary>Does enumstringconversion translate.</summary>
         [Test]
         public void Does_enumstringconversion_translate()
         {
@@ -164,6 +290,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(conversionDto.Color, Is.EqualTo("Blue"));
         }
 
+        /// <summary>Does enumintconversion translate.</summary>
         [Test]
         public void Does_enumintconversion_translate()
         {
@@ -173,6 +300,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(conversionDto.Color, Is.EqualTo(1));
         }
 
+        /// <summary>Does nullableconversion translate.</summary>
         [Test]
         public void Does_nullableconversion_translate()
         {
@@ -182,6 +310,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(conversionDto.Amount, Is.EqualTo(123.45m));
         }
 
+        /// <summary>Does enumnullableconversion translate.</summary>
         [Test]
         public void Does_Enumnullableconversion_translate()
         {
@@ -192,6 +321,7 @@ namespace NServiceKit.Common.Tests
 
         }
 
+        /// <summary>Does enumconversion translate.</summary>
         [Test]
         public void Does_Enumconversion_translate()
         {
@@ -202,6 +332,7 @@ namespace NServiceKit.Common.Tests
 
         }
 
+        /// <summary>Does translate nullable int to and from.</summary>
         [Test]
         public void Does_translate_nullableInt_to_and_from()
         {
@@ -216,6 +347,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(expectedNullable.Id.Value, Is.EqualTo(nonNullable.Id));
         }
 
+        /// <summary>Does translate from properties to fields.</summary>
         [Test]
         public void Does_translate_from_properties_to_fields()
         {
@@ -232,6 +364,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Car.Age, Is.EqualTo(user.Car.Age));
         }
 
+        /// <summary>Does translate from fields to properties.</summary>
         [Test]
         public void Does_translate_from_fields_to_properties()
         {
@@ -248,6 +381,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Car.Age, Is.EqualTo(user.Car.Age));
         }
 
+        /// <summary>Does translate from inherited propeties.</summary>
         [Test]
         public void Does_translate_from_inherited_propeties()
         {
@@ -264,6 +398,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Car.Age, Is.EqualTo(user.Car.Age));
         }
 
+        /// <summary>Does translate to inherited propeties.</summary>
         [Test]
         public void Does_translate_to_inherited_propeties()
         {
@@ -280,6 +415,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Car.Age, Is.EqualTo(user.Car.Age));
         }
 
+        /// <summary>Does coerce from bcl types to strings.</summary>
         [Test]
         public void Does_coerce_from_BclTypes_to_strings()
         {
@@ -297,6 +433,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Decimal, Is.EqualTo("4.4"));
         }
 
+        /// <summary>Does coerce from strings to bcl types.</summary>
         [Test]
         public void Does_coerce_from_strings_to_BclTypes()
         {
@@ -314,6 +451,7 @@ namespace NServiceKit.Common.Tests
             Assert.That(to.Decimal, Is.EqualTo(4.4m));
         }
 
+        /// <summary>Does map only properties with specified attribute.</summary>
         [Test]
         public void Does_map_only_properties_with_specified_Attribute()
         {

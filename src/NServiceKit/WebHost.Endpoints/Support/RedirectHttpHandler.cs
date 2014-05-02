@@ -9,11 +9,18 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.WebHost.Endpoints.Support
 {
+    /// <summary>A redirect HTTP handler.</summary>
 	public class RedirectHttpHandler
 		: INServiceKitHttpHandler, IHttpHandler
 	{
+        /// <summary>Gets or sets URL of the relative.</summary>
+        ///
+        /// <value>The relative URL.</value>
 		public string RelativeUrl { get; set; }
 
+        /// <summary>Gets or sets URL of the absolute.</summary>
+        ///
+        /// <value>The absolute URL.</value>
 		public string AbsoluteUrl { get; set; }
 
 		/// <summary>
@@ -87,6 +94,9 @@ namespace NServiceKit.WebHost.Endpoints.Support
             response.EndHttpHandlerRequest(closeOutputStream:true);
 		}
 
+        /// <summary>Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler" /> instance.</summary>
+        ///
+        /// <value>true if the <see cref="T:System.Web.IHttpHandler" /> instance is reusable; otherwise, false.</value>
 		public bool IsReusable
 		{
 			get { return false; }

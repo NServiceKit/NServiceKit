@@ -42,30 +42,49 @@ namespace NServiceKit.VirtualPath
         /// </summary>
         public InMemoryVirtualDirectory rootDirectory;
 
+        /// <summary>Gets the pathname of the root directory.</summary>
+        ///
+        /// <value>The pathname of the root directory.</value>
         public override IVirtualDirectory RootDirectory
         {
             get { return rootDirectory; }
         }
 
+        /// <summary>Gets the virtual path separator.</summary>
+        ///
+        /// <value>The virtual path separator.</value>
         public override string VirtualPathSeparator
         {
             get { return "/"; }
         }
 
+        /// <summary>Gets the real path separator.</summary>
+        ///
+        /// <value>The real path separator.</value>
         public override string RealPathSeparator
         {
             get { return "/"; }
         }
 
+        /// <summary>Initializes this object.</summary>
         protected override void Initialize()
         {
         }
 
+        /// <summary>Adds a file to 'contents'.</summary>
+        ///
+        /// <param name="filePath">.</param>
+        /// <param name="contents">.</param>
         public void AddFile(string filePath, string contents)
         {
             rootDirectory.AddFile(filePath, contents);
         }
 
+        /// <summary>Gets a file.</summary>
+        ///
+        /// <param name="virtualPath">.</param>
+        ///
+        /// <returns>The file.</returns>
         public override IVirtualFile GetFile(string virtualPath)
         {
             return rootDirectory.GetFile(virtualPath)
@@ -271,32 +290,63 @@ namespace NServiceKit.VirtualPath
         }
     }
     
+    /// <summary>An in memory virtual file.</summary>
     public class InMemoryVirtualFile : AbstractVirtualFileBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.VirtualPath.InMemoryVirtualFile class.</summary>
+        ///
+        /// <param name="owningProvider">The owning provider.</param>
+        /// <param name="directory">     Pathname of the directory.</param>
         public InMemoryVirtualFile(IVirtualPathProvider owningProvider, IVirtualDirectory directory) 
             : base(owningProvider, directory)
         {
             this.FileLastModified = DateTime.MinValue;            
         }
 
+        /// <summary>Gets or sets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         public string FilePath { get; set; }
 
+        /// <summary>Gets or sets the filename of the file.</summary>
+        ///
+        /// <value>The name of the file.</value>
         public string FileName { get; set; }
+
+        /// <summary>Gets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public override string Name
         {
             get { return FilePath; }
         }
 
+        /// <summary>Gets or sets the Date/Time of the file last modified.</summary>
+        ///
+        /// <value>The file last modified.</value>
         public DateTime FileLastModified { get; set; }
+
+        /// <summary>Gets the Date/Time of the last modified.</summary>
+        ///
+        /// <value>The last modified.</value>
         public override DateTime LastModified
         {
             get { return FileLastModified; }
         }
 
+        /// <summary>Gets or sets the text contents.</summary>
+        ///
+        /// <value>The text contents.</value>
         public string TextContents { get; set; }
 
+        /// <summary>Gets or sets the byte contents.</summary>
+        ///
+        /// <value>The byte contents.</value>
         public byte[] ByteContents { get; set; }
 
+        /// <summary>Opens the file for reading.</summary>
+        ///
+        /// <returns>A Stream.</returns>
         public override Stream OpenRead()
         {
             return new MemoryStream(ByteContents ?? (TextContents ?? "").ToUtf8Bytes());

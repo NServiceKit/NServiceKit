@@ -5,13 +5,19 @@ using NServiceKit.Logging;
 
 namespace NServiceKit.Razor.Managers
 {
+    /// <summary>Interface for live reload.</summary>
     public interface ILiveReload
     {
+        /// <summary>Starts a watching.</summary>
+        ///
+        /// <param name="scanRootPath">Full pathname of the scan root file.</param>
         void StartWatching(string scanRootPath);
     }
 
+    /// <summary>A file system watcher live reload.</summary>
     public class FileSystemWatcherLiveReload : ILiveReload
     {
+        /// <summary>The log.</summary>
         public static ILog Log = LogManager.GetLogger(typeof(FileSystemWatcherLiveReload));
 
         /// <summary>
@@ -22,11 +28,17 @@ namespace NServiceKit.Razor.Managers
         protected FileSystemWatcher FileSystemWatcher;
         private readonly RazorViewManager views;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Managers.FileSystemWatcherLiveReload class.</summary>
+        ///
+        /// <param name="views">The views.</param>
         public FileSystemWatcherLiveReload(RazorViewManager views)
         {
             this.views = views;
         }
 
+        /// <summary>Starts a watching.</summary>
+        ///
+        /// <param name="scanRootPath">Full pathname of the scan root file.</param>
         public void StartWatching(string scanRootPath)
         {
             //setup the file system watcher for page invalidation
@@ -52,6 +64,10 @@ namespace NServiceKit.Razor.Managers
             Log.WarnFormat("FileSystemWatcher Error: ", sender);
         }
 
+        /// <summary>Event handler. Called by FileSystemWatcher for renamed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Renamed event information.</param>
         protected virtual void FileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
         {
             try
@@ -71,6 +87,10 @@ namespace NServiceKit.Razor.Managers
             }
         }
 
+        /// <summary>Event handler. Called by FileSystemWatcher for deleted events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     File system event information.</param>
         protected virtual void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             try
@@ -88,6 +108,10 @@ namespace NServiceKit.Razor.Managers
             }
         }
 
+        /// <summary>Event handler. Called by FileSystemWatcher for created events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     File system event information.</param>
         protected virtual void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             try
@@ -100,6 +124,10 @@ namespace NServiceKit.Razor.Managers
             }
         }
 
+        /// <summary>Event handler. Called by FileSystemWatcher for changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     File system event information.</param>
         protected virtual void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             try

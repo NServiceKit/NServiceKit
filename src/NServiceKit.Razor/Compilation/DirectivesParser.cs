@@ -9,6 +9,12 @@ namespace NServiceKit.Razor.Compilation
     {
         private const string GlobalDirectivesFileName = "razorgenerator.directives";
 
+        /// <summary>Parse directives.</summary>
+        ///
+        /// <param name="baseDirectory">Pathname of the base directory.</param>
+        /// <param name="fullPath">     Full pathname of the full file.</param>
+        ///
+        /// <returns>A Dictionary&lt;string,string&gt;</returns>
         public static Dictionary<string, string> ParseDirectives(string baseDirectory, string fullPath)
         {
             var directives = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);

@@ -9,14 +9,28 @@ using Windows.System.Threading;
 
 namespace NServiceKit.Common.Utils
 {
+    /// <summary>The commands utilities.</summary>
     public class CommandsUtils
     {
-
+        /// <summary>Executes the asynchronous command list operation.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="timeout"> The timeout.</param>
+        /// <param name="commands">.</param>
+        ///
+        /// <returns>A List&lt;T&gt;</returns>
         public static List<T> ExecuteAsyncCommandList<T>(TimeSpan timeout, params ICommandList<T>[] commands)
         {
             return ExecuteAsyncCommandList(timeout, commands);
         }
 
+        /// <summary>Executes the asynchronous command list operation.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="timeout"> The timeout.</param>
+        /// <param name="commands">.</param>
+        ///
+        /// <returns>A List&lt;T&gt;</returns>
         public static List<T> ExecuteAsyncCommandList<T>(TimeSpan timeout, IEnumerable<ICommandList<T>> commands)
         {
             var results = new List<T>();
@@ -37,7 +51,12 @@ namespace NServiceKit.Common.Utils
             return results;
         }
 
-
+        /// <summary>Wait all.</summary>
+        ///
+        /// <exception cref="TimeoutException">Thrown when a Timeout error condition occurs.</exception>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeout">    The timeout.</param>
         public static void WaitAll(WaitHandle[] waitHandles, TimeSpan timeout)
         {
             // throws an exception if there are no wait handles
@@ -81,6 +100,10 @@ namespace NServiceKit.Common.Utils
             command.Execute();
         }
 
+        /// <summary>Provide the an option for the callee to block until all commands are executed.</summary>
+        ///
+        /// <param name="timeout"> The timeout.</param>
+        /// <param name="commands">.</param>
         public static void ExecuteAsyncCommandExec(TimeSpan timeout, IEnumerable<ICommandExec> commands)
         {
             foreach (ICommandExec command in commands)

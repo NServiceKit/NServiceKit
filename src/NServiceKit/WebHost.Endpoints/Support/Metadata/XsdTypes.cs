@@ -4,6 +4,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata
 {
     internal static class XsdTypes
     {
+        /// <summary>Gets the xsds.</summary>
+        ///
+        /// <value>The xsds.</value>
         public static IDictionary<int, string> Xsds { get; private set; }
 
         static XsdTypes()

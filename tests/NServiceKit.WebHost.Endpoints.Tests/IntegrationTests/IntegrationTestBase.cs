@@ -10,9 +10,11 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 {
+    /// <summary>An integration test base.</summary>
 	public class IntegrationTestBase
 		: AppHostHttpListenerBase
 	{
+        /// <summary>URL of the base.</summary>
 		protected const string BaseUrl = "http://localhost:82/";
 
 		//Fiddler can debug local HTTP requests when using the hostname
@@ -20,6 +22,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 
 		//private static ILog log;
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.IntegrationTests.IntegrationTestBase class.</summary>
 		public IntegrationTestBase()
 			: base("NServiceKit Examples", typeof(RestMovieService).Assembly)
 		{
@@ -38,6 +41,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			}
 		}
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		public override void Configure(Container container)
 		{
 			container.Register<IResourceManager>(new ConfigurationResourceManager());
@@ -59,6 +65,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			ConfigureDatabase.Init(container.Resolve<IDbConnectionFactory>());
 		}
 
+        /// <summary>Run the request against each Endpoint.</summary>
+        ///
+        /// <typeparam name="TRes">Type of the resource.</typeparam>
+        /// <param name="request"> .</param>
+        /// <param name="validate">.</param>
 		public void SendToEachEndpoint<TRes>(object request, Action<TRes> validate)
 		{
 			SendToEachEndpoint(request, null, validate);
@@ -92,6 +103,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			}
 		}
 
+        /// <summary>Deletes the on each endpoint.</summary>
+        ///
+        /// <typeparam name="TRes">Type of the resource.</typeparam>
+        /// <param name="relativePathOrAbsoluteUri">URI of the relative path or absolute.</param>
+        /// <param name="validate">                 .</param>
 		public void DeleteOnEachEndpoint<TRes>(string relativePathOrAbsoluteUri, Action<TRes> validate)
 		{
 			using (var xmlClient = new XmlServiceClient(BaseUrl))

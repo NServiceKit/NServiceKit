@@ -20,7 +20,12 @@ namespace NServiceKit.FluentValidation.TestHelper
 {
     using System;
 
+    /// <summary>Exception for signalling validation test errors.</summary>
     public class ValidationTestException : Exception {
+
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.TestHelper.ValidationTestException class.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public ValidationTestException(string message) : base(message) {
         }
     }

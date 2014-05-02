@@ -3,6 +3,7 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.Service
 {
+    /// <summary>Interface for partial writer.</summary>
 	public interface IPartialWriter
 	{
         /// <summary>

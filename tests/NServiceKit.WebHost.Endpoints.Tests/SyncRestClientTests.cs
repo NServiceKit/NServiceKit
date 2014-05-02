@@ -19,15 +19,20 @@ namespace NServiceKit.WebHost.Endpoints.Tests
     /// </summary>
     public abstract class SyncRestClientTests : IDisposable
     {
+        /// <summary>The listening on.</summary>
         protected string ListeningOn = "http://localhost:";
 
         ExampleAppHostHttpListener appHost;
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.SyncRestClientTests class.</summary>
+        ///
+        /// <param name="port">The port.</param>
         protected SyncRestClientTests(int port)
         {
             ListeningOn += port + "/";
         }
 
+        /// <summary>Executes the test fixture set up action.</summary>
         [TestFixtureSetUp]
         public void OnTestFixtureSetUp()
         {
@@ -38,12 +43,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost.Start(ListeningOn);
         }
 
+        /// <summary>Executes the test fixture tear down action.</summary>
         [TestFixtureTearDown]
         public void OnTestFixtureTearDown()
         {
             Dispose();
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
             if (appHost == null) return;
@@ -51,6 +58,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost = null;
         }
 
+        /// <summary>Creates rest client.</summary>
+        ///
+        /// <returns>The new rest client.</returns>
         protected abstract IRestClient CreateRestClient();
         //protected virtual IRestClient CreateRestClient()
         //{
@@ -59,6 +69,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
         static object[] GetFactorialRoutes = { "factorial/3", "fact/3" };
 
+        /// <summary>Can get factorial using rest client.</summary>
+        ///
+        /// <param name="path">Full pathname of the file.</param>
         [TestCase("factorial/3")]
         [TestCase("fact/3")]
         public void Can_GET_GetFactorial_using_RestClient(string path)
@@ -71,6 +84,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Result, Is.EqualTo(GetFactorialService.GetFactorial(3)));
         }
 
+        /// <summary>Can get movies using rest client.</summary>
+        ///
+        /// <param name="path">Full pathname of the file.</param>
         [TestCase("movies")]
         [TestCase("custom-movies")]
         public void Can_GET_Movies_using_RestClient(string path)
@@ -83,6 +99,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Movies.EquivalentTo(ResetMoviesService.Top5Movies));
         }
 
+        /// <summary>Can get single movie using rest client.</summary>
+        ///
+        /// <param name="path">Full pathname of the file.</param>
         [TestCase("movies/1")]
         [TestCase("custom-movies/1")]
         public void Can_GET_single_Movie_using_RestClient(string path)
@@ -95,6 +114,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Movie.Id, Is.EqualTo(1));
         }
 
+        /// <summary>Can post to add new movie using rest client.</summary>
+        ///
+        /// <param name="path">Full pathname of the file.</param>
         [TestCase("movies")]
         [TestCase("custom-movies")]
         public void Can_POST_to_add_new_Movie_using_RestClient(string path)
@@ -120,6 +142,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(createdMovie.ImdbId, Is.EqualTo(newMovie.ImdbId));
         }
 
+        /// <summary>Can deserialize XML movie response.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
         [Test]
         public void Can_Deserialize_Xml_MovieResponse()
         {
@@ -137,6 +162,10 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Can delete movie using rest client.</summary>
+        ///
+        /// <param name="postPath">  Full pathname of the post file.</param>
+        /// <param name="deletePath">Full pathname of the delete file.</param>
         [TestCase("movies", "movies/")]
         [TestCase("custom-movies", "custom-movies/")]
         public void Can_DELETE_Movie_using_RestClient(string postPath, string deletePath)
@@ -161,6 +190,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Movie, Is.Null);
         }
 
+        /// <summary>Can put complex type with custom path.</summary>
         [Test]
         public void Can_PUT_complex_type_with_custom_path()
         {
@@ -186,6 +216,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
                 Is.EqualTo(request.Responses[0].PageElementId));
         }
 
+        /// <summary>Does throw 400 for argument exceptions.</summary>
         [Test]
         public void Does_throw_400_for_Argument_exceptions()
         {
@@ -207,6 +238,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Does throw 400 for argument exceptions without response dt operating system.</summary>
         [Test]
         public void Does_throw_400_for_Argument_exceptions_without_response_DTOs()
         {
@@ -229,18 +261,24 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
 
+    /// <summary>A JSON synchronise rest client tests.</summary>
     [TestFixture]
     public class JsonSyncRestClientTests : SyncRestClientTests
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.JsonSyncRestClientTests class.</summary>
         public JsonSyncRestClientTests() : base(8090)
         {
         }
 
+        /// <summary>Creates rest client.</summary>
+        ///
+        /// <returns>The new rest client.</returns>
         protected override IRestClient CreateRestClient()
         {
             return new JsonServiceClient(ListeningOn);
         }
 
+        /// <summary>Can use response filters.</summary>
         [Test]
         public void Can_use_response_filters()
         {
@@ -257,28 +295,38 @@ namespace NServiceKit.WebHost.Endpoints.Tests
         }
     }
 
+    /// <summary>A jsv synchronise rest client tests.</summary>
     [TestFixture]
     public class JsvSyncRestClientTests : SyncRestClientTests
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.JsvSyncRestClientTests class.</summary>
         public JsvSyncRestClientTests()
             : base(8093)
         {
         }
 
+        /// <summary>Creates rest client.</summary>
+        ///
+        /// <returns>The new rest client.</returns>
         protected override IRestClient CreateRestClient()
         {
             return new JsvServiceClient(ListeningOn);
         }
     }
 
+    /// <summary>An XML synchronise rest client tests.</summary>
     [TestFixture]
     public class XmlSyncRestClientTests : SyncRestClientTests
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.XmlSyncRestClientTests class.</summary>
         public XmlSyncRestClientTests()
             : base(8092)
         {
         }
 
+        /// <summary>Creates rest client.</summary>
+        ///
+        /// <returns>The new rest client.</returns>
         protected override IRestClient CreateRestClient()
         {
             return new XmlServiceClient(ListeningOn);

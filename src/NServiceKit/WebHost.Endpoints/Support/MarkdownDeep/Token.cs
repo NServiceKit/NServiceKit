@@ -72,6 +72,9 @@ namespace MarkdownDeep
 			this.data = data;
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
 			if (true || data == null)
@@ -84,9 +87,13 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>The type.</summary>
 		public TokenType type;
+        /// <summary>The start offset.</summary>
 		public int startOffset;
+        /// <summary>The length.</summary>
 		public int length;
+        /// <summary>The data.</summary>
 		public object data;
 	}
 

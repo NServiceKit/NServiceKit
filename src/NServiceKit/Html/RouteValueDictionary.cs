@@ -40,19 +40,32 @@ namespace NServiceKit.Html
 #if NET_4_0
 	[TypeForwardedFrom ("System.Web.Routing, Version=3.5.0.0, Culture=Neutral, PublicKeyToken=31bf3856ad364e35")]
 #endif
+    /// <summary>Dictionary of route values.</summary>
 	[AspNetHostingPermission(SecurityAction.InheritanceDemand, Level = AspNetHostingPermissionLevel.Minimal)]
 	[AspNetHostingPermission(SecurityAction.LinkDemand, Level = AspNetHostingPermissionLevel.Minimal)]
 	public class RouteValueDictionary : IDictionary<string, object>
 	{
 		internal class CaseInsensitiveStringComparer : IEqualityComparer<string>
 		{
+            /// <summary>The instance.</summary>
 			public static readonly CaseInsensitiveStringComparer Instance = new CaseInsensitiveStringComparer();
 
+            /// <summary>Returns a hash code for this object.</summary>
+            ///
+            /// <param name="obj">The object.</param>
+            ///
+            /// <returns>A hash code for this object.</returns>
 			public int GetHashCode(string obj)
 			{
 				return obj.ToLower(CultureInfo.InvariantCulture).GetHashCode();
 			}
 
+            /// <summary>Tests if two string objects are considered equal.</summary>
+            ///
+            /// <param name="obj1">String to be compared.</param>
+            /// <param name="obj2">String to be compared.</param>
+            ///
+            /// <returns>true if the objects are considered equal, false if they are not.</returns>
 			public bool Equals(string obj1, string obj2)
 			{
 				return String.Equals(obj1, obj2, StringComparison.OrdinalIgnoreCase);
@@ -61,8 +74,14 @@ namespace NServiceKit.Html
 
 		Dictionary<string,object> d = new Dictionary<string, object>(CaseInsensitiveStringComparer.Instance);
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.RouteValueDictionary class.</summary>
 		public RouteValueDictionary() {}
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.RouteValueDictionary class.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="dictionary">The dictionary.</param>
 		public RouteValueDictionary(IDictionary<string, object> dictionary)
 		{
 			if (dictionary == null)
@@ -71,6 +90,9 @@ namespace NServiceKit.Html
 				Add(p.Key, p.Value);
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.RouteValueDictionary class.</summary>
+        ///
+        /// <param name="values">The values.</param>
 		public RouteValueDictionary(object values) // anonymous type instance
 		{
 			if (values == null)
@@ -89,6 +111,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the number of. </summary>
+        ///
+        /// <value>The count.</value>
 		public int Count
 		{
 			get { return d.Count; }
@@ -109,42 +134,71 @@ namespace NServiceKit.Html
 			get { return d.Values; }
 		}
 
+        /// <summary>Indexer to get or set items within this collection using array index syntax.</summary>
+        ///
+        /// <param name="key">The key.</param>
+        ///
+        /// <returns>The indexed item.</returns>
 		public object this[string key]
 		{
 			get { object v; return d.TryGetValue(key, out v) ? v : null; }
 			set { d[key] = value; }
 		}
 
+        /// <summary>Gets the keys.</summary>
+        ///
+        /// <value>The keys.</value>
 		public Dictionary<string, object>.KeyCollection Keys
 		{
 			get { return d.Keys; }
 		}
 
+        /// <summary>Gets the values.</summary>
+        ///
+        /// <value>The values.</value>
 		public Dictionary<string, object>.ValueCollection Values
 		{
 			get { return d.Values; }
 		}
 
+        /// <summary>Adds key.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
 		public void Add(string key, object value)
 		{
 			d.Add(key, value);
 		}
 
+        /// <summary>Clears this object to its blank/initial state.</summary>
 		public void Clear()
 		{
 			d.Clear();
 		}
 
+        /// <summary>Query if 'key' contains key.</summary>
+        ///
+        /// <param name="key">The key.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool ContainsKey(string key)
 		{
 			return d.ContainsKey(key);
 		}
 
+        /// <summary>Query if 'value' contains value.</summary>
+        ///
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool ContainsValue(object value)
 		{
 			return d.ContainsValue(value);
 		}
 
+        /// <summary>Gets the enumerator.</summary>
+        ///
+        /// <returns>The enumerator.</returns>
 		public Dictionary<string, object>.Enumerator GetEnumerator()
 		{
 			return d.GetEnumerator();
@@ -180,11 +234,22 @@ namespace NServiceKit.Html
 			return d.GetEnumerator();
 		}
 
+        /// <summary>Removes the given key.</summary>
+        ///
+        /// <param name="key">The key to remove.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool Remove(string key)
 		{
 			return d.Remove(key);
 		}
 
+        /// <summary>Attempts to get value from the given data.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public bool TryGetValue(string key, out object value)
 		{
 			return d.TryGetValue(key, out value);

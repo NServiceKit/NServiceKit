@@ -9,6 +9,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceInterface.Auth
 {
+    /// <summary>The redis authentication repository.</summary>
     public class RedisAuthRepository : IUserAuthRepository, IClearable
     {
         //http://stackoverflow.com/questions/3588623/c-sharp-regex-for-a-username-with-a-few-restrictions
@@ -16,14 +17,23 @@ namespace NServiceKit.ServiceInterface.Auth
 
         private readonly IRedisClientManagerFacade factory;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.RedisAuthRepository class.</summary>
+        ///
+        /// <param name="factory">The factory.</param>
         public RedisAuthRepository(IRedisClientsManager factory)
             : this(new RedisClientManagerFacade(factory)) {}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.RedisAuthRepository class.</summary>
+        ///
+        /// <param name="factory">The factory.</param>
         public RedisAuthRepository(IRedisClientManagerFacade factory)
         {
             this.factory = factory;
         }
 
+        /// <summary>Gets or sets the namespace prefix.</summary>
+        ///
+        /// <value>The namespace prefix.</value>
         public string NamespacePrefix { get; set; }
 
         private string UsePrefix
@@ -90,6 +100,12 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Creates user authentication.</summary>
+        ///
+        /// <param name="newUser"> The new user.</param>
+        /// <param name="password">The password.</param>
+        ///
+        /// <returns>The new user authentication.</returns>
         public virtual UserAuth CreateUserAuth(UserAuth newUser, string password)
         {
             ValidateNewUser(newUser, password);
@@ -123,6 +139,13 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Updates the user authentication.</summary>
+        ///
+        /// <param name="existingUser">The existing user.</param>
+        /// <param name="newUser">     The new user.</param>
+        /// <param name="password">    The password.</param>
+        ///
+        /// <returns>An UserAuth.</returns>
         public UserAuth UpdateUserAuth(UserAuth existingUser, UserAuth newUser, string password)
         {
             ValidateNewUser(newUser, password);
@@ -172,7 +195,12 @@ namespace NServiceKit.ServiceInterface.Auth
                 return newUser;
             }
         }
-        
+
+        /// <summary>Gets user authentication by user name.</summary>
+        ///
+        /// <param name="userNameOrEmail">The user name or email.</param>
+        ///
+        /// <returns>The user authentication by user name.</returns>
         public virtual UserAuth GetUserAuthByUserName(string userNameOrEmail)
         {
             using (var redis = factory.GetClient())
@@ -191,6 +219,13 @@ namespace NServiceKit.ServiceInterface.Auth
             return userId == null ? null : redis.As<UserAuth>().GetById(userId);
         }
 
+        /// <summary>Attempts to authenticate from the given data.</summary>
+        ///
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="userAuth">The user authentication.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public virtual bool TryAuthenticate(string userName, string password, out UserAuth userAuth)
         {
             //userId = null;
@@ -207,6 +242,15 @@ namespace NServiceKit.ServiceInterface.Auth
             return false;
         }
 
+        /// <summary>Attempts to authenticate from the given data.</summary>
+        ///
+        /// <param name="digestHeaders">The digest headers.</param>
+        /// <param name="PrivateKey">   The private key.</param>
+        /// <param name="NonceTimeOut"> The nonce time out.</param>
+        /// <param name="sequence">     The sequence.</param>
+        /// <param name="userAuth">     The user authentication.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public bool TryAuthenticate (Dictionary<string, string> digestHeaders, string PrivateKey, int NonceTimeOut, string sequence, out UserAuth userAuth)
         {
             userAuth = GetUserAuthByUserName(digestHeaders["username"]);
@@ -221,6 +265,10 @@ namespace NServiceKit.ServiceInterface.Auth
             return false;
         }
 
+        /// <summary>Loads user authentication.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="tokens"> The tokens.</param>
         public virtual void LoadUserAuth(IAuthSession session, IOAuthTokens tokens)
         {
             session.ThrowIfNull("session");
@@ -247,12 +295,20 @@ namespace NServiceKit.ServiceInterface.Auth
             return redis.As<UserAuth>().GetById(longId);
         }
 
+        /// <summary>Gets user authentication.</summary>
+        ///
+        /// <param name="userAuthId">Identifier for the user authentication.</param>
+        ///
+        /// <returns>The user authentication.</returns>
         public UserAuth GetUserAuth(string userAuthId)
         {
             using (var redis = factory.GetClient())
                 return GetUserAuth(redis, userAuthId);
         }
 
+        /// <summary>Saves a user authentication.</summary>
+        ///
+        /// <param name="authSession">The authentication session.</param>
         public void SaveUserAuth(IAuthSession authSession)
         {
             using (var redis = factory.GetClient())
@@ -272,6 +328,9 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Saves a user authentication.</summary>
+        ///
+        /// <param name="userAuth">The user authentication.</param>
         public void SaveUserAuth(UserAuth userAuth)
         {
             userAuth.ModifiedDate = DateTime.UtcNow;
@@ -290,6 +349,11 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Gets user o authentication providers.</summary>
+        ///
+        /// <param name="userAuthId">Identifier for the user authentication.</param>
+        ///
+        /// <returns>The user o authentication providers.</returns>
         public List<UserOAuthProvider> GetUserOAuthProviders(string userAuthId)
         {
             userAuthId.ThrowIfNullOrEmpty("userAuthId");
@@ -302,6 +366,12 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Gets user authentication.</summary>
+        ///
+        /// <param name="authSession">The authentication session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        ///
+        /// <returns>The user authentication.</returns>
         public virtual UserAuth GetUserAuth(IAuthSession authSession, IOAuthTokens tokens)
         {
             using (var redis = factory.GetClient())
@@ -333,6 +403,12 @@ namespace NServiceKit.ServiceInterface.Auth
             return null;
         } 
 
+        /// <summary>Creates or merge authentication session.</summary>
+        ///
+        /// <param name="authSession">The authentication session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        ///
+        /// <returns>The new or merge authentication session.</returns>
         public string CreateOrMergeAuthSession(IAuthSession authSession, IOAuthTokens tokens)
         {
             using (var redis = factory.GetClient())
@@ -381,6 +457,7 @@ namespace NServiceKit.ServiceInterface.Auth
             return oAuthProviderId;
         }
 
+        /// <summary>Clears this object to its blank/initial state.</summary>
         public void Clear()
         {
             this.factory.Clear();

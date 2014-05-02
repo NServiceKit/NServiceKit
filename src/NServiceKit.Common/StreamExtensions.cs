@@ -9,6 +9,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A stream extensions.</summary>
     public static class StreamExtensions
     {
 #if !SILVERLIGHT && !XBOX && !MONOTOUCH
@@ -29,8 +30,10 @@ namespace NServiceKit.Common
             throw new NotSupportedException(compressionType);
         }
 
+        /// <summary>The deflate provider.</summary>
         public static IDeflateProvider DeflateProvider = new NetDeflateProvider();
 
+        /// <summary>The zip provider.</summary>
         public static IGZipProvider GZipProvider = new NetGZipProvider();
 
         /// <summary>
@@ -50,27 +53,54 @@ namespace NServiceKit.Common
             throw new NotSupportedException(compressionType);
         }
 
+        /// <summary>A string extension method that deflates the given text.</summary>
+        ///
+        /// <param name="text">The text.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public static byte[] Deflate(this string text)
         {
             return DeflateProvider.Deflate(text);
         }
 
+        /// <summary>A byte[] extension method that inflates the given gz buffer.</summary>
+        ///
+        /// <param name="gzBuffer">The gz buffer.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string Inflate(this byte[] gzBuffer)
         {
             return DeflateProvider.Inflate(gzBuffer);
         }
 
+        /// <summary>A string extension method that zips the given text.</summary>
+        ///
+        /// <param name="text">The text.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public static byte[] GZip(this string text)
         {
             return GZipProvider.GZip(text);
         }
 
+        /// <summary>A byte[] extension method that unzips the given gz buffer.</summary>
+        ///
+        /// <param name="gzBuffer">The gz buffer.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string GUnzip(this byte[] gzBuffer)
         {
             return GZipProvider.GUnzip(gzBuffer);
         }
 #endif
 
+        /// <summary>A Stream extension method that converts a stream to an UTF 8 string.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="stream">The stream to act on.</param>
+        ///
+        /// <returns>stream as a string.</returns>
         public static string ToUtf8String(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException("stream");
@@ -81,6 +111,13 @@ namespace NServiceKit.Common
             }
         }
 
+        /// <summary>A Stream extension method that converts a stream to the bytes.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="stream">The stream to act on.</param>
+        ///
+        /// <returns>stream as a byte[].</returns>
         public static byte[] ToBytes(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException("stream");
@@ -88,12 +125,19 @@ namespace NServiceKit.Common
             return stream.ReadFully();
         }
 
+        /// <summary>A Stream extension method that writes.</summary>
+        ///
+        /// <param name="stream">The stream to act on.</param>
+        /// <param name="text">  The text.</param>
         public static void Write(this Stream stream, string text)
         {
             var bytes = Encoding.UTF8.GetBytes(text);
             stream.Write(bytes, 0, bytes.Length);
         }
 
+        /// <summary>A Stream extension method that closes the given stream.</summary>
+        ///
+        /// <param name="stream">The stream to act on.</param>
         public static void Close(this Stream stream)
         {
 #if NETFX_CORE
@@ -103,6 +147,12 @@ namespace NServiceKit.Common
 #endif
         }
 #if !SILVERLIGHT
+
+        /// <summary>A byte[] extension method that converts the bytes to a md 5 hash.</summary>
+        ///
+        /// <param name="stream">The stream to act on.</param>
+        ///
+        /// <returns>bytes as a string.</returns>
         public static string ToMd5Hash(this Stream stream)
         {
             var hash = MD5.Create().ComputeHash(stream);
@@ -114,6 +164,11 @@ namespace NServiceKit.Common
             return sb.ToString();
         }
 
+        /// <summary>A byte[] extension method that converts the bytes to a md 5 hash.</summary>
+        ///
+        /// <param name="bytes">The bytes to act on.</param>
+        ///
+        /// <returns>bytes as a string.</returns>
         public static string ToMd5Hash(this byte[] bytes)
         {
             var hash = MD5.Create().ComputeHash(bytes);

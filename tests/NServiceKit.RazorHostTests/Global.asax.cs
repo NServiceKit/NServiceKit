@@ -3,6 +3,7 @@ using NServiceKit.VirtualPath;
 
 namespace NServiceKit.RazorHostTests
 {
+    /// <summary>A global.</summary>
     public class Global : System.Web.HttpApplication
     {
         void Application_Start(object sender, EventArgs e)

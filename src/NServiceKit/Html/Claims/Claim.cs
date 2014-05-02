@@ -9,14 +9,24 @@ namespace NServiceKit.Html.Claims
     // we can't compile directly against them.
     internal sealed class Claim
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Html.Claims.Claim class.</summary>
+        ///
+        /// <param name="claimType">The type of the claim.</param>
+        /// <param name="value">    The value.</param>
         public Claim(string claimType, string value)
         {
             ClaimType = claimType;
             Value = value;
         }
 
+        /// <summary>Gets the type of the claim.</summary>
+        ///
+        /// <value>The type of the claim.</value>
         public string ClaimType { get; private set; }
 
+        /// <summary>Gets the value.</summary>
+        ///
+        /// <value>The value.</value>
         public string Value { get; private set; }
 
         // Creates a Claim from a TClaim object (duck typing).
@@ -36,6 +46,11 @@ namespace NServiceKit.Html.Claims
             private static readonly Func<TClaim, string> _claimTypeGetter = CreateClaimTypeGetter();
             private static readonly Func<TClaim, string> _valueGetter = CreateValueGetter();
 
+            /// <summary>Creates a new Claim.</summary>
+            ///
+            /// <param name="claim">The claim.</param>
+            ///
+            /// <returns>A Claim.</returns>
             public static Claim Create(TClaim claim)
             {
                 return new Claim(_claimTypeGetter(claim), _valueGetter(claim));

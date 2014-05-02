@@ -5,15 +5,21 @@ using System.Globalization;
 
 namespace NServiceKit.Html
 {
+    /// <summary>Encapsulates the result of a value provider.</summary>
 	[Serializable]
 	public class ValueProviderResult
 	{
 		private static readonly CultureInfo _staticCulture = CultureInfo.InvariantCulture;
 		private CultureInfo _instanceCulture;
 
-		// default constructor so that subclassed types can set the properties themselves
+        /// <summary>default constructor so that subclassed types can set the properties themselves.</summary>
 		protected ValueProviderResult() { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.ValueProviderResult class.</summary>
+        ///
+        /// <param name="rawValue">      The raw value.</param>
+        /// <param name="attemptedValue">The attempted value.</param>
+        /// <param name="culture">       The culture.</param>
 		public ValueProviderResult(object rawValue, string attemptedValue, CultureInfo culture)
 		{
 			RawValue = rawValue;
@@ -21,12 +27,18 @@ namespace NServiceKit.Html
 			Culture = culture;
 		}
 
+        /// <summary>Gets the attempted value.</summary>
+        ///
+        /// <value>The attempted value.</value>
 		public string AttemptedValue
 		{
 			get;
 			protected set;
 		}
 
+        /// <summary>Gets the culture.</summary>
+        ///
+        /// <value>The culture.</value>
 		public CultureInfo Culture
 		{
 			get
@@ -43,6 +55,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the raw value.</summary>
+        ///
+        /// <value>The raw value.</value>
 		public object RawValue
 		{
 			get;
@@ -91,11 +106,24 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Convert to.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>to converted.</returns>
 		public object ConvertTo(Type type)
 		{
 			return ConvertTo(type, null /* culture */);
 		}
 
+        /// <summary>Convert to.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="type">   The type.</param>
+        /// <param name="culture">The culture.</param>
+        ///
+        /// <returns>to converted.</returns>
 		public virtual object ConvertTo(Type type, CultureInfo culture)
 		{
 			if (type == null)

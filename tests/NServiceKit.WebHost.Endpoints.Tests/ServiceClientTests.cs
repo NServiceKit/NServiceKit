@@ -5,6 +5,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Operations;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A service client tests.</summary>
 	[TestFixture]
 	public class ServiceClientTests
 		: ServiceClientTestBase
@@ -18,6 +19,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			return new TestAppHostHttpListener();
 		}
 
+        /// <summary>Can get customers.</summary>
 		[Test]
 		public void Can_GetCustomers()
 		{

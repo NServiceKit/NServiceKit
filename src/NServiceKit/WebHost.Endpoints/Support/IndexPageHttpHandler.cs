@@ -5,6 +5,7 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.WebHost.Endpoints.Support
 {
+    /// <summary>An index page HTTP handler.</summary>
 	public class IndexPageHttpHandler
 		: INServiceKitHttpHandler, IHttpHandler
 	{
@@ -57,6 +58,9 @@ namespace NServiceKit.WebHost.Endpoints.Support
 
 		}
 
+        /// <summary>Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler" /> instance.</summary>
+        ///
+        /// <value>true if the <see cref="T:System.Web.IHttpHandler" /> instance is reusable; otherwise, false.</value>
 		public bool IsReusable
 		{
 			get { return true; }

@@ -19,6 +19,11 @@ namespace NServiceKit.MiniProfiler.UI
 	/// </summary>
 	public class MiniProfilerHandler : /*IRouteHandler, */ IHttpHandler, INServiceKitHttpHandler
 	{
+        /// <summary>Matches request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An IHttpHandler.</returns>
 		public static IHttpHandler MatchesRequest(IHttpRequest request)
 		{
 			var file = GetFileNameWithoutExtension(request.PathInfo);
@@ -27,6 +32,18 @@ namespace NServiceKit.MiniProfiler.UI
 				: null;
 		}
 
+        /// <summary>Renders the includes.</summary>
+        ///
+        /// <param name="profiler">            The profiler.</param>
+        /// <param name="position">            The position.</param>
+        /// <param name="showTrivial">         The show trivial.</param>
+        /// <param name="showTimeWithChildren">The show time with children.</param>
+        /// <param name="maxTracesToShow">     The maximum traces to show.</param>
+        /// <param name="xhtml">               true to xhtml.</param>
+        /// <param name="showControls">        The show controls.</param>
+        /// <param name="path">                Full pathname of the file.</param>
+        ///
+        /// <returns>A HtmlString.</returns>
 		public static HtmlString RenderIncludes(Profiler profiler, RenderPosition? position = null, bool? showTrivial = null, bool? showTimeWithChildren = null, int? maxTracesToShow = null, bool xhtml = false, bool? showControls = null, string path = null)
 		{
 			const string format =
@@ -79,6 +96,11 @@ namespace NServiceKit.MiniProfiler.UI
 			return new HtmlString(result);
 		}
 
+        /// <summary>Gets file name without extension.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        ///
+        /// <returns>The file name without extension.</returns>
         public static string GetFileNameWithoutExtension(string pathInfo)
         {
             //Path.GetFileNameWithoutExtension() throws exception with illegal chars
@@ -144,6 +166,11 @@ namespace NServiceKit.MiniProfiler.UI
 				null);
 		}
 
+        /// <summary>Returns either includes' css/javascript or results' html.</summary>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
 		public void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
 		{
 			var path = httpReq.PathInfo;

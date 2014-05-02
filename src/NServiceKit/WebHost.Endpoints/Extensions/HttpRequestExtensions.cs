@@ -44,6 +44,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 									path/
 									info
 	 * */
+    /// <summary>A HTTP request extensions.</summary>
 	public static class HttpRequestExtensions
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(HttpRequestExtensions));
@@ -55,12 +56,22 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			WebHostDirectoryName = Path.GetFileName("~".MapHostAbsolutePath());
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets operation name.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The operation name.</returns>
 		public static string GetOperationName(this HttpRequest request)
 		{
 			var pathInfo = request.GetLastPathInfo();
 			return GetOperationNameFromLastPathInfo(pathInfo);
 		}
 
+        /// <summary>Gets operation name from last path information.</summary>
+        ///
+        /// <param name="lastPathInfo">Information describing the last path.</param>
+        ///
+        /// <returns>The operation name from last path information.</returns>
 		public static string GetOperationNameFromLastPathInfo(string lastPathInfo)
 		{
 			if (String.IsNullOrEmpty(lastPathInfo)) return null;
@@ -81,6 +92,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return pathInfo;
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets the last path information.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The last path information.</returns>
 		public static string GetLastPathInfo(this HttpRequest request)
 		{
 			var pathInfo = request.PathInfo;
@@ -95,6 +111,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return pathInfo;
 		}
 
+        /// <summary>A HttpRequest extension method that gets URL host name.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The URL host name.</returns>
 		public static string GetUrlHostName(this HttpRequest request)
 		{
 			//TODO: Fix bug in mono fastcgi, when trying to get 'Request.Url.Host'
@@ -110,8 +131,14 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			}
 		}
 
-		// http://localhost/NServiceKit.Examples.Host.Web/Public/Public/Soap12/Wsdl => 
-		// http://localhost/NServiceKit.Examples.Host.Web/Public/Soap12/
+        /// <summary>
+        /// http://localhost/NServiceKit.Examples.Host.Web/Public/Public/Soap12/Wsdl =>
+        /// http://localhost/NServiceKit.Examples.Host.Web/Public/Soap12/.
+        /// </summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The parent base URL.</returns>
 		public static string GetParentBaseUrl(this HttpRequest request)
 		{
 			var rawUrl = request.RawUrl; // /Cambia3/Temp/Test.aspx/path/info
@@ -119,12 +146,22 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return GetAuthority(request) + endpointsPath;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets the parent base URL.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The parent base URL.</returns>
         public static string GetParentBaseUrl(this IHttpRequest request){
             var rawUrl = request.RawUrl;
             var endpointsPath = rawUrl.Substring(0, rawUrl.LastIndexOf('/') + 1);
             return new Uri(request.AbsoluteUri).GetLeftPart(UriPartial.Authority) + endpointsPath;
         }
 
+        /// <summary>An IHttpRequest extension method that gets base URL.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The base URL.</returns>
 		public static string GetBaseUrl(this HttpRequest request)
 		{
 			return GetAuthority(request) + request.RawUrl;
@@ -144,16 +181,31 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			}
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets operation name.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The operation name.</returns>
 		public static string GetOperationName(this HttpListenerRequest request)
 		{
 			return request.Url.Segments[request.Url.Segments.Length - 1];
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets the last path information.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The last path information.</returns>
 		public static string GetLastPathInfo(this HttpListenerRequest request)
 		{
 			return GetLastPathInfoFromRawUrl(request.RawUrl);
 		}
 
+        /// <summary>Gets path information.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The path information.</returns>
 		public static string GetPathInfo(this HttpRequest request)
 		{
 			if (!String.IsNullOrEmpty(request.PathInfo)) return request.PathInfo.TrimEnd('/');
@@ -168,6 +220,13 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return GetPathInfo(path, mode, appPath);
 		}
 
+        /// <summary>Gets path information.</summary>
+        ///
+        /// <param name="fullPath">Full pathname of the full file.</param>
+        /// <param name="mode">    The mode.</param>
+        /// <param name="appPath"> Full pathname of the application file.</param>
+        ///
+        /// <returns>The path information.</returns>
 		public static string GetPathInfo(string fullPath, string mode, string appPath)
 		{
 			var pathInfo = ResolvePathInfoFromMappedPath(fullPath, mode);
@@ -180,6 +239,12 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return fullPath;
 		}
 
+        /// <summary>Resolve path information from mapped path.</summary>
+        ///
+        /// <param name="fullPath">      Full pathname of the full file.</param>
+        /// <param name="mappedPathRoot">The mapped path root.</param>
+        ///
+        /// <returns>A string.</returns>
 		public static string ResolvePathInfoFromMappedPath(string fullPath, string mappedPathRoot)
 		{
             if (mappedPathRoot == null) return null;
@@ -209,11 +274,23 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return path.Length > 1 ? path.TrimEnd('/') : "/";
 		}
 
+        /// <summary>An IHttpRequest extension method that query if 'request' is content type.</summary>
+        ///
+        /// <param name="request">    The request to act on.</param>
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>true if content type, false if not.</returns>
 		public static bool IsContentType(this IHttpRequest request, string contentType)
 		{
 			return request.ContentType.StartsWith(contentType, StringComparison.InvariantCultureIgnoreCase);
 		}
 
+        /// <summary>An IHttpRequest extension method that query if 'request' has any of content types.</summary>
+        ///
+        /// <param name="request">     The request to act on.</param>
+        /// <param name="contentTypes">List of types of the contents.</param>
+        ///
+        /// <returns>true if any of content types, false if not.</returns>
 		public static bool HasAnyOfContentTypes(this IHttpRequest request, params string[] contentTypes)
 		{
 			if (contentTypes == null || request.ContentType == null) return false;
@@ -224,16 +301,31 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return false;
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets HTTP request.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The HTTP request.</returns>
 		public static IHttpRequest GetHttpRequest(this HttpRequest request)
 		{
 			return new HttpRequestWrapper(null, request);
 		}
 
+        /// <summary>A HttpListenerRequest extension method that gets HTTP request.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The HTTP request.</returns>
 		public static IHttpRequest GetHttpRequest(this HttpListenerRequest request)
 		{
 			return new HttpListenerRequestWrapper(null, request);
 		}
 
+        /// <summary>An IHttpRequest extension method that gets request parameters.</summary>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The request parameters.</returns>
 		public static Dictionary<string, string> GetRequestParams(this IHttpRequest request)
 		{
 			var map = new Dictionary<string, string>();
@@ -257,6 +349,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return map;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets query string content type.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The query string content type.</returns>
 		public static string GetQueryStringContentType(this IHttpRequest httpReq)
 		{
 			var callback = httpReq.QueryString["callback"];
@@ -284,6 +381,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return contentType;
 		}
 
+        /// <summary>List of types of the preferred contents.</summary>
 		public static string[] PreferredContentTypes = new[] {
 			ContentType.Html, ContentType.Json, ContentType.Xml, ContentType.Jsv
 		};
@@ -305,6 +403,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return item;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets response content type.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The response content type.</returns>
 		public static string GetResponseContentType(this IHttpRequest httpReq)
 		{
 			var specifiedContentType = GetQueryStringContentType(httpReq);
@@ -358,36 +461,71 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			return EndpointHost.Config.DefaultContentType;
 		}
 
+        /// <summary>An IHttpRequest extension method that sets a view.</summary>
+        ///
+        /// <param name="httpReq"> The httpReq to act on.</param>
+        /// <param name="viewName">Name of the view.</param>
         public static void SetView(this IHttpRequest httpReq, string viewName)
         {
             httpReq.SetItem("View", viewName);
         }
 
+        /// <summary>An IHttpRequest extension method that gets a view.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The view.</returns>
         public static string GetView(this IHttpRequest httpReq)
         {
             return httpReq.GetItem("View") as string;
         }
 
+        /// <summary>An IHttpRequest extension method that sets a template.</summary>
+        ///
+        /// <param name="httpReq">     The httpReq to act on.</param>
+        /// <param name="templateName">Name of the template.</param>
         public static void SetTemplate(this IHttpRequest httpReq, string templateName)
         {
             httpReq.SetItem("Template", templateName);
         }
 
+        /// <summary>An IHttpRequest extension method that gets a template.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The template.</returns>
         public static string GetTemplate(this IHttpRequest httpReq)
         {
             return httpReq.GetItem("Template") as string;
         }
 
+        /// <summary>An IHttpRequest extension method that resolve absolute URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        /// <param name="url">    URL of the document.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string ResolveAbsoluteUrl(this IHttpRequest httpReq, string url)
         {
             return EndpointHost.AppHost.ResolveAbsoluteUrl(url, httpReq);
         }
 
+        /// <summary>An IHttpRequest extension method that resolve base URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string ResolveBaseUrl(this IHttpRequest httpReq)
         {
             return EndpointHost.AppHost.ResolveAbsoluteUrl("~/", httpReq);
         }
 
+        /// <summary>An IHttpRequest extension method that gets absolute URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        /// <param name="url">    URL of the document.</param>
+        ///
+        /// <returns>The absolute URL.</returns>
         public static string GetAbsoluteUrl(this IHttpRequest httpReq, string url)
         {
             if (url.SafeSubstring(0, 2) == "~/")
@@ -397,6 +535,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return url;
         }
 
+        /// <summary>An IHttpRequest extension method that gets base URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The base URL.</returns>
         public static string GetBaseUrl(this IHttpRequest httpReq)
         {
             var baseUrl = NServiceKitHttpHandlerFactory.GetBaseUrl();
@@ -417,6 +560,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return "/"; //Can't infer Absolute Uri, fallback to root relative path
         }
 
+        /// <summary>Converts the attrNames to an endpoint attributes.</summary>
+        ///
+        /// <param name="attrNames">List of names of the attributes.</param>
+        ///
+        /// <returns>attrNames as the EndpointAttributes.</returns>
         public static EndpointAttributes ToEndpointAttributes(string[] attrNames)
         {
             var attrs = EndpointAttributes.None;
@@ -428,6 +576,13 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return attrs;
         }
 
+        /// <summary>Gets the attributes.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="request">The request to act on.</param>
+        ///
+        /// <returns>The attributes.</returns>
 	    public static EndpointAttributes GetAttributes(this IHttpRequest request)
 	    {
             if (EndpointHost.DebugMode 
@@ -487,6 +642,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 	        return portRestrictions;
 	    }
 
+        /// <summary>Gets the attributes.</summary>
+        ///
+        /// <param name="ipAddress">The IP address.</param>
+        ///
+        /// <returns>The attributes.</returns>
 	    public static EndpointAttributes GetAttributes(IPAddress ipAddress)
 	    {
 	        if (IPAddress.IsLoopback(ipAddress))
@@ -497,6 +657,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 	               : EndpointAttributes.External;
 	    }
 
+        /// <summary>Query if 'ipAddress' is in local subnet.</summary>
+        ///
+        /// <param name="ipAddress">The IP address.</param>
+        ///
+        /// <returns>true if in local subnet, false if not.</returns>
 	    public static bool IsInLocalSubnet(IPAddress ipAddress)
 	    {
 	        var ipAddressBytes = ipAddress.GetAddressBytes();
@@ -525,7 +690,13 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 
 	        return false;
 	    }
-        
+
+        /// <summary>A HttpListenerRequest extension method that converts this object to a request.</summary>
+        ///
+        /// <param name="aspnetHttpReq">The aspnetHttpReq to act on.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>The given data converted to an IHttpRequest.</returns>
 	    public static IHttpRequest ToRequest(this HttpRequest aspnetHttpReq, string operationName=null)
 	    {
 	        return new HttpRequestWrapper(aspnetHttpReq) {
@@ -534,6 +705,12 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             };
 	    }
 
+        /// <summary>A HttpListenerRequest extension method that converts this object to a request.</summary>
+        ///
+        /// <param name="listenerHttpReq">The listenerHttpReq to act on.</param>
+        /// <param name="operationName">  Name of the operation.</param>
+        ///
+        /// <returns>The given data converted to an IHttpRequest.</returns>
         public static IHttpRequest ToRequest(this HttpListenerRequest listenerHttpReq, string operationName = null)
 	    {
 	        return new HttpListenerRequestWrapper(listenerHttpReq) {
@@ -542,16 +719,30 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             };
 	    }
 
+        /// <summary>A HttpListenerResponse extension method that converts the listenerHttpRes to a response.</summary>
+        ///
+        /// <param name="aspnetHttpRes">The aspnetHttpRes to act on.</param>
+        ///
+        /// <returns>listenerHttpRes as an IHttpResponse.</returns>
 	    public static IHttpResponse ToResponse(this HttpResponse aspnetHttpRes)
 	    {
 	        return new HttpResponseWrapper(aspnetHttpRes);
 	    }
 
+        /// <summary>A HttpListenerResponse extension method that converts the listenerHttpRes to a response.</summary>
+        ///
+        /// <param name="listenerHttpRes">The listenerHttpRes to act on.</param>
+        ///
+        /// <returns>listenerHttpRes as an IHttpResponse.</returns>
 	    public static IHttpResponse ToResponse(this HttpListenerResponse listenerHttpRes)
 	    {
 	        return new HttpListenerResponseWrapper(listenerHttpRes);
 	    }
 
+        /// <summary>An IHttpRequest extension method that sets operation name.</summary>
+        ///
+        /// <param name="httpReq">      The httpReq to act on.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public static void SetOperationName(this IHttpRequest httpReq, string operationName)
         {
             if (httpReq.OperationName == null)
@@ -571,6 +762,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>An IHttpRequest extension method that gets SOAP message.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The SOAP message.</returns>
         public static System.ServiceModel.Channels.Message GetSoapMessage(this IHttpRequest httpReq)
         {
             return httpReq.Items["SoapMessage"] as System.ServiceModel.Channels.Message;

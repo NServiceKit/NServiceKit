@@ -137,8 +137,15 @@ namespace NServiceKit.ServiceHost
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class FallbackRouteAttribute : RouteAttribute
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.FallbackRouteAttribute class.</summary>
+        ///
+        /// <param name="path">Full pathname of the file.</param>
         public FallbackRouteAttribute(string path) : base(path) {}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.FallbackRouteAttribute class.</summary>
+        ///
+        /// <param name="path"> Full pathname of the file.</param>
+        /// <param name="verbs">The verbs.</param>
         public FallbackRouteAttribute(string path, string verbs) : base(path, verbs) {}
     }
 }

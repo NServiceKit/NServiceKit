@@ -28,18 +28,29 @@ namespace MarkdownDeep
 	}
 	internal class TableSpec
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.TableSpec class.</summary>
 		public TableSpec()
 		{
 		}
 
+        /// <summary>true to leading bar.</summary>
 		public bool LeadingBar;
+        /// <summary>true to trailing bar.</summary>
 		public bool TrailingBar;
 
+        /// <summary>The columns.</summary>
 		public List<ColumnAlignment> Columns=new List<ColumnAlignment>();
 
+        /// <summary>The headers.</summary>
 		public List<string> Headers;
+        /// <summary>The rows.</summary>
 		public List<List<string>> Rows=new List<List<string>>();
 
+        /// <summary>Parse row.</summary>
+        ///
+        /// <param name="p">The StringScanner to process.</param>
+        ///
+        /// <returns>A List&lt;string&gt;</returns>
 		public List<string> ParseRow(StringScanner p)
 		{
 			p.SkipLinespace();
@@ -114,7 +125,11 @@ namespace MarkdownDeep
 				b.Append(">\n");
 			}
 		}
-	
+
+        /// <summary>Renders this object.</summary>
+        ///
+        /// <param name="m">The Markdown to process.</param>
+        /// <param name="b">The StringBuilder to process.</param>
 		public void Render(Markdown m, StringBuilder b)
 		{
 			b.Append("<table>\n");
@@ -137,6 +152,11 @@ namespace MarkdownDeep
 			b.Append("</table>\n");
 		}
 
+        /// <summary>Parses the given p.</summary>
+        ///
+        /// <param name="p">The StringScanner to process.</param>
+        ///
+        /// <returns>A TableSpec.</returns>
 		public static TableSpec Parse(StringScanner p)
 		{
 			// Leading line space allowed

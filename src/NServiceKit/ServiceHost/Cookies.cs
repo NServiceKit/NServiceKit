@@ -8,12 +8,16 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A cookies.</summary>
     public class Cookies : ICookies
     {
         readonly IHttpResponse httpRes;
         private static readonly DateTime Session = DateTime.MinValue;
         private const string RootPath = "/";
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Cookies class.</summary>
+        ///
+        /// <param name="httpRes">The HTTP resource.</param>
         public Cookies(IHttpResponse httpRes)
         {
             this.httpRes = httpRes;
@@ -58,6 +62,11 @@ namespace NServiceKit.ServiceHost
             AddCookie(cookie);
         }
 
+        /// <summary>Converts a cookie to a HTTP cookie.</summary>
+        ///
+        /// <param name="cookie">The cookie.</param>
+        ///
+        /// <returns>cookie as a HttpCookie.</returns>
         public HttpCookie ToHttpCookie(Cookie cookie)
         {
             var httpCookie = new HttpCookie(cookie.Name, cookie.Value) {
@@ -78,6 +87,11 @@ namespace NServiceKit.ServiceHost
             return httpCookie;
         }
 
+        /// <summary>Gets header value.</summary>
+        ///
+        /// <param name="cookie">The cookie.</param>
+        ///
+        /// <returns>The header value.</returns>
         public string GetHeaderValue(Cookie cookie)
         {
             var path = cookie.Expires == Session

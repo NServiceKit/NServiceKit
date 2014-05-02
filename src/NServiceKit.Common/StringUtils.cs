@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A string utilities.</summary>
     public static class StringUtils
     {
 #if !SILVERLIGHT
@@ -13,6 +14,11 @@ namespace NServiceKit.Common
         static readonly Regex StripHtmlUnicodeRegEx = new Regex(@"&(#)?([xX])?([^ \f\n\r\t\v;]+);");
 #endif
 
+        /// <summary>A string extension method that convert HTML codes.</summary>
+        ///
+        /// <param name="html">The HTML to act on.</param>
+        ///
+        /// <returns>The HTML converted codes.</returns>
         public static string ConvertHtmlCodes(this string html)
         {
             return StripHtmlUnicodeRegEx.Replace(html, ConvertHtmlCodeToCharacter);
@@ -52,13 +58,17 @@ namespace NServiceKit.Common
             return ((char)decimalValue).ToString(CultureInfo.InvariantCulture);
         }
 
+        /// <summary>An int extension method that converts a codePoint to a character.</summary>
+        ///
+        /// <param name="codePoint">The codePoint to act on.</param>
+        ///
+        /// <returns>codePoint as a string.</returns>
         public static string ToChar(this int codePoint)
         {
             return Convert.ToChar(codePoint).ToString(CultureInfo.InvariantCulture);
         }
 
-        // http://www.w3.org/TR/html5/entities.json
-        // TODO: conditional compilation for NET45 that uses ReadOnlyDictionary
+        /// <summary>http://www.w3.org/TR/html5/entities.json TODO: conditional compilation for NET45 that uses ReadOnlyDictionary.</summary>
         public static readonly IDictionary<string, string> HtmlCharacterCodes = new Dictionary<string, string>()
 		{
 		    { @"&Aacute;", 193.ToChar() },

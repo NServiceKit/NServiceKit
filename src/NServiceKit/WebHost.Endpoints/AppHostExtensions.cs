@@ -10,20 +10,35 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>An application host extensions.</summary>
 	public static class AppHostExtensions
 	{
 		private static ILog log = LogManager.GetLogger(typeof(AppHostExtensions));
 
+        /// <summary>An IAppHost extension method that registers the service.</summary>
+        ///
+        /// <typeparam name="TService">Type of the service.</typeparam>
+        /// <param name="appHost">    .</param>
+        /// <param name="atRestPaths">A variable-length parameters list containing at rest paths.</param>
 		public static void RegisterService<TService>(this IAppHost appHost, params string[] atRestPaths)
 		{
 			appHost.RegisterService(typeof(TService), atRestPaths);
 		}
 
+        /// <summary>An IAppHost extension method that registers the request binder.</summary>
+        ///
+        /// <typeparam name="TRequest">Type of the request.</typeparam>
+        /// <param name="appHost">.</param>
+        /// <param name="binder"> The binder.</param>
 		public static void RegisterRequestBinder<TRequest>(this IAppHost appHost, Func<IHttpRequest, object> binder)
 		{
 			appHost.RequestBinders[typeof(TRequest)] = binder;
 		}
 
+        /// <summary>An IAppHost extension method that adds the plugins from assembly to 'assembliesWithPlugins'.</summary>
+        ///
+        /// <param name="appHost">              .</param>
+        /// <param name="assembliesWithPlugins">A variable-length parameters list containing assemblies with plugins.</param>
 		public static void AddPluginsFromAssembly(this IAppHost appHost, params Assembly[] assembliesWithPlugins)
 		{
 			foreach (Assembly assembly in assembliesWithPlugins)

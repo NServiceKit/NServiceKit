@@ -4,8 +4,15 @@ using System.Text;
 
 namespace NServiceKit.Common.Utils
 {
+    /// <summary>A path utilities.</summary>
     public static class PathUtils
     {
+        /// <summary>Maps the path of a file in a self-hosted scenario.</summary>
+        ///
+        /// <param name="relativePath">             the relative path.</param>
+        /// <param name="appendPartialPathModifier">The append partial path modifier.</param>
+        ///
+        /// <returns>the absolute path.</returns>
         public static string MapAbsolutePath(string relativePath, string appendPartialPathModifier)
         {
 #if !SILVERLIGHT 
@@ -77,11 +84,21 @@ namespace NServiceKit.Common.Utils
             return sb.ToString();
         }
 
+        /// <summary>Combine paths.</summary>
+        ///
+        /// <param name="paths">A variable-length parameters list containing paths.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string CombinePaths(params string[] paths)
         {
             return CombinePaths(new StringBuilder(), paths);
         }
 
+        /// <summary>A string extension method that assert dir.</summary>
+        ///
+        /// <param name="dirPath">The dirPath to act on.</param>
+        ///
+        /// <returns>A string.</returns>
         public static string AssertDir(this string dirPath)
         {
             if (!Directory.Exists(dirPath))

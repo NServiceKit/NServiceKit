@@ -9,6 +9,12 @@ namespace NServiceKit.LogicFacade
 	[Obsolete]
 	public interface IServiceModelFinder
 	{
+        /// <summary>Searches for the first type by operation.</summary>
+        ///
+        /// <param name="operationName">Name of the operation.</param>
+        /// <param name="version">      The version.</param>
+        ///
+        /// <returns>The found type by operation.</returns>
 		Type FindTypeByOperation(string operationName, int? version);
 	}
 }

@@ -18,6 +18,7 @@ using NServiceKit.Markdown;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A text area extensions.</summary>
 	public static class TextAreaExtensions
 	{
 		// These values are similar to the defaults used by WebForms
@@ -54,31 +55,74 @@ namespace NServiceKit.Html
 			return result;
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name)
 		{
 			return TextArea(htmlHelper, name, null /* value */, null /* htmlAttributes */);
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, object htmlAttributes)
 		{
 			return TextArea(htmlHelper, name, null /* value */, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, IDictionary<string, object> htmlAttributes)
 		{
 			return TextArea(htmlHelper, name, null /* value */, htmlAttributes);
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value)
 		{
 			return TextArea(htmlHelper, name, value, null /* htmlAttributes */);
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, object htmlAttributes)
 		{
 			return TextArea(htmlHelper, name, value, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, IDictionary<string, object> htmlAttributes)
 		{
 			ModelMetadata metadata = ModelMetadata.FromStringExpression(name, htmlHelper.ViewData);
@@ -90,11 +134,31 @@ namespace NServiceKit.Html
 			return TextAreaHelper(htmlHelper, metadata, name, implicitRowsAndColumns, htmlAttributes);
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="rows">          The rows.</param>
+        /// <param name="columns">       The columns.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, int rows, int columns, object htmlAttributes)
 		{
 			return TextArea(htmlHelper, name, value, rows, columns, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
+        /// <summary>A HtmlHelper extension method that text area.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="rows">          The rows.</param>
+        /// <param name="columns">       The columns.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, int rows, int columns, IDictionary<string, object> htmlAttributes)
 		{
 			var metadata = ModelMetadata.FromStringExpression(name, htmlHelper.ViewData);
@@ -106,16 +170,44 @@ namespace NServiceKit.Html
 			return TextAreaHelper(htmlHelper, metadata, name, GetRowsAndColumnsDictionary(rows, columns), htmlAttributes);
 		}
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text area for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
 		{
 			return TextAreaFor(htmlHelper, expression, (IDictionary<string, object>)null);
 		}
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text area for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
 		{
 			return TextAreaFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text area for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes)
 		{
 			if (expression == null)
@@ -130,11 +222,35 @@ namespace NServiceKit.Html
 								  htmlAttributes);
 		}
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text area for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="rows">          The rows.</param>
+        /// <param name="columns">       The columns.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, int rows, int columns, object htmlAttributes)
 		{
 			return TextAreaFor(htmlHelper, expression, rows, columns, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text area for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="rows">          The rows.</param>
+        /// <param name="columns">       The columns.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextAreaFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, int rows, int columns, IDictionary<string, object> htmlAttributes)
 		{
 			if (expression == null)

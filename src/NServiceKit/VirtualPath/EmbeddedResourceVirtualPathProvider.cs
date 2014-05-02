@@ -56,6 +56,9 @@ namespace NServiceKit.VirtualPath
         /// </summary>
         public Func<IVirtualFile, bool> FileExcluder { get; set; }
 
+        /// <summary>Gets the pathname of the root directory.</summary>
+        ///
+        /// <value>The pathname of the root directory.</value>
         public override IVirtualDirectory RootDirectory
         {
             get
@@ -69,11 +72,17 @@ namespace NServiceKit.VirtualPath
             }
         }
 
+        /// <summary>Gets the virtual path separator.</summary>
+        ///
+        /// <value>The virtual path separator.</value>
         public override string VirtualPathSeparator
         {
             get { return "/"; }
         }
 
+        /// <summary>Gets the real path separator.</summary>
+        ///
+        /// <value>The real path separator.</value>
         public override string RealPathSeparator
         {
             get { return "/"; }
@@ -179,6 +188,13 @@ namespace NServiceKit.VirtualPath
             private readonly string _name;
             private readonly DateTime _lastModified;
 
+            /// <summary>Initializes a new instance of the NServiceKit.VirtualPath.EmbeddedResourceVirtualPathProvider.StreamBasedVirtualFile class.</summary>
+            ///
+            /// <param name="owningProvider">The owning provider.</param>
+            /// <param name="directory">     Pathname of the directory.</param>
+            /// <param name="contents">      The contents.</param>
+            /// <param name="name">          The name.</param>
+            /// <param name="lastModified">  The last modified.</param>
             public StreamBasedVirtualFile(IVirtualPathProvider owningProvider, IVirtualDirectory directory, Stream contents, string name, DateTime lastModified) : base(owningProvider, directory)
             {
                 _contents = contents;
@@ -187,16 +203,25 @@ namespace NServiceKit.VirtualPath
                 FilePath = name;
             }
 
+            /// <summary>Gets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public override string Name
             {
                 get { return _name; }
             }
 
+            /// <summary>Gets the Date/Time of the last modified.</summary>
+            ///
+            /// <value>The last modified.</value>
             public override DateTime LastModified
             {
                 get { return _lastModified; }
             }
 
+            /// <summary>Opens the file for reading.</summary>
+            ///
+            /// <returns>A Stream.</returns>
             public override Stream OpenRead()
             {
                 return _contents;

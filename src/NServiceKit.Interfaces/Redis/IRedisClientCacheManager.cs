@@ -15,6 +15,7 @@ using NServiceKit.CacheAccess;
 
 namespace NServiceKit.Redis
 {
+    /// <summary>Interface for redis client cache manager.</summary>
 	public interface IRedisClientCacheManager 
 		: IDisposable
 	{

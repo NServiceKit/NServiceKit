@@ -10,15 +10,18 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceModel.Tests
 {
+    /// <summary>A service model serializer tests.</summary>
 	[TestFixture]
 	public class ServiceModelSerializerTests
 	{
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
 			NorthwindData.LoadData(false);			
 		}
 
+        /// <summary>Can serialize northind models.</summary>
 		[Test]
 		public void Can_serialize_northind_models()
 		{
@@ -35,6 +38,7 @@ namespace NServiceKit.ServiceModel.Tests
 			Serialize(NorthwindData.EmployeeTerritories);
 		}
 
+        /// <summary>Can serialize complex northind dtos.</summary>
 		[Test]
 		[Ignore("Could not find Platform.dll")]
 		public void Can_serialize_complex_northind_dtos()
@@ -50,6 +54,10 @@ namespace NServiceKit.ServiceModel.Tests
 			Serialize(DtoFactory.SupplierDto);
 		}
 
+        /// <summary>true this object to the given stream.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="model">The model.</param>
 		public void Serialize<T>(T model)
 		{
 			var serializedXml = DataContractSerializer.Instance.Parse(model);

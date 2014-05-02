@@ -6,11 +6,16 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Razor.Tests
 {
+    /// <summary>A hello application host.</summary>
     public class HelloAppHost : AppHostBase
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Tests.HelloAppHost class.</summary>
         public HelloAppHost()
             : base("Hello Web Services", typeof(HelloService).Assembly) { }
 
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
         public override void Configure(Funq.Container container)
         {
             //http://stackoverflow.com/questions/13206038/NServiceKit-razor-default-page/13206221

@@ -8,8 +8,17 @@ namespace FluentValidation.Mvc {
 	using System.Web.Mvc;
 	using System.Linq;
 
+    /// <summary>A fluent validation property validator.</summary>
 	public class FluentValidationPropertyValidator : ModelValidator {
+
+        /// <summary>Gets the validator.</summary>
+        ///
+        /// <value>The validator.</value>
 		public IPropertyValidator Validator { get; private set; }
+
+        /// <summary>Gets the rule.</summary>
+        ///
+        /// <value>The rule.</value>
 		public PropertyRule Rule { get; private set; }
 
 
@@ -21,8 +30,18 @@ namespace FluentValidation.Mvc {
 		 in order to bypass MVC's "A value is required" message which cannot be turned off.
 		 Basically, this is all just to bypass the bad design in ASP.NET MVC. Boo, hiss. 
 		*/
+
+        /// <summary>Gets or sets a value indicating whether we should validate.</summary>
+        ///
+        /// <value>true if we should validate, false if not.</value>
 		protected bool ShouldValidate { get; set; }
 
+        /// <summary>Initializes a new instance of the FluentValidation.Mvc.FluentValidationPropertyValidator class.</summary>
+        ///
+        /// <param name="metadata">         The metadata.</param>
+        /// <param name="controllerContext">Context for the controller.</param>
+        /// <param name="rule">             The rule.</param>
+        /// <param name="validator">        The validator.</param>
 		public FluentValidationPropertyValidator(ModelMetadata metadata, ControllerContext controllerContext, PropertyRule rule, IPropertyValidator validator) : base(metadata, controllerContext) {
 			this.Validator = validator;
 
@@ -36,6 +55,11 @@ namespace FluentValidation.Mvc {
 			};
 		}
 
+        /// <summary>When implemented in a derived class, validates the object.</summary>
+        ///
+        /// <param name="container">The container.</param>
+        ///
+        /// <returns>A list of validation results.</returns>
 		public override IEnumerable<ModelValidationResult> Validate(object container) {
 			if (ShouldValidate) {
 				var fakeRule = new PropertyRule(null, x => Metadata.Model, null, null, Metadata.ModelType, null) {
@@ -53,15 +77,26 @@ namespace FluentValidation.Mvc {
 			}
 		}
 
+        /// <summary>Type allows null value.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		protected bool TypeAllowsNullValue(Type type) {
 			return (!type.IsValueType || Nullable.GetUnderlyingType(type) != null);
 		}
 
+        /// <summary>Determine if we should generate client side rules.</summary>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		protected virtual bool ShouldGenerateClientSideRules() {
 			var ruleSetToGenerateClientSideRules = RuleSetForClientSideMessagesAttribute.GetRuleSetsForClientValidation(ControllerContext.HttpContext);
 			return ruleSetToGenerateClientSideRules.Contains(Rule.RuleSet);
 		}
 
+        /// <summary>When implemented in a derived class, returns metadata for client validation.</summary>
+        ///
+        /// <returns>The metadata for client validation.</returns>
 		public override IEnumerable<ModelClientValidationRule> GetClientValidationRules() {
 			if (!ShouldGenerateClientSideRules()) return Enumerable.Empty<ModelClientValidationRule>();
 

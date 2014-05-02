@@ -3,6 +3,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>A mock authentication HTTP gateway.</summary>
 	public class MockAuthHttpGateway : IAuthHttpGateway
 	{
 		static MockAuthHttpGateway()
@@ -16,6 +17,9 @@ namespace NServiceKit.Common.Tests.OAuth
 			};
 		}
 
+        /// <summary>Gets or sets the tokens.</summary>
+        ///
+        /// <value>The tokens.</value>
 		public static IOAuthTokens Tokens { get; set; }
 
 		static string JsonFacebook = @"{{
@@ -115,6 +119,11 @@ namespace NServiceKit.Common.Tests.OAuth
     ""full_name"":""{1}""
 }";
 
+        /// <summary>Downloads the twitter user information described by twitterUserId.</summary>
+        ///
+        /// <param name="twitterUserId">Identifier for the twitter user.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string DownloadTwitterUserInfo(string twitterUserId)
 		{
 			twitterUserId.ThrowIfNullOrEmpty("twitterUserId");
@@ -122,6 +131,11 @@ namespace NServiceKit.Common.Tests.OAuth
 			return JsonTwitter.Fmt(Tokens.DisplayName);
 		}
 
+        /// <summary>Downloads the facebook user information described by facebookCode.</summary>
+        ///
+        /// <param name="facebookCode">The facebook code.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string DownloadFacebookUserInfo(string facebookCode)
 		{
 			facebookCode.ThrowIfNullOrEmpty("facebookCode");
@@ -130,6 +144,11 @@ namespace NServiceKit.Common.Tests.OAuth
 				Tokens.FirstName, Tokens.LastName, Tokens.Email);
 		}
 
+        /// <summary>Downloads the yammer user information described by yammerUserId.</summary>
+        ///
+        /// <param name="yammerUserId">Identifier for the yammer user.</param>
+        ///
+        /// <returns>A string.</returns>
 	    public string DownloadYammerUserInfo(string yammerUserId)
 	    {
             yammerUserId.ThrowIfNullOrEmpty("yammerUserId");

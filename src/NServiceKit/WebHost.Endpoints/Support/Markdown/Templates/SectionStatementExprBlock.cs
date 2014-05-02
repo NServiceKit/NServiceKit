@@ -38,6 +38,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             this.SectionName = Condition.Trim();
         }
 
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
         public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
         {
             //Don't output anything, capture all output and store it in scopeArgs[SectionName]

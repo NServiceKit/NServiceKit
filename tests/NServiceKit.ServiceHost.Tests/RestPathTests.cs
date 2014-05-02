@@ -8,14 +8,20 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A rest path tests.</summary>
     [TestFixture]
     public class RestPathTests
     {
+        /// <summary>A simple type.</summary>
         public class SimpleType
         {
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
         }
 
+        /// <summary>Can deserialize simple type path.</summary>
         [Test]
         public void Can_deserialize_SimpleType_path()
         {
@@ -26,6 +32,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(request.Name, Is.EqualTo("HelloWorld!"));
         }
 
+        /// <summary>Can deserialize simple type in middle of path.</summary>
         [Test]
         public void Can_deserialize_SimpleType_in_middle_of_path()
         {
@@ -36,6 +43,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(request.Name, Is.EqualTo("HelloWorld!"));
         }
 
+        /// <summary>Shows the allow.</summary>
         [Test]
         public void ShowAllow()
         {
@@ -48,15 +56,26 @@ namespace NServiceKit.ServiceHost.Tests
         }
 
 
+        /// <summary>A complex type.</summary>
         public class ComplexType
         {
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public int Id { get; set; }
 
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
 
+            /// <summary>Gets or sets a unique identifier.</summary>
+            ///
+            /// <value>The identifier of the unique.</value>
             public Guid UniqueId { get; set; }
         }
 
+        /// <summary>Can deserialize complex type path.</summary>
         [Test]
         public void Can_deserialize_ComplexType_path()
         {
@@ -72,14 +91,23 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(request.UniqueId, Is.EqualTo(new Guid("4583B364-BBDC-427F-A289-C2923DEBD547")));
         }
 
+        /// <summary>A complex type with fields.</summary>
         public class ComplexTypeWithFields
         {
+            /// <summary>The identifier.</summary>
             public readonly int Id;
 
+            /// <summary>The name.</summary>
             public readonly string Name;
 
+            /// <summary>Unique identifier.</summary>
             public readonly Guid UniqueId;
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.RestPathTests.ComplexTypeWithFields class.</summary>
+            ///
+            /// <param name="id">      The identifier.</param>
+            /// <param name="name">    The name.</param>
+            /// <param name="uniqueId">Unique identifier.</param>
             public ComplexTypeWithFields(int id, string name, Guid uniqueId)
             {
                 Id = id;
@@ -88,6 +116,7 @@ namespace NServiceKit.ServiceHost.Tests
             }
         }
 
+        /// <summary>Can deserialize complex type with fields path.</summary>
         [Test]
         public void Can_deserialize_ComplexTypeWithFields_path()
         {
@@ -106,12 +135,22 @@ namespace NServiceKit.ServiceHost.Tests
         }
 
 
+        /// <summary>A bbc music request.</summary>
         public class BbcMusicRequest
         {
+            /// <summary>Gets or sets a unique identifier of the mbz.</summary>
+            ///
+            /// <value>Unique identifier of the mbz.</value>
             public Guid mbz_guid { get; set; }
 
+            /// <summary>Gets or sets the type of the release.</summary>
+            ///
+            /// <value>The type of the release.</value>
             public string release_type { get; set; }
 
+            /// <summary>Gets or sets the type of the content.</summary>
+            ///
+            /// <value>The type of the content.</value>
             public string content_type { get; set; }
         }
 
@@ -133,6 +172,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(actualRequest.content_type, Is.EqualTo(expectedRequest.content_type));
         }
 
+        /// <summary>Can support bbc rest apis.</summary>
         [Test]
         public void Can_support_BBC_REST_Apis()
         {
@@ -165,16 +205,32 @@ namespace NServiceKit.ServiceHost.Tests
                 new BbcMusicRequest { mbz_guid = mbz, release_type = "albums", content_type = "json" });
         }
 
+        /// <summary>A rack space request.</summary>
         public class RackSpaceRequest
         {
+            /// <summary>Gets or sets the version.</summary>
+            ///
+            /// <value>The version.</value>
             public string version { get; set; }
 
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public string id { get; set; }
 
+            /// <summary>Gets or sets the type of the resource.</summary>
+            ///
+            /// <value>The type of the resource.</value>
             public string resource_type { get; set; }
 
+            /// <summary>Gets or sets the action.</summary>
+            ///
+            /// <value>The action.</value>
             public string action { get; set; }
 
+            /// <summary>Gets or sets the type of the content.</summary>
+            ///
+            /// <value>The type of the content.</value>
             public string content_type { get; set; }
         }
 
@@ -198,6 +254,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(actualRequest.action, Is.EqualTo(expectedRequest.action));
         }
 
+        /// <summary>Can support rackspace rest apis.</summary>
         [Test]
         public void Can_support_Rackspace_REST_Apis()
         {
@@ -229,10 +286,22 @@ namespace NServiceKit.ServiceHost.Tests
                 new RackSpaceRequest { });
         }
 
+        /// <summary>A slug request.</summary>
         public class SlugRequest
         {
+            /// <summary>Gets or sets the slug.</summary>
+            ///
+            /// <value>The slug.</value>
             public string Slug { get; set; }
+
+            /// <summary>Gets or sets the version.</summary>
+            ///
+            /// <value>The version.</value>
             public int Version { get; set; }
+
+            /// <summary>Gets or sets options for controlling the operation.</summary>
+            ///
+            /// <value>The options.</value>
             public string Options { get; set; }
         }
 
@@ -266,6 +335,8 @@ namespace NServiceKit.ServiceHost.Tests
         {
             AssertMatch("/content/{Slug*}/{Version}",
                 "/content/wildcard/slug/path/1", "*/content", new SlugRequest(), -1);
+        /// <summary>Can support internal wildcard.</summary>
+        /// <summary>Can support internal wildcard.</summary>
         }
 
         [Test]
@@ -298,6 +369,7 @@ namespace NServiceKit.ServiceHost.Tests
             AssertNoMatch("/content/{Slug*}/literal", "/content/literal/literal");
         }
 
+        /// <summary>Routes have expected precedence.</summary>
         [Test]
         public void Routes_have_expected_precedence()
         {
@@ -394,6 +466,7 @@ namespace NServiceKit.ServiceHost.Tests
 
         class SlugRoute
         {
+            /// <summary>The definitions.</summary>
             public static SlugRoute[] Definitions = new[]{
                 new SlugRoute("GET /content"),
                 new SlugRoute("PUT /content"),
@@ -432,10 +505,24 @@ namespace NServiceKit.ServiceHost.Tests
 
             };
 
+            /// <summary>Gets or sets the definition.</summary>
+            ///
+            /// <value>The definition.</value>
             public string Definition { get; set; }
+
+            /// <summary>Gets or sets the full pathname of the rest file.</summary>
+            ///
+            /// <value>The full pathname of the rest file.</value>
             public RestPath RestPath { get; set; }
+
+            /// <summary>Gets or sets the score.</summary>
+            ///
+            /// <value>The score.</value>
             public int Score { get; set; }
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.RestPathTests.SlugRoute class.</summary>
+            ///
+            /// <param name="definition">The definition.</param>
             public SlugRoute(string definition)
             {
                 this.Definition = definition;
@@ -443,6 +530,12 @@ namespace NServiceKit.ServiceHost.Tests
                 RestPath = new RestPath(typeof(SlugRequest), path: parts[1], verbs: parts[0] == "ANY" ? null : parts[0]);
             }
 
+            /// <summary>Gets ordered matching rules.</summary>
+            ///
+            /// <param name="withVerb">The with verb.</param>
+            /// <param name="forPath"> Full pathname of for file.</param>
+            ///
+            /// <returns>The ordered matching rules.</returns>
             public static List<SlugRoute> GetOrderedMatchingRules(string withVerb, string forPath)
             {
                 var matchingRoutes = new List<SlugRoute>();
@@ -462,6 +555,10 @@ namespace NServiceKit.ServiceHost.Tests
             }
         }
 
+        /// <summary>Assert precedence.</summary>
+        ///
+        /// <param name="requestedDefinition">The requested definition.</param>
+        /// <param name="expected">           A variable-length parameters list containing expected.</param>
         public void AssertPrecedence(string requestedDefinition, params string[] expected)
         {
             var parts = requestedDefinition.SplitOnFirst(' ');
@@ -473,6 +570,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(isMatch, "Expected:\n{0}\n  Actual:\n{1}".Fmt(expected.Join("\n"), matchingDefinitions.Join("\n")));
         }
 
+        /// <summary>Can match lowercase HTTP method.</summary>
         [Test]
         public void Can_match_lowercase_http_method()
         {

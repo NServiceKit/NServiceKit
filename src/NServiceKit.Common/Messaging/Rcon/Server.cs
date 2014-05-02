@@ -22,6 +22,9 @@ namespace NServiceKit.Messaging.Rcon
         Socket _listener = null;
         IPEndPoint _localEndpoint = null;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Messaging.Rcon.Server class.</summary>
+        ///
+        /// <param name="localEndpoint">The local endpoint.</param>
         public Server(IPEndPoint localEndpoint)
         {
             _localEndpoint = localEndpoint;
@@ -44,6 +47,13 @@ namespace NServiceKit.Messaging.Rcon
             RegisterHandler(processMessageFn, null);
         }
 
+        /// <summary>Register DTOs and hanlders the MQ Host will process.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="processMessageFn">  .</param>
+        /// <param name="processExceptionEx">The process exception ex.</param>
         public void RegisterHandler<T>(Func<IMessage<T>, object> processMessageFn, Action<IMessage<T>, Exception> processExceptionEx)
         {
             if (handlerMap.ContainsKey(typeof(T)))
@@ -54,16 +64,29 @@ namespace NServiceKit.Messaging.Rcon
             handlerMap[typeof(T)] = CreateMessageHandlerFactory(processMessageFn, processExceptionEx);
         }
 
+        /// <summary>Creates message handler factory.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="processMessageFn">  .</param>
+        /// <param name="processExceptionEx">The process exception ex.</param>
+        ///
+        /// <returns>The new message handler factory.</returns>
         protected IMessageHandlerFactory CreateMessageHandlerFactory<T>(Func<IMessage<T>, object> processMessageFn, Action<IMessage<T>, Exception> processExceptionEx)
         {
             return new MessageHandlerFactory<T>(this, processMessageFn, processExceptionEx);
         }
 
+        /// <summary>Get Total Current Stats for all Message Handlers.</summary>
+        ///
+        /// <returns>The statistics.</returns>
         public IMessageHandlerStats GetStats()
         {
             return null;
         }
 
+        /// <summary>Get a list of all message types registered on this MQ Host.</summary>
+        ///
+        /// <value>A list of types of the registered.</value>
         public List<Type> RegisteredTypes
         {
             get { return messageHandlers.Keys.ToList(); }
@@ -127,6 +150,7 @@ namespace NServiceKit.Messaging.Rcon
 
         #endregion
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
             if (_listener != null)
@@ -140,6 +164,12 @@ namespace NServiceKit.Messaging.Rcon
             }
         }
 
+        /// <summary>Notifies.</summary>
+        ///
+        /// <param name="queueName"> Name of the queue.</param>
+        /// <param name="message">   The message.</param>
+        /// <param name="client">    .</param>
+        /// <param name="sequenceID">Identifier for the sequence.</param>
         public void Notify(string queueName, byte[] message, Socket client, uint sequenceID)
         {
             var words = new byte[][] { Encoding.UTF8.GetBytes("notify"), Encoding.UTF8.GetBytes(queueName), message };
@@ -147,6 +177,12 @@ namespace NServiceKit.Messaging.Rcon
             Send(sendToClient, client);
         }
 
+        /// <summary>Publishes.</summary>
+        ///
+        /// <param name="queueName"> Name of the queue.</param>
+        /// <param name="message">   The message.</param>
+        /// <param name="client">    .</param>
+        /// <param name="sequenceID">Identifier for the sequence.</param>
         public void Publish(string queueName, byte[] message, Socket client, uint sequenceID)
         {
             var words = new byte[][] { Encoding.UTF8.GetBytes("publish"), Encoding.UTF8.GetBytes(queueName), message };
@@ -316,11 +352,16 @@ namespace NServiceKit.Messaging.Rcon
         }
     }
 
+    /// <summary>A client socket state.</summary>
     public class ClientSocketState
     {
+        /// <summary>The header.</summary>
         public byte[] Header = new byte[8];
+        /// <summary>Message describing the complete.</summary>
         public byte[] CompleteMessage = new byte[0];
+        /// <summary>true to read header.</summary>
         public bool ReadHeader = false;
+        /// <summary>Length of the message.</summary>
         public uint MessageLength = 0;
     }
 }

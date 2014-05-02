@@ -12,6 +12,9 @@ namespace NServiceKit.Html.Claims
     // ClaimIdentity types since we can't compile directly against them.
     internal abstract class ClaimsIdentity
     {
+        /// <summary>Gets the claims in this collection.</summary>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the claims in this collection.</returns>
         public abstract IEnumerable<Claim> GetClaims();
 
         // Attempts to convert an IIdentity into a ClaimsIdentity;
@@ -39,6 +42,9 @@ namespace NServiceKit.Html.Claims
 
             private readonly TClaimsIdentity _claimsIdentity;
 
+            /// <summary>Initializes a new instance of the NServiceKit.Html.Claims.ClaimsIdentity.ClaimsIdentityImpl&lt;TClaimsIdentity, TClaim&gt; class.</summary>
+            ///
+            /// <param name="claimsIdentity">The claims identity.</param>
             public ClaimsIdentityImpl(TClaimsIdentity claimsIdentity)
             {
                 _claimsIdentity = claimsIdentity;
@@ -55,6 +61,9 @@ namespace NServiceKit.Html.Claims
                 return (Func<TClaimsIdentity, IEnumerable<TClaim>>)Delegate.CreateDelegate(typeof(Func<TClaimsIdentity, IEnumerable<TClaim>>), propGetter);
             }
 
+            /// <summary>Gets the claims in this collection.</summary>
+            ///
+            /// <returns>An enumerator that allows foreach to be used to process the claims in this collection.</returns>
             public override IEnumerable<Claim> GetClaims()
             {
                 return _claimsGetter(_claimsIdentity).Select(Claim.Create);

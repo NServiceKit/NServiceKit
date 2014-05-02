@@ -19,6 +19,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
         {
         }
 
+        /// <summary>Type of the return.</summary>
         protected Type ReturnType = typeof(string);
         private string[] paramNames;
 
@@ -40,6 +41,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             return this.paramNames ?? (this.paramNames = scopeArgs.Keys.ToArray());
         }
 
+        /// <summary>Called when [first run].</summary>
         protected override void OnFirstRun()
         {
             base.OnFirstRun();

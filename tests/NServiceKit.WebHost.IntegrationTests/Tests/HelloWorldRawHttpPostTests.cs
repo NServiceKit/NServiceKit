@@ -5,8 +5,10 @@ using NUnit.Framework;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A hello world raw HTTP post tests.</summary>
 	public class HelloWorldRawHttpPostTests
 	{
+        /// <summary>Posts the JSON to hello world.</summary>
 		[Test]
 		public void Post_JSON_to_HelloWorld()
 		{
@@ -28,6 +30,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Posts the XML to hello world.</summary>
 		[Test]
 		public void Post_XML_to_HelloWorld()
 		{

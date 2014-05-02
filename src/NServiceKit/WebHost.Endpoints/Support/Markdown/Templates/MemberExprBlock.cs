@@ -47,6 +47,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
         private Func<object, string> valueFn;
         private Func<string> staticValueFn;
 
+        /// <summary>Called when [first run].</summary>
         protected override void OnFirstRun()
         {
             base.OnFirstRun();
@@ -68,7 +69,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
                 ? Convert.ToString 
                 : DataBinder.CompileToString(memberExprValue.GetType(), modelMemberExpr);
         }
-        
+
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
         public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
         {
             object memberExprValue;

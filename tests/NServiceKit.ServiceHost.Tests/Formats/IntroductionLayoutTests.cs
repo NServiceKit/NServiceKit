@@ -12,6 +12,7 @@ using System.Text;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>An external product helper.</summary>
     public class ExternalProductHelper
     {
         //Any helpers returning MvcHtmlString won't be escaped
@@ -29,8 +30,16 @@ namespace NServiceKit.ServiceHost.Tests.Formats
         }
     }
 
+    /// <summary>A custom base class.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class CustomBaseClass<T> : MarkdownViewBase<T>
     {
+        /// <summary>Fields.</summary>
+        ///
+        /// <param name="fieldName"> Name of the field.</param>
+        /// <param name="fieldValue">The field value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public MvcHtmlString Field(string fieldName, string fieldValue)
         {
             var sb = new StringBuilder();
@@ -41,12 +50,14 @@ namespace NServiceKit.ServiceHost.Tests.Formats
         }
     }
 
+    /// <summary>An introduction layout tests.</summary>
     [TestFixture]
     public class IntroductionLayoutTests : MarkdownTestBase
     {
         private InMemoryVirtualPathProvider pathProvider;
         private MarkdownFormat markdownFormat;
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
@@ -57,6 +68,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             };
         }
 
+        /// <summary>Simple layout example.</summary>
         [Test]
         public void Simple_Layout_Example()
         {
@@ -132,6 +144,7 @@ current date/year: 2014</p>
 
 
 
+        /// <summary>Layout master page scenarios adding sections.</summary>
         [Test]
         public void Layout_MasterPage_Scenarios_Adding_Sections()
         {
@@ -237,6 +250,7 @@ current date/year: 2014</p>
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Encapsulation and reuse with HTML helpers.</summary>
         [Test]
         public void Encapsulation_and_reuse_with_HTML_helpers()
         {
@@ -268,6 +282,7 @@ current date/year: 2014</p>
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Using external HTML helpers.</summary>
         [Test]
         public void Using_External_HTML_Helpers()
         {
@@ -304,6 +319,7 @@ current date/year: 2014</p>
         }
 
 
+        /// <summary>Using custom base class.</summary>
         [Test]
         public void Using_Custom_base_class()
         {

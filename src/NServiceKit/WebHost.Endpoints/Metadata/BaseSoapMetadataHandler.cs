@@ -12,15 +12,23 @@ using NServiceKit.WebHost.Endpoints.Utils;
 
 namespace NServiceKit.WebHost.Endpoints.Metadata
 {
+    /// <summary>A base SOAP metadata handler.</summary>
     public abstract class BaseSoapMetadataHandler : BaseMetadataHandler, INServiceKitHttpHandler
     {
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Metadata.BaseSoapMetadataHandler class.</summary>
 		protected BaseSoapMetadataHandler()
 		{
 			OperationName = GetType().Name.Replace("Handler", "");
 		}
-		
+
+        /// <summary>Gets or sets the name of the operation.</summary>
+        ///
+        /// <value>The name of the operation.</value>
 		public string OperationName { get; set; }
-    	
+
+        /// <summary>Executes the given context.</summary>
+        ///
+        /// <param name="context">The context.</param>
     	public override void Execute(System.Web.HttpContext context)
     	{
 			ProcessRequest(
@@ -29,6 +37,13 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
 				OperationName);
     	}
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
 		public new void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
     	{
             if (!AssertAccess(httpReq, httpRes, httpReq.QueryString["op"])) return;
@@ -63,6 +78,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
 			}
     	}
 
+        /// <summary>Renders the operations.</summary>
+        ///
+        /// <param name="writer">  The writer.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        /// <param name="metadata">The metadata.</param>
     	protected override void RenderOperations(HtmlTextWriter writer, IHttpRequest httpReq, ServiceMetadata metadata)
     	{
 			var defaultPage = new IndexOperationsControl {

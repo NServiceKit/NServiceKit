@@ -7,9 +7,11 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A cached service tests.</summary>
 	[TestFixture]
 	public class CachedServiceTests
 	{
+        /// <summary>Executes the before each test action.</summary>
         [TestFixtureSetUp]
         public void OnBeforeEachTest()
         {
@@ -17,6 +19,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             jsonClient.Post<ResetMoviesResponse>("reset-movies", new ResetMovies());
         }
 
+        /// <summary>Can call cached web service with JSON.</summary>
         [Test]
         public void Can_call_Cached_WebService_with_JSON()
         {
@@ -27,6 +30,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(response.Movies.Count, Is.EqualTo(ResetMoviesService.Top5Movies.Count));
         }
 
+        /// <summary>Can call cached web service with prototype buffer.</summary>
         [Test]
         public void Can_call_Cached_WebService_with_ProtoBuf()
         {
@@ -37,6 +41,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(response.Movies.Count, Is.EqualTo(ResetMoviesService.Top5Movies.Count));
         }
 
+        /// <summary>Can call cached web service with prototype buffer without compression.</summary>
         [Test]
         public void Can_call_Cached_WebService_with_ProtoBuf_without_compression()
         {
@@ -48,6 +53,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
             Assert.That(response2.Movies.Count, Is.EqualTo(ResetMoviesService.Top5Movies.Count));
         }
 
+        /// <summary>Can call cached web service with jsonp.</summary>
         [Test]
 		public void Can_call_Cached_WebService_with_JSONP()
 		{

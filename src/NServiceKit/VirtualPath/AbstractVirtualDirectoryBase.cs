@@ -10,6 +10,7 @@ namespace NServiceKit.VirtualPath
     /// </summary>
     public abstract class AbstractVirtualDirectoryBase : IVirtualDirectory
     {
+        /// <summary>The virtual path provider.</summary>
         protected IVirtualPathProvider VirtualPathProvider;
         /// <summary>
         /// Gets or sets the parent directory.
@@ -234,6 +235,11 @@ namespace NServiceKit.VirtualPath
             return string.Concat(parentPath, separator, Name);
         }
 
+        /// <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
+        ///
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />.</param>
+        ///
+        /// <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
             var other = obj as AbstractVirtualDirectoryBase;
@@ -243,16 +249,25 @@ namespace NServiceKit.VirtualPath
             return other.VirtualPath == VirtualPath;
         }
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        ///
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
         public override int GetHashCode()
         {
             return VirtualPath.GetHashCode();
         }
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return string.Format("{0} -> {1}", RealPath, VirtualPath);
         }
 
+        /// <summary>Gets the enumerator.</summary>
+        ///
+        /// <returns>The enumerator.</returns>
         public abstract IEnumerator<IVirtualNode> GetEnumerator();
 
         /// <summary>

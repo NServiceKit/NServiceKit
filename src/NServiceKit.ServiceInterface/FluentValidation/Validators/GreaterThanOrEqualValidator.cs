@@ -23,19 +23,37 @@ namespace NServiceKit.FluentValidation.Validators
     using Internal;
     using Resources;
 
+    /// <summary>A greater than or equal validator.</summary>
     public class GreaterThanOrEqualValidator : AbstractComparisonValidator  {
+
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.GreaterThanOrEqualValidator class.</summary>
+        ///
+        /// <param name="value">The value.</param>
         public GreaterThanOrEqualValidator(IComparable value) : base(value, () => Messages.greaterthanorequal_error, ValidationErrors.GreaterThanOrEqual) {
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.GreaterThanOrEqualValidator class.</summary>
+        ///
+        /// <param name="valueToCompareFunc">The value to compare function.</param>
+        /// <param name="member">            The member.</param>
         public GreaterThanOrEqualValidator(Func<object, object> valueToCompareFunc, MemberInfo member)
             : base(valueToCompareFunc, member, () => Messages.greaterthanorequal_error, ValidationErrors.GreaterThanOrEqual)
         {
         }
 
+        /// <summary>Query if 'value' is valid.</summary>
+        ///
+        /// <param name="value">         The value.</param>
+        /// <param name="valueToCompare">The value to compare.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         public override bool IsValid(IComparable value, IComparable valueToCompare) {
             return value.CompareTo(valueToCompare) >= 0;
         }
 
+        /// <summary>Gets the comparison.</summary>
+        ///
+        /// <value>The comparison.</value>
         public override Comparison Comparison {
             get { return Validators.Comparison.GreaterThanOrEqual; }
         }

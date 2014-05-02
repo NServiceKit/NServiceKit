@@ -6,16 +6,21 @@ using NUnit.Framework;
 
 namespace NServiceKit.Tests.VirtualPath
 {
+    /// <summary>An embedded resource virtual path provider tests.</summary>
     [TestFixture]
     public class EmbeddedResourceVirtualPathProviderTests
     {
         private class AppHost : AppHostHttpListenerBase
         {
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
             public override void Configure(Container container)
             {
             }
         }
 
+        /// <summary>Tests embedded at root.</summary>
         [Test]
         public void TestEmbeddedAtRoot()
         {
@@ -25,6 +30,7 @@ namespace NServiceKit.Tests.VirtualPath
             Assert.IsNotNull(p.GetFile("EmbedMe.cshtml"));
         }
 
+        /// <summary>Tests embedded glob.</summary>
         [Test]
         public void TestEmbeddedGlob()
         {
@@ -34,6 +40,7 @@ namespace NServiceKit.Tests.VirtualPath
             Assert.AreEqual(1, p.GetAllMatchingFiles("*.resources").Count());
         }
 
+        /// <summary>Tests parse resource with no dot.</summary>
         [Test]
         public void TestParseResourceWithNoDot()
         {
@@ -44,6 +51,7 @@ namespace NServiceKit.Tests.VirtualPath
             Assert.AreEqual(0, directories.Length);
         }
 
+        /// <summary>Tests parse resource with one dot.</summary>
         [Test]
         public void TestParseResourceWithOneDot()
         {
@@ -54,6 +62,7 @@ namespace NServiceKit.Tests.VirtualPath
             Assert.AreEqual(0, directories.Length);
         }
 
+        /// <summary>Tests parse resource with many dots.</summary>
         [Test]
         public void TestParseResourceWithManyDots()
         {
@@ -67,6 +76,7 @@ namespace NServiceKit.Tests.VirtualPath
             Assert.AreEqual("The", directories[2]);
         }
 
+        /// <summary>Tests exclude file.</summary>
         [Test]
         public void TestExcludeFile()
         {

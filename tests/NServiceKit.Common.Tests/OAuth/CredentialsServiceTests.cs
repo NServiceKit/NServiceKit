@@ -7,9 +7,11 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>The credentials service tests.</summary>
 	[TestFixture]
 	public class CredentialsServiceTests
 	{
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
@@ -17,6 +19,9 @@ namespace NServiceKit.Common.Tests.OAuth
 				new CredentialsAuthProvider());           
 		}
 
+        /// <summary>Gets authentication service.</summary>
+        ///
+        /// <returns>The authentication service.</returns>
 		public AuthService GetAuthService()
 		{
 		    var authService = new AuthService {
@@ -29,15 +34,32 @@ namespace NServiceKit.Common.Tests.OAuth
 
         class ValidateServiceRunner<T> : ServiceRunner<T>
         {
+            /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.OAuth.CredentialsServiceTests.ValidateServiceRunner&lt;T&gt; class.</summary>
+            ///
+            /// <param name="appHost">      The application host.</param>
+            /// <param name="actionContext">Context for the action.</param>
             public ValidateServiceRunner(IAppHost appHost, ActionContext actionContext)
                 : base(appHost, actionContext) {}
 
+            /// <summary>Handles the exception.</summary>
+            ///
+            /// <param name="requestContext">Context for the request.</param>
+            /// <param name="request">       The request.</param>
+            /// <param name="ex">            The ex.</param>
+            ///
+            /// <returns>An object.</returns>
             public override object HandleException(IRequestContext requestContext, T request, System.Exception ex)
             {
                 return DtoUtils.HandleException(new BasicResolver(), request, ex);
             }
         }
 
+        /// <summary>Gets authentication service.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="request">    The request.</param>
+        ///
+        /// <returns>The authentication service.</returns>
         public object GetAuthService(AuthService authService, Auth request)
         {
             var serviceRunner = new ValidateServiceRunner<Auth>(null, new ActionContext {
@@ -48,6 +70,7 @@ namespace NServiceKit.Common.Tests.OAuth
             return serviceRunner.Process(authService.RequestContext, authService, request);
         }
 
+        /// <summary>Empty request invalidates all fields.</summary>
 	    [Test]
 		public void Empty_request_invalidates_all_fields()
 		{
@@ -63,6 +86,7 @@ namespace NServiceKit.Common.Tests.OAuth
 			Assert.That(errors[1].FieldName, Is.EqualTo("Password"));
 		}
 
+        /// <summary>Requires user name and password.</summary>
 		[Test]
 		public void Requires_UserName_and_Password()
 		{

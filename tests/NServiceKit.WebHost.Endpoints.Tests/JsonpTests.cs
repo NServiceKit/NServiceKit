@@ -9,12 +9,15 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A jsonp tests.</summary>
 	public class JsonpTests
 	{
+        /// <summary>The listening on.</summary>
 		protected const string ListeningOn = "http://localhost:82/";
 
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -25,12 +28,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
 			Dispose();
 		}
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose()
 		{
 			if (appHost == null) return;
@@ -38,6 +43,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost = null;
 		}
 
+        /// <summary>Can get single movie using rest client with jsonp.</summary>
 		[Test]
 		public void Can_GET_single_Movie_using_RestClient_with_JSONP()
 		{

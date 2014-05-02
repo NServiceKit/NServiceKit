@@ -16,6 +16,7 @@ using HttpResponseWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRespons
 
 namespace NServiceKit.WebHost.Endpoints.Support
 {
+    /// <summary>An endpoint handler base.</summary>
     public abstract class EndpointHandlerBase
         : INServiceKitHttpHandler, IHttpHandler
     {
@@ -23,6 +24,9 @@ namespace NServiceKit.WebHost.Endpoints.Support
         internal static readonly Dictionary<byte[], byte[]> NetworkInterfaceIpv4Addresses = new Dictionary<byte[], byte[]>();
         internal static readonly byte[][] NetworkInterfaceIpv6Addresses = new byte[0][];
 
+        /// <summary>Gets or sets the name of the request.</summary>
+        ///
+        /// <value>The name of the request.</value>
         public string RequestName { get; set; }
 
         static EndpointHandlerBase()
@@ -39,21 +43,57 @@ namespace NServiceKit.WebHost.Endpoints.Support
             }
         }
 
+        /// <summary>Gets or sets the handler attributes.</summary>
+        ///
+        /// <value>The handler attributes.</value>
         public EndpointAttributes HandlerAttributes { get; set; }
 
+        /// <summary>Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler" /> instance.</summary>
+        ///
+        /// <value>true if the <see cref="T:System.Web.IHttpHandler" /> instance is reusable; otherwise, false.</value>
         public bool IsReusable
         {
             get { return false; }
         }
 
+        /// <summary>Creates a request.</summary>
+        ///
+        /// <param name="request">      The request.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>The new request.</returns>
         public abstract object CreateRequest(IHttpRequest request, string operationName);
+
+        /// <summary>Gets a response.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The response.</returns>
         public abstract object GetResponse(IHttpRequest httpReq, IHttpResponse httpRes, object request);
 
+        /// <summary>Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler" /> interface.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public virtual void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Deserialize HTTP request.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <param name="operationType">Type of the operation.</param>
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="contentType">  Type of the content.</param>
+        ///
+        /// <returns>An object.</returns>
         public static object DeserializeHttpRequest(Type operationType, IHttpRequest httpReq, string contentType)
         {
             var httpMethod = httpReq.HttpMethod;
@@ -90,6 +130,15 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return request;
         }
 
+        /// <summary>Creates content type request.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <param name="httpReq">    The HTTP request.</param>
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="contentType">Type of the content.</param>
+        ///
+        /// <returns>The new content type request.</returns>
         protected static object CreateContentTypeRequest(IHttpRequest httpReq, Type requestType, string contentType)
         {
             try
@@ -112,6 +161,12 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return requestType.CreateInstance(); //Return an empty DTO, even for empty request bodies
         }
 
+        /// <summary>Gets custom request from binder.</summary>
+        ///
+        /// <param name="httpReq">    The HTTP request.</param>
+        /// <param name="requestType">Type of the request.</param>
+        ///
+        /// <returns>The custom request from binder.</returns>
         protected static object GetCustomRequestFromBinder(IHttpRequest httpReq, Type requestType)
         {
             Func<IHttpRequest, object> requestFactoryFn;
@@ -121,16 +176,35 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return requestFactoryFn != null ? requestFactoryFn(httpReq) : null;
         }
 
+        /// <summary>Default handled request.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to
+        /// service HTTP requests.
+        /// </param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected static bool DefaultHandledRequest(HttpListenerContext context)
         {
             return false;
         }
 
+        /// <summary>Default handled request.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to
+        /// service HTTP requests.
+        /// </param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected static bool DefaultHandledRequest(HttpContext context)
         {
             return false;
         }
 
+        /// <summary>Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler" /> interface.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to
+        /// service HTTP requests.
+        /// </param>
         public virtual void ProcessRequest(HttpContext context)
         {
             var operationName = this.RequestName ?? context.Request.GetOperationName();
@@ -145,6 +219,9 @@ namespace NServiceKit.WebHost.Endpoints.Support
                 operationName);
         }
 
+        /// <summary>Process the request described by context.</summary>
+        ///
+        /// <param name="context">The context.</param>
         public virtual void ProcessRequest(HttpListenerContext context)
         {
             var operationName = this.RequestName ?? context.Request.GetOperationName();
@@ -159,8 +236,16 @@ namespace NServiceKit.WebHost.Endpoints.Support
                 operationName);
         }
 
+        /// <summary>Gets or sets the manager for service.</summary>
+        ///
+        /// <value>The service manager.</value>
         public static ServiceManager ServiceManager { get; set; }
 
+        /// <summary>Gets operation type.</summary>
+        ///
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>The operation type.</returns>
         public static Type GetOperationType(string operationName)
         {
             return ServiceManager != null
@@ -168,12 +253,25 @@ namespace NServiceKit.WebHost.Endpoints.Support
                 : EndpointHost.Metadata.GetOperationType(operationName);
         }
 
+        /// <summary>Executes the service operation.</summary>
+        ///
+        /// <param name="request">           The request.</param>
+        /// <param name="endpointAttributes">The endpoint attributes.</param>
+        /// <param name="httpReq">           The HTTP request.</param>
+        /// <param name="httpRes">           The HTTP resource.</param>
+        ///
+        /// <returns>An object.</returns>
         protected static object ExecuteService(object request, EndpointAttributes endpointAttributes,
             IHttpRequest httpReq, IHttpResponse httpRes)
         {
             return EndpointHost.ExecuteService(request, endpointAttributes, httpReq, httpRes);
         }
 
+        /// <summary>Gets endpoint attributes.</summary>
+        ///
+        /// <param name="operationContext">Context for the operation.</param>
+        ///
+        /// <returns>The endpoint attributes.</returns>
         public EndpointAttributes GetEndpointAttributes(System.ServiceModel.OperationContext operationContext)
         {
             if (!EndpointHost.Config.EnableAccessRestrictions) return default(EndpointAttributes);
@@ -189,6 +287,11 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return portRestrictions;
         }
 
+        /// <summary>Gets IP address.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>The IP address.</returns>
         public static IPAddress GetIpAddress(System.ServiceModel.OperationContext context)
         {
 #if !MONO
@@ -206,6 +309,12 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return null;
         }
 
+        /// <summary>Queries if a given assert operation exists.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="operationName">Name of the operation.</param>
+        /// <param name="type">         The type.</param>
         protected static void AssertOperationExists(string operationName, Type type)
         {
             if (type == null)
@@ -215,6 +324,14 @@ namespace NServiceKit.WebHost.Endpoints.Support
             }
         }
 
+        /// <summary>Handles the exception.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        /// <param name="ex">           The ex.</param>
         protected void HandleException(IHttpRequest httpReq, IHttpResponse httpRes, string operationName, Exception ex)
         {
             var errorMessage = string.Format("Error occured while Processing Request: {0}", ex.Message);
@@ -237,6 +354,16 @@ namespace NServiceKit.WebHost.Endpoints.Support
             }
         }
 
+        /// <summary>Assert access.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="httpReq">      The HTTP request.</param>
+        /// <param name="httpRes">      The HTTP resource.</param>
+        /// <param name="feature">      The feature.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected bool AssertAccess(IHttpRequest httpReq, IHttpResponse httpRes, Feature feature, string operationName)
         {
             if (operationName == null)

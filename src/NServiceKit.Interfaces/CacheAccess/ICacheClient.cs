@@ -81,12 +81,64 @@ namespace NServiceKit.CacheAccess
 		/// </summary>
 		bool Replace<T>(string key, T value);
 
+        /// <summary>Adds a new item into the cache at the specified cache key only if the cache is empty.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The key used to reference the item.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresAt">The expires at Date/Time.</param>
+        ///
+        /// <returns>true if the item was successfully stored in the cache; false otherwise.</returns>
 		bool Add<T>(string key, T value, DateTime expiresAt);
+
+        /// <summary>Sets an item into the cache at the cache key specified regardless if it already exists or not.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The identifier for the item to delete.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresAt">The expires at Date/Time.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool Set<T>(string key, T value, DateTime expiresAt);
+
+        /// <summary>Replaces the item at the cachekey specified only if an items exists at the location already.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The identifier for the item to delete.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresAt">The expires at Date/Time.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool Replace<T>(string key, T value, DateTime expiresAt);
 
+        /// <summary>Adds a new item into the cache at the specified cache key only if the cache is empty.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The key used to reference the item.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresIn">The expires in.</param>
+        ///
+        /// <returns>true if the item was successfully stored in the cache; false otherwise.</returns>
 		bool Add<T>(string key, T value, TimeSpan expiresIn);
+
+        /// <summary>Sets an item into the cache at the cache key specified regardless if it already exists or not.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The identifier for the item to delete.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresIn">The expires in.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool Set<T>(string key, T value, TimeSpan expiresIn);
+
+        /// <summary>Replaces the item at the cachekey specified only if an items exists at the location already.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">      The identifier for the item to delete.</param>
+        /// <param name="value">    The object to be inserted into the cache.</param>
+        /// <param name="expiresIn">The expires in.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool Replace<T>(string key, T value, TimeSpan expiresIn);
 
 		/// <summary>

@@ -6,11 +6,13 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Operations;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A wsdl metadata tests.</summary>
 	[TestFixture]
 	public class WsdlMetadataTests : MetadataTestBase
 	{
 		//private static ILog log = LogManager.GetLogger(typeof(WsdlMetadataTests));
 
+        /// <summary>Wsdl state is correct.</summary>
 		[Test]
 		public void Wsdl_state_is_correct()
 		{
@@ -22,6 +24,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(wsdlTemplate.OneWayOperationNames, Is.EquivalentTo(xsdMetadata.GetOneWayOperationNames(Format.Soap12)));
 		}
 
+        /// <summary>XSD output does not contain XML declaration.</summary>
 		[Test]
 		public void Xsd_output_does_not_contain_xml_declaration()
 		{
@@ -33,6 +36,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(!xsd.StartsWith("<?"));
 		}
 
+        /// <summary>XSD utilities strips all XML declarations.</summary>
 		[Test]
 		public void XsdUtils_strips_all_xml_declarations()
 		{

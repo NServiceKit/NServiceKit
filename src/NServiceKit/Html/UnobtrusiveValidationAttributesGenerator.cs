@@ -5,8 +5,15 @@ using System.Linq;
 
 namespace NServiceKit.Html
 {
+    /// <summary>An unobtrusive validation attributes generator.</summary>
     public static class UnobtrusiveValidationAttributesGenerator
     {
+        /// <summary>Gets validation attributes.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="clientRules">The client rules.</param>
+        /// <param name="results">    The results.</param>
         public static void GetValidationAttributes(IEnumerable<ModelClientValidationRule> clientRules, IDictionary<string, object> results)
         {
             if (clientRules == null) {

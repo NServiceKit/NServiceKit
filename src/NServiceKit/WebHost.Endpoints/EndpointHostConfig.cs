@@ -25,22 +25,31 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.WebHost.Endpoints
 {
+    /// <summary>An endpoint host configuration.</summary>
     public class EndpointHostConfig
     {
         private static ILog log = LogManager.GetLogger(typeof(EndpointHostConfig));
 
+        /// <summary>The public key.</summary>
         public static readonly string PublicKey = "<RSAKeyValue><Modulus>xRzMrP3m+3kvT6239OP1YuWIfc/S7qF5NJiPe2/kXnetXiuYtSL4bQRIX1qYh4Cz+dXqZE/sNGJJ4jl2iJQa1tjp+rK28EG6gcuTDHJdvOBBF+aSwJy1MSiT8D0KtP6pe2uvjl9m3jZP/8uRePZTSkt/GjlPOk85JXzOsyzemlaLFiJoGImGvp8dw8vQ7jzA3Ynmywpt5OQxklJfrfALHJ93ny1M5lN5Q+bGPEHLXNCXfF05EA0l9mZpa4ouicYvlbY/OAwefFXIwPQN9ER6Pu7Eq9XWLvnh1YUH8HDckuKK+ESWbAuOgnVbUDEF1BreoWutJ//a/oLDR87Q36cmwQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+        /// <summary>.</summary>
         public static readonly string LicensePublicKey = "<RSAKeyValue><Modulus>19kx2dJoOIrMYypMTf8ssiCALJ7RS/Iz2QG0rJtYJ2X0+GI+NrgOCapkh/9aDVBieobdClnuBgW08C5QkfBdLRqsptiSu50YIqzVaNBMwZPT0e7Ke02L/fV/M/fVPsolHwzMstKhdWGdK8eNLF4SsLEcvnb79cx3/GnZbXku/ro5eOrTseKL3s4nM4SdMRNn7rEAU0o0Ijb3/RQbhab8IIRB4pHwk1mB+j/mcAQAtMerwpHfwpEBLWlQyVpu0kyKJCEkQjbaPzvfglDRpyBOT5GMUnrcTT/sBr5kSJYpYrgHnA5n4xJnvrnyFqdzXwgGFlikRTbc60pk1cQEWcHgYw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
+        /// <summary>The skip path validation.</summary>
         public static bool SkipPathValidation = false;
         /// <summary>
         /// Use: \[Route\("[^\/]  regular expression to find violating routes in your sln
         /// </summary>
         public static bool SkipRouteValidation = false;
 
+        /// <summary>Full pathname of the service kit file.</summary>
         public static string NServiceKitPath = null;
 
         private static EndpointHostConfig instance;
+
+        /// <summary>Gets the instance.</summary>
+        ///
+        /// <value>The instance.</value>
         public static EndpointHostConfig Instance
         {
             get
@@ -134,6 +143,10 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.EndpointHostConfig class.</summary>
+        ///
+        /// <param name="serviceName">   The name of the service.</param>
+        /// <param name="serviceManager">The service manager.</param>
         public EndpointHostConfig(string serviceName, ServiceManager serviceManager)
             : this()
         {
@@ -142,6 +155,7 @@ namespace NServiceKit.WebHost.Endpoints
 
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.EndpointHostConfig class.</summary>
         public EndpointHostConfig()
         {
             if (instance == null) return;
@@ -200,6 +214,9 @@ namespace NServiceKit.WebHost.Endpoints
             this.AdminAuthSecret = instance.AdminAuthSecret;
         }
 
+        /// <summary>Gets application configuration path.</summary>
+        ///
+        /// <returns>The application configuration path.</returns>
         public static string GetAppConfigPath()
         {
             if (EndpointHost.AppHost == null) return null;
@@ -219,6 +236,10 @@ namespace NServiceKit.WebHost.Endpoints
 
         const string NamespacesAppSettingsKey = "NServiceKit.razor.namespaces";
         private static HashSet<string> razorNamespaces;
+
+        /// <summary>Gets the razor namespaces.</summary>
+        ///
+        /// <value>The razor namespaces.</value>
         public static HashSet<string> RazorNamespaces
         {
             get
@@ -380,89 +401,302 @@ namespace NServiceKit.WebHost.Endpoints
             return String.Empty;
         }
 
+        /// <summary>Gets the manager for service.</summary>
+        ///
+        /// <value>The service manager.</value>
         public ServiceManager ServiceManager { get; internal set; }
+
+        /// <summary>Gets the metadata.</summary>
+        ///
+        /// <value>The metadata.</value>
         public ServiceMetadata Metadata { get { return ServiceManager.Metadata; } }
+
+        /// <summary>Gets the service controller.</summary>
+        ///
+        /// <value>The service controller.</value>
         public IServiceController ServiceController { get { return ServiceManager.ServiceController; } }
 
+        /// <summary>Gets or sets the metadata types configuration.</summary>
+        ///
+        /// <value>The metadata types configuration.</value>
         public MetadataTypesConfig MetadataTypesConfig { get; set; }
+
+        /// <summary>Gets or sets the wsdl service namespace.</summary>
+        ///
+        /// <value>The wsdl service namespace.</value>
         public string WsdlServiceNamespace { get; set; }
+
+        /// <summary>Gets or sets the wsdl SOAP action namespace.</summary>
+        ///
+        /// <value>The wsdl SOAP action namespace.</value>
         public string WsdlSoapActionNamespace { get; set; }
 
         private EndpointAttributes metadataVisibility;
+
+        /// <summary>Gets or sets the metadata visibility.</summary>
+        ///
+        /// <value>The metadata visibility.</value>
         public EndpointAttributes MetadataVisibility
         {
             get { return metadataVisibility; }
             set { metadataVisibility = value.ToAllowedFlagsSet(); }
         }
 
+        /// <summary>Gets or sets the metadata page body HTML.</summary>
+        ///
+        /// <value>The metadata page body HTML.</value>
         public string MetadataPageBodyHtml { get; set; }
+
+        /// <summary>Gets or sets the metadata operation page body HTML.</summary>
+        ///
+        /// <value>The metadata operation page body HTML.</value>
         public string MetadataOperationPageBodyHtml { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the metadata custom file.</summary>
+        ///
+        /// <value>The full pathname of the metadata custom file.</value>
         public string MetadataCustomPath { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether this object use custom metadata templates.</summary>
+        ///
+        /// <value>true if use custom metadata templates, false if not.</value>
         public bool UseCustomMetadataTemplates { get; set; }
 
+        /// <summary>Gets or sets the name of the service.</summary>
+        ///
+        /// <value>The name of the service.</value>
         public string ServiceName { get; set; }
+
+        /// <summary>Gets or sets the name of the SOAP service.</summary>
+        ///
+        /// <value>The name of the SOAP service.</value>
         public string SoapServiceName { get; set; }
+
+        /// <summary>Gets or sets the default content type.</summary>
+        ///
+        /// <value>The default content type.</value>
         public string DefaultContentType { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow jsonp requests.</summary>
+        ///
+        /// <value>true if allow jsonp requests, false if not.</value>
         public bool AllowJsonpRequests { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow route content type extensions.</summary>
+        ///
+        /// <value>true if allow route content type extensions, false if not.</value>
         public bool AllowRouteContentTypeExtensions { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the debug mode.</summary>
+        ///
+        /// <value>true if debug mode, false if not.</value>
         public bool DebugMode { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the debug only return request information.</summary>
+        ///
+        /// <value>true if debug only return request information, false if not.</value>
         public bool DebugOnlyReturnRequestInfo { get; set; }
+
+        /// <summary>Gets or sets the debug ASP net host environment.</summary>
+        ///
+        /// <value>The debug ASP net host environment.</value>
         public string DebugAspNetHostEnvironment { get; set; }
+
+        /// <summary>Gets or sets the debug HTTP listener host environment.</summary>
+        ///
+        /// <value>The debug HTTP listener host environment.</value>
         public string DebugHttpListenerHostEnvironment { get; set; }
+
+        /// <summary>Gets the default documents.</summary>
+        ///
+        /// <value>The default documents.</value>
         public List<string> DefaultDocuments { get; private set; }
 
+        /// <summary>Gets a list of names of the ignore warnings on properties.</summary>
+        ///
+        /// <value>A list of names of the ignore warnings on properties.</value>
         public List<string> IgnoreWarningsOnPropertyNames { get; private set; }
 
+        /// <summary>Gets or sets the ignore formats in metadata.</summary>
+        ///
+        /// <value>The ignore formats in metadata.</value>
         public HashSet<string> IgnoreFormatsInMetadata { get; set; }
 
+        /// <summary>Gets or sets the allow file extensions.</summary>
+        ///
+        /// <value>The allow file extensions.</value>
         public HashSet<string> AllowFileExtensions { get; set; }
 
+        /// <summary>Gets or sets URL of the web host.</summary>
+        ///
+        /// <value>The web host URL.</value>
         public string WebHostUrl { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the web host physical file.</summary>
+        ///
+        /// <value>The full pathname of the web host physical file.</value>
         public string WebHostPhysicalPath { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the service kit handler factory file.</summary>
+        ///
+        /// <value>The full pathname of the service kit handler factory file.</value>
         public string NServiceKitHandlerFactoryPath { get; set; }
+
+        /// <summary>Gets or sets the default redirect path.</summary>
+        ///
+        /// <value>The default redirect path.</value>
         public string DefaultRedirectPath { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the metadata redirect file.</summary>
+        ///
+        /// <value>The full pathname of the metadata redirect file.</value>
         public string MetadataRedirectPath { get; set; }
 
+        /// <summary>Gets or sets the service endpoints metadata configuration.</summary>
+        ///
+        /// <value>The service endpoints metadata configuration.</value>
         public ServiceEndpointsMetadataConfig ServiceEndpointsMetadataConfig { get; set; }
+
+        /// <summary>Gets or sets the log factory.</summary>
+        ///
+        /// <value>The log factory.</value>
         public ILogFactory LogFactory { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the access restrictions is enabled.</summary>
+        ///
+        /// <value>true if enable access restrictions, false if not.</value>
         public bool EnableAccessRestrictions { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether this object use bcl JSON serializers.</summary>
+        ///
+        /// <value>true if use bcl JSON serializers, false if not.</value>
         public bool UseBclJsonSerializers { get; set; }
+
+        /// <summary>Gets or sets the global response headers.</summary>
+        ///
+        /// <value>The global response headers.</value>
         public Dictionary<string, string> GlobalResponseHeaders { get; set; }
+
+        /// <summary>Gets or sets the enable features.</summary>
+        ///
+        /// <value>The enable features.</value>
         public Feature EnableFeatures { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the returns inner exception.</summary>
+        ///
+        /// <value>true if returns inner exception, false if not.</value>
         public bool ReturnsInnerException { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the errors to response should be written.</summary>
+        ///
+        /// <value>true if write errors to response, false if not.</value>
         public bool WriteErrorsToResponse { get; set; }
 
+        /// <summary>Gets or sets options for controlling the markdown.</summary>
+        ///
+        /// <value>Options that control the markdown.</value>
         public MarkdownOptions MarkdownOptions { get; set; }
+
+        /// <summary>Gets or sets the type of the markdown base.</summary>
+        ///
+        /// <value>The type of the markdown base.</value>
         public Type MarkdownBaseType { get; set; }
+
+        /// <summary>Gets or sets the markdown global helpers.</summary>
+        ///
+        /// <value>The markdown global helpers.</value>
         public Dictionary<string, Type> MarkdownGlobalHelpers { get; set; }
+
+        /// <summary>Gets or sets the HTML replace tokens.</summary>
+        ///
+        /// <value>The HTML replace tokens.</value>
         public Dictionary<string, string> HtmlReplaceTokens { get; set; }
 
+        /// <summary>Gets or sets a list of types of the append UTF 8 charset on contents.</summary>
+        ///
+        /// <value>A list of types of the append UTF 8 charset on contents.</value>
         public HashSet<string> AppendUtf8CharsetOnContentTypes { get; set; }
 
+        /// <summary>Gets or sets a list of types of the add maximum age for static mimes.</summary>
+        ///
+        /// <value>A list of types of the add maximum age for static mimes.</value>
         public Dictionary<string, TimeSpan> AddMaxAgeForStaticMimeTypes { get; set; }
 
+        /// <summary>Gets or sets the raw HTTP handlers.</summary>
+        ///
+        /// <value>The raw HTTP handlers.</value>
         public List<Func<IHttpRequest, IHttpHandler>> RawHttpHandlers { get; set; }
 
+        /// <summary>Gets or sets the route naming conventions.</summary>
+        ///
+        /// <value>The route naming conventions.</value>
         public List<RouteNamingConventionDelegate> RouteNamingConventions { get; set; }
 
+        /// <summary>Gets or sets the custom HTTP handlers.</summary>
+        ///
+        /// <value>The custom HTTP handlers.</value>
         public Dictionary<HttpStatusCode, INServiceKitHttpHandler> CustomHttpHandlers { get; set; }
+
+        /// <summary>Gets or sets the global HTML error HTTP handler.</summary>
+        ///
+        /// <value>The global HTML error HTTP handler.</value>
         public INServiceKitHttpHandler GlobalHtmlErrorHttpHandler { get; set; }
+
+        /// <summary>Gets or sets the map exception to status code.</summary>
+        ///
+        /// <value>The map exception to status code.</value>
         public Dictionary<Type, int> MapExceptionToStatusCode { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the only send session cookies securely.</summary>
+        ///
+        /// <value>true if only send session cookies securely, false if not.</value>
         public bool OnlySendSessionCookiesSecurely { get; set; }
+
+        /// <summary>Gets or sets the restrict all cookies to domain.</summary>
+        ///
+        /// <value>The restrict all cookies to domain.</value>
         public string RestrictAllCookiesToDomain { get; set; }
 
+        /// <summary>Gets or sets the default jsonp cache expiration.</summary>
+        ///
+        /// <value>The default jsonp cache expiration.</value>
         public TimeSpan DefaultJsonpCacheExpiration { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the return 204 no content for empty response.</summary>
+        ///
+        /// <value>true if return 204 no content for empty response, false if not.</value>
         public bool Return204NoContentForEmptyResponse { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow partial responses.</summary>
+        ///
+        /// <value>true if allow partial responses, false if not.</value>
         public bool AllowPartialResponses { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow non HTTP only cookies.</summary>
+        ///
+        /// <value>true if allow non HTTP only cookies, false if not.</value>
         public bool AllowNonHttpOnlyCookies { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow ACL URL reservation.</summary>
+        ///
+        /// <value>true if allow ACL URL reservation, false if not.</value>
         public bool AllowAclUrlReservation { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether this object use HTTPS links.</summary>
+        ///
+        /// <value>true if use HTTPS links, false if not.</value>
         public bool UseHttpsLinks { get; set; }
 
+        /// <summary>Gets or sets the admin authentication secret.</summary>
+        ///
+        /// <value>The admin authentication secret.</value>
         public string AdminAuthSecret { get; set; }
 
         private string defaultOperationNamespace;
+
+        /// <summary>Gets or sets the default operation namespace.</summary>
+        ///
+        /// <value>The default operation namespace.</value>
         public string DefaultOperationNamespace
         {
             get
@@ -501,11 +735,21 @@ namespace NServiceKit.WebHost.Endpoints
             return null;
         }
 
+        /// <summary>Query if 'feature' has feature.</summary>
+        ///
+        /// <param name="feature">The feature.</param>
+        ///
+        /// <returns>true if feature, false if not.</returns>
         public bool HasFeature(Feature feature)
         {
             return (feature & EndpointHost.Config.EnableFeatures) == feature;
         }
 
+        /// <summary>Assert features.</summary>
+        ///
+        /// <exception cref="UnauthorizedAccessException">Thrown when an Unauthorized Access error condition occurs.</exception>
+        ///
+        /// <param name="usesFeatures">The uses features.</param>
         public void AssertFeatures(Feature usesFeatures)
         {
             if (EndpointHost.Config.EnableFeatures == Feature.All) return;
@@ -517,12 +761,20 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Unauthorized access.</summary>
+        ///
+        /// <param name="requestAttrs">The request attributes.</param>
+        ///
+        /// <returns>An UnauthorizedAccessException.</returns>
         public UnauthorizedAccessException UnauthorizedAccess(EndpointAttributes requestAttrs)
         {
             return new UnauthorizedAccessException(
                 String.Format("Request with '{0}' is not allowed", requestAttrs));
         }
 
+        /// <summary>Assert content type.</summary>
+        ///
+        /// <param name="contentType">Type of the content.</param>
         public void AssertContentType(string contentType)
         {
             if (EndpointHost.Config.EnableFeatures == Feature.All) return;
@@ -530,6 +782,9 @@ namespace NServiceKit.WebHost.Endpoints
             AssertFeatures(contentType.ToFeature());
         }
 
+        /// <summary>Gets the metadata pages configuration.</summary>
+        ///
+        /// <value>The metadata pages configuration.</value>
         public MetadataPagesConfig MetadataPagesConfig
         {
             get
@@ -542,6 +797,12 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Query if 'httpReq' has access to metadata.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        ///
+        /// <returns>true if access to metadata, false if not.</returns>
         public bool HasAccessToMetadata(IHttpRequest httpReq, IHttpResponse httpRes)
         {
             if (!HasFeature(Feature.Metadata))
@@ -562,6 +823,12 @@ namespace NServiceKit.WebHost.Endpoints
             return true;
         }
 
+        /// <summary>Handles the error response.</summary>
+        ///
+        /// <param name="httpReq">               The HTTP request.</param>
+        /// <param name="httpRes">               The HTTP resource.</param>
+        /// <param name="errorStatus">           The error status.</param>
+        /// <param name="errorStatusDescription">Information describing the error status.</param>
         public void HandleErrorResponse(IHttpRequest httpReq, IHttpResponse httpRes, HttpStatusCode errorStatus, string errorStatusDescription = null)
         {
             if (httpRes.IsClosed) return;
@@ -573,6 +840,11 @@ namespace NServiceKit.WebHost.Endpoints
             handler.ProcessRequest(httpReq, httpRes, httpReq.OperationName);
         }
 
+        /// <summary>Gets handler for error status.</summary>
+        ///
+        /// <param name="errorStatus">The error status.</param>
+        ///
+        /// <returns>The handler for error status.</returns>
         public INServiceKitHttpHandler GetHandlerForErrorStatus(HttpStatusCode errorStatus)
         {
             var httpHandler = GetCustomErrorHandler(errorStatus);
@@ -593,6 +865,11 @@ namespace NServiceKit.WebHost.Endpoints
             return httpHandler ?? new NotFoundHttpHandler();
         }
 
+        /// <summary>Handler, called when the get custom error.</summary>
+        ///
+        /// <param name="errorStatusCode">The error status code.</param>
+        ///
+        /// <returns>The custom error handler.</returns>
         public INServiceKitHttpHandler GetCustomErrorHandler(int errorStatusCode)
         {
             try
@@ -605,6 +882,11 @@ namespace NServiceKit.WebHost.Endpoints
             }
         }
 
+        /// <summary>Handler, called when the get custom error.</summary>
+        ///
+        /// <param name="errorStatus">The error status.</param>
+        ///
+        /// <returns>The custom error handler.</returns>
         public INServiceKitHttpHandler GetCustomErrorHandler(HttpStatusCode errorStatus)
         {
             INServiceKitHttpHandler httpHandler = null;
@@ -615,6 +897,11 @@ namespace NServiceKit.WebHost.Endpoints
             return httpHandler ?? GlobalHtmlErrorHttpHandler;
         }
 
+        /// <summary>Handler, called when the get custom error HTTP.</summary>
+        ///
+        /// <param name="errorStatus">The error status.</param>
+        ///
+        /// <returns>The custom error HTTP handler.</returns>
         public IHttpHandler GetCustomErrorHttpHandler(HttpStatusCode errorStatus)
         {
             var ssHandler = GetCustomErrorHandler(errorStatus);
@@ -623,12 +910,26 @@ namespace NServiceKit.WebHost.Endpoints
             return httpHandler ?? new NServiceKitHttpHandler(ssHandler);
         }
 
+        /// <summary>Gets or sets the pre execute service filter.</summary>
+        ///
+        /// <value>The pre execute service filter.</value>
         public Action<object, IHttpRequest, IHttpResponse> PreExecuteServiceFilter { get; set; }
 
+        /// <summary>Gets or sets the post execute service filter.</summary>
+        ///
+        /// <value>The post execute service filter.</value>
         public Action<object, IHttpRequest, IHttpResponse> PostExecuteServiceFilter { get; set; }
 
+        /// <summary>Gets or sets the full pathname of the fallback rest file.</summary>
+        ///
+        /// <value>The full pathname of the fallback rest file.</value>
         public FallbackRestPathDelegate FallbackRestPath { get; set; }
 
+        /// <summary>Query if 'req' has valid authentication secret.</summary>
+        ///
+        /// <param name="req">The request.</param>
+        ///
+        /// <returns>true if valid authentication secret, false if not.</returns>
         public bool HasValidAuthSecret(IHttpRequest req)
         {
             if (AdminAuthSecret != null)

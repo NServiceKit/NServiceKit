@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>A funq tests.</summary>
     [TestFixture]
     public class FunqTests
     {
@@ -10,6 +11,7 @@ namespace NServiceKit.Common.Tests
         class Bar : IBar { }
         class TestFoo { public IBar Bar { get; set; } }
 
+        /// <summary>Tests 1.</summary>
         [Test]
         public void Test1()
         {
@@ -21,6 +23,7 @@ namespace NServiceKit.Common.Tests
             Assert.NotNull(m.Bar, "Autowire");
         }
 
+        /// <summary>Tests 2.</summary>
         [Test]
         public void Test2()
         {

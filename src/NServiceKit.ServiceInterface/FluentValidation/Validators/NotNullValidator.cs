@@ -20,10 +20,17 @@ namespace NServiceKit.FluentValidation.Validators
 {
     using Resources;
 
+    /// <summary>A not null validator.</summary>
     public class NotNullValidator : PropertyValidator, INotNullValidator {
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.NotNullValidator class.</summary>
         public NotNullValidator() : base(() => Messages.notnull_error, ValidationErrors.NotNull) {
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             if (context.PropertyValue == null) {
                 return false;
@@ -32,6 +39,7 @@ namespace NServiceKit.FluentValidation.Validators
         }
     }
 
+    /// <summary>Interface for not null validator.</summary>
     public interface INotNullValidator : IPropertyValidator {
     }
 }

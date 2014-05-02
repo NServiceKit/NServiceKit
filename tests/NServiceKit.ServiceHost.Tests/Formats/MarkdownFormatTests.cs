@@ -11,12 +11,21 @@ using NServiceKit.WebHost.Endpoints.Formats;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A markdown format tests.</summary>
 	[TestFixture]
 	public class MarkdownFormatTests
 	{
+        /// <summary>A person.</summary>
 		public class Person
 		{
+            /// <summary>Gets or sets the person's first name.</summary>
+            ///
+            /// <value>The name of the first.</value>
 			public string FirstName { get; set; }
+
+            /// <summary>Gets or sets the person's last name.</summary>
+            ///
+            /// <value>The name of the last.</value>
 			public string LastName { get; set; }
 		}
 
@@ -37,6 +46,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			};
 
 
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
@@ -44,6 +54,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			dynamicPageContent = File.ReadAllText(dynamicPagePath);
 		}
 
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public void OnBeforeEachTest()
 		{
@@ -52,6 +63,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             };
 		}
 
+        /// <summary>Can load all markdown files.</summary>
 		[Test]
 		public void Can_load_all_markdown_files()
 		{
@@ -69,6 +81,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(pageNames.EquivalentTo(viewPageNames));
 		}
 
+        /// <summary>Can render static page.</summary>
 		[Test]
 		public void Can_Render_StaticPage()
 		{
@@ -79,6 +92,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(html, Is.StringStarting("<h1>Static Markdown template</h1>"));
 		}
 
+        /// <summary>Can render static page with template.</summary>
 		[Test]
 		public void Can_Render_StaticPage_WithTemplate()
 		{
@@ -91,6 +105,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(html, Is.StringStarting("<!doctype html>"));
 		}
 
+        /// <summary>Can render dynamic page.</summary>
 		[Test]
 		public void Can_Render_DynamicPage()
 		{

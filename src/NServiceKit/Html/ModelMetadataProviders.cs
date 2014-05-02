@@ -1,6 +1,7 @@
 ﻿
 namespace NServiceKit.Html
 {
+    /// <summary>A model metadata providers.</summary>
 	public class ModelMetadataProviders
 	{
 		private ModelMetadataProvider currentProvider;
@@ -11,6 +12,9 @@ namespace NServiceKit.Html
 			currentProvider = new PocoMetadataProvider();
 		}
 
+        /// <summary>Gets or sets the current.</summary>
+        ///
+        /// <value>The current.</value>
 		public static ModelMetadataProvider Current
 		{
 			get { return Instance.CurrentInternal; }

@@ -7,8 +7,12 @@ using NServiceKit.Text;
 
 namespace Funq
 {
+    /// <summary>Interface for has container.</summary>
     public interface IHasContainer
     {
+        /// <summary>Gets the container.</summary>
+        ///
+        /// <value>The container.</value>
         Container Container { get; }
     }
 
@@ -18,6 +22,9 @@ namespace Funq
 		Dictionary<ServiceKey, ServiceEntry> services = new Dictionary<ServiceKey, ServiceEntry>();
         Dictionary<ServiceKey, ServiceEntry> servicesReadOnlyCopy;
 
+        /// <summary>Gets the number of disposables.</summary>
+        ///
+        /// <value>The number of disposables.</value>
 	    public int disposablesCount
 	    {
             get { lock (disposables) return disposables.Count; }
@@ -356,6 +363,9 @@ namespace Funq
             lock (disposables) disposables.Push(new WeakReference(instance));
 		}
 
+        /// <summary>Gets or sets a value indicating whether the check adapter first.</summary>
+        ///
+        /// <value>true if check adapter first, false if not.</value>
         public bool CheckAdapterFirst { get; set; }
 
         private ServiceEntry<TService, TFunc> GetEntry<TService, TFunc>(string serviceName, bool throwIfMissing)

@@ -1,12 +1,19 @@
 namespace NServiceKit.WebHost.Endpoints.Support.Templates
 {
+    /// <summary>A SOAP 12 wsdl template.</summary>
 	public class Soap12WsdlTemplate : WsdlTemplateBase
 	{
+        /// <summary>Gets the name of the wsdl.</summary>
+        ///
+        /// <value>The name of the wsdl.</value>
 		public override string WsdlName
 		{
 			get { return "Soap12"; }
 		}
 
+        /// <summary>Gets the reply actions template.</summary>
+        ///
+        /// <value>The reply actions template.</value>
 		protected override string ReplyActionsTemplate
 		{
 			get
@@ -24,6 +31,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way actions template.</summary>
+        ///
+        /// <value>The one way actions template.</value>
 		protected override string OneWayActionsTemplate
 		{
 			get
@@ -38,6 +48,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the reply binding container template.</summary>
+        ///
+        /// <value>The reply binding container template.</value>
 		protected override string ReplyBindingContainerTemplate
 		{
 			get
@@ -50,6 +63,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way binding container template.</summary>
+        ///
+        /// <value>The one way binding container template.</value>
 		protected override string OneWayBindingContainerTemplate
 		{
 			get
@@ -62,6 +78,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the reply endpoint URI template.</summary>
+        ///
+        /// <value>The reply endpoint URI template.</value>
 		protected override string ReplyEndpointUriTemplate
 		{
 			get
@@ -75,6 +94,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
 			}
 		}
 
+        /// <summary>Gets the one way endpoint URI template.</summary>
+        ///
+        /// <value>The one way endpoint URI template.</value>
 		protected override string OneWayEndpointUriTemplate
 		{
 			get

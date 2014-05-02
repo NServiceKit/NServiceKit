@@ -158,6 +158,11 @@ namespace MarkdownDeep
 		}
 
 		// Randomize a string using html entities;
+
+        /// <summary>HTML randomize.</summary>
+        ///
+        /// <param name="dest">Destination for the.</param>
+        /// <param name="str"> The.</param>
 		public static void HtmlRandomize(StringBuilder dest, string str)
 		{
 			// Deterministic random seed
@@ -360,6 +365,12 @@ namespace MarkdownDeep
 		// Normalize the line ends in a string to just '\n'
 		// Handles all encodings - '\r\n' (windows), '\n\r' (mac), '\n' (unix) '\r' (something?)
 		static char[] lineends = new char[] { '\r', '\n' };
+
+        /// <summary>Normalize line ends.</summary>
+        ///
+        /// <param name="str">The.</param>
+        ///
+        /// <returns>A string.</returns>
 		public static string NormalizeLineEnds(string str)
 		{
 			if (str.IndexOfAny(lineends) < 0)
@@ -486,6 +497,11 @@ namespace MarkdownDeep
 			return strID;
 		}
 
+        /// <summary>Query if 'url' is URL fully qualified.</summary>
+        ///
+        /// <param name="url">URL of the document.</param>
+        ///
+        /// <returns>true if URL fully qualified, false if not.</returns>
 		public static bool IsUrlFullyQualified(string url)
 		{
 			return url.Contains("://") || url.StartsWith("mailto:");

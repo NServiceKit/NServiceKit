@@ -12,6 +12,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Operations;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A custom request data tests.</summary>
 	[TestFixture]
 	public class CustomRequestDataTests
 	{
@@ -22,6 +23,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		private string customUrl = ListeningOn.CombineWith("customrequestbinder");
 		private string predefinedUrl = ListeningOn.CombineWith("json/syncreply/customrequestbinder");
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -30,6 +32,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -65,6 +68,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Does use request binder for get.</summary>
 		[Test]
 		public void Does_use_request_binder_for_GET()
 		{
@@ -72,6 +76,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for predefined get.</summary>
 		[Test]
 		public void Does_use_request_binder_for_predefined_GET()
 		{
@@ -81,6 +86,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for predefined get with query string.</summary>
 		[Test]
 		public void Does_use_request_binder_for_predefined_GET_with_QueryString()
 		{
@@ -91,6 +97,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for send.</summary>
 		[Test]
 		public void Does_use_request_binder_for_Send()
 		{
@@ -98,6 +105,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for post.</summary>
 		[Test]
 		public void Does_use_request_binder_for_POST()
 		{
@@ -105,6 +113,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for post form data.</summary>
 		[Test]
 		public void Does_use_request_binder_for_POST_FormData()
 		{
@@ -114,6 +123,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for post form data without content type.</summary>
 		[Test]
 		public void Does_use_request_binder_for_POST_FormData_without_ContentType()
 		{
@@ -123,6 +133,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for post form data without content type with query string.</summary>
 		[Test]
 		public void Does_use_request_binder_for_POST_FormData_without_ContentType_with_QueryString()
 		{
@@ -132,6 +143,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for predefined post.</summary>
 		[Test]
 		public void Does_use_request_binder_for_predefined_POST()
 		{
@@ -141,6 +153,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for predefined post form data.</summary>
 		[Test]
 		public void Does_use_request_binder_for_predefined_POST_FormData()
 		{
@@ -150,6 +163,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for put.</summary>
 		[Test]
 		public void Does_use_request_binder_for_PUT()
 		{
@@ -157,6 +171,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.FromBinder);
 		}
 
+        /// <summary>Does use request binder for delete.</summary>
 		[Test]
 		public void Does_use_request_binder_for_DELETE()
 		{

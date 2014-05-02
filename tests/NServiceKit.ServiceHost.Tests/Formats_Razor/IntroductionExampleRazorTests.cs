@@ -8,26 +8,46 @@ using System.Collections.Generic;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>A product.</summary>
     public class Product
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats_Razor.Product class.</summary>
         public Product() { }
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats_Razor.Product class.</summary>
+        ///
+        /// <param name="name"> The name.</param>
+        /// <param name="price">The price.</param>
         public Product(string name, decimal price)
         {
             Name = name;
             Price = price;
         }
 
+        /// <summary>Gets or sets the identifier of the product.</summary>
+        ///
+        /// <value>The identifier of the product.</value>
         public int ProductID { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the price.</summary>
+        ///
+        /// <value>The price.</value>
         public decimal Price { get; set; }
     }
 
+    /// <summary>An introduction example razor tests.</summary>
     [TestFixture]
     public class IntroductionExampleRazorTests : RazorTestBase
     {
         private List<Product> products;
         object productArgs;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -40,6 +60,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             productArgs = new { products = products };
         }
 
+        /// <summary>Sets the up.</summary>
         [SetUp]
         public void SetUp()
         {
@@ -51,6 +72,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             }.Init();
         }
 
+        /// <summary>Basic razor example.</summary>
         [Test]
         public void Basic_Razor_Example()
         {
@@ -77,6 +99,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
         }
 
 
+        /// <summary>Simple loop.</summary>
         [Test]
         public void Simple_loop()
         {
@@ -102,6 +125,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>If statment.</summary>
         [Test]
         public void If_Statment()
         {
@@ -123,6 +147,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Multi variable declarations.</summary>
         [Test]
         public void Multi_variable_declarations()
         {
@@ -146,6 +171,7 @@ var message = ""Number is "" + number;
         }
 
 
+        /// <summary>Integrating content and code.</summary>
         [Test]
         public void Integrating_content_and_code()
         {
@@ -164,6 +190,7 @@ var message = ""Number is "" + number;
         }
 
 
+        /// <summary>Identifying nested content.</summary>
         [Test]
         public void Identifying_nested_content()
         {
@@ -188,6 +215,7 @@ the date: 02/06/2014 06:42:45</p>
             Assert.That(html, Is.StringMatching(expectedHtml.Substring(0, expectedHtml.Length - 25)));
         }
 
+        /// <summary>HTML encoding.</summary>
         [Test]
         public void HTML_encoding()
         {

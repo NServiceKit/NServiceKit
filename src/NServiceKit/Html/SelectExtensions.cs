@@ -11,75 +11,199 @@ using System.Web;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A select extensions.</summary>
     public static class SelectExtensions
     {
-        // DropDownList
-
+        /// <summary>DropDownList.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name)
         {
             return DropDownList(htmlHelper, name, null /* selectList */, null /* optionLabel */, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper"> The htmlHelper to act on.</param>
+        /// <param name="name">       The name.</param>
+        /// <param name="optionLabel">The option label.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, string optionLabel)
         {
             return DropDownList(htmlHelper, name, null /* selectList */, optionLabel, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="selectList">List of selects.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList)
         {
             return DropDownList(htmlHelper, name, selectList, null /* optionLabel */, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, object htmlAttributes)
         {
             return DropDownList(htmlHelper, name, selectList, null /* optionLabel */, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, IDictionary<string, object> htmlAttributes)
         {
             return DropDownList(htmlHelper, name, selectList, null /* optionLabel */, htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper"> The htmlHelper to act on.</param>
+        /// <param name="name">       The name.</param>
+        /// <param name="selectList"> List of selects.</param>
+        /// <param name="optionLabel">The option label.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, string optionLabel)
         {
             return DropDownList(htmlHelper, name, selectList, optionLabel, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="optionLabel">   The option label.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, string optionLabel, object htmlAttributes)
         {
             return DropDownList(htmlHelper, name, selectList, optionLabel, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that drop down list.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="optionLabel">   The option label.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, string optionLabel, IDictionary<string, object> htmlAttributes)
         {
             return DropDownListHelper(htmlHelper, metadata: null, expression: name, selectList: selectList, optionLabel: optionLabel, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="selectList">List of selects.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList)
         {
             return DropDownListFor(htmlHelper, expression, selectList, null /* optionLabel */, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, object htmlAttributes)
         {
             return DropDownListFor(htmlHelper, expression, selectList, null /* optionLabel */, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, IDictionary<string, object> htmlAttributes)
         {
             return DropDownListFor(htmlHelper, expression, selectList, null /* optionLabel */, htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper"> The htmlHelper to act on.</param>
+        /// <param name="expression"> The expression.</param>
+        /// <param name="selectList"> List of selects.</param>
+        /// <param name="optionLabel">The option label.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel)
         {
             return DropDownListFor(htmlHelper, expression, selectList, optionLabel, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="optionLabel">   The option label.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, object htmlAttributes)
         {
             return DropDownListFor(htmlHelper, expression, selectList, optionLabel, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that drop down list for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="optionLabel">   The option label.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, IDictionary<string, object> htmlAttributes)
         {
             if (expression == null)
@@ -97,38 +221,96 @@ namespace NServiceKit.Html
             return SelectInternal(htmlHelper, metadata, optionLabel, expression, selectList, allowMultiple: false, htmlAttributes: htmlAttributes);
         }
 
-        // ListBox
-
+        /// <summary>ListBox.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBox(this HtmlHelper htmlHelper, string name)
         {
             return ListBox(htmlHelper, name, null /* selectList */, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that list box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="selectList">List of selects.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBox(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList)
         {
             return ListBox(htmlHelper, name, selectList, (IDictionary<string, object>)null);
         }
 
+        /// <summary>A HtmlHelper extension method that list box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBox(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, object htmlAttributes)
         {
             return ListBox(htmlHelper, name, selectList, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that list box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBox(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, IDictionary<string, object> htmlAttributes)
         {
             return ListBoxHelper(htmlHelper, metadata: null, name: name, selectList: selectList, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that list box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="selectList">List of selects.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList)
         {
             return ListBoxFor(htmlHelper, expression, selectList, null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that list box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, object htmlAttributes)
         {
             return ListBoxFor(htmlHelper, expression, selectList, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that list box for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="selectList">    List of selects.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ListBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, IDictionary<string, object> htmlAttributes)
         {
             if (expression == null)

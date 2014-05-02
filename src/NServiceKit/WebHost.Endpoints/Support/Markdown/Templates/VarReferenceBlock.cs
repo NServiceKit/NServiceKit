@@ -20,6 +20,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
 			this.varName = varName;
 		}
 
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
 		public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
 		{
 			object value = null;

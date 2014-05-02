@@ -4,9 +4,11 @@ using NServiceKit.Messaging.Tests.Services;
 
 namespace NServiceKit.Messaging.Tests
 {
+    /// <summary>A transient service messaging tests.</summary>
 	public abstract class TransientServiceMessagingTests
 		: MessagingHostTestBase
 	{
+        /// <summary>Executes the before each test action.</summary>
 		public override void OnBeforeEachTest()
 		{
 			base.OnBeforeEachTest();
@@ -16,6 +18,7 @@ namespace NServiceKit.Messaging.Tests
             Container.Register(new UnRetryableFailService());
 		}
 
+        /// <summary>Normal greet service client and server example.</summary>
 		[Test]
 		public void Normal_GreetService_client_and_server_example()
 		{
@@ -36,6 +39,7 @@ namespace NServiceKit.Messaging.Tests
 			}
 		}
 
+        /// <summary>Publish before starting host greet service client and server example.</summary>
 		[Test]
 		public void Publish_before_starting_host_GreetService_client_and_server_example()
 		{
@@ -55,6 +59,7 @@ namespace NServiceKit.Messaging.Tests
 			}
 		}
 
+        /// <summary>Always fails service ends up in dlq after 3 attempts.</summary>
 		[Test]
 		public void AlwaysFailsService_ends_up_in_dlq_after_3_attempts()
 		{
@@ -84,6 +89,7 @@ namespace NServiceKit.Messaging.Tests
 			}
 		}
 
+        /// <summary>Un retryable fail service ends up in dlq after 1 attempt.</summary>
 		[Test]
 		public void UnRetryableFailService_ends_up_in_dlq_after_1_attempt()
 		{

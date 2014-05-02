@@ -231,6 +231,11 @@ namespace NServiceKit.Messaging.Rcon
             }
         }
 
+        /// <summary>Calls.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="request"> The request.</param>
+        /// <param name="callback">The callback.</param>
         public void Call<T>(T request, AsyncCallback callback)
         {
             _registeredCallbacks[_sequenceID] = callback;

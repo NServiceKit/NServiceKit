@@ -31,7 +31,13 @@ namespace NServiceKit.ServiceInterface.Cors
             this.allowedHeaders = allowedHeaders;
             this.allowCredentials = allowCredentials;
         }
-        
+
+        /// <summary>Represents a default constructor with Allow Origin equals to "*", Allowed GET, POST, PUT, DELETE, OPTIONS request and allowed "Content-Type" header.</summary>
+        ///
+        /// <param name="allowOriginWhitelist">The allow origin whitelist.</param>
+        /// <param name="allowedMethods">      The allowed methods.</param>
+        /// <param name="allowedHeaders">      The allowed headers.</param>
+        /// <param name="allowCredentials">    true to allow, false to deny credentials.</param>
         public CorsFeature(ICollection<string> allowOriginWhitelist, string allowedMethods = DefaultMethods, string allowedHeaders = DefaultHeaders, bool allowCredentials = false)
         {
             this.allowedMethods = allowedMethods;
@@ -40,6 +46,9 @@ namespace NServiceKit.ServiceInterface.Cors
             this.allowOriginWhitelist = allowOriginWhitelist;
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
         public void Register(IAppHost appHost)
         {
             if (isInstalled) return;

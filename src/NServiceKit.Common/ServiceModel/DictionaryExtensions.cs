@@ -5,8 +5,14 @@ using System.Collections.Specialized;
 
 namespace NServiceKit.ServiceModel
 {
+    /// <summary>A dictionary extensions.</summary>
     public static class DictionaryExtensions
     {
+        /// <summary>A NameValueCollection extension method that converts the nameValues to a dictionary.</summary>
+        ///
+        /// <param name="nameValues">The nameValues to act on.</param>
+        ///
+        /// <returns>nameValues as a Dictionary&lt;string,string&gt;</returns>
         public static Dictionary<string, string> ToDictionary(this NameValueCollection nameValues)
         {
             if (nameValues == null) return new Dictionary<string, string>();
@@ -30,6 +36,11 @@ namespace NServiceKit.ServiceModel
             return map;
         }
 
+        /// <summary>A Dictionary&lt;string,string&gt; extension method that converts a map to a name value collection.</summary>
+        ///
+        /// <param name="map">The map to act on.</param>
+        ///
+        /// <returns>map as a NameValueCollection.</returns>
         public static NameValueCollection ToNameValueCollection(this Dictionary<string, string> map)
         {
             if (map == null) return new NameValueCollection();

@@ -11,11 +11,22 @@ using System.IO.Compression;
 
 namespace NServiceKit.ServiceModel.Serialization
 {
+    /// <summary>A data contract serializer.</summary>
     public class DataContractSerializer : IStringSerializer 
     {
         private static readonly Encoding Encoding = Encoding.UTF8;// new UTF8Encoding(true);
+        /// <summary>The instance.</summary>
         public static DataContractSerializer Instance = new DataContractSerializer();
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <typeparam name="XmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">     Source for the.</param>
+        /// <param name="indentXml">true to indent XML.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Parse<XmlDto>(XmlDto from, bool indentXml)
         {
             try
@@ -55,12 +66,21 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <typeparam name="XmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Parse<XmlDto>(XmlDto from)
         {
             return Parse(from, false);
         }
 
-
+        /// <summary>Serialize to stream.</summary>
+        ///
+        /// <param name="obj">   The object.</param>
+        /// <param name="stream">The stream.</param>
         public void SerializeToStream(object obj, Stream stream)
         {
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
@@ -76,6 +96,12 @@ namespace NServiceKit.ServiceModel.Serialization
         }
 
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
+
+        /// <summary>Compress to stream.</summary>
+        ///
+        /// <typeparam name="XmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">  Source for the.</param>
+        /// <param name="stream">The stream.</param>
         public void CompressToStream<XmlDto>(XmlDto from, Stream stream)
         {
             using (var deflateStream = new DeflateStream(stream, CompressionMode.Compress))
@@ -87,6 +113,12 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Compress the given from.</summary>
+        ///
+        /// <typeparam name="XmlDto">Type of the XML dto.</typeparam>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>A byte[].</returns>
         public byte[] Compress<XmlDto>(XmlDto from)
         {
             using (var ms = new MemoryStream())

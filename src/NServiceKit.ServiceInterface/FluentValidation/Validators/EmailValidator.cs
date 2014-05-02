@@ -30,11 +30,16 @@ namespace NServiceKit.FluentValidation.Validators
         private readonly Regex regex;
         const string expression = @"^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$";
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.EmailValidator class.</summary>
         public EmailValidator() : base(() => Messages.email_error, ValidationErrors.Email) {
             regex = new Regex(expression, RegexOptions.IgnoreCase);
         }
 
-
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             if (context.PropertyValue == null) return true;
 
@@ -45,11 +50,15 @@ namespace NServiceKit.FluentValidation.Validators
             return true;
         }
 
+        /// <summary>Gets the expression.</summary>
+        ///
+        /// <value>The expression.</value>
         public string Expression {
             get { return expression; }
         }
     }
 
+    /// <summary>Interface for email validator.</summary>
     public interface IEmailValidator : IRegularExpressionValidator {
         
     }

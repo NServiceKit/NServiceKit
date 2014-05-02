@@ -7,6 +7,7 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.ServiceInterface.Validation
 {
+    /// <summary>A validator cache.</summary>
     public static class ValidatorCache
     {
         private static Dictionary<Type, ResolveValidatorDelegate> delegateCache 
@@ -14,6 +15,12 @@ namespace NServiceKit.ServiceInterface.Validation
         
         private delegate IValidator ResolveValidatorDelegate(IHttpRequest httpReq);
 
+        /// <summary>Gets a validator.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="type">   The type.</param>
+        ///
+        /// <returns>The validator.</returns>
         public static IValidator GetValidator(IHttpRequest httpReq, Type type)
         {
             ResolveValidatorDelegate parseFn;
@@ -37,8 +44,15 @@ namespace NServiceKit.ServiceInterface.Validation
         }		
     }
 
+    /// <summary>A validator cache.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class ValidatorCache<T>
     {
+        /// <summary>Gets a validator.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The validator.</returns>
         public static IValidator GetValidator(IHttpRequest httpReq)
         {
             return httpReq.TryResolve<IValidator<T>>();

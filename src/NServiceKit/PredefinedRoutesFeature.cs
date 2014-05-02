@@ -4,13 +4,24 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit
 {
+    /// <summary>A predefined routes feature.</summary>
     public class PredefinedRoutesFeature : IPlugin
     {
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
         public void Register(IAppHost appHost)
         {
             appHost.CatchAllHandlers.Add(ProcessRequest);
         }
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="pathInfo">  Information describing the path.</param>
+        /// <param name="filePath">  Full pathname of the file.</param>
+        ///
+        /// <returns>An IHttpHandler.</returns>
         public IHttpHandler ProcessRequest(string httpMethod, string pathInfo, string filePath)
         {
             var pathParts = pathInfo.TrimStart('/').Split('/');

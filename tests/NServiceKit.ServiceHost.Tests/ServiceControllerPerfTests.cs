@@ -7,12 +7,14 @@ using NServiceKit.ServiceHost.Tests.TypeFactory;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A service controller performance tests.</summary>
 	[Ignore("Perf Test Only")]
 	[TestFixture]
 	public class ServiceControllerPerfTests
 	{
 		private const int Times = 100000;
 
+        /// <summary>Executes all operation.</summary>
 		[Test]
 		public void RunAll()
 		{
@@ -21,6 +23,7 @@ namespace NServiceKit.ServiceHost.Tests
 			With_Funq_and_Reflection(); //Very slow
 		}
 
+        /// <summary>With native funq.</summary>
 		[Test]
 		public void With_Native_Funq()
 		{
@@ -36,6 +39,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_Native_Funq(): {0}", Measure(() => container.Resolve<AutoWireService>(), Times));
 		}
 
+        /// <summary>With funq and reflection.</summary>
 		[Test]
 		[Ignore("Slow to run")]
 		public void With_Funq_and_Reflection()
@@ -50,6 +54,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Console.WriteLine("With_Funq_and_Reflection(): {0}", Measure(() => container.Resolve<AutoWireService>(), Times));
 		}
 
+        /// <summary>With funq and expressions.</summary>
 		[Test]
 		public void With_Funq_and_Expressions()
 		{

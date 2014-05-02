@@ -19,19 +19,32 @@ using System.Text;
 
 namespace MarkdownDeep
 {
+    /// <summary>A link definition.</summary>
 	public class LinkDefinition
 	{
+        /// <summary>Initializes a new instance of the MarkdownDeep.LinkDefinition class.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
 		public LinkDefinition(string id)
 		{
 			this.id= id;
 		}
 
+        /// <summary>Initializes a new instance of the MarkdownDeep.LinkDefinition class.</summary>
+        ///
+        /// <param name="id"> The identifier.</param>
+        /// <param name="url">The URL.</param>
 		public LinkDefinition(string id, string url)
 		{
 			this.id = id;
 			this.url = url;
 		}
 
+        /// <summary>Initializes a new instance of the MarkdownDeep.LinkDefinition class.</summary>
+        ///
+        /// <param name="id">   The identifier.</param>
+        /// <param name="url">  The URL.</param>
+        /// <param name="title">The title.</param>
 		public LinkDefinition(string id, string url, string title)
 		{
 			this.id = id;
@@ -39,18 +52,27 @@ namespace MarkdownDeep
 			this.title = title;
 		}
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		public string id
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets URL of the document.</summary>
+        ///
+        /// <value>The URL.</value>
 		public string url
 		{
 			get;
 			set;
 		}
 
+        /// <summary>Gets or sets the title.</summary>
+        ///
+        /// <value>The title.</value>
 		public string title
 		{
 			get;

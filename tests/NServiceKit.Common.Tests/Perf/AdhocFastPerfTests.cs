@@ -6,17 +6,24 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.Common.Tests.Perf
 {
+    /// <summary>An adhoc fast performance tests.</summary>
 	[Ignore]
 	[TestFixture]
 	public class AdhocFastPerfTests
 		: PerfTestBase
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Perf.AdhocFastPerfTests class.</summary>
 		public AdhocFastPerfTests()
 		{
 			//this.MultipleIterations = new List<int> { 1000, 10000, 100000, 1000000 };
 			this.MultipleIterations = new List<int> { 10000 };
 		}
 
+        /// <summary>Converts a hexString to a byte array.</summary>
+        ///
+        /// <param name="hexString">The hexadecimal string.</param>
+        ///
+        /// <returns>hexString as a byte[].</returns>
 		public static byte[] ToByteArray(string hexString)
 		{
 			var numberChars = hexString.Length;
@@ -28,6 +35,7 @@ namespace NServiceKit.Common.Tests.Perf
 			return bytes;
 		}
 
+        /// <summary>Compare small convert bytes.</summary>
 		[Test]
 		public void Compare_small_ConvertBytes()
 		{
@@ -40,6 +48,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare medium convert bytes.</summary>
 		[Test]
 		public void Compare_medium_ConvertBytes()
 		{
@@ -56,6 +65,7 @@ namespace NServiceKit.Common.Tests.Perf
 			);
 		}
 
+        /// <summary>Compare type test with parse function.</summary>
 		[Test]
 		public void Compare_Type_test_with_Parse_Func()
 		{
@@ -71,10 +81,19 @@ namespace NServiceKit.Common.Tests.Perf
 
 	}
 
+    /// <summary>A test class with type.</summary>
 	public class TestClassWithType
 	{
+        /// <summary>Gets or sets the type.</summary>
+        ///
+        /// <value>The type.</value>
 		public Type Type { get; set; }
 
+        /// <summary>Gets a value.</summary>
+        ///
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>The value.</returns>
 		public object GetValue(string value)
 		{
 			if (Type == typeof(string))
@@ -86,10 +105,17 @@ namespace NServiceKit.Common.Tests.Perf
 		}
 	}
 
+    /// <summary>A test class with function.</summary>
 	public class TestClassWithFunc
 	{
+        /// <summary>The get value function.</summary>
 		public ParseStringDelegate GetValueFn;
 
+        /// <summary>Gets a value.</summary>
+        ///
+        /// <param name="value">The value.</param>
+        ///
+        /// <returns>The value.</returns>
 		public object GetValue(string value)
 		{
 			if (GetValueFn != null)

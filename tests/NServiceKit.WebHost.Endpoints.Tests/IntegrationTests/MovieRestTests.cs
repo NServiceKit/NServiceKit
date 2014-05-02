@@ -8,10 +8,12 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 {
+    /// <summary>A movie rest tests.</summary>
 	[TestFixture]
 	public class MovieRestTests
 		: IntegrationTestBase
 	{
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public void OnBeforeEachTest()
 		{
@@ -19,6 +21,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			jsonClient.Post<ResetMoviesResponse>("reset-movies", new ResetMovies());
 		}
 
+        /// <summary>Can list all movies.</summary>
 		[Test]
 		public void Can_list_all_movies()
 		{
@@ -27,6 +30,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			);
 		}
 
+        /// <summary>Can add movie.</summary>
 		[Test]
 		public void Can_add_movie()
 		{
@@ -65,6 +69,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			);
 		}
 
+        /// <summary>Can reset movie database.</summary>
 		[Test]
 		public void Can_ResetMovieDatabase()
 		{
@@ -73,6 +78,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests.IntegrationTests
 			);
 		}
 
+        /// <summary>Can delete movie.</summary>
 		[Test]
 		public void Can_delete_movie()
 		{

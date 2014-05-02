@@ -9,6 +9,7 @@ using NServiceKit.WebHost.IntegrationTests.Services;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A customer service validation tests.</summary>
 	[TestFixture]
 	public class CustomerServiceValidationTests
 	{
@@ -34,6 +35,7 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 
 		Customers validRequest;
 
+        /// <summary>Sets the up.</summary>
 		[SetUp]
 		public void SetUp()
 		{
@@ -49,6 +51,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			};
 		}
 
+        /// <summary>Gets the service clients.</summary>
+        ///
+        /// <value>The service clients.</value>
 		public static IEnumerable ServiceClients
 		{
 			get
@@ -61,7 +66,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
-
+        /// <summary>Posts an empty request throws validation exception.</summary>
+        ///
+        /// <exception cref="Validation">Thrown when a validation error condition occurs.</exception>
+        ///
+        /// <param name="client">The client.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Post_empty_request_throws_validation_exception(IServiceClient client)
 		{
@@ -86,6 +95,11 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Gets empty request throws validation exception.</summary>
+        ///
+        /// <exception cref="Validation">Thrown when a validation error condition occurs.</exception>
+        ///
+        /// <param name="client">The client.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Get_empty_request_throws_validation_exception(IRestClient client)
 		{
@@ -107,6 +121,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Posts a valid request succeeds.</summary>
+        ///
+        /// <param name="client">The client.</param>
 		[Test, TestCaseSource(typeof(CustomerServiceValidationTests), "ServiceClients")]
 		public void Post_ValidRequest_succeeds(IServiceClient client)
 		{

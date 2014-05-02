@@ -14,13 +14,20 @@ namespace NServiceKit.WebHost.IntegrationTests
 	// [System.Web.Script.Services.ScriptService]
 	public class Soap11WebService : System.Web.Services.WebService
 	{
-
+        /// <summary>Hello world.</summary>
+        ///
+        /// <returns>A string.</returns>
 		[WebMethod]
 		public string HelloWorld()
 		{
 			return "Hello World";
 		}
 
+        /// <summary>Reverses the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A ReverseResponse.</returns>
 		[WebMethod]
 		public ReverseResponse Reverse(Reverse request)
 		{

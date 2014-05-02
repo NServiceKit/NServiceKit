@@ -25,14 +25,22 @@ namespace NServiceKit.FluentValidation.Validators
     using Internal;
     using Resources;
 
+    /// <summary>An equal validator.</summary>
     public class EqualValidator : PropertyValidator, IComparisonValidator {
         readonly Func<object, object> func;
         readonly IEqualityComparer comparer;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.EqualValidator class.</summary>
+        ///
+        /// <param name="valueToCompare">The value to compare.</param>
         public EqualValidator(object valueToCompare) : base(() => Messages.equal_error, ValidationErrors.Equal) {
             this.ValueToCompare = valueToCompare;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.EqualValidator class.</summary>
+        ///
+        /// <param name="valueToCompare">The value to compare.</param>
+        /// <param name="comparer">      The comparer.</param>
         public EqualValidator(object valueToCompare, IEqualityComparer comparer)
             : base(() => Messages.equal_error, ValidationErrors.Equal)
         {
@@ -40,6 +48,10 @@ namespace NServiceKit.FluentValidation.Validators
             this.comparer = comparer;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.EqualValidator class.</summary>
+        ///
+        /// <param name="comparisonProperty">The comparison property.</param>
+        /// <param name="member">            The member.</param>
         public EqualValidator(Func<object, object> comparisonProperty, MemberInfo member)
             : base(() => Messages.equal_error, ValidationErrors.Equal)
         {
@@ -47,6 +59,11 @@ namespace NServiceKit.FluentValidation.Validators
             MemberToCompare = member;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.EqualValidator class.</summary>
+        ///
+        /// <param name="comparisonProperty">The comparison property.</param>
+        /// <param name="member">            The member.</param>
+        /// <param name="comparer">          The comparer.</param>
         public EqualValidator(Func<object, object> comparisonProperty, MemberInfo member, IEqualityComparer comparer)
             : base(() => Messages.equal_error, ValidationErrors.Equal)
         {
@@ -55,6 +72,11 @@ namespace NServiceKit.FluentValidation.Validators
             this.comparer = comparer;
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             var comparisonValue = GetComparisonValue(context);
             bool success = Compare(comparisonValue, context.PropertyValue);
@@ -75,13 +97,29 @@ namespace NServiceKit.FluentValidation.Validators
             return ValueToCompare;
         }
 
+        /// <summary>Gets the comparison.</summary>
+        ///
+        /// <value>The comparison.</value>
         public Comparison Comparison {
             get { return Comparison.Equal; }
         }
 
+        /// <summary>Gets the member to compare.</summary>
+        ///
+        /// <value>The member to compare.</value>
         public MemberInfo MemberToCompare { get; private set; }
+
+        /// <summary>Gets the value to compare.</summary>
+        ///
+        /// <value>The value to compare.</value>
         public object ValueToCompare { get; private set; }
 
+        /// <summary>Compares two object objects to determine their relative ordering.</summary>
+        ///
+        /// <param name="comparisonValue">Object to be compared.</param>
+        /// <param name="propertyValue">  Object to be compared.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         protected bool Compare(object comparisonValue, object propertyValue) {
             if(comparer != null) {
                 return comparer.Equals(comparisonValue, propertyValue);

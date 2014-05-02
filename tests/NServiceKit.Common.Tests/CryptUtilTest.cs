@@ -7,9 +7,11 @@ using NUnit.Framework;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>A crypt utilities test.</summary>
     [TestFixture]
     public class CryptUtilsTest
     {
+        /// <summary>Can encrypt with string extension.</summary>
         [TestCase]
         public void CanEncryptWithStringExtension()
         {
@@ -28,6 +30,7 @@ namespace NServiceKit.Common.Tests
 
         }
 
+        /// <summary>Can encrypt with string extension fails without key pair.</summary>
         [TestCase]
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void CanEncryptWithStringExtensionFailsWithoutKeyPair()

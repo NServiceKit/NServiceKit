@@ -25,21 +25,38 @@ namespace NServiceKit.FluentValidation.Validators
     using Internal;
     using Results;
 
+    /// <summary>An abstract comparison validator.</summary>
     public abstract class AbstractComparisonValidator : PropertyValidator, IComparisonValidator {
 
         readonly Func<object, object> valueToCompareFunc;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.AbstractComparisonValidator class.</summary>
+        ///
+        /// <param name="value">               The value.</param>
+        /// <param name="errorMessageSelector">The error message selector.</param>
+        /// <param name="errorCode">           The error code.</param>
         protected AbstractComparisonValidator(IComparable value, Expression<Func<string>> errorMessageSelector, string errorCode) : base(errorMessageSelector, errorCode) {
             value.Guard("value must not be null.");
             ValueToCompare = value;
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.AbstractComparisonValidator class.</summary>
+        ///
+        /// <param name="valueToCompareFunc">  The value to compare function.</param>
+        /// <param name="member">              The member.</param>
+        /// <param name="errorMessageSelector">The error message selector.</param>
+        /// <param name="errorCode">           The error code.</param>
         protected AbstractComparisonValidator(Func<object, object> valueToCompareFunc, MemberInfo member, Expression<Func<string>> errorMessageSelector, string errorCode)
             : base(errorMessageSelector, errorCode) {
             this.valueToCompareFunc = valueToCompareFunc;
             this.MemberToCompare = member;
         }
 
+        /// <summary>Query if 'value' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected sealed override bool IsValid(PropertyValidatorContext context) {
             if(context.PropertyValue == null) {
                 // If we're working with a nullable type then this rule should not be applied.
@@ -65,24 +82,68 @@ namespace NServiceKit.FluentValidation.Validators
             return (IComparable)ValueToCompare;
         }
 
+        /// <summary>Query if 'value' is valid.</summary>
+        ///
+        /// <param name="value">         The value.</param>
+        /// <param name="valueToCompare">The value to compare.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         public abstract bool IsValid(IComparable value, IComparable valueToCompare);
+
+        /// <summary>Gets the comparison.</summary>
+        ///
+        /// <value>The comparison.</value>
         public abstract Comparison Comparison { get; }
+
+        /// <summary>Gets the member to compare.</summary>
+        ///
+        /// <value>The member to compare.</value>
         public MemberInfo MemberToCompare { get; private set; }
+
+        /// <summary>Gets the value to compare.</summary>
+        ///
+        /// <value>The value to compare.</value>
         public object ValueToCompare { get; private set; }
     }
 
+    /// <summary>Interface for comparison validator.</summary>
     public interface IComparisonValidator : IPropertyValidator {
+
+        /// <summary>Gets the comparison.</summary>
+        ///
+        /// <value>The comparison.</value>
         Comparison Comparison { get; }
+
+        /// <summary>Gets the member to compare.</summary>
+        ///
+        /// <value>The member to compare.</value>
         MemberInfo MemberToCompare { get; }
+
+        /// <summary>Gets the value to compare.</summary>
+        ///
+        /// <value>The value to compare.</value>
         object ValueToCompare { get; }
     }
 
+    /// <summary>Values that represent Comparison.</summary>
     public enum Comparison {
+
+        /// <summary>An enum constant representing the equal option.</summary>
         Equal,
+
+        /// <summary>An enum constant representing the not equal option.</summary>
         NotEqual,
+
+        /// <summary>An enum constant representing the less than option.</summary>
         LessThan,
+
+        /// <summary>An enum constant representing the greater than option.</summary>
         GreaterThan,
+
+        /// <summary>An enum constant representing the greater than or equal option.</summary>
         GreaterThanOrEqual,
+
+        /// <summary>An enum constant representing the less than or equal option.</summary>
         LessThanOrEqual
     }
 }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Mvc
 {
+    /// <summary>A funq controller factory.</summary>
     public class FunqControllerFactory : DefaultControllerFactory
 	{
 		private readonly ContainerResolveCache funqBuilder;
@@ -39,6 +40,12 @@ namespace NServiceKit.Mvc
             }
 		}
 
+        /// <summary>Retrieves the controller instance for the specified request context and controller type.</summary>
+        ///
+        /// <param name="requestContext">The context of the HTTP request, which includes the HTTP context and route data.</param>
+        /// <param name="controllerType">The type of the controller.</param>
+        ///
+        /// <returns>The controller instance.</returns>
 		protected override IController GetControllerInstance(
 			RequestContext requestContext, Type controllerType)
 		{

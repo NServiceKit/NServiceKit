@@ -8,6 +8,11 @@ namespace NServiceKit.ServiceHost
 	/// <typeparam name="T"></typeparam>
 	public interface IRestPatchService<T>
 	{
+        /// <summary>Patches the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An object.</returns>
 		object Patch(T request);
 	}
 }

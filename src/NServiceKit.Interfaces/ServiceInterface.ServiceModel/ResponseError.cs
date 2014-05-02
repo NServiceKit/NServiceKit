@@ -20,12 +20,21 @@ namespace NServiceKit.ServiceInterface.ServiceModel
     [DataContract]
     public class ResponseError
     {
+        /// <summary>Gets or sets the error code.</summary>
+        ///
+        /// <value>The error code.</value>
         [DataMember(IsRequired = false, EmitDefaultValue = false, Order = 1)]
         public string ErrorCode { get; set; }
 
+        /// <summary>Gets or sets the name of the field.</summary>
+        ///
+        /// <value>The name of the field.</value>
         [DataMember(IsRequired = false, EmitDefaultValue = false, Order = 2)]
         public string FieldName { get; set; }
 
+        /// <summary>Gets or sets the message.</summary>
+        ///
+        /// <value>The message.</value>
         [DataMember(IsRequired = false, EmitDefaultValue = false, Order = 3)]
         public string Message { get; set; }
     }

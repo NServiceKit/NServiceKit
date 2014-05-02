@@ -7,8 +7,10 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A host context.</summary>
     public class HostContext
     {
+        /// <summary>The instance.</summary>
         public static readonly HostContext Instance = new HostContext();
 
         [ThreadStatic] 
@@ -31,6 +33,12 @@ namespace NServiceKit.Common
             set { items = value; }
         }
 
+        /// <summary>Gets or create.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="createFn">The create function.</param>
+        ///
+        /// <returns>The or create.</returns>
         public T GetOrCreate<T>(Func<T> createFn)
         {
             if (Items.Contains(typeof(T).Name))
@@ -39,6 +47,7 @@ namespace NServiceKit.Common
             return (T) (Items[typeof(T).Name] = createFn());
         }
 
+        /// <summary>Ends a request.</summary>
         public void EndRequest()
         {
             items = null;
@@ -62,17 +71,23 @@ namespace NServiceKit.Common
         }
     }
 
+    /// <summary>A dispsable tracker.</summary>
     public class DispsableTracker : IDisposable
     {
+        /// <summary>Identifier for the hash.</summary>
         public const string HashId = "__disposables";
 
         List<WeakReference> disposables = new List<WeakReference>();
 
+        /// <summary>Adds instance.</summary>
+        ///
+        /// <param name="instance">The instance to add.</param>
         public void Add(IDisposable instance)
         {
             disposables.Add(new WeakReference(instance));
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
             foreach (var wr in disposables)

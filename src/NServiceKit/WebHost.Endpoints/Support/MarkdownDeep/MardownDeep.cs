@@ -11,7 +11,7 @@
 //   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
 //   See the License for the specific language governing permissions and limitations under the License.
 //
-
+#pragma warning disable 1591
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +20,21 @@ using System.Text;
 namespace MarkdownDeep
 {
 
+    /// <summary>Information about the image.</summary>
 	public class ImageInfo
 	{
+        /// <summary>URL of the document.</summary>
 		public string url;
+        /// <summary>true to titled image.</summary>
 		public bool titled_image;
+        /// <summary>The width.</summary>
 		public int width;
+        /// <summary>The height.</summary>
 		public int height;
 	}
 
 
+    /// <summary>A markdown.</summary>
 	public class Markdown
 	{
 		// Constructor
@@ -58,6 +64,12 @@ namespace MarkdownDeep
 			// Process blocks
 			return new BlockProcessor(this, MarkdownInHtml).Process(str);
 		}
+
+        /// <summary>Transforms.</summary>
+        ///
+        /// <param name="str">The.</param>
+        ///
+        /// <returns>A string.</returns>
 		public string Transform(string str)
 		{
 			Dictionary<string, LinkDefinition> defs;
@@ -202,6 +214,9 @@ namespace MarkdownDeep
 			return sb.ToString();
 		}
 
+        /// <summary>Gets or sets the length of the summary.</summary>
+        ///
+        /// <value>The length of the summary.</value>
 		public int SummaryLength
 		{
 			get;
@@ -316,6 +331,7 @@ namespace MarkdownDeep
 			set;
 		}
 
+        /// <summary>URL of the qualify.</summary>
 		public Func<string, string> QualifyUrl;
 
 		// Override to qualify non-local image and link urls
@@ -368,6 +384,7 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Size of the get image.</summary>
 		public Func<ImageInfo, bool> GetImageSize;
 
 		// Override to supply the size of an image
@@ -433,6 +450,7 @@ namespace MarkdownDeep
 		}
 
 
+        /// <summary>The prepare link.</summary>
 		public Func<HtmlTag, bool> PrepareLink;
 		
 		// Override to modify the attributes of a link
@@ -463,6 +481,7 @@ namespace MarkdownDeep
 			tag.attributes["href"] = OnQualifyUrl(url);
 		}
 
+        /// <summary>The prepare image.</summary>
 		public Func<HtmlTag, bool, bool> PrepareImage;
 
 		internal bool RenderingTitledImage = false;
@@ -492,6 +511,10 @@ namespace MarkdownDeep
 		// (defaults to "footnotes")
 		// btw fyi: you can use css to disable the footnotes horizontal rule. eg:
 		// div.footnotes hr { display:none }
+
+        /// <summary>Gets or sets the HTML class footnotes.</summary>
+        ///
+        /// <value>The HTML class footnotes.</value>
 		public string HtmlClassFootnotes
 		{
 			get;
@@ -568,6 +591,10 @@ namespace MarkdownDeep
 			set;
 		}
 
+        /// <summary>Executes the section header action.</summary>
+        ///
+        /// <param name="dest"> Destination for the.</param>
+        /// <param name="Index">Zero-based index of the.</param>
 		public virtual void OnSectionHeader(StringBuilder dest, int Index)
 		{
 			if (SectionHeader != null)
@@ -576,6 +603,10 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Executes the section heading suffix action.</summary>
+        ///
+        /// <param name="dest"> Destination for the.</param>
+        /// <param name="Index">Zero-based index of the.</param>
 		public virtual void OnSectionHeadingSuffix(StringBuilder dest, int Index)
 		{
 			if (SectionHeadingSuffix != null)
@@ -584,6 +615,10 @@ namespace MarkdownDeep
 			}
 		}
 
+        /// <summary>Executes the section footer action.</summary>
+        ///
+        /// <param name="dest"> Destination for the.</param>
+        /// <param name="Index">Zero-based index of the.</param>
 		public virtual void OnSectionFooter(StringBuilder dest, int Index)
 		{
 			if (SectionFooter!=null)
@@ -974,3 +1009,4 @@ namespace MarkdownDeep
 	}
 
 }
+#pragma warning restore 1591

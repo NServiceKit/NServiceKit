@@ -18,6 +18,11 @@ namespace NServiceKit.Messaging.Rcon
         Server theServer;
         bool givenPacket = false;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Messaging.Rcon.ProcessingClient class.</summary>
+        ///
+        /// <param name="packet">The packet.</param>
+        /// <param name="client">The client.</param>
+        /// <param name="server">The server.</param>
         public ProcessingClient(Packet packet, Socket client, Server server)
         {
             thePacket = packet;
@@ -25,6 +30,10 @@ namespace NServiceKit.Messaging.Rcon
             theServer = server;
         }
 
+        /// <summary>Publishes the given message.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="messageBody">The message body.</param>
         public void Publish<T>(T messageBody)
         {
             if (typeof(IMessage).IsAssignableFrom(typeof(T)))
@@ -33,12 +42,19 @@ namespace NServiceKit.Messaging.Rcon
                 Publish<T>(new Message<T>(messageBody));
         }
 
+        /// <summary>Publish the specified message into the durable queue @queueName.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public void Publish(IMessage message)
         {
             var messageBytes = message.ToBytes();
             Publish(new QueueNames(message.Body.GetType()).In, messageBytes);
         }
 
+        /// <summary>Publishes the given message.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="message">The message.</param>
         public void Publish<T>(IMessage<T> message)
         {
             var messageBytes = message.ToBytes();
@@ -100,6 +116,7 @@ namespace NServiceKit.Messaging.Rcon
             return null;
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
         }

@@ -18,6 +18,13 @@ namespace NServiceKit.Html.AntiXsrf
             _cryptoSystem = cryptoSystem;
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        ///
+        /// <exception>Thrown when a Create Deserialization Failed error condition occurs.</exception>
+        ///
+        /// <param name="serializedToken">The serialized token.</param>
+        ///
+        /// <returns>An AntiForgeryToken.</returns>
         public AntiForgeryToken Deserialize(string serializedToken)
         {
             try {
@@ -83,6 +90,11 @@ namespace NServiceKit.Html.AntiXsrf
             return deserializedToken;
         }
 
+        /// <summary>true this object to the given stream.</summary>
+        ///
+        /// <param name="token">The token.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Serialize(AntiForgeryToken token)
         {
 #if NET_4_0

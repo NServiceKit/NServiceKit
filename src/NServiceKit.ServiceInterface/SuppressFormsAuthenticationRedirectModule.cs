@@ -16,9 +16,15 @@ namespace NServiceKit.ServiceInterface
     /// </summary>
     public class SuppressFormsAuthenticationRedirectModule : IHttpModule
     {
-
+        /// <summary>Gets or sets the path to supress.</summary>
+        ///
+        /// <value>The path to supress.</value>
         public static string PathToSupress { get; set; }
 
+        /// <summary>Initializes a module and prepares it to handle requests.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpApplication" /> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application.
+        /// </param>
         public virtual void Init(HttpApplication context)
         {
             if (string.IsNullOrEmpty(PathToSupress))
@@ -35,6 +41,7 @@ namespace NServiceKit.ServiceInterface
                 context.Response.StatusCode = 401;
         }
 
+        /// <summary>Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule" />.</summary>
         public void Dispose()
         {
 

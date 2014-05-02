@@ -10,6 +10,7 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A rest path.</summary>
     public class RestPath
         : IRestPath
     {
@@ -26,6 +27,10 @@ namespace NServiceKit.ServiceHost
         private readonly string restPath;
         private readonly string allowedVerbs;
         private readonly bool allowsAllVerbs;
+
+        /// <summary>Gets a value indicating whether this object is wild card path.</summary>
+        ///
+        /// <value>true if this object is wild card path, false if not.</value>
         public bool IsWildCardPath { get; private set; }
 
         private readonly string[] literalsToMatch = new string[0];
@@ -49,20 +54,44 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         public int TotalComponentsCount { get; set; }
 
+        /// <summary>The verbs.</summary>
         public string[] Verbs = new string[0];
 
+        /// <summary>Gets the type of the request.</summary>
+        ///
+        /// <value>The type of the request.</value>
         public Type RequestType { get; private set; }
 
+        /// <summary>Gets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         public string Path { get { return this.restPath; } }
 
+        /// <summary>Gets the summary.</summary>
+        ///
+        /// <value>The summary.</value>
         public string Summary { get; private set; }
 
+        /// <summary>Gets the notes.</summary>
+        ///
+        /// <value>The notes.</value>
         public string Notes { get; private set; }
 
+        /// <summary>Gets a value indicating whether we allows all verbs.</summary>
+        ///
+        /// <value>true if allows all verbs, false if not.</value>
         public bool AllowsAllVerbs { get { return this.allowsAllVerbs; } }
 
+        /// <summary>Gets the allowed verbs.</summary>
+        ///
+        /// <value>The allowed verbs.</value>
         public string AllowedVerbs { get { return this.allowedVerbs; } }
 
+        /// <summary>Gets path parts for matching.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        ///
+        /// <returns>An array of string.</returns>
         public static string[] GetPathPartsForMatching(string pathInfo)
         {
             var parts = pathInfo.ToLower().Split(PathSeperatorChar)
@@ -70,12 +99,22 @@ namespace NServiceKit.ServiceHost
             return parts;
         }
 
+        /// <summary>Gets the first match hash keys in this collection.</summary>
+        ///
+        /// <param name="pathPartsForMatching">The path parts for matching.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the first match hash keys in this collection.</returns>
         public static IEnumerable<string> GetFirstMatchHashKeys(string[] pathPartsForMatching)
         {
             var hashPrefix = pathPartsForMatching.Length + PathSeperator;
             return GetPotentialMatchesWithPrefix(hashPrefix, pathPartsForMatching);
         }
 
+        /// <summary>Gets the first match wild card hash keys in this collection.</summary>
+        ///
+        /// <param name="pathPartsForMatching">The path parts for matching.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process the first match wild card hash keys in this collection.</returns>
         public static IEnumerable<string> GetFirstMatchWildCardHashKeys(string[] pathPartsForMatching)
         {
             const string hashPrefix = WildCard + PathSeperator;
@@ -97,8 +136,21 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.RestPath class.</summary>
+        ///
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="path">       Full pathname of the file.</param>
         public RestPath(Type requestType, string path) : this(requestType, path, null) { }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.RestPath class.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="requestType">Type of the request.</param>
+        /// <param name="path">       Full pathname of the file.</param>
+        /// <param name="verbs">      The verbs.</param>
+        /// <param name="summary">    The summary.</param>
+        /// <param name="notes">      The notes.</param>
         public RestPath(Type requestType, string path, string verbs, string summary = null, string notes = null)
         {
             this.RequestType = requestType;
@@ -220,6 +272,9 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether this object is valid.</summary>
+        ///
+        /// <value>true if this object is valid, false if not.</value>
         public bool IsValid { get; set; }
 
         /// <summary>
@@ -227,12 +282,21 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         public string FirstMatchHashKey { get; private set; }
 
+        /// <summary>Gets the unique match hash key.</summary>
+        ///
+        /// <value>The unique match hash key.</value>
         public string UniqueMatchHashKey { get; private set; }
 
         private readonly StringMapTypeDeserializer typeDeserializer;
 
         private readonly Dictionary<string, string> propertyNamesMap = new Dictionary<string, string>();
 
+        /// <summary>Match score.</summary>
+        ///
+        /// <param name="httpMethod">       .</param>
+        /// <param name="withPathInfoParts">.</param>
+        ///
+        /// <returns>An int.</returns>
         public int MatchScore(string httpMethod, string[] withPathInfoParts)
         {
             int wildcardMatchCount;
@@ -355,11 +419,25 @@ namespace NServiceKit.ServiceHost
             return true;
         }
 
+        /// <summary>Creates a request.</summary>
+        ///
+        /// <param name="pathInfo">Information describing the path.</param>
+        ///
+        /// <returns>The new request.</returns>
         public object CreateRequest(string pathInfo)
         {
             return CreateRequest(pathInfo, null, null);
         }
 
+        /// <summary>Creates a request.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="pathInfo">              Information describing the path.</param>
+        /// <param name="queryStringAndFormData">Information describing the query string and form.</param>
+        /// <param name="fromInstance">          from instance.</param>
+        ///
+        /// <returns>The new request.</returns>
         public object CreateRequest(string pathInfo, Dictionary<string, string> queryStringAndFormData, object fromInstance)
         {
             var requestComponents = pathInfo.Split(PathSeperatorChar)
@@ -459,6 +537,9 @@ namespace NServiceKit.ServiceHost
             return this.typeDeserializer.PopulateFromMap(fromInstance, requestKeyValuesMap, EndpointHostConfig.Instance.IgnoreWarningsOnPropertyNames);
         }
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        ///
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
         public override int GetHashCode()
         {
             return UniqueMatchHashKey.GetHashCode();

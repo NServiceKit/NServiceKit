@@ -28,6 +28,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             this.ReturnType = typeof(object);
         }
 
+        /// <summary>Called when [first run].</summary>
+        ///
+        /// <exception cref="InvalidDataException">Thrown when an Invalid Data error condition occurs.</exception>
         protected override void OnFirstRun()
         {
             if (varName != null)
@@ -56,6 +59,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             base.OnFirstRun();
         }
 
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
         public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
         {
             //Resolve and add to ScopeArgs

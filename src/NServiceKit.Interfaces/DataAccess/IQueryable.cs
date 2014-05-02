@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace NServiceKit.DataAccess
 {
+    /// <summary>Interface for queryable.</summary>
 	public interface IQueryable : IQueryableByExample, IQueryableByPredicate, IQueryableByComparer
 	{
 		//IList<Extent> Query<Extent>();

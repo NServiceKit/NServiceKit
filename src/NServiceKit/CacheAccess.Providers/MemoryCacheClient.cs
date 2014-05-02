@@ -6,6 +6,7 @@ using NServiceKit.Net30.Collections.Concurrent;
 
 namespace NServiceKit.CacheAccess.Providers
 {
+    /// <summary>A memory cache client.</summary>
 	public class MemoryCacheClient
 		: ICacheClient, IRemoveByPattern
 	{
@@ -14,6 +15,9 @@ namespace NServiceKit.CacheAccess.Providers
 		private ConcurrentDictionary<string, CacheEntry> memory;
 		private ConcurrentDictionary<string, int> counters;
 
+        /// <summary>Gets or sets a value indicating whether the on dispose should be flushed.</summary>
+        ///
+        /// <value>true if flush on dispose, false if not.</value>
 		public bool FlushOnDispose { get; set; }
 
 		private class CacheEntry
@@ -48,6 +52,7 @@ namespace NServiceKit.CacheAccess.Providers
 			internal long LastModifiedTicks { get; private set; }
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.CacheAccess.Providers.MemoryCacheClient class.</summary>
 		public MemoryCacheClient()
 		{
 			this.memory = new ConcurrentDictionary<string, CacheEntry>();
@@ -166,6 +171,7 @@ namespace NServiceKit.CacheAccess.Providers
 			return !CacheSet(key, value, expiresAt);
 		}
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose()
 		{
 			if (!FlushOnDispose) return;
@@ -174,12 +180,20 @@ namespace NServiceKit.CacheAccess.Providers
 			this.counters = new ConcurrentDictionary<string, int>();
 		}
 
+        /// <summary>Removes the specified item from the cache.</summary>
+        ///
+        /// <param name="key">The identifier for the item to delete.</param>
+        ///
+        /// <returns>true if the item was successfully removed from the cache; false otherwise.</returns>
 		public bool Remove(string key)
 		{
 			CacheEntry item;
 			return this.memory.TryRemove(key, out item);
 		}
 
+        /// <summary>Removes the cache for all the keys provided.</summary>
+        ///
+        /// <param name="keys">The keys.</param>
 		public void RemoveAll(IEnumerable<string> keys)
 		{
 			foreach (var key in keys)
@@ -195,12 +209,23 @@ namespace NServiceKit.CacheAccess.Providers
 			}
 		}
 
+        /// <summary>Gets.</summary>
+        ///
+        /// <param name="key">Key associated with value.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Get(string key)
 		{
 			long lastModifiedTicks;
 			return Get(key, out lastModifiedTicks);
 		}
 
+        /// <summary>Gets.</summary>
+        ///
+        /// <param name="key">              Key associated with value.</param>
+        /// <param name="lastModifiedTicks">The last modified ticks.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object Get(string key, out long lastModifiedTicks)
 		{
 			lastModifiedTicks = 0;
@@ -219,6 +244,12 @@ namespace NServiceKit.CacheAccess.Providers
 			return null;
 		}
 
+        /// <summary>Gets.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="key">Key associated with value.</param>
+        ///
+        /// <returns>A T.</returns>
 		public T Get<T>(string key)
 		{
 			var value = Get(key);
@@ -236,11 +267,23 @@ namespace NServiceKit.CacheAccess.Providers
 			return this.counters[key];
 		}
 
+        /// <summary>Increments the value of the specified key by the given amount. The operation is atomic and happens on the server. A non existent value at key starts at 0.</summary>
+        ///
+        /// <param name="key">   The identifier for the item to increment.</param>
+        /// <param name="amount">The amount by which the client wants to increase the item.</param>
+        ///
+        /// <returns>The new value of the item or -1 if not found.</returns>
 		public long Increment(string key, uint amount)
 		{
 			return UpdateCounter(key, (int)amount);
 		}
 
+        /// <summary>Increments the value of the specified key by the given amount. The operation is atomic and happens on the server. A non existent value at key starts at 0.</summary>
+        ///
+        /// <param name="key">   The identifier for the item to increment.</param>
+        /// <param name="amount">The amount by which the client wants to decrease the item.</param>
+        ///
+        /// <returns>The new value of the item or -1 if not found.</returns>
 		public long Decrement(string key, uint amount)
 		{
 			return UpdateCounter(key, (int)amount * -1);
@@ -366,11 +409,18 @@ namespace NServiceKit.CacheAccess.Providers
 			return CacheReplace(key, value, DateTime.UtcNow.Add(expiresIn));
 		}
 
+        /// <summary>Invalidates all data on the cache.</summary>
 		public void FlushAll()
 		{
 			this.memory = new ConcurrentDictionary<string, CacheEntry>();
 		}
 
+        /// <summary>Gets all.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="keys">The keys.</param>
+        ///
+        /// <returns>all.</returns>
 		public IDictionary<string, T> GetAll<T>(IEnumerable<string> keys)
 		{
 			var valueMap = new Dictionary<string, T>();
@@ -382,6 +432,10 @@ namespace NServiceKit.CacheAccess.Providers
 			return valueMap;
 		}
 
+        /// <summary>Sets all.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="values">The values.</param>
 		public void SetAll<T>(IDictionary<string, T> values)
 		{
 			foreach (var entry in values)
@@ -390,11 +444,17 @@ namespace NServiceKit.CacheAccess.Providers
 			}
 		}
 
+        /// <summary>Removes items from cache that have keys matching the specified wildcard pattern.</summary>
+        ///
+        /// <param name="pattern">The wildcard, where "*" means any sequence of characters and "?" means any single character.</param>
 		public void RemoveByPattern(string pattern)
 		{
 			RemoveByRegex(pattern.Replace("*", ".*").Replace("?", ".+"));
 		}
 
+        /// <summary>Removes items from the cache based on the specified regular expression pattern.</summary>
+        ///
+        /// <param name="pattern">Regular expression pattern to search cache keys.</param>
 		public void RemoveByRegex(string pattern)
 		{
 			var regex = new Regex(pattern);

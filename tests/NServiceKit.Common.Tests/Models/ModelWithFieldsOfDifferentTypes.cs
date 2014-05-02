@@ -7,24 +7,51 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.Models
 {
+    /// <summary>A model with fields of different types as nullables.</summary>
 	public class ModelWithFieldsOfDifferentTypesAsNullables
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(ModelWithFieldsOfDifferentTypesAsNullables));
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		public int? Id { get; set; }
 
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		public string Name { get; set; }
 
+        /// <summary>Gets or sets the identifier of the long.</summary>
+        ///
+        /// <value>The identifier of the long.</value>
 		public long? LongId { get; set; }
 
+        /// <summary>Gets or sets a unique identifier.</summary>
+        ///
+        /// <value>The identifier of the unique.</value>
 		public Guid? Guid { get; set; }
 
+        /// <summary>Gets or sets the. </summary>
+        ///
+        /// <value>The bool.</value>
 		public bool? Bool { get; set; }
 
+        /// <summary>Gets or sets the date time.</summary>
+        ///
+        /// <value>The date time.</value>
 		public DateTime? DateTime { get; set; }
 
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The double.</value>
 		public double? Double { get; set; }
 
+        /// <summary>Creates a new ModelWithFieldsOfDifferentTypesAsNullables.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The ModelWithFieldsOfDifferentTypesAsNullables.</returns>
 		public static ModelWithFieldsOfDifferentTypesAsNullables Create(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentTypesAsNullables {
@@ -40,6 +67,11 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Creates a constant.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The new constant.</returns>
 		public static ModelWithFieldsOfDifferentTypesAsNullables CreateConstant(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentTypesAsNullables {
@@ -55,6 +87,10 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public static void AssertIsEqual(ModelWithFieldsOfDifferentTypes actual, ModelWithFieldsOfDifferentTypesAsNullables expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id.Value));
@@ -84,25 +120,52 @@ namespace NServiceKit.Common.Tests.Models
 	}
 
 	
+    /// <summary>A model with fields of different types.</summary>
 	public class ModelWithFieldsOfDifferentTypes
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(ModelWithFieldsOfDifferentTypes));
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		[AutoIncrement]
 		public int Id { get; set; }
 
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		public string Name { get; set; }
 
+        /// <summary>Gets or sets the identifier of the long.</summary>
+        ///
+        /// <value>The identifier of the long.</value>
 		public long LongId { get; set; }
 
+        /// <summary>Gets or sets a unique identifier.</summary>
+        ///
+        /// <value>The identifier of the unique.</value>
 		public Guid Guid { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether the. </summary>
+        ///
+        /// <value>true if , false if not.</value>
 		public bool Bool { get; set; }
 
+        /// <summary>Gets or sets the date time.</summary>
+        ///
+        /// <value>The date time.</value>
 		public DateTime DateTime { get; set; }
 
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The double.</value>
 		public double Double { get; set; }
 
+        /// <summary>Creates a new ModelWithFieldsOfDifferentTypes.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The ModelWithFieldsOfDifferentTypes.</returns>
 		public static ModelWithFieldsOfDifferentTypes Create(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentTypes {
@@ -118,6 +181,11 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Creates a constant.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The new constant.</returns>
 		public static ModelWithFieldsOfDifferentTypes CreateConstant(int id)
 		{
 			var row = new ModelWithFieldsOfDifferentTypes {
@@ -133,6 +201,11 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
+        ///
+        /// <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />.</param>
+        ///
+        /// <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
 		public override bool Equals(object obj)
 		{
 			var other = obj as ModelWithFieldsOfDifferentTypes;
@@ -149,11 +222,18 @@ namespace NServiceKit.Common.Tests.Models
 			}
 		}
 
+        /// <summary>Serves as a hash function for a particular type.</summary>
+        ///
+        /// <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
 		public override int GetHashCode()
 		{
 			return (Id + Guid.ToString()).GetHashCode();
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public static void AssertIsEqual(ModelWithFieldsOfDifferentTypes actual, ModelWithFieldsOfDifferentTypes expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id));

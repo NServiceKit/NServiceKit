@@ -12,12 +12,22 @@ namespace NServiceKit.ServiceInterface.Auth
     /// </summary>
     public class TwitterAuthProvider : OAuthProvider
     {
+        /// <summary>The name.</summary>
         public const string Name = "twitter";
+        /// <summary>The realm.</summary>
         public static string Realm = "https://api.twitter.com/";
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.TwitterAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
         public TwitterAuthProvider(IResourceManager appSettings)
             : base(appSettings, Realm, Name) {}
 
+        /// <summary>Loads user authentication information.</summary>
+        ///
+        /// <param name="userSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         protected override void LoadUserAuthInfo(AuthUserSession userSession, IOAuthTokens tokens, Dictionary<string, string> authInfo)
         {
             if (authInfo.ContainsKey("user_id"))
@@ -47,6 +57,10 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Loads user o authentication provider.</summary>
+        ///
+        /// <param name="authSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
         public override void LoadUserOAuthProvider(IAuthSession authSession, IOAuthTokens tokens)
         {
             var userSession = authSession as AuthUserSession;

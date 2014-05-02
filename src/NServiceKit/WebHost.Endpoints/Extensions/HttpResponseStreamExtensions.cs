@@ -7,14 +7,17 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.Endpoints.Extensions
 {
+    /// <summary>A HTTP response stream extensions.</summary>
 	public static class HttpResponseStreamExtensions
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(HttpResponseStreamExtensions));
 		//public static bool IsXsp;
 		//public static bool IsModMono;
+        /// <summary>true if this object is mono fast CGI.</summary>
 		public static bool IsMonoFastCgi;
 		//public static bool IsWebDevServer;
 		//public static bool IsIis;
+        /// <summary>true if this object is HTTP listener.</summary>
 		public static bool IsHttpListener;
 
 		static HttpResponseStreamExtensions()
@@ -27,7 +30,10 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			//IsIis = !Env.IsMono;
 			IsHttpListener = HttpContext.Current == null;
 		}
-        
+
+        /// <summary>A HttpListenerResponse extension method that closes output stream.</summary>
+        ///
+        /// <param name="response">The response to act on.</param>
 		public static void CloseOutputStream(this HttpResponse response)
 		{
 			try
@@ -46,6 +52,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 			}
 		}
 
+        /// <summary>A HttpListenerResponse extension method that closes output stream.</summary>
+        ///
+        /// <param name="response">The response to act on.</param>
 		public static void CloseOutputStream(this HttpListenerResponse response)
 		{
 			try

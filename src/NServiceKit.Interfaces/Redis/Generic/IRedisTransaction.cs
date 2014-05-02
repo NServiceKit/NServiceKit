@@ -20,7 +20,11 @@ namespace NServiceKit.Redis.Generic
     /// <typeparam name="T"></typeparam>
 	public interface IRedisTypedTransaction<T>: IRedisTypedQueueableOperation<T>, IDisposable
 	{
+        /// <summary>Commits this object.</summary>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		bool Commit();
+        /// <summary>Rollbacks this object.</summary>
 		void Rollback();
 	}
 }

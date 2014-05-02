@@ -7,8 +7,14 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A HTTP request authentication.</summary>
     public static class HttpRequestAuthentication
     {
+        /// <summary>An IHttpRequest extension method that gets basic authentication.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The basic authentication.</returns>
         public static string GetBasicAuth(this IHttpRequest httpReq)
         {
             var auth = httpReq.Headers[HttpHeaders.Authorization];
@@ -19,6 +25,11 @@ namespace NServiceKit.ServiceHost
             return parts[0].ToLower() == "basic" ? parts[1] : null;
         }
 
+        /// <summary>An IHttpRequest extension method that gets basic authentication user and password.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The basic authentication user and password.</returns>
         public static KeyValuePair<string, string>? GetBasicAuthUserAndPassword(this IHttpRequest httpReq)
         {
             var userPassBase64 = httpReq.GetBasicAuth();
@@ -27,6 +38,12 @@ namespace NServiceKit.ServiceHost
             var parts = userPass.SplitOnFirst(':');
             return new KeyValuePair<string, string>(parts[0], parts[1]);
         }
+
+        /// <summary>An IHttpRequest extension method that gets digest authentication.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The digest authentication.</returns>
         public static Dictionary<string,string> GetDigestAuth(this IHttpRequest httpReq)
         {
             var auth = httpReq.Headers[HttpHeaders.Authorization];
@@ -85,6 +102,13 @@ namespace NServiceKit.ServiceHost
             }
             return null;
         }
+
+        /// <summary>An IHttpRequest extension method that gets cookie value.</summary>
+        ///
+        /// <param name="httpReq">   The httpReq to act on.</param>
+        /// <param name="cookieName">Name of the cookie.</param>
+        ///
+        /// <returns>The cookie value.</returns>
         public static string GetCookieValue(this IHttpRequest httpReq, string cookieName)
         {
             Cookie cookie;
@@ -92,6 +116,12 @@ namespace NServiceKit.ServiceHost
             return cookie != null ? cookie.Value : null;
         }
 
+        /// <summary>An IHttpRequest extension method that gets item string value.</summary>
+        ///
+        /// <param name="httpReq"> The httpReq to act on.</param>
+        /// <param name="itemName">Name of the item.</param>
+        ///
+        /// <returns>The item string value.</returns>
         public static string GetItemStringValue(this IHttpRequest httpReq, string itemName)
         {
             object val;

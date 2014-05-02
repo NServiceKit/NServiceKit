@@ -4,9 +4,11 @@ using NServiceKit.Common.Tests.Models;
 
 namespace NServiceKit.Common.Tests.Reflection
 {
+    /// <summary>A property accessor tests.</summary>
 	[TestFixture]
 	public class PropertyAccessorTests
 	{
+        /// <summary>Can access model with identifier and name.</summary>
 		[Test]
 		public void Can_access_ModelWithIdAndName()
 		{
@@ -25,6 +27,7 @@ namespace NServiceKit.Common.Tests.Reflection
 			Assert.That(obj.Name, Is.EqualTo("B"));
 		}
 
+        /// <summary>Can access model with fields of different types.</summary>
 		[Test]
 		public void Can_access_ModelWithFieldsOfDifferentTypes()
 		{
@@ -56,6 +59,7 @@ namespace NServiceKit.Common.Tests.Reflection
 			ModelWithFieldsOfDifferentTypesFactory.Instance.AssertIsEqual(original, to);
 		}
 
+        /// <summary>Can access model with complex types.</summary>
 		[Test]
 		public void Can_access_ModelWithComplexTypes()
 		{
@@ -87,6 +91,7 @@ namespace NServiceKit.Common.Tests.Reflection
 			ModelWithComplexTypesFactory.Instance.AssertIsEqual(original, to);
 		}
 
+        /// <summary>Can access model with fields of different and nullable types.</summary>
 		[Test]
 		public void Can_access_ModelWithFieldsOfDifferentAndNullableTypes()
 		{

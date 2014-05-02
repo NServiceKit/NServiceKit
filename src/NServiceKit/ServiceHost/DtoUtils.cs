@@ -14,6 +14,7 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A dto utilities.</summary>
     public static class DtoUtils
     {
         private static ILog Log = LogManager.GetLogger(typeof (DtoUtils));
@@ -23,6 +24,11 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         public const string ResponseStatusPropertyName = "ResponseStatus";
 
+        /// <summary>A ValidationErrorResult extension method that converts a validationResult to a response status.</summary>
+        ///
+        /// <param name="exception">The exception to act on.</param>
+        ///
+        /// <returns>validationResult as the ResponseStatus.</returns>
         public static ResponseStatus ToResponseStatus(this Exception exception)
         {
             var responseStatusConverter = exception as IResponseStatusConvertible;
@@ -37,11 +43,21 @@ namespace NServiceKit.ServiceHost
                 : CreateResponseStatus(exception.GetType().Name, exception.Message);
         }
 
+        /// <summary>A ValidationErrorResult extension method that converts a validationResult to a response status.</summary>
+        ///
+        /// <param name="validationException">The validationException to act on.</param>
+        ///
+        /// <returns>validationResult as the ResponseStatus.</returns>
         public static ResponseStatus ToResponseStatus(this ValidationError validationException)
         {
             return ResponseStatusUtils.CreateResponseStatus(validationException.ErrorCode, validationException.Message, validationException.Violations);
         }
 
+        /// <summary>A ValidationErrorResult extension method that converts a validationResult to a response status.</summary>
+        ///
+        /// <param name="validationResult">The validationResult to act on.</param>
+        ///
+        /// <returns>validationResult as the ResponseStatus.</returns>
         public static ResponseStatus ToResponseStatus(this ValidationErrorResult validationResult)
         {
             return validationResult.IsValid
@@ -49,22 +65,45 @@ namespace NServiceKit.ServiceHost
                 : ResponseStatusUtils.CreateResponseStatus(validationResult.ErrorCode, validationResult.ErrorMessage, validationResult.Errors);
         }
 
+        /// <summary>Creates success response.</summary>
+        ///
+        /// <param name="message">The message.</param>
+        ///
+        /// <returns>The new success response.</returns>
         public static ResponseStatus CreateSuccessResponse(string message)
         {
             return new ResponseStatus { Message = message };
         }
 
+        /// <summary>Creates response status.</summary>
+        ///
+        /// <param name="errorCode">The error code.</param>
+        ///
+        /// <returns>The new response status.</returns>
         public static ResponseStatus CreateResponseStatus(string errorCode)
         {
             var errorMessage = errorCode.SplitCamelCase();
             return ResponseStatusUtils.CreateResponseStatus(errorCode, errorMessage, null);
         }
 
+        /// <summary>Creates response status.</summary>
+        ///
+        /// <param name="errorCode">   The error code.</param>
+        /// <param name="errorMessage">Message describing the error.</param>
+        ///
+        /// <returns>The new response status.</returns>
         public static ResponseStatus CreateResponseStatus(string errorCode, string errorMessage)
         {
             return ResponseStatusUtils.CreateResponseStatus(errorCode, errorMessage, null);
         }
 
+        /// <summary>Creates error response.</summary>
+        ///
+        /// <param name="errorCode">       The error code.</param>
+        /// <param name="errorMessage">    Message describing the error.</param>
+        /// <param name="validationErrors">The validation errors.</param>
+        ///
+        /// <returns>The new error response.</returns>
         public static object CreateErrorResponse(string errorCode, string errorMessage, IEnumerable<ValidationErrorField> validationErrors)
         {
             var responseStatus = ResponseStatusUtils.CreateResponseStatus(errorCode, errorMessage, validationErrors);
@@ -72,6 +111,12 @@ namespace NServiceKit.ServiceHost
             return new HttpError(responseDto, HttpStatusCode.BadRequest, errorCode, errorMessage);
         }
 
+        /// <summary>Creates error response.</summary>
+        ///
+        /// <param name="request">        .</param>
+        /// <param name="validationError">The validation error.</param>
+        ///
+        /// <returns>The new error response.</returns>
         public static object CreateErrorResponse(object request, ValidationErrorResult validationError)
         {
             var responseStatus = validationError.ToResponseStatus();
@@ -84,6 +129,13 @@ namespace NServiceKit.ServiceHost
             return errorResponse;
         }
 
+        /// <summary>Creates error response.</summary>
+        ///
+        /// <param name="request">       .</param>
+        /// <param name="ex">            .</param>
+        /// <param name="responseStatus">.</param>
+        ///
+        /// <returns>The new error response.</returns>
         public static object CreateErrorResponse(object request, Exception ex, ResponseStatus responseStatus)
         {
             var responseDto = CreateResponseDto(request, responseStatus);
@@ -185,6 +237,11 @@ namespace NServiceKit.ServiceHost
         /// </summary>
         public const string CombinedServiceLogId = "All";
 
+        /// <summary>Logs error in redis if exists.</summary>
+        ///
+        /// <param name="redisManager">  Manager for redis.</param>
+        /// <param name="operationName"> Name of the operation.</param>
+        /// <param name="responseStatus">.</param>
         public static void LogErrorInRedisIfExists(
             IRedisClientsManager redisManager, string operationName, ResponseStatus responseStatus)
         {

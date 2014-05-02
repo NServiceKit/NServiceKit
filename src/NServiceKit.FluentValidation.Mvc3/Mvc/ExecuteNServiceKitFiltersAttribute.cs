@@ -11,8 +11,12 @@ using NServiceKit.WebHost.Endpoints.Extensions;
 
 namespace NServiceKit.Mvc
 {
+    /// <summary>Attribute for execute n service kit filters.</summary>
 	public class ExecuteNServiceKitFiltersAttribute : ActionFilterAttribute
 	{
+        /// <summary>Called by the ASP.NET MVC framework before the action method executes.</summary>
+        ///
+        /// <param name="filterContext">The filter context.</param>
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			var ssController = filterContext.Controller as NServiceKitController;

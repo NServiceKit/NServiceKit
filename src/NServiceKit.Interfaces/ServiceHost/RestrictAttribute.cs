@@ -121,6 +121,7 @@ namespace NServiceKit.ServiceHost
         /// <value>Visibility restrictions</value>
         public EndpointAttributes[] VisibleToAny { get; private set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.RestrictAttribute class.</summary>
         public RestrictAttribute()
         {
             this.AccessTo = EndpointAttributes.Any;
@@ -169,16 +170,29 @@ namespace NServiceKit.ServiceHost
             return scenarios.ToArray();
 	    }
 
+        /// <summary>Determine if we can show to.</summary>
+        ///
+        /// <param name="restrictions">The restrictions.</param>
+        ///
+        /// <returns>true if we can show to, false if not.</returns>
         public bool CanShowTo(EndpointAttributes restrictions)
         {
             return this.VisibleToAny.Any(scenario => (restrictions & scenario) == restrictions);
         }
 
+        /// <summary>Query if 'restrictions' has access to.</summary>
+        ///
+        /// <param name="restrictions">The restrictions.</param>
+        ///
+        /// <returns>true if access to, false if not.</returns>
         public bool HasAccessTo(EndpointAttributes restrictions)
         {
             return this.AccessibleToAny.Any(scenario => (restrictions & scenario) == restrictions);
         }
 
+        /// <summary>Gets a value indicating whether this object has no access restrictions.</summary>
+        ///
+        /// <value>true if this object has no access restrictions, false if not.</value>
         public bool HasNoAccessRestrictions
         {
             get
@@ -187,6 +201,9 @@ namespace NServiceKit.ServiceHost
             }
         }
 
+        /// <summary>Gets a value indicating whether this object has no visibility restrictions.</summary>
+        ///
+        /// <value>true if this object has no visibility restrictions, false if not.</value>
         public bool HasNoVisibilityRestrictions
         {
             get
@@ -196,6 +213,7 @@ namespace NServiceKit.ServiceHost
         }
 	}
 
+    /// <summary>A restrict extensions.</summary>
 	public static class RestrictExtensions
 	{
 	    /// <summary>
@@ -257,6 +275,12 @@ namespace NServiceKit.ServiceHost
 	        return allowedAttrs;
 	    }
 
+        /// <summary>Query if 'allRestrictions' has any restrictions of.</summary>
+        ///
+        /// <param name="allRestrictions">all restrictions.</param>
+        /// <param name="restrictions">   The restrictions.</param>
+        ///
+        /// <returns>true if any restrictions of, false if not.</returns>
         public static bool HasAnyRestrictionsOf(EndpointAttributes allRestrictions, EndpointAttributes restrictions)
         {
             return (allRestrictions & restrictions) != 0;

@@ -16,27 +16,32 @@ using NServiceKit.ServiceHost.Tests.UseCase.Services;
 
 namespace NServiceKit.ServiceHost.Tests.UseCase
 {
+    /// <summary>A customer use case.</summary>
 	[Ignore]
 	[TestFixture]
 	public class CustomerUseCase
 	{
 		private const int Times = 100000;
 
+        /// <summary>Tests fixture set up.</summary>
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
 			OrmLite.OrmLiteConfig.DialectProvider = new SqliteOrmLiteDialectProvider();
 		}
 
+        /// <summary>The use cache.</summary>
 		public const bool UseCache = false;
 		private ServiceController serviceController;
 
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public void OnBeforeEachTest()
 		{
 			serviceController = new ServiceController(null);
 		}
 
+        /// <summary>Performance all IOC.</summary>
 		[Test]
 		public void Perf_All_IOC()
 		{
@@ -45,6 +50,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 		}
 
 
+        /// <summary>Native funq performance.</summary>
 		[Test]
 		public void NativeFunq_Perf()
 		{
@@ -56,6 +62,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 			Console.WriteLine("NativeFunq_Perf(): {0}", Measure(() => serviceController.Execute(request), Times));
 		}
 
+        /// <summary>Automatic wired funq performance.</summary>
 		[Test]
 		public void AutoWiredFunq_Perf()
 		{
@@ -80,6 +87,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 			return watch.ElapsedTicks;
 		}
 
+        /// <summary>Using native funq.</summary>
 		[Test]
 		public void Using_NativeFunq()
 		{
@@ -88,6 +96,7 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 			StoreAndGetCustomers(serviceController);
 		}
 
+        /// <summary>Using automatic wired funq.</summary>
 		[Test]
 		public void Using_AutoWiredFunq()
 		{
@@ -127,6 +136,9 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 			serviceController.RegisterGServiceExecutor(typeof(GetCustomer), typeof(GetCustomerService), typeFactory);
 		}
 
+        /// <summary>Gets native funq type factory.</summary>
+        ///
+        /// <returns>The native funq type factory.</returns>
 		public static ITypeFactory GetNativeFunqTypeFactory()
 		{
 			var container = GetContainerWithDependencies();
@@ -144,6 +156,9 @@ namespace NServiceKit.ServiceHost.Tests.UseCase
 			return new FuncTypeFactory(container);
 		}
 
+        /// <summary>Gets automatic wired funq type factory.</summary>
+        ///
+        /// <returns>The automatic wired funq type factory.</returns>
 		public static ITypeFactory GetAutoWiredFunqTypeFactory()
 		{
 			var container = GetContainerWithDependencies();

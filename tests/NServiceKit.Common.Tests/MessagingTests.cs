@@ -5,18 +5,25 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests
 {
+    /// <summary>An increment.</summary>
 	public class Incr
 	{
+        /// <summary>Gets or sets the value.</summary>
+        ///
+        /// <value>The value.</value>
 		public int Value { get; set; }
 	}
 
+    /// <summary>A test user session.</summary>
     public class TestUserSession : AuthUserSession
     {
     }
 
+    /// <summary>A messaging tests.</summary>
 	[TestFixture]
 	public class MessagingTests
 	{
+        /// <summary>Can serialize i message into typed message.</summary>
 		[Test]
 		public void Can_serialize_IMessage_into_typed_Message()
 		{
@@ -28,6 +35,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(typedMessage.GetBody().Value, Is.EqualTo(dto.Value));
 		}
 
+        /// <summary>Can serialize object i message into typed message.</summary>
 		[Test]
 		public void Can_serialize_object_IMessage_into_typed_Message()
 		{
@@ -39,6 +47,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(typedMessage.GetBody().Value, Is.EqualTo(dto.Value));
 		}
 
+        /// <summary>Can serialize i message to bytes into typed message.</summary>
 		[Test]
 		public void Can_serialize_IMessage_ToBytes_into_typed_Message()
 		{
@@ -50,6 +59,7 @@ namespace NServiceKit.Common.Tests
 			Assert.That(typedMessage.GetBody().Value, Is.EqualTo(dto.Value));
 		}
         
+        /// <summary>Can deserialize concrete type into i/o authentication session.</summary>
 		[Test]
 		public void Can_deserialize_concrete_type_into_IOAuthSession()
 		{

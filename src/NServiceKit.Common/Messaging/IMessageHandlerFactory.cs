@@ -5,6 +5,9 @@ namespace NServiceKit.Messaging
     /// </summary>
     public interface IMessageHandlerFactory
     {
+        /// <summary>Handler, called when the create message.</summary>
+        ///
+        /// <returns>The new message handler.</returns>
         IMessageHandler CreateMessageHandler();
     }
 }

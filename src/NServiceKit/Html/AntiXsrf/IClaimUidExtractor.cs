@@ -7,6 +7,11 @@ namespace NServiceKit.Html.AntiXsrf
     // Can extract unique identifers for a claims-based identity
     internal interface IClaimUidExtractor
     {
+        /// <summary>Extracts the claim UID described by identity.</summary>
+        ///
+        /// <param name="identity">The identity.</param>
+        ///
+        /// <returns>The extracted claim UID.</returns>
         BinaryBlob ExtractClaimUid(IIdentity identity);
     }
 }

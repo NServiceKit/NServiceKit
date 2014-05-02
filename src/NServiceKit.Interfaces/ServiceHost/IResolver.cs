@@ -1,5 +1,6 @@
 ﻿namespace NServiceKit.ServiceHost
 {
+    /// <summary>Interface for resolver.</summary>
 	public interface IResolver
 	{
 		/// <summary>

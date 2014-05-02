@@ -15,29 +15,64 @@ using NServiceKit.VirtualPath;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>A person.</summary>
     public class Person
     {
+        /// <summary>Gets or sets the person's first name.</summary>
+        ///
+        /// <value>The name of the first.</value>
         public string FirstName { get; set; }
+
+        /// <summary>Gets or sets the person's last name.</summary>
+        ///
+        /// <value>The name of the last.</value>
         public string LastName { get; set; }
+
+        /// <summary>Gets or sets the links.</summary>
+        ///
+        /// <value>The links.</value>
         public List<Link> Links { get; set; }
     }
 
+    /// <summary>A link.</summary>
     public class Link
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats_Razor.Link class.</summary>
         public Link()
         {
             this.Labels = new List<string>();
         }
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the href.</summary>
+        ///
+        /// <value>The href.</value>
         public string Href { get; set; }
+
+        /// <summary>Gets or sets the labels.</summary>
+        ///
+        /// <value>The labels.</value>
         public List<string> Labels { get; set; }
     }
 
+    /// <summary>A custom view base.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class CustomViewBase<T> : ViewPage<T> where T : class
     {
+        /// <summary>The extent.</summary>
         public CustomMarkdownHelper Ext = new CustomMarkdownHelper();
+        /// <summary>The product.</summary>
         public ExternalProductHelper Prod = new ExternalProductHelper();
 
+        /// <summary>Tables the given object.</summary>
+        ///
+        /// <param name="obj">The object.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public MvcHtmlString Table(dynamic obj)
         {
             Person model = obj;
@@ -58,6 +93,11 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 
         private static string[] MenuItems = new[] { "About Us", "Blog", "Links", "Contact" };
 
+        /// <summary>Menus.</summary>
+        ///
+        /// <param name="selectedId">Identifier for the selected.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public MvcHtmlString Menu(string selectedId)
         {
             var sb = new StringBuilder();
@@ -72,31 +112,58 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             return MvcHtmlString.Create(sb.ToString());
         }
 
+        /// <summary>Lowers.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Lower(string name)
         {
             return name == null ? null : name.ToLower();
         }
 
+        /// <summary>Uppers.</summary>
+        ///
+        /// <param name="name">The name.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Upper(string name)
         {
             return name == null ? null : name.ToUpper();
         }
 
+        /// <summary>Combines.</summary>
+        ///
+        /// <param name="separator">The separator.</param>
+        /// <param name="parts">    A variable-length parameters list containing parts.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Combine(string separator, params string[] parts)
         {
             return string.Join(separator, parts);
         }
 
+        /// <summary>Executes this object.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
         public override void Execute()
         {
             throw new NotImplementedException();
         }
     }
 
+    /// <summary>A custom markdown helper.</summary>
     public class CustomMarkdownHelper
     {
+        /// <summary>The instance.</summary>
         public static CustomMarkdownHelper Instance = new CustomMarkdownHelper();
 
+        /// <summary>Inline block.</summary>
+        ///
+        /// <param name="content">The content.</param>
+        /// <param name="id">     The identifier.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public MvcHtmlString InlineBlock(string content, string id)
         {
             return MvcHtmlString.Create(
@@ -104,6 +171,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
         }
     }
 
+    /// <summary>A razor template tests.</summary>
     [TestFixture]
     public class RazorTemplateTests : RazorTestBase
     {
@@ -127,6 +195,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
                 },
         };
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -142,6 +211,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             templateArgs = person;
         }
 
+        /// <summary>Executes the before each test action.</summary>
         [SetUp]
         public void OnBeforeEachTest()
         {
@@ -152,6 +222,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             }.Init();
         }
 
+        /// <summary>Can use HTML helper in page.</summary>
         [Test]
         public void Can_Use_HtmlHelper_In_Page()
         {
@@ -163,6 +234,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(output, Is.EqualTo(@"<input id=""textBox"" name=""textBox"" type=""text"" value="""" />"));
         }
 
+        /// <summary>Helper method that can use model directive with HTML.</summary>
         [Test]
         public void Can_Use_Model_Directive_With_HtmlHelper()
         {
@@ -176,6 +248,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(output, Is.EqualTo(@"<input id=""FirstName"" name=""FirstName"" type=""text"" value=""Demis"" />"));
         }
 
+        /// <summary>Can access view data.</summary>
         [Test]
         public void Can_Access_ViewData()
         {
@@ -191,6 +264,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(output, Is.EqualTo(val));
         }
 
+        /// <summary>Can access view bag from layout.</summary>
         [Test]
         public void Can_Access_ViewBag_From_Layout()
         {
@@ -205,6 +279,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(output, Is.EqualTo(@"<title>Hello</title><body>Hello</body>"));
         }
 
+        /// <summary>Can render razor template.</summary>
         [Test]
         public void Can_Render_RazorTemplate()
         {
@@ -221,6 +296,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor page.</summary>
         [Test]
         public void Can_Render_RazorPage()
         {
@@ -239,6 +315,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor page with foreach.</summary>
         [Test]
         public void Can_Render_RazorPage_with_foreach()
         {
@@ -262,6 +339,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor page with if statement.</summary>
         [Test]
         public void Can_Render_RazorPage_with_IF_statement()
         {
@@ -298,6 +376,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor page with nested statements.</summary>
         [Test]
         public void Can_Render_RazorPage_with_Nested_Statements()
         {
@@ -358,6 +437,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor with static methods.</summary>
         [Test]
         public void Can_Render_Razor_with_StaticMethods()
         {
@@ -444,6 +524,7 @@ Demis / Bellot
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can inherit from generic razor view page from model directive.</summary>
         [Test]
         public void Can_inherit_from_Generic_RazorViewPage_from_model_directive()
         {
@@ -469,6 +550,7 @@ Demis / Bellot
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can inherit from custom view page using inherits directive.</summary>
         [Test]
         public void Can_inherit_from_CustomViewPage_using_inherits_directive()
         {
@@ -502,6 +584,7 @@ Demis / Bellot
         }
 
 
+        /// <summary>Helper method that can render razor page with external.</summary>
         [Test]
         public void Can_Render_RazorPage_with_external_helper()
         {
@@ -531,6 +614,7 @@ Demis / Bellot
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render razor page with variable statements.</summary>
         [Test]
         public void Can_Render_RazorPage_with_variable_statements()
         {
@@ -597,6 +681,7 @@ Demis / Bellot
         }
 
 
+        /// <summary>Can render razor page with comments.</summary>
         [Test]
         public void Can_Render_RazorPage_with_comments()
         {
@@ -635,6 +720,7 @@ Plain text in a comment
         }
 
 
+        /// <summary>Can capture section statements and store them in sections.</summary>
         [Test]
         public void Can_capture_Section_statements_and_store_them_in_Sections()
         {
@@ -737,6 +823,7 @@ Plain text in a comment
         }
 
 
+        /// <summary>Can render razor template with section and variable placeholders.</summary>
         [Test]
         public void Can_Render_RazorTemplate_with_section_and_variable_placeholders()
         {
@@ -856,6 +943,7 @@ Demis / Bellot
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render static razor content page that populates variable and displayed on website template.</summary>
         [Test]
         public void Can_Render_Static_RazorContentPage_that_populates_variable_and_displayed_on_website_template()
         {

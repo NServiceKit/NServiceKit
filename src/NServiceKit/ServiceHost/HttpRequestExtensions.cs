@@ -11,6 +11,7 @@ using HttpRequestWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRequestW
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A HTTP request extensions.</summary>
 	public static class HttpRequestExtensions
 	{
 	    /// <summary>
@@ -58,11 +59,23 @@ namespace NServiceKit.ServiceHost
 			return null;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets the parent absolute path.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The parent absolute path.</returns>
 		public static string GetParentAbsolutePath(this IHttpRequest httpReq)
 		{
 			return httpReq.GetAbsolutePath().ToParentPath();
 		}
 
+        /// <summary>An IHttpRequest extension method that gets absolute path.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The absolute path.</returns>
 		public static string GetAbsolutePath(this IHttpRequest httpReq)
 		{
 			var resolvedPathInfo = httpReq.PathInfo;
@@ -75,11 +88,23 @@ namespace NServiceKit.ServiceHost
 			return httpReq.RawUrl.Substring(0, pos + resolvedPathInfo.Length);
 		}
 
+        /// <summary>An IHttpRequest extension method that gets the parent path URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The parent path URL.</returns>
 		public static string GetParentPathUrl(this IHttpRequest httpReq)
 		{
 			return httpReq.GetPathUrl().ToParentPath();
 		}
-		
+
+        /// <summary>An IHttpRequest extension method that gets path URL.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The path URL.</returns>
 		public static string GetPathUrl(this IHttpRequest httpReq)
 		{
 			var resolvedPathInfo = httpReq.PathInfo;
@@ -95,6 +120,11 @@ namespace NServiceKit.ServiceHost
 			return httpReq.AbsoluteUri.Substring(0, pos + resolvedPathInfo.Length);
 		}
 
+        /// <summary>An IHttpRequest extension method that gets URL host name.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The URL host name.</returns>
 		public static string GetUrlHostName(this IHttpRequest httpReq)
 		{
 			var aspNetReq = httpReq as HttpRequestWrapper;
@@ -112,6 +142,11 @@ namespace NServiceKit.ServiceHost
 			return hostName;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets physical path.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The physical path.</returns>
 		public static string GetPhysicalPath(this IHttpRequest httpReq)
 		{
 		    var aspNetReq = httpReq as HttpRequestWrapper;
@@ -122,6 +157,11 @@ namespace NServiceKit.ServiceHost
 			return res;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets application URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The application URL.</returns>
         public static string GetApplicationUrl(this HttpRequest httpReq)
         {
             var appPath = httpReq.ApplicationPath;
@@ -131,6 +171,11 @@ namespace NServiceKit.ServiceHost
             return appUrl;
         }
 
+        /// <summary>An IHttpRequest extension method that gets application URL.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The application URL.</returns>
         public static string GetApplicationUrl(this IHttpRequest httpReq)
         {
             var url = new Uri(httpReq.AbsoluteUri);
@@ -140,6 +185,11 @@ namespace NServiceKit.ServiceHost
             return appUrl;
         }
 
+        /// <summary>An IHttpRequest extension method that gets HTTP method override.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The HTTP method override.</returns>
 		public static string GetHttpMethodOverride(this IHttpRequest httpReq)
 		{
 			var httpMethod = httpReq.HttpMethod;
@@ -161,6 +211,11 @@ namespace NServiceKit.ServiceHost
 			return httpMethod;
 		}
 
+        /// <summary>An IHttpRequest extension method that gets format modifier.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The format modifier.</returns>
 		public static string GetFormatModifier(this IHttpRequest httpReq)
 		{
 			var format = httpReq.QueryString["format"];
@@ -169,6 +224,12 @@ namespace NServiceKit.ServiceHost
 			return parts.Length > 1 ? parts[1] : null;
 		}
 
+        /// <summary>An IHttpRequest extension method that query if 'httpReq' has not modified since.</summary>
+        ///
+        /// <param name="httpReq"> The httpReq to act on.</param>
+        /// <param name="dateTime">The date time.</param>
+        ///
+        /// <returns>true if not modified since, false if not.</returns>
 		public static bool HasNotModifiedSince(this IHttpRequest httpReq, DateTime? dateTime)
 		{
 			if (!dateTime.HasValue) return false;
@@ -195,6 +256,13 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>An IHttpRequest extension method that did return 304 not modified.</summary>
+        ///
+        /// <param name="httpReq"> The httpReq to act on.</param>
+        /// <param name="dateTime">The date time.</param>
+        /// <param name="httpRes"> The HTTP resource.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
 		public static bool DidReturn304NotModified(this IHttpRequest httpReq, DateTime? dateTime, IHttpResponse httpRes)
 		{
 			if (httpReq.HasNotModifiedSince(dateTime))
@@ -205,12 +273,21 @@ namespace NServiceKit.ServiceHost
 			return false;
 		}
 
+        /// <summary>An IHttpRequest extension method that callback, called when the get jsonp.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>The jsonp callback.</returns>
 		public static string GetJsonpCallback(this IHttpRequest httpReq)
 		{
 			return httpReq == null ? null : httpReq.QueryString["callback"];
 		}
 
-
+        /// <summary>An IHttpRequest extension method that cookies as dictionary.</summary>
+        ///
+        /// <param name="httpReq">The httpReq to act on.</param>
+        ///
+        /// <returns>A Dictionary&lt;string,string&gt;</returns>
 		public static Dictionary<string, string> CookiesAsDictionary(this IHttpRequest httpReq)
 		{
 			var map = new Dictionary<string, string>();
@@ -240,6 +317,11 @@ namespace NServiceKit.ServiceHost
 			return map;
 		}
 
+        /// <summary>An Exception extension method that converts an ex to the status code.</summary>
+        ///
+        /// <param name="ex">The ex to act on.</param>
+        ///
+        /// <returns>ex as an int.</returns>
         public static int ToStatusCode(this Exception ex)
         {
             int errorStatus;
@@ -254,7 +336,12 @@ namespace NServiceKit.ServiceHost
             if (ex is UnauthorizedAccessException) return (int) HttpStatusCode.Forbidden;
             return (int)HttpStatusCode.InternalServerError;
 	    }
-        
+
+        /// <summary>An Exception extension method that converts an ex to an error code.</summary>
+        ///
+        /// <param name="ex">The ex to act on.</param>
+        ///
+        /// <returns>ex as a string.</returns>
         public static string ToErrorCode(this Exception ex)
         {
             if (ex is HttpError) return ((HttpError)ex).ErrorCode;

@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace NServiceKit.Configuration
 {
+    /// <summary>A configuration utilities.</summary>
 	public class ConfigUtils
 	{
 		const int KeyIndex = 0;
@@ -122,6 +123,11 @@ namespace NServiceKit.Configuration
 		    return GetListFromAppSettingValue(appSettingValue);
 		}
 
+        /// <summary>Gets list from application setting value.</summary>
+        ///
+        /// <param name="appSettingValue">The application setting value.</param>
+        ///
+        /// <returns>The list from application setting value.</returns>
         public static List<string> GetListFromAppSettingValue(string appSettingValue)
 	    {
 	        return new List<string>(appSettingValue.Split(ItemSeperator));
@@ -138,6 +144,11 @@ namespace NServiceKit.Configuration
 	        return GetDictionaryFromAppSettingValue(appSettingValue);
 	    }
 
+        /// <summary>Gets dictionary from application setting value.</summary>
+        ///
+        /// <param name="appSettingValue">The application setting value.</param>
+        ///
+        /// <returns>The dictionary from application setting value.</returns>
         public static Dictionary<string, string> GetDictionaryFromAppSettingValue(string appSettingValue)
 	    {
 	        var dictionary = new Dictionary<string, string>();

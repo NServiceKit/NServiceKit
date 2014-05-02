@@ -5,11 +5,15 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A request filter tests.</summary>
 	[TestFixture]
 	public class RequestFilterTests
 	{
 		private const string ServiceClientBaseUri = Config.NServiceKitBaseUri;
 
+        /// <summary>Does return bare 401 status code.</summary>
+        ///
+        /// <exception cref="401">Thrown when a 401 error condition occurs.</exception>
 		[Test]
 		public void Does_return_bare_401_StatusCode()
 		{
@@ -29,6 +33,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
+        /// <summary>Does return bare 401 with authentication required header.</summary>
+        ///
+        /// <exception cref="401">Thrown when a 401 error condition occurs.</exception>
 		[Test]
 		public void Does_return_bare_401_with_AuthRequired_header()
 		{
@@ -53,7 +60,9 @@ namespace NServiceKit.WebHost.IntegrationTests.Tests
 			}
 		}
 
-
+        /// <summary>Does return send 401 for access to i secure requests.</summary>
+        ///
+        /// <exception cref="401">Thrown when a 401 error condition occurs.</exception>
 		[Test]
 		public void Does_return_send_401_for_access_to_ISecure_requests()
 		{

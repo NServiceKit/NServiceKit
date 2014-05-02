@@ -22,13 +22,22 @@ namespace NServiceKit.FluentValidation.Validators
     using Resources;
     using System.Linq;
 
+    /// <summary>A not empty validator.</summary>
     public class NotEmptyValidator : PropertyValidator, INotEmptyValidator {
         readonly object defaultValueForType;
 
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.NotEmptyValidator class.</summary>
+        ///
+        /// <param name="defaultValueForType">The default value for type.</param>
         public NotEmptyValidator(object defaultValueForType) : base(() => Messages.notempty_error, ValidationErrors.NotEmpty) {
             this.defaultValueForType = defaultValueForType;
         }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             if (context.PropertyValue == null
                 || IsInvalidString(context.PropertyValue)
@@ -64,6 +73,7 @@ namespace NServiceKit.FluentValidation.Validators
         }
     }
 
+    /// <summary>Interface for not empty validator.</summary>
     public interface INotEmptyValidator : IPropertyValidator {
     }
 }

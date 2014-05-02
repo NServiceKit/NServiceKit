@@ -10,15 +10,22 @@ using NServiceKit.VirtualPath;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>A precompiled razor engine tests.</summary>
     [TestFixture]
     public class PrecompiledRazorEngineTests : RazorEngineTests
     {
+        /// <summary>Gets a value indicating whether the precompile is enabled.</summary>
+        ///
+        /// <value>true if precompile enabled, false if not.</value>
         public override bool PrecompileEnabled { get { return true; } }
 
         const string View1Html = "<div class='view1'>@DateTime.Now</div>";
         const string View2Html = "<div class='view2'>@DateTime.Now</div>";
         const string View3Html = "<div class='view3'>@DateTime.Now</div>";
 
+        /// <summary>Initializes the file system.</summary>
+        ///
+        /// <param name="fileSystem">The file system.</param>
         protected override void InitializeFileSystem(InMemoryVirtualPathProvider fileSystem)
         {
             base.InitializeFileSystem(fileSystem);
@@ -28,6 +35,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             fileSystem.AddFile("/views/v3.cshtml", View3Html);
         }
 
+        /// <summary>Pages begin compilation startup.</summary>
         [Test]
         public void Pages_begin_compilation_on_startup()
         {
@@ -37,6 +45,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             }
         }
 
+        /// <summary>Creates a new pages begin compilation when added.</summary>
         [Test]
         public void New_pages_begin_compilation_when_added()
         {
@@ -48,6 +57,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(page.IsValid);
         }
 
+        /// <summary>Pages with errors dont cause exceptions on thread starting the precompilation.</summary>
         [Test]
         public void Pages_with_errors_dont_cause_exceptions_on_thread_starting_the_precompilation()
         {
@@ -59,6 +69,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             Assert.That(page.CompileException, Is.Not.Null);
         }
 
+        /// <summary>Pages with errors still throw exceptions when rendering.</summary>
         [ExpectedException(typeof(HttpCompileException))]
         [Test]
         public void Pages_with_errors_still_throw_exceptions_when_rendering()
@@ -70,12 +81,21 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
         }
     }
 
+    /// <summary>A startup precompiled razor engine tests.</summary>
     [TestFixture]
     public class StartupPrecompiledRazorEngineTests : PrecompiledRazorEngineTests
     {
+        /// <summary>Gets a value indicating whether the precompile is enabled.</summary>
+        ///
+        /// <value>true if precompile enabled, false if not.</value>
         public override bool PrecompileEnabled { get { return true; } }
+
+        /// <summary>Gets a value indicating whether the wait for precompile is enabled.</summary>
+        ///
+        /// <value>true if wait for precompile enabled, false if not.</value>
         public override bool WaitForPrecompileEnabled { get { return true; } }
 
+        /// <summary>Precompilation finishes before returning from initialise.</summary>
         [Test]
         public void Precompilation_finishes_before_returning_from_init()
         {

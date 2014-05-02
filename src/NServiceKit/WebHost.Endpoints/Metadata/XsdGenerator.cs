@@ -8,10 +8,19 @@ using NServiceKit.WebHost.Endpoints.Utils;
 
 namespace NServiceKit.WebHost.Endpoints.Metadata
 {
+    /// <summary>An XSD generator.</summary>
 	public class XsdGenerator
 	{
 		private readonly ILog log = LogManager.GetLogger(typeof(XsdGenerator));
+
+        /// <summary>Gets or sets a value indicating whether the optimize for flash.</summary>
+        ///
+        /// <value>true if optimize for flash, false if not.</value>
 		public bool OptimizeForFlash { get; set; }
+
+        /// <summary>Gets or sets a list of types of the operations.</summary>
+        ///
+        /// <value>A list of types of the operations.</value>
 		public ICollection<Type> OperationTypes { get; set; }
 
 		private string Filter(string xsd)
@@ -19,6 +28,9 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
 			return !this.OptimizeForFlash ? xsd : xsd.Replace("ser:guid", "xs:string");
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
 			if (OperationTypes == null || OperationTypes.Count == 0) return null;

@@ -10,6 +10,11 @@ namespace NServiceKit.ServiceHost
 	{
 		private readonly Dictionary<Type, Delegate> handlerMap = new Dictionary<Type, Delegate>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="invoker"></param>
+        /// <typeparam name="TServiceRequest"></typeparam>
         [Obsolete("Use the New API (NServiceKit.ServiceInterface.Service) for future services. See: https://github.com/NServiceKit/NServiceKit/wiki/New-Api")]
 		public void Register<TServiceRequest>(Func<IService<TServiceRequest>> invoker)
 		{
@@ -17,6 +22,11 @@ namespace NServiceKit.ServiceHost
 			handlerMap.Add(requestType, invoker);
 		}
 
+        /// <summary>Executes the reflection operation.</summary>
+        ///
+        /// <param name="dto">The dto.</param>
+        ///
+        /// <returns>An object.</returns>
 		public object ExecuteReflection(object dto)
 		{
 			var requestType = dto.GetType();

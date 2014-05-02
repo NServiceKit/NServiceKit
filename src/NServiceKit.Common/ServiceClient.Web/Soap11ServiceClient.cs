@@ -131,10 +131,14 @@ namespace NServiceKit.ServiceClient.Web
     using System.ServiceModel.Channels;
     using NServiceKit.Text;
 
+    /// <summary>A SOAP 11 service client.</summary>
     public class Soap11ServiceClient : WcfServiceClient
     {
         private BasicHttpBinding binding;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.Soap11ServiceClient class.</summary>
+        ///
+        /// <param name="uri">URI of the document.</param>
         public Soap11ServiceClient(string uri)
         {
             this.Uri = uri.WithTrailingSlash() + "Soap11";
@@ -155,16 +159,25 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets the binding.</summary>
+        ///
+        /// <value>The binding.</value>
         protected override Binding Binding
         {
             get { return this.BasicHttpBinding; }
         }
 
+        /// <summary>Gets the message version.</summary>
+        ///
+        /// <value>The message version.</value>
         protected override MessageVersion MessageVersion
         {
             get { return this.BasicHttpBinding.MessageVersion; }
         }
 
+        /// <summary>Sets a proxy.</summary>
+        ///
+        /// <param name="proxyAddress">The proxy address.</param>
         public override void SetProxy(Uri proxyAddress)
         {
             var basicBinding = (BasicHttpBinding)Binding;

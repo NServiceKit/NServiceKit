@@ -8,6 +8,7 @@ using NServiceKit.ServiceInterface.ServiceModel;
 
 namespace NServiceKit.Common.Web
 {
+    /// <summary>A HTTP result extensions.</summary>
     public static class HttpResultExtensions
     {
         /// <summary>
@@ -50,6 +51,11 @@ namespace NServiceKit.Common.Web
             return ToDto<TResponse>(response);
         }
 
+        /// <summary>An IHttpError extension method that converts a httpError to an error response.</summary>
+        ///
+        /// <param name="httpError">The httpError to act on.</param>
+        ///
+        /// <returns>httpError as an object.</returns>
         public static object ToErrorResponse(this IHttpError httpError)
         {
             if (httpError == null) return null;

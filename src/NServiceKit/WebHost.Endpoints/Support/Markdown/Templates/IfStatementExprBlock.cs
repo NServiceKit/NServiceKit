@@ -61,6 +61,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             this.ElseChildBlocks = elseChildBlocks.ToArray();
         }
 
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
         public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
         {
             var resultCondition = Evaluate<bool>(scopeArgs);
@@ -77,6 +82,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             }
         }
 
+        /// <summary>Called when [first run].</summary>
         protected override void OnFirstRun()
         {
             base.OnFirstRun();

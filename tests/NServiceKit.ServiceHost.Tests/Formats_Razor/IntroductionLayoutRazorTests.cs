@@ -11,6 +11,7 @@ using System.Text;
 
 namespace NServiceKit.ServiceHost.Tests.Formats_Razor
 {
+    /// <summary>An external product helper.</summary>
     public class ExternalProductHelper
     {
         //Any helpers returning MvcHtmlString won't be escaped
@@ -28,8 +29,16 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
         }
     }
 
+    /// <summary>A custom base class.</summary>
+    /// <typeparam name="T">Generic type parameter.</typeparam>
     public class CustomBaseClass<T> : ViewPage<T> where T : class
     {
+        /// <summary>Fields.</summary>
+        ///
+        /// <param name="fieldName"> Name of the field.</param>
+        /// <param name="fieldValue">The field value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public MvcHtmlString Field(string fieldName, string fieldValue)
         {
             var sb = new StringBuilder();
@@ -39,14 +48,17 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             return MvcHtmlString.Create(sb.ToString());
         }
 
+        /// <summary>Executes this object.</summary>
         public override void Execute()
         {
         }
     }
 
+    /// <summary>An introduction layout razor tests.</summary>
     [TestFixture]
     public class IntroductionLayoutRazorTests : RazorTestBase
     {
+        /// <summary>Executes the before each test action.</summary>
         [SetUp]
         public void OnBeforeEachTest()
         {
@@ -57,6 +69,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats_Razor
             }.Init();
         }
 
+        /// <summary>Simple layout example.</summary>
         [Test]
         public void Simple_Layout_Example()
         {
@@ -132,6 +145,7 @@ current date/year: 2014</p>
             Assert.That(template, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Nested layout example with sections.</summary>
         [Test]
         public void Nested_Layout_Example_With_Sections()
         {
@@ -167,6 +181,7 @@ current date/year: 2014</p>
             Assert.That(template, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Layout master page scenarios adding sections.</summary>
         [Test]
         public void Layout_MasterPage_Scenarios_Adding_Sections()
         {
@@ -276,6 +291,7 @@ current date/year: 2014</p>
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Encapsulation and reuse with HTML helpers.</summary>
         [Test]
         public void Encapsulation_and_reuse_with_HTML_helpers()
         {
@@ -313,6 +329,7 @@ current date/year: 2014</p>
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Using external HTML helpers.</summary>
         [Test]
         public void Using_External_HTML_Helpers()
         {
@@ -350,6 +367,7 @@ current date/year: 2014</p>
             Assert.That(html, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Using custom base class.</summary>
         [Test]
         public void Using_Custom_base_class()
         {

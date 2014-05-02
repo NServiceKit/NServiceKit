@@ -42,6 +42,7 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.Endpoints.Extensions
 {
+    /// <content>A HTTP listener request wrapper.</content>
     public partial class HttpListenerRequestWrapper 
     {
 
@@ -115,6 +116,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             EndSubStream(input);
         }
 
+        /// <summary>Gets the form.</summary>
+        ///
+        /// <value>The form.</value>
         public NameValueCollection Form
         {
             get
@@ -151,8 +155,18 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
-
+        /// <summary>Gets the validate form.</summary>
+        ///
+        /// <exception cref="HttpRequestValidationException">Thrown when a HTTP Request Validation error condition occurs.</exception>
+        ///
+        /// <value>The validate form.</value>
         protected bool validate_cookies, validate_query_string, validate_form;
+
+        /// <summary>Gets the checked form.</summary>
+        ///
+        /// <exception cref="HttpRequestValidationException">Thrown when a HTTP Request Validation error condition occurs.</exception>
+        ///
+        /// <value>The checked form.</value>
         protected bool checked_cookies, checked_query_string, checked_form;
 
         static void ThrowValidationException(string name, string key, string value)
@@ -222,6 +236,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             return false;
         }
 
+        /// <summary>Validates the input.</summary>
         public void ValidateInput()
         {
             validate_cookies = true;
@@ -301,6 +316,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 
         HttpFileCollection files;
 
+        /// <summary>Collection of HTTP files.</summary>
         public sealed class HttpFileCollection : NameObjectCollectionBase
         {
             internal HttpFileCollection()
@@ -312,6 +328,19 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 BaseAdd(name, file);
             }
 
+            /// <summary>Copies the elements of the <see cref="T:System.Collections.ICollection" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.</summary>
+            ///
+            /// <param name="dest"> The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection" />. The
+            /// <see cref="T:System.Array" /> must have zero-based indexing.
+            /// </param>
+            /// <param name="index">The zero-based index in <paramref name="dest" /> at which copying begins.</param>
+            ///
+            /// ### <exception cref="T:System.ArgumentNullException">      <paramref name="dest" /> is null.</exception>
+            /// ### <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index" /> is less than zero.</exception>
+            /// ### <exception cref="T:System.ArgumentException">          <paramref name="dest" /> is multidimensional.-or- The number of elements in the source
+            /// <see cref="T:System.Collections.ICollection" /> is greater than the available space from <paramref name="index" /> to the end of the destination <paramref name="dest" />.-or- The type of the
+            /// source <see cref="T:System.Collections.ICollection" /> cannot be cast automatically to the type of the destination <paramref name="dest" />
+            /// </exception>
             public void CopyTo(Array dest, int index)
             {
                 /* XXX this is kind of gross and inefficient
@@ -321,21 +350,41 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 values.CopyTo(dest, index);
             }
 
+            /// <summary>Gets a key.</summary>
+            ///
+            /// <param name="index">The index to get.</param>
+            ///
+            /// <returns>The key.</returns>
             public string GetKey(int index)
             {
                 return BaseGetKey(index);
             }
 
+            /// <summary>Gets.</summary>
+            ///
+            /// <param name="index">The index to get.</param>
+            ///
+            /// <returns>A HttpPostedFile.</returns>
             public HttpPostedFile Get(int index)
             {
                 return (HttpPostedFile)BaseGet(index);
             }
 
+            /// <summary>Gets.</summary>
+            ///
+            /// <param name="key">The key to get.</param>
+            ///
+            /// <returns>A HttpPostedFile.</returns>
             public HttpPostedFile Get(string key)
             {
                 return (HttpPostedFile)BaseGet(key);
             }
 
+            /// <summary>Indexer to get items within this collection using array index syntax.</summary>
+            ///
+            /// <param name="key">The key.</param>
+            ///
+            /// <returns>The indexed item.</returns>
             public HttpPostedFile this[string key]
             {
                 get
@@ -344,6 +393,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Indexer to get items within this collection using array index syntax.</summary>
+            ///
+            /// <param name="index">Zero-based index of the entry to access.</param>
+            ///
+            /// <returns>The indexed item.</returns>
             public HttpPostedFile this[int index]
             {
                 get
@@ -352,6 +406,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Gets all keys.</summary>
+            ///
+            /// <value>all keys.</value>
             public string[] AllKeys
             {
                 get
@@ -365,11 +422,17 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             bool got_id;
             int id;
 
+            /// <summary>Gets a value indicating whether the got identifier.</summary>
+            ///
+            /// <value>true if got identifier, false if not.</value>
             public bool GotID
             {
                 get { return got_id; }
             }
 
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
             public int ID
             {
                 get { return id; }
@@ -379,16 +442,21 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                     id = value;
                 }
             }
+            /// <summary>Protects this object.</summary>
             public void Protect()
             {
                 IsReadOnly = true;
             }
 
+            /// <summary>Unprotects this object.</summary>
             public void Unprotect()
             {
                 IsReadOnly = false;
             }
 
+            /// <summary>Returns a string that represents the current object.</summary>
+            ///
+            /// <returns>A string that represents the current object.</returns>
             public override string ToString()
             {
                 StringBuilder result = new StringBuilder();
@@ -409,6 +477,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
             }
         }
 
+        /// <summary>A HTTP posted file.</summary>
         public sealed class HttpPostedFile
         {
             string name;
@@ -422,6 +491,11 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 long end;
                 long position;
 
+                /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Extensions.HttpListenerRequestWrapper.HttpPostedFile.ReadSubStream class.</summary>
+                ///
+                /// <param name="s">     The Stream to process.</param>
+                /// <param name="offset">The zero-based byte offset in <paramref name="s" /> at which to begin copying bytes to the current stream.</param>
+                /// <param name="length">A long value representing the length of the stream in bytes.</param>
                 public ReadSubStream(Stream s, long offset, long length)
                 {
                     this.s = s;
@@ -430,10 +504,27 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                     position = offset;
                 }
 
+                /// <summary>When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to the underlying device.</summary>
                 public override void Flush()
                 {
                 }
 
+                /// <summary>When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.</summary>
+                ///
+                /// <exception cref="ArgumentNullException">      Thrown when one or more required arguments are null.</exception>
+                /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+                /// <exception cref="ArgumentException">          Thrown when one or more arguments have unsupported or illegal values.</exception>
+                ///
+                /// <param name="buffer">     An array of bytes. When this method returns, the buffer contains the specified byte array with the values between <paramref name="dest_offset" /> and
+                /// (<paramref name="dest_offset" /> + <paramref name="count" /> - 1) replaced by the bytes read from the current source.
+                /// </param>
+                /// <param name="dest_offset">The zero-based byte offset in <paramref name="buffer" /> at which to begin storing the data read from the current stream.</param>
+                /// <param name="count">      The maximum number of bytes to be read from the current stream.</param>
+                ///
+                /// <returns>
+                /// The total number of bytes read into the buffer. This can be less than the number of bytes requested if that many bytes are not currently available, or zero (0) if the end of the stream has been
+                /// reached.
+                /// </returns>
                 public override int Read(byte[] buffer, int dest_offset, int count)
                 {
                     if (buffer == null)
@@ -468,6 +559,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                     return result;
                 }
 
+                /// <summary>Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of the stream.</summary>
+                ///
+                /// <returns>The unsigned byte cast to an Int32, or -1 if at the end of the stream.</returns>
                 public override int ReadByte()
                 {
                     if (position >= end)
@@ -483,6 +577,15 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                     return result;
                 }
 
+                /// <summary>When overridden in a derived class, sets the position within the current stream.</summary>
+                ///
+                /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+                ///
+                /// <param name="d">     The long to process.</param>
+                /// <param name="origin">A value of type <see cref="T:System.IO.SeekOrigin" /> indicating the reference point used to obtain the new position.</param>
+                ///
+                /// <returns>The new position within the current stream.</returns>
+                ///
                 public override long Seek(long d, SeekOrigin origin)
                 {
                     long real;
@@ -509,34 +612,72 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                     return position;
                 }
 
+                /// <summary>When overridden in a derived class, sets the length of the current stream.</summary>
+                ///
+                /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+                ///
+                /// <param name="value">The desired length of the current stream in bytes.</param>
                 public override void SetLength(long value)
                 {
                     throw new NotSupportedException();
                 }
 
+                /// <summary>When overridden in a derived class, writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.</summary>
+                ///
+                /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+                ///
+                /// <param name="buffer">An array of bytes. This method copies <paramref name="count" /> bytes from <paramref name="buffer" /> to the current stream.</param>
+                /// <param name="offset">The zero-based byte offset in <paramref name="buffer" /> at which to begin copying bytes to the current stream.</param>
+                /// <param name="count"> The number of bytes to be written to the current stream.</param>
                 public override void Write(byte[] buffer, int offset, int count)
                 {
                     throw new NotSupportedException();
                 }
 
+                /// <summary>When overridden in a derived class, gets a value indicating whether the current stream supports reading.</summary>
+                ///
+                /// <value>true if the stream supports reading; otherwise, false.</value>
                 public override bool CanRead
                 {
                     get { return true; }
                 }
+
+                /// <summary>When overridden in a derived class, gets a value indicating whether the current stream supports seeking.</summary>
+                ///
+                /// <value>true if the stream supports seeking; otherwise, false.</value>
                 public override bool CanSeek
                 {
                     get { return true; }
                 }
+
+                /// <summary>When overridden in a derived class, gets a value indicating whether the current stream supports writing.</summary>
+                ///
+                /// <value>true if the stream supports writing; otherwise, false.</value>
                 public override bool CanWrite
                 {
                     get { return false; }
                 }
 
+                /// <summary>When overridden in a derived class, gets the length in bytes of the stream.</summary>
+                ///
+                /// <value>A long value representing the length of the stream in bytes.</value>
+                ///
+                /// ### <exception cref="T:System.NotSupportedException">  A class derived from Stream does not support seeking.</exception>
+                /// ### <exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed.</exception>
                 public override long Length
                 {
                     get { return end - offset; }
                 }
 
+                /// <summary>When overridden in a derived class, gets or sets the position within the current stream.</summary>
+                ///
+                /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+                ///
+                /// <value>The current position within the stream.</value>
+                ///
+                /// ### <exception cref="T:System.IO.IOException">         An I/O error occurs.</exception>
+                /// ### <exception cref="T:System.NotSupportedException">  The stream does not support seeking.</exception>
+                /// ### <exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed.</exception>
                 public override long Position
                 {
                     get
@@ -560,6 +701,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 this.stream = new ReadSubStream(base_stream, offset, length);
             }
 
+            /// <summary>Gets the type of the content.</summary>
+            ///
+            /// <value>The type of the content.</value>
             public string ContentType
             {
                 get
@@ -568,6 +712,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Gets the length of the content.</summary>
+            ///
+            /// <value>The length of the content.</value>
             public int ContentLength
             {
                 get
@@ -576,6 +723,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Gets the filename of the file.</summary>
+            ///
+            /// <value>The name of the file.</value>
             public string FileName
             {
                 get
@@ -584,6 +734,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Gets the input stream.</summary>
+            ///
+            /// <value>The input stream.</value>
             public Stream InputStream
             {
                 get
@@ -592,6 +745,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 }
             }
 
+            /// <summary>Saves as.</summary>
+            ///
+            /// <param name="filename">Filename of the file.</param>
             public void SaveAs(string filename)
             {
                 byte[] buffer = new byte[16 * 1024];
@@ -620,6 +776,7 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
 
         class Helpers
         {
+            /// <summary>The invariant culture.</summary>
             public static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         }
 
@@ -627,11 +784,24 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
         {
             StrUtils() { }
 
+            /// <summary>Starts with.</summary>
+            ///
+            /// <param name="str1">The first string.</param>
+            /// <param name="str2">The second string.</param>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public static bool StartsWith(string str1, string str2)
             {
                 return StartsWith(str1, str2, false);
             }
 
+            /// <summary>Starts with.</summary>
+            ///
+            /// <param name="str1">       The first string.</param>
+            /// <param name="str2">       The second string.</param>
+            /// <param name="ignore_case">true to ignore case.</param>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public static bool StartsWith(string str1, string str2, bool ignore_case)
             {
                 int l2 = str2.Length;
@@ -645,11 +815,24 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 return (0 == String.Compare(str1, 0, str2, 0, l2, ignore_case, Helpers.InvariantCulture));
             }
 
+            /// <summary>Ends with.</summary>
+            ///
+            /// <param name="str1">The first string.</param>
+            /// <param name="str2">The second string.</param>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public static bool EndsWith(string str1, string str2)
             {
                 return EndsWith(str1, str2, false);
             }
 
+            /// <summary>Ends with.</summary>
+            ///
+            /// <param name="str1">       The first string.</param>
+            /// <param name="str2">       The second string.</param>
+            /// <param name="ignore_case">true to ignore case.</param>
+            ///
+            /// <returns>true if it succeeds, false if it fails.</returns>
             public static bool EndsWith(string str1, string str2, bool ignore_case)
             {
                 int l2 = str2.Length;
@@ -667,15 +850,25 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
         class HttpMultipart
         {
 
+            /// <summary>An element.</summary>
             public class Element
             {
+                /// <summary>Type of the content.</summary>
                 public string ContentType;
+                /// <summary>The name.</summary>
                 public string Name;
+                /// <summary>Filename of the file.</summary>
                 public string Filename;
+                /// <summary>The encoding.</summary>
                 public Encoding Encoding;
+                /// <summary>The start.</summary>
                 public long Start;
+                /// <summary>The length.</summary>
                 public long Length;
 
+                /// <summary>Returns a string that represents the current object.</summary>
+                ///
+                /// <returns>A string that represents the current object.</returns>
                 public override string ToString()
                 {
                     return "ContentType " + ContentType + ", Name " + Name + ", Filename " + Filename + ", Start " +
@@ -906,6 +1099,9 @@ namespace NServiceKit.WebHost.Endpoints.Extensions
                 return retval;
             }
 
+            /// <summary>Reads next element.</summary>
+            ///
+            /// <returns>The next element.</returns>
             public Element ReadNextElement()
             {
                 if (at_eof || ReadBoundary())

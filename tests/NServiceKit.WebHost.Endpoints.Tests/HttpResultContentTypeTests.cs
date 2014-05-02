@@ -14,9 +14,11 @@ using System.Linq;
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
 
+    /// <summary>A HTTP result content type tests.</summary>
     [TestFixture]
 	public class HttpResultContentTypeTests {
         #region setup for example plaintext service
+        /// <summary>A simple application host HTTP listener.</summary>
         public class SimpleAppHostHttpListener : AppHostHttpListenerBase {
             //Tell Service Stack the name of your application and where to find your web services
             public SimpleAppHostHttpListener()
@@ -51,8 +53,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             public string Text { get; set; }
         }
 
+        /// <summary>A timed service.</summary>
         public class TimedService : NServiceKit.ServiceInterface.Service
         {
+            /// <summary>Anies the given request.</summary>
+            ///
+            /// <param name="request">The request.</param>
+            ///
+            /// <returns>An object.</returns>
             public object Any(PlainText request) 
             {
                 string contentType = "text/plain";
@@ -69,11 +77,13 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		private const string ListeningOn = "http://localhost:82/";
 		SimpleAppHostHttpListener appHost;
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.HttpResultContentTypeTests class.</summary>
         public HttpResultContentTypeTests()
 		{
             
 		}
 
+        /// <summary>Executes the test fixture start up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureStartUp() 
 		{
@@ -85,6 +95,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			                         DateTime.Now, ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{

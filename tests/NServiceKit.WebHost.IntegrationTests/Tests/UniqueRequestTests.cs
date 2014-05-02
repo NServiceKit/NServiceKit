@@ -7,20 +7,31 @@ using NServiceKit.Text;
 
 namespace NServiceKit.WebHost.IntegrationTests.Tests
 {
+    /// <summary>A unique request.</summary>
     [Route("/request/{Id}")]
     public class UniqueRequest
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         public string Id { get; set; }
     }
 
+    /// <summary>A unique request service.</summary>
     public class UniqueRequestService : IService
     {
+        /// <summary>Gets the given unique request.</summary>
+        ///
+        /// <param name="uniqueRequest">The unique request to get.</param>
+        ///
+        /// <returns>A string.</returns>
         public string Get(UniqueRequest uniqueRequest)
         {
             return uniqueRequest.Id;
         }
     }
 
+    /// <summary>A unique request tests.</summary>
     [TestFixture]
     public class UniqueRequestTests
     {

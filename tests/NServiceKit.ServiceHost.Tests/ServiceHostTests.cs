@@ -8,17 +8,20 @@ using NServiceKit.Text.Common;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A service host tests.</summary>
 	[TestFixture]
 	public class ServiceHostTests
 	{
 		private ServiceController serviceController;
 
+        /// <summary>Executes the before each test action.</summary>
 		[SetUp]
 		public void OnBeforeEachTest()
 		{
 			serviceController = new ServiceController(null);
 		}
 
+        /// <summary>Can execute basic service.</summary>
 		[Test]
 		public void Can_execute_BasicService()
 		{
@@ -28,6 +31,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result, Is.Not.Null);
 		}
 
+        /// <summary>Can execute basic service from dynamic type.</summary>
 		[Test]
 		public void Can_execute_BasicService_from_dynamic_Type()
 		{
@@ -42,6 +46,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result, Is.Not.Null);
 		}
 
+        /// <summary>Can automatic wire types dynamically with reflection.</summary>
 		[Test]
 		public void Can_AutoWire_types_dynamically_with_reflection()
 		{
@@ -60,6 +65,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(service.Bar, Is.Not.Null);
 		}
 
+        /// <summary>Can automatic wire types dynamically with expressions.</summary>
 		[Test]
 		public void Can_AutoWire_types_dynamically_with_expressions()
 		{
@@ -77,6 +83,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(service.Bar, Is.Not.Null);
 		}
 
+        /// <summary>Can execute rest test service.</summary>
 		[Test]
 		public void Can_execute_RestTestService()
 		{
@@ -87,6 +94,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result.MethodName, Is.EqualTo("Execute"));
 		}
 
+        /// <summary>Can rest test service get.</summary>
 		[Test]
 		public void Can_RestTestService_GET()
 		{
@@ -98,6 +106,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result.MethodName, Is.EqualTo("Get"));
 		}
 
+        /// <summary>Can rest test service put.</summary>
 		[Test]
 		public void Can_RestTestService_PUT()
 		{
@@ -109,6 +118,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result.MethodName, Is.EqualTo("Put"));
 		}
 
+        /// <summary>Can rest test service post.</summary>
 		[Test]
 		public void Can_RestTestService_POST()
 		{
@@ -120,6 +130,7 @@ namespace NServiceKit.ServiceHost.Tests
 			Assert.That(result.MethodName, Is.EqualTo("Post"));
 		}
 
+        /// <summary>Can rest test service delete.</summary>
 		[Test]
 		public void Can_RestTestService_DELETE()
 		{

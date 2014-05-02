@@ -11,128 +11,274 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Api.Swagger
 {
+    /// <summary>A resource request.</summary>
     [DataContract]
     public class ResourceRequest
     {
+        /// <summary>Gets or sets the API key.</summary>
+        ///
+        /// <value>The API key.</value>
         [DataMember(Name = "apiKey")]
         public string ApiKey { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         [DataMember(Name = "name")]
         public string Name { get; set; }
     }
 
+    /// <summary>A resource response.</summary>
     [DataContract]
     public class ResourceResponse
     {
+        /// <summary>Gets or sets the API version.</summary>
+        ///
+        /// <value>The API version.</value>
         [DataMember(Name = "apiVersion")]
         public string ApiVersion { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the base file.</summary>
+        ///
+        /// <value>The full pathname of the base file.</value>
         [DataMember(Name = "basePath")]
         public string BasePath { get; set; }
+
+        /// <summary>Gets or sets the full pathname of the resource file.</summary>
+        ///
+        /// <value>The full pathname of the resource file.</value>
         [DataMember(Name = "resourcePath")]
         public string ResourcePath { get; set; }
+
+        /// <summary>Gets or sets the apis.</summary>
+        ///
+        /// <value>The apis.</value>
         [DataMember(Name = "apis")]
         public List<MethodDescription> Apis { get; set; }
+
+        /// <summary>Gets or sets the models.</summary>
+        ///
+        /// <value>The models.</value>
         [DataMember(Name = "models")]
         public Dictionary<string, SwaggerModel> Models { get; set; }
     }
 
+    /// <summary>A data Model for the swagger.</summary>
     [DataContract]
     public class SwaggerModel
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
         [DataMember(Name = "id")]
         public string Id { get; set; }
+
+        /// <summary>Gets or sets the properties.</summary>
+        ///
+        /// <value>The properties.</value>
         [DataMember(Name = "properties")]
         public Dictionary<string, ModelProperty> Properties { get; set; }
     }
 
+    /// <summary>Description of the method.</summary>
     [DataContract]
     public class MethodDescription
     {
+        /// <summary>Gets or sets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         [DataMember(Name = "path")]
         public string Path { get; set; }
+
+        /// <summary>Gets or sets the description.</summary>
+        ///
+        /// <value>The description.</value>
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        /// <summary>Gets or sets the operations.</summary>
+        ///
+        /// <value>The operations.</value>
         [DataMember(Name = "operations")]
         public List<MethodOperation> Operations { get; set; }
     }
 
+    /// <summary>A method operation.</summary>
     [DataContract]
     public class MethodOperation
     {
+        /// <summary>Gets or sets the HTTP method.</summary>
+        ///
+        /// <value>The HTTP method.</value>
         [DataMember(Name = "httpMethod")]
         public string HttpMethod { get; set; }
+
+        /// <summary>Gets or sets the nickname.</summary>
+        ///
+        /// <value>The nickname.</value>
         [DataMember(Name = "nickname")]
         public string Nickname { get; set; }
+
+        /// <summary>Gets or sets the summary.</summary>
+        ///
+        /// <value>The summary.</value>
         [DataMember(Name = "summary")]
         public string Summary { get; set; }
+
+        /// <summary>Gets or sets the notes.</summary>
+        ///
+        /// <value>The notes.</value>
         [DataMember(Name = "notes")]
         public string Notes { get; set; }
+
+        /// <summary>Gets or sets options for controlling the operation.</summary>
+        ///
+        /// <value>The parameters.</value>
         [DataMember(Name = "parameters")]
         public List<MethodOperationParameter> Parameters { get; set; }
+
+        /// <summary>Gets or sets the response class.</summary>
+        ///
+        /// <value>The response class.</value>
         [DataMember(Name = "responseClass")]
         public string ResponseClass { get; set; }
+
+        /// <summary>Gets or sets the error responses.</summary>
+        ///
+        /// <value>The error responses.</value>
         [DataMember(Name = "errorResponses")]
         public List<ErrorResponseStatus> ErrorResponses { get; set; }
     }
 
+    /// <summary>An error response status.</summary>
     [DataContract]
     public class ErrorResponseStatus
     {
+        /// <summary>Gets or sets the status code.</summary>
+        ///
+        /// <value>The status code.</value>
         [DataMember(Name = "code")]
         public int StatusCode { get; set; }
+
+        /// <summary>Gets or sets the reason.</summary>
+        ///
+        /// <value>The reason.</value>
         [DataMember(Name = "reason")]
         public string Reason { get; set; }
     }
 
+    /// <summary>A model property.</summary>
     [DataContract]
     public class ModelProperty
     {
+        /// <summary>Gets or sets the description.</summary>
+        ///
+        /// <value>The description.</value>
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        /// <summary>Gets or sets the type.</summary>
+        ///
+        /// <value>The type.</value>
         [DataMember(Name = "type")]
         public string Type { get; set; }
+
+        /// <summary>Gets or sets the items.</summary>
+        ///
+        /// <value>The items.</value>
         [DataMember(Name = "items")]
         public Dictionary<string, string> Items { get; set; }
+
+        /// <summary>Gets or sets the allowable values.</summary>
+        ///
+        /// <value>The allowable values.</value>
         [DataMember(Name = "allowableValues")]
         public ParameterAllowableValues AllowableValues { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the required.</summary>
+        ///
+        /// <value>true if required, false if not.</value>
         [DataMember(Name = "required")]
         public bool Required { get; set; }
     }
 
+    /// <summary>A method operation parameter.</summary>
     [DataContract]
     public class MethodOperationParameter
     {
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         [DataMember(Name = "name")]
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the description.</summary>
+        ///
+        /// <value>The description.</value>
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        /// <summary>Gets or sets the type of the parameter.</summary>
+        ///
+        /// <value>The type of the parameter.</value>
         [DataMember(Name = "paramType")]
         public string ParamType { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether we allow multiple.</summary>
+        ///
+        /// <value>true if allow multiple, false if not.</value>
         [DataMember(Name = "allowMultiple")]
         public bool AllowMultiple { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether the required.</summary>
+        ///
+        /// <value>true if required, false if not.</value>
         [DataMember(Name = "required")]
         public bool Required { get; set; }
+
+        /// <summary>Gets or sets the type of the data.</summary>
+        ///
+        /// <value>The type of the data.</value>
         [DataMember(Name = "dataType")]
         public string DataType { get; set; }
+
+        /// <summary>Gets or sets the allowable values.</summary>
+        ///
+        /// <value>The allowable values.</value>
         [DataMember(Name = "allowableValues")]
         public ParameterAllowableValues AllowableValues { get; set; }
     }
 
+    /// <summary>A parameter allowable values.</summary>
     [DataContract]
     public class ParameterAllowableValues
     {
+        /// <summary>Gets or sets the type of the value.</summary>
+        ///
+        /// <value>The type of the value.</value>
         [DataMember(Name = "valueType")]
         public string ValueType { get; set; }
 
+        /// <summary>Gets or sets the values.</summary>
+        ///
+        /// <value>The values.</value>
         [DataMember(Name = "values")]
         public string[] Values { get; set; }
 
+        /// <summary>Gets or sets the minimum.</summary>
+        ///
+        /// <value>The minimum value.</value>
         [DataMember(Name = "min")]
         public int? Min { get; set; }
 
+        /// <summary>Gets or sets the maximum.</summary>
+        ///
+        /// <value>The maximum value.</value>
         [DataMember(Name = "max")]
         public int? Max { get; set; }
     }
 
+    /// <summary>A swagger API service.</summary>
     [DefaultRequest(typeof(ResourceRequest))]
     public class SwaggerApiService : ServiceInterface.Service
     {
@@ -142,6 +288,11 @@ namespace NServiceKit.Api.Swagger
 
         private readonly Regex nicknameCleanerRegex = new Regex(@"[\{\}\*\-_/]*", RegexOptions.Compiled);
 
+        /// <summary>Gets the given request.</summary>
+        ///
+        /// <param name="request">The request to get.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Get(ResourceRequest request)
         {
             var httpReq = RequestContext.Get<IHttpRequest>();

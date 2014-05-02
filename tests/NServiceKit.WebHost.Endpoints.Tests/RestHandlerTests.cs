@@ -5,9 +5,11 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A rest handler tests.</summary>
 	[TestFixture]
 	public class RestHandlerTests
 	{
+        /// <summary>Throws binding exception when unable to match path values.</summary>
 		[Test]
 		public void Throws_binding_exception_when_unable_to_match_path_values()
 		{
@@ -24,6 +26,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.Throws<RequestBindingException>(() => handler.ProcessRequest(request, response, string.Empty));
 		}
 
+        /// <summary>Throws binding exception when unable to bind request.</summary>
 		[Test]
 		public void Throws_binding_exception_when_unable_to_bind_request()
 		{
@@ -55,8 +58,12 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			EndpointHost.ConfigureHost(host, string.Empty, new ServiceManager(typeof(RestHandlerTests).Assembly).Init());		
 		}
 
+        /// <summary>A request type.</summary>
 		public class RequestType
 		{
+            /// <summary>Gets or sets the identifier.</summary>
+            ///
+            /// <value>The identifier.</value>
 			public int Id { get; set; }
 		}
 	}

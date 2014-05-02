@@ -6,8 +6,10 @@ using System.Web;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A tag builder.</summary>
 	public class TagBuilder
 	{
+        /// <summary>The identifier attribute dot replacement.</summary>
 		public const string IdAttributeDotReplacement = "_";
 
 		private const string AttributeFormat = @" {0}=""{1}""";
@@ -18,6 +20,11 @@ namespace NServiceKit.Html
 
 		private string innerHtml;
 
+        /// <summary>Initializes a new instance of the NServiceKit.Html.TagBuilder class.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="tagName">The name of the tag.</param>
 		public TagBuilder(string tagName)
 		{
 			if (String.IsNullOrEmpty(tagName))
@@ -29,8 +36,14 @@ namespace NServiceKit.Html
 			Attributes = new SortedDictionary<string, string>(StringComparer.Ordinal);
 		}
 
+        /// <summary>Gets the attributes.</summary>
+        ///
+        /// <value>The attributes.</value>
 		public IDictionary<string, string> Attributes { get; private set; }
 
+        /// <summary>Gets or sets the inner HTML.</summary>
+        ///
+        /// <value>The inner HTML.</value>
 		public string InnerHtml
 		{
 			get
@@ -43,8 +56,14 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Gets the name of the tag.</summary>
+        ///
+        /// <value>The name of the tag.</value>
 		public string TagName { get; private set; }
 
+        /// <summary>Adds the CSS class.</summary>
+        ///
+        /// <param name="value">The value.</param>
 		public void AddCssClass(string value)
 		{
 			string currentValue;
@@ -59,6 +78,11 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Creates sanitized identifier.</summary>
+        ///
+        /// <param name="originalId">Identifier for the original.</param>
+        ///
+        /// <returns>The new sanitized identifier.</returns>
 		public static string CreateSanitizedId(string originalId)
 		{
 			return CreateSanitizedId(originalId, TagBuilder.IdAttributeDotReplacement);
@@ -101,6 +125,9 @@ namespace NServiceKit.Html
 			return sb.ToString();
 		}
 
+        /// <summary>Generates an identifier.</summary>
+        ///
+        /// <param name="name">The name.</param>
 		public void GenerateId(string name)
 		{
 			if (!Attributes.ContainsKey("id")) {
@@ -143,11 +170,22 @@ namespace NServiceKit.Html
             }
         }
 
+        /// <summary>Merge attribute.</summary>
+        ///
+        /// <param name="key">  The key.</param>
+        /// <param name="value">The value.</param>
 		public void MergeAttribute(string key, string value)
 		{
 			MergeAttribute(key, value, false /* replaceExisting */);
 		}
 
+        /// <summary>Merge attribute.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="key">            The key.</param>
+        /// <param name="value">          The value.</param>
+        /// <param name="replaceExisting">true to replace existing.</param>
 		public void MergeAttribute(string key, string value, bool replaceExisting)
 		{
 			if (String.IsNullOrEmpty(key))
@@ -161,11 +199,22 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Merge attributes.</summary>
+        ///
+        /// <typeparam name="TKey">  Type of the key.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="attributes">The attributes.</param>
 		public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes)
 		{
 			MergeAttributes(attributes, false /* replaceExisting */);
 		}
 
+        /// <summary>Merge attributes.</summary>
+        ///
+        /// <typeparam name="TKey">  Type of the key.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="attributes">     The attributes.</param>
+        /// <param name="replaceExisting">true to replace existing.</param>
 		public void MergeAttributes<TKey, TValue>(IDictionary<TKey, TValue> attributes, bool replaceExisting)
 		{
 			if (attributes != null)
@@ -179,6 +228,9 @@ namespace NServiceKit.Html
 			}
 		}
 
+        /// <summary>Sets inner text.</summary>
+        ///
+        /// <param name="innerText">The inner text.</param>
 		public void SetInnerText(string innerText)
 		{
 			InnerHtml = HttpUtility.HtmlEncode(innerText);
@@ -194,11 +246,19 @@ namespace NServiceKit.Html
 			return MvcHtmlString.Create(ToString(renderMode));
 		}
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        ///
+        /// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
 			return ToString(TagRenderMode.Normal);
 		}
 
+        /// <summary>Convert this object into a string representation.</summary>
+        ///
+        /// <param name="renderMode">The render mode.</param>
+        ///
+        /// <returns>A string that represents this object.</returns>
 		public string ToString(TagRenderMode renderMode)
 		{
             StringBuilder sb = new StringBuilder();
@@ -257,11 +317,21 @@ namespace NServiceKit.Html
 				return ('0' <= c && c <= '9');
 			}
 
+            /// <summary>Query if 'c' is letter.</summary>
+            ///
+            /// <param name="c">The character.</param>
+            ///
+            /// <returns>true if letter, false if not.</returns>
 			public static bool IsLetter(char c)
 			{
 				return (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'));
 			}
 
+            /// <summary>Query if 'c' is valid identifier character.</summary>
+            ///
+            /// <param name="c">The character.</param>
+            ///
+            /// <returns>true if valid identifier character, false if not.</returns>
 			public static bool IsValidIdCharacter(char c)
 			{
 				return (IsLetter(c) || IsDigit(c) || IsAllowableSpecialCharacter(c));

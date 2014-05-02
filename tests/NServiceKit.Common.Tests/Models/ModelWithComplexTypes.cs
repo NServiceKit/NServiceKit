@@ -4,8 +4,10 @@ using NUnit.Framework;
 
 namespace NServiceKit.Common.Tests.Models
 {
+    /// <summary>A model with complex types.</summary>
 	public class ModelWithComplexTypes
 	{
+        /// <summary>Initializes a new instance of the NServiceKit.Common.Tests.Models.ModelWithComplexTypes class.</summary>
 		public ModelWithComplexTypes()
 		{
 			this.StringList = new List<string>();
@@ -14,18 +16,41 @@ namespace NServiceKit.Common.Tests.Models
 			this.IntMap = new Dictionary<int, int>();
 		}
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		public long Id { get; set; }
 
+        /// <summary>Gets or sets a list of strings.</summary>
+        ///
+        /// <value>A List of strings.</value>
 		public List<string> StringList { get; set; }
 
+        /// <summary>Gets or sets a list of ints.</summary>
+        ///
+        /// <value>A List of ints.</value>
 		public List<int> IntList { get; set; }
 
+        /// <summary>Gets or sets the string map.</summary>
+        ///
+        /// <value>The string map.</value>
 		public Dictionary<string, string> StringMap { get; set; }
 
+        /// <summary>Gets or sets the int map.</summary>
+        ///
+        /// <value>The int map.</value>
 		public Dictionary<int, int> IntMap { get; set; }
 
+        /// <summary>Gets or sets the child.</summary>
+        ///
+        /// <value>The child.</value>
 		public ModelWithComplexTypes Child { get; set; }
 
+        /// <summary>Creates a new ModelWithComplexTypes.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The ModelWithComplexTypes.</returns>
 		public static ModelWithComplexTypes Create(int id)
 		{
 			var row = new ModelWithComplexTypes {
@@ -50,11 +75,20 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Creates a constant.</summary>
+        ///
+        /// <param name="i">Zero-based index of the.</param>
+        ///
+        /// <returns>The new constant.</returns>
 		public static ModelWithComplexTypes CreateConstant(int i)
 		{
 			return Create(i);
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public static void AssertIsEqual(ModelWithComplexTypes actual, ModelWithComplexTypes expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id));

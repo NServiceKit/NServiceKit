@@ -8,16 +8,32 @@ using NServiceKit.DesignPatterns.Serialization;
 
 namespace NServiceKit.ServiceModel.Serialization
 {
+    /// <summary>An XML serializable deserializer.</summary>
     public class XmlSerializableDeserializer : IStringDeserializer
     {
+        /// <summary>The instance.</summary>
         public static XmlSerializableDeserializer Instance = new XmlSerializableDeserializer();
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <typeparam name="To">Type of to.</typeparam>
+        /// <param name="xml">The XML.</param>
+        ///
+        /// <returns>To.</returns>
         public To Parse<To>(string xml)
         {
             var type = typeof(To);
             return (To)Parse(xml, type);
         }
 
+        /// <summary>Parses.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <param name="xml"> The XML.</param>
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Parse(string xml, Type type)
         {
             try
@@ -35,6 +51,14 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <typeparam name="To">Type of to.</typeparam>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>To.</returns>
         public To Parse<To>(TextReader from)
         {
             var type = typeof(To);
@@ -52,6 +76,14 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Parses the given from.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <typeparam name="To">Type of to.</typeparam>
+        /// <param name="from">Source for the.</param>
+        ///
+        /// <returns>To.</returns>
         public To Parse<To>(Stream from)
         {
             var type = typeof(To);

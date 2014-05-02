@@ -19,6 +19,11 @@ namespace NServiceKit.Mvc.MiniProfiler
             string name;
             bool isPartial;
 
+            /// <summary>Initializes a new instance of the NServiceKit.Mvc.MiniProfiler.ProfilingViewEngine.WrappedView class.</summary>
+            ///
+            /// <param name="wrapped">  The wrapped.</param>
+            /// <param name="name">     The name.</param>
+            /// <param name="isPartial">true if this object is partial.</param>
             public WrappedView(IView wrapped, string name, bool isPartial)
             {
                 this.wrapped = wrapped;
@@ -26,6 +31,10 @@ namespace NServiceKit.Mvc.MiniProfiler
                 this.isPartial = isPartial;
             }
 
+            /// <summary>Renders the specified view context by using the specified the writer object.</summary>
+            ///
+            /// <param name="viewContext">The view context.</param>
+            /// <param name="writer">     The writer object.</param>
             public void Render(ViewContext viewContext, System.IO.TextWriter writer)
             {
                 using (Profiler.Current.Step("Render " + (isPartial ? "partial" : "") + ": " + name))

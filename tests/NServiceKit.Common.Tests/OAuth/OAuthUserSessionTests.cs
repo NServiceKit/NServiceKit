@@ -8,10 +8,15 @@ using System.Globalization;
 
 namespace NServiceKit.Common.Tests.OAuth
 {
+    /// <summary>An authentication user session tests.</summary>
     [TestFixture]
     public class OAuthUserSessionTests : OAuthUserSessionTestsBase
     {
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Does persist twitter o authentication.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Does_persist_TwitterOAuth(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -50,6 +55,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Does persist facebook o authentication.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Does_persist_FacebookOAuth(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -91,6 +100,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Does merge facebook o authentication twitter o authentication.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Does_merge_FacebookOAuth_TwitterOAuth(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -131,6 +144,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Can login with user created create user authentication.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Can_login_with_user_created_CreateUserAuth(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -172,6 +189,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Logging in pulls all authentication information from repo after logging in all authentication providers.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Logging_in_pulls_all_AuthInfo_from_repo_after_logging_in_all_AuthProviders(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -233,6 +254,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]        
+
+        /// <summary>Registering twice creates two registrations.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Registering_twice_creates_two_registrations(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -261,6 +286,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Registering twice in same session updates registration.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Registering_twice_in_same_session_updates_registration(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -283,6 +312,10 @@ namespace NServiceKit.Common.Tests.OAuth
         }
 
         // [Test, TestCaseSource("UserAuthRepositorys")]
+
+        /// <summary>Connecting to facebook whilst authenticated connects account.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         public void Connecting_to_facebook_whilst_authenticated_connects_account(IUserAuthRepository userAuthRepository)
         {
             InitTest(userAuthRepository);
@@ -301,6 +334,9 @@ namespace NServiceKit.Common.Tests.OAuth
             Assert.That(userAuthProviders.Count, Is.EqualTo(1));
         }
 
+        /// <summary>Can automatic login whilst registering.</summary>
+        ///
+        /// <param name="userAuthRepository">The user authentication repository.</param>
         [Test, TestCaseSource("UserAuthRepositorys")]
         [Ignore]
         public void Can_AutoLogin_whilst_Registering(IUserAuthRepository userAuthRepository)

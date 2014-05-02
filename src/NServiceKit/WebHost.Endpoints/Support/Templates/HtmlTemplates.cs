@@ -4,9 +4,14 @@ using NServiceKit.Common.Utils;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Templates
 {
+    /// <summary>A HTML templates.</summary>
     public static class HtmlTemplates
     {
         private static string indexOperationsTemplate;
+
+        /// <summary>Gets or sets the index operations template.</summary>
+        ///
+        /// <value>The index operations template.</value>
         public static string IndexOperationsTemplate
         {
             get
@@ -18,6 +23,10 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
         }
 
         private static string operationControlTemplate;
+
+        /// <summary>Gets or sets the operation control template.</summary>
+        ///
+        /// <value>The operation control template.</value>
         public static string OperationControlTemplate
         {
             get
@@ -29,6 +38,10 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
         }
 
         private static string operationsControlTemplate;
+
+        /// <summary>Gets or sets the operations control template.</summary>
+        ///
+        /// <value>The operations control template.</value>
         public static string OperationsControlTemplate
         {
             get
@@ -84,6 +97,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Templates
             }
         }
 
+        /// <summary>Formats.</summary>
+        ///
+        /// <param name="template">The template.</param>
+        /// <param name="args">    A variable-length parameters list containing arguments.</param>
+        ///
+        /// <returns>The formatted value.</returns>
         public static string Format(string template, params object[] args)
         {
             for (int i = 0; i < args.Length; i++)

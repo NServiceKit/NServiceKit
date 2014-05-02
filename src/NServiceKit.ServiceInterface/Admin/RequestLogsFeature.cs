@@ -7,6 +7,7 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceInterface.Admin
 {
+    /// <summary>A request logs feature.</summary>
     public class RequestLogsFeature : IPlugin
     {
         /// <summary>
@@ -60,6 +61,9 @@ namespace NServiceKit.ServiceInterface.Admin
         /// </summary>
         public Type[] HideRequestBodyForRequestDtoTypes { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Admin.RequestLogsFeature class.</summary>
+        ///
+        /// <param name="capacity">Size of InMemoryRollingRequestLogger circular buffer.</param>
         public RequestLogsFeature(int? capacity = null)
         {
             this.AtRestPath = "/requestlogs";
@@ -73,6 +77,9 @@ namespace NServiceKit.ServiceInterface.Admin
             };
         }
 
+        /// <summary>Registers this object.</summary>
+        ///
+        /// <param name="appHost">The application host.</param>
         public void Register(IAppHost appHost)
         {
             appHost.RegisterService<RequestLogsService>(AtRestPath);

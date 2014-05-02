@@ -16,8 +16,14 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Authentication.OAuth2
 {
+    /// <summary>An authentication 2 provider.</summary>
     public abstract class OAuth2Provider : AuthProvider
     {
+        /// <summary>Initializes a new instance of the NServiceKit.Authentication.OAuth2.OAuth2Provider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
+        /// <param name="realm">      The realm.</param>
+        /// <param name="provider">   The provider.</param>
         protected OAuth2Provider(IResourceManager appSettings, string realm, string provider)
             : base(appSettings, realm, provider)
         {
@@ -39,22 +45,53 @@ namespace NServiceKit.Authentication.OAuth2
                 ?? FallbackConfig(appSettings.GetString("oauth.UserProfileUrl"));
         }
 
+        /// <summary>Gets or sets URL of the access token.</summary>
+        ///
+        /// <value>The access token URL.</value>
         public string AccessTokenUrl { get; set; }
 
+        /// <summary>Gets or sets the authentication HTTP gateway.</summary>
+        ///
+        /// <value>The authentication HTTP gateway.</value>
         public IAuthHttpGateway AuthHttpGateway { get; set; }
 
+        /// <summary>Gets or sets URL of the authorize.</summary>
+        ///
+        /// <value>The authorize URL.</value>
         public string AuthorizeUrl { get; set; }
 
+        /// <summary>Gets or sets the consumer key.</summary>
+        ///
+        /// <value>The consumer key.</value>
         public string ConsumerKey { get; set; }
 
+        /// <summary>Gets or sets the consumer secret.</summary>
+        ///
+        /// <value>The consumer secret.</value>
         public string ConsumerSecret { get; set; }
 
+        /// <summary>Gets or sets URL of the request token.</summary>
+        ///
+        /// <value>The request token URL.</value>
         public string RequestTokenUrl { get; set; }
 
+        /// <summary>Gets or sets URL of the user profile.</summary>
+        ///
+        /// <value>The user profile URL.</value>
         public string UserProfileUrl { get; set; }
 
+        /// <summary>Gets or sets the scopes.</summary>
+        ///
+        /// <value>The scopes.</value>
         protected string[] Scopes { get; set; }
 
+        /// <summary>The entry point for all AuthProvider providers. Runs inside the AuthService so exceptions are treated normally. Overridable so you can provide your own Auth implementation.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="request">    The request.</param>
+        ///
+        /// <returns>An object.</returns>
         public override object Authenticate(IServiceBase authService, IAuthSession session, Auth request)
         {
             var tokens = this.Init(authService, ref session, request);
@@ -123,6 +160,13 @@ namespace NServiceKit.Authentication.OAuth2
             return authService.Redirect(session.ReferrerUrl.AddHashParam("f", "RequestTokenFailed"));
         }
 
+        /// <summary>Determine if the current session is already authenticated with this AuthProvider.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="tokens"> The tokens.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>true if authorized, false if not.</returns>
         public override bool IsAuthorized(IAuthSession session, IOAuthTokens tokens, Auth request = null)
         {
             if (request != null)
@@ -136,6 +180,10 @@ namespace NServiceKit.Authentication.OAuth2
             return tokens != null && !string.IsNullOrEmpty(tokens.UserId);
         }
 
+        /// <summary>Loads user o authentication provider.</summary>
+        ///
+        /// <param name="authSession">The authentication session.</param>
+        /// <param name="tokens">     The tokens.</param>
         public void LoadUserOAuthProvider(IAuthSession authSession, IOAuthTokens tokens)
         {
             var userSession = authSession as AuthUserSession;
@@ -152,8 +200,18 @@ namespace NServiceKit.Authentication.OAuth2
             userSession.Email = tokens.Email ?? userSession.PrimaryEmail ?? userSession.Email;
         }
 
+        /// <summary>Creates authentication information.</summary>
+        ///
+        /// <param name="accessToken">The access token.</param>
+        ///
+        /// <returns>The new authentication information.</returns>
         protected abstract Dictionary<string, string> CreateAuthInfo(string accessToken);
 
+        /// <summary>Loads user authentication information.</summary>
+        ///
+        /// <param name="userSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         protected override void LoadUserAuthInfo(AuthUserSession userSession, IOAuthTokens tokens, Dictionary<string, string> authInfo)
         {
             try
@@ -174,6 +232,13 @@ namespace NServiceKit.Authentication.OAuth2
             }
         }
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <param name="authService">The authentication service.</param>
+        /// <param name="session">    The session.</param>
+        /// <param name="request">    The request.</param>
+        ///
+        /// <returns>The IOAuthTokens.</returns>
         protected IOAuthTokens Init(IServiceBase authService, ref IAuthSession session, Auth request)
         {
             var requestUri = authService.RequestContext.AbsoluteUri;

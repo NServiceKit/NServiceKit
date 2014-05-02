@@ -8,6 +8,7 @@ using NServiceKit.DesignPatterns.Serialization;
 namespace NServiceKit.ServiceModel.Serialization
 {
 
+    /// <summary>A data contract deserializer.</summary>
     public class DataContractDeserializer : IStringDeserializer
     {
 
@@ -18,6 +19,7 @@ namespace NServiceKit.ServiceModel.Serialization
         private readonly XmlDictionaryReaderQuotas quotas;
 #endif
 
+        /// <summary>The instance.</summary>
         public static DataContractDeserializer Instance 
             = new DataContractDeserializer(
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
@@ -25,6 +27,9 @@ namespace NServiceKit.ServiceModel.Serialization
 #endif
                 );
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceModel.Serialization.DataContractDeserializer class.</summary>
+        ///
+        /// <param name="quotas">Default MaxStringContentLength is 8k, and throws an exception when reached.</param>
         public DataContractDeserializer(
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
             XmlDictionaryReaderQuotas quotas=null
@@ -36,6 +41,14 @@ namespace NServiceKit.ServiceModel.Serialization
 #endif
         }
 
+        /// <summary>Parses.</summary>
+        ///
+        /// <exception cref="SerializationException">Thrown when a Serialization error condition occurs.</exception>
+        ///
+        /// <param name="xml"> The XML.</param>
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>An object.</returns>
         public object Parse(string xml, Type type)
         {
             try
@@ -62,12 +75,24 @@ namespace NServiceKit.ServiceModel.Serialization
             }
         }
 
+        /// <summary>Parses.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="xml">The XML.</param>
+        ///
+        /// <returns>A T.</returns>
         public T Parse<T>(string xml)
         {
             var type = typeof(T);
             return (T)Parse(xml, type);
         }
 
+        /// <summary>Deserialize from stream.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="stream">The stream.</param>
+        ///
+        /// <returns>A T.</returns>
         public T DeserializeFromStream<T>(Stream stream)
         {
             var serializer = new System.Runtime.Serialization.DataContractSerializer(typeof(T));

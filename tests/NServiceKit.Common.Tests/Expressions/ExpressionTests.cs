@@ -6,15 +6,21 @@ using System.Diagnostics;
 
 namespace NServiceKit.Common.Tests.Expressions
 {
+    /// <summary>An expression tests.</summary>
 	[TestFixture]
 	public class ExpressionTests
 	{
-
+        /// <summary>Adds a method.</summary>
+        ///
+        /// <param name="a">The int to process.</param>
+        ///
+        /// <returns>An int.</returns>
 		public int AddMethod(int a)
 		{
 			return a + 4;
 		}
 
+        /// <summary>Simple function and equivalent expression tests.</summary>
 		[Test]
 		public void Simple_func_and_equivalent_expression_tests()
 		{
@@ -37,6 +43,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Assert.That(addMethodCall.Method.Name, Is.EqualTo("AddMethod"));
 		}
 
+        /// <summary>Simple function timing tests.</summary>
 		[Test]
 		public void Simple_func_timing_tests()
 		{
@@ -50,6 +57,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Console.WriteLine("Delegate took: {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
+        /// <summary>Simple expression timing tests.</summary>
 		[Test]
 		public void Simple_expression_timing_tests()
 		{
@@ -65,12 +73,17 @@ namespace NServiceKit.Common.Tests.Expressions
 			Console.WriteLine("Delegate took: {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
-
+        /// <summary>Static add.</summary>
+        ///
+        /// <param name="a">The int to process.</param>
+        ///
+        /// <returns>An int.</returns>
 		public static int StaticAdd(int a)
 		{
 			return a + 4;
 		}
 
+        /// <summary>Method call expression to call a static method.</summary>
 		[Test]
 		public void MethodCallExpression_to_call_a_static_method()
 		{
@@ -82,6 +95,7 @@ namespace NServiceKit.Common.Tests.Expressions
 			Assert.That(addMethodCall.Method.Name, Is.EqualTo("StaticAdd"));
 		}
 
+        /// <summary>Dynamic method call expression to call a static method.</summary>
 		[Test]
 		public void Dynamic_MethodCallExpression_to_call_a_static_method()
 		{

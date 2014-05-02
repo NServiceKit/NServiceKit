@@ -12,6 +12,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A CSV content type filter tests.</summary>
 	[TestFixture]
 	public class CsvContentTypeFilterTests
 	{
@@ -20,6 +21,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -28,12 +30,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
 			appHost.Dispose();
 		}
 
+        /// <summary>Executes for 30secs operation.</summary>
 		[Test]
 		[Explicit("Helps debugging when you need to find out WTF is going on")]
 		public void Run_for_30secs()
@@ -46,6 +50,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.Fail(ex.Message);
 		}
 
+        /// <summary>Can serialize movies dto.</summary>
 		[Test]
 		public void Can_Serialize_Movies_Dto()
 		{
@@ -54,6 +59,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(csvRows.Length, Is.EqualTo(HeaderRowCount + ResetMoviesService.Top5Movies.Count));
 		}
 
+        /// <summary>Can serialize movie response dto.</summary>
 		[Test]
 		public void Can_Serialize_MovieResponse_Dto()
 		{
@@ -63,6 +69,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(csvRows.Length, Is.EqualTo(HeaderRowCount + 1));
 		}
 
+        /// <summary>Can serialize movies response dto.</summary>
 		[Test]
 		public void Can_Serialize_MoviesResponse_Dto()
 		{
@@ -72,6 +79,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(csvRows.Length, Is.EqualTo(HeaderRowCount + ResetMoviesService.Top5Movies.Count));
 		}
 
+        /// <summary>Can download movies in CSV.</summary>
 		[Test][Ignore("Fails because CSV Deserializer is not implemented")]
 		public void Can_download_movies_in_Csv()
 		{
@@ -91,6 +99,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response, Is.Not.Null, "No response received");
 		}
 
+        /// <summary>Can download CSV movies using CSV syncreply endpoint.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_syncreply_endpoint()
 		{
@@ -108,6 +117,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			//Console.WriteLine(csvRows.Join("\n"));
 		}
 
+        /// <summary>Can download CSV movies using CSV accept and rest path.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_Accept_and_RestPath()
 		{
@@ -124,6 +134,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			//Console.WriteLine(csvRows.Join("\n"));
 		}
 
+        /// <summary>Can download CSV hello using CSV syncreply endpoint.</summary>
 		[Test]
 		public void Can_download_CSV_Hello_using_csv_syncreply_endpoint()
 		{
@@ -139,6 +150,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Console.WriteLine(csv);
 		}
 
+        /// <summary>Can download CSV hello using CSV accept and rest path.</summary>
 		[Test]
 		public void Can_download_CSV_Hello_using_csv_Accept_and_RestPath()
 		{
@@ -155,6 +167,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Console.WriteLine(csv);
 		}
 
+        /// <summary>Can download CSV movies using CSV synchronise reply path.</summary>
 		[Test]
 		public void Can_download_CSV_movies_using_csv_SyncReply_Path()
 		{

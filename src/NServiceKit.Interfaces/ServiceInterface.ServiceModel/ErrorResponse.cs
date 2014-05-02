@@ -10,6 +10,9 @@ namespace NServiceKit.ServiceInterface.ServiceModel
     [DataContract]
     public class ErrorResponse : IHasResponseStatus
     {
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
         [DataMember(Order = 1)]
         public ResponseStatus ResponseStatus { get; set; }
     }

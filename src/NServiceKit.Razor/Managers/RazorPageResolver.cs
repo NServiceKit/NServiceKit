@@ -14,6 +14,16 @@ using NServiceKit.WebHost.Endpoints.Support;
 
 namespace NServiceKit.Razor.Managers
 {
+    /// <summary>Renders the partial delegate.</summary>
+    ///
+    /// <param name="pageName">  Name of the page.</param>
+    /// <param name="model">     The model.</param>
+    /// <param name="renderHtml">true to render HTML.</param>
+    /// <param name="writer">    The writer.</param>
+    /// <param name="htmlHelper">The HTML helper.</param>
+    /// <param name="httpReq">   The HTTP request.</param>
+    ///
+    /// <returns>A string.</returns>
     public delegate string RenderPartialDelegate(string pageName, object model, bool renderHtml, StreamWriter writer = null, HtmlHelper htmlHelper = null, IHttpRequest httpReq = null);
 
     /// <summary>
@@ -21,18 +31,31 @@ namespace NServiceKit.Razor.Managers
     /// </summary>
     public class RazorPageResolver : EndpointHandlerBase, IViewEngine
     {
+        /// <summary>The view key.</summary>
         public const string ViewKey = "View";
+        /// <summary>The layout key.</summary>
         public const string LayoutKey = "Template";
+        /// <summary>The query string format key.</summary>
         public const string QueryStringFormatKey = "format";
+        /// <summary>The no template format value.</summary>
         public const string NoTemplateFormatValue = "bare";
+        /// <summary>The default layout name.</summary>
         public const string DefaultLayoutName = "_Layout";
 
         private static readonly UTF8Encoding UTF8EncodingWithoutBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier:false);
 
         private readonly IRazorConfig config;
         private readonly RazorViewManager viewManager;
+
+        /// <summary>Gets or sets the render partial function.</summary>
+        ///
+        /// <value>The render partial function.</value>
         public RenderPartialDelegate RenderPartialFn { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Razor.Managers.RazorPageResolver class.</summary>
+        ///
+        /// <param name="config">     The configuration.</param>
+        /// <param name="viewManager">Manager for view.</param>
         public RazorPageResolver(IRazorConfig config, RazorViewManager viewManager)
         {
             this.RequestName = "Razor_PageResolver";
@@ -41,6 +64,13 @@ namespace NServiceKit.Razor.Managers
             this.viewManager = viewManager;
         }
 
+        /// <summary>Handler, called when the catch all.</summary>
+        ///
+        /// <param name="httpmethod">The httpmethod.</param>
+        /// <param name="pathInfo">  Information describing the path.</param>
+        /// <param name="filepath">  The filepath.</param>
+        ///
+        /// <returns>An IHttpHandler.</returns>
         public IHttpHandler CatchAllHandler(string httpmethod, string pathInfo, string filepath)
         {
             //does not have a .cshtml extension
@@ -126,6 +156,14 @@ namespace NServiceKit.Razor.Managers
             return razorPage;
         }
 
+        /// <summary>Resolve and execute razor page.</summary>
+        ///
+        /// <param name="httpReq">  The HTTP request.</param>
+        /// <param name="httpRes">  The HTTP resource.</param>
+        /// <param name="model">    The model.</param>
+        /// <param name="razorPage">The razor page.</param>
+        ///
+        /// <returns>An IRazorView.</returns>
         public IRazorView ResolveAndExecuteRazorPage(IHttpRequest httpReq, IHttpResponse httpRes, object model, RazorPage razorPage=null)
         {
             razorPage = razorPage ?? FindRazorPage(httpReq, model);
@@ -226,21 +264,51 @@ namespace NServiceKit.Razor.Managers
             hasModel.SetModel(model);
         }
 
+        /// <summary>Creates a request.</summary>
+        ///
+        /// <param name="request">      The request.</param>
+        /// <param name="operationName">Name of the operation.</param>
+        ///
+        /// <returns>The new request.</returns>
         public override object CreateRequest(IHttpRequest request, string operationName)
         {
             return null;
         }
 
+        /// <summary>Gets a response.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        /// <param name="httpRes">The HTTP resource.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>The response.</returns>
         public override object GetResponse(IHttpRequest httpReq, IHttpResponse httpRes, object request)
         {
             return null;
         }
 
+        /// <summary>Query if 'viewName' has view.</summary>
+        ///
+        /// <exception cref="NotImplementedException">Thrown when the requested operation is unimplemented.</exception>
+        ///
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        ///
+        /// <returns>true if view, false if not.</returns>
         public bool HasView(string viewName, IHttpRequest httpReq = null)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>Renders the partial.</summary>
+        ///
+        /// <param name="pageName">  Name of the page.</param>
+        /// <param name="model">     The model.</param>
+        /// <param name="renderHtml">true to render HTML.</param>
+        /// <param name="writer">    The writer.</param>
+        /// <param name="htmlHelper">The HTML helper.</param>
+        ///
+        /// <returns>A string.</returns>
         public virtual string RenderPartial(string pageName, object model, bool renderHtml, StreamWriter writer, HtmlHelper htmlHelper)
         {
             var httpReq = htmlHelper.HttpRequest;

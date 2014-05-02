@@ -10,8 +10,13 @@ using Windows.System.Threading;
 
 namespace NServiceKit.Common
 {
+    /// <summary>An action execute extensions.</summary>
     public static class ActionExecExtensions
     {
+        /// <summary>An ICollection&lt;Action&gt; extension method that executes all and wait operation.</summary>
+        ///
+        /// <param name="actions">The actions to act on.</param>
+        /// <param name="timeout">The timeout.</param>
         public static void ExecAllAndWait(this ICollection<Action> actions, TimeSpan timeout)
         {
             var waitHandles = new WaitHandle[actions.Count];
@@ -24,6 +29,11 @@ namespace NServiceKit.Common
             WaitAll(waitHandles, timeout);
         }
 
+        /// <summary>An IEnumerable&lt;Action&gt; extension method that executes the asynchronous operation.</summary>
+        ///
+        /// <param name="actions">The actions to act on.</param>
+        ///
+        /// <returns>A List&lt;WaitHandle&gt;</returns>
         public static List<WaitHandle> ExecAsync(this IEnumerable<Action> actions)
         {
             var waitHandles = new List<WaitHandle>();
@@ -41,33 +51,72 @@ namespace NServiceKit.Common
             return waitHandles;
         }
 
+        /// <summary>Wait all.</summary>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeoutMs">  The timeout in milliseconds.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(this List<WaitHandle> waitHandles, int timeoutMs)
         {
             return WaitAll(waitHandles.ToArray(), timeoutMs);
         }
 
+        /// <summary>Wait all.</summary>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeoutMs">  The timeout in milliseconds.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(this ICollection<WaitHandle> waitHandles, int timeoutMs)
         {
             return WaitAll(waitHandles.ToArray(), timeoutMs);
         }
 
+        /// <summary>Wait all.</summary>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeout">    The timeout.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(this ICollection<WaitHandle> waitHandles, TimeSpan timeout)
         {
             return WaitAll(waitHandles.ToArray(), (int)timeout.TotalMilliseconds);
         }
 
 #if !SILVERLIGHT && !MONOTOUCH && !XBOX
+
+        /// <summary>Wait all.</summary>
+        ///
+        /// <param name="asyncResults">The asyncResults to act on.</param>
+        /// <param name="timeout">     The timeout.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(this List<IAsyncResult> asyncResults, TimeSpan timeout)
         {
             var waitHandles = asyncResults.ConvertAll(x => x.AsyncWaitHandle);
             return WaitAll(waitHandles.ToArray(), (int)timeout.TotalMilliseconds);
         }
-        
+
+        /// <summary>Wait all.</summary>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeout">    The timeout.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(WaitHandle[] waitHandles, TimeSpan timeout)
         {
             return WaitAll(waitHandles, (int)timeout.TotalMilliseconds);
         }
 
+        /// <summary>Wait all.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="waitHandles">The wait handles.</param>
+        /// <param name="timeOutMs">  The time out in milliseconds.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool WaitAll(WaitHandle[] waitHandles, int timeOutMs)
         {
             // throws an exception if there are no wait handles

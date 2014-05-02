@@ -11,10 +11,14 @@ using NServiceKit.Text;
 
 namespace NServiceKit.ServiceInterface.Validation
 {
+    /// <summary>A validation feature.</summary>
     public class ValidationFeature : IPlugin
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(ValidationFeature));
 
+        /// <summary>Gets or sets the error response filter.</summary>
+        ///
+        /// <value>The error response filter.</value>
         public Func<ValidationResult, object, object> ErrorResponseFilter { get; set; }
 
         /// <summary>
@@ -48,6 +52,7 @@ namespace NServiceKit.ServiceInterface.Validation
         }
     }
 
+    /// <summary>A validation extensions.</summary>
     public static class ValidationExtensions
     {
         /// <summary>
@@ -61,6 +66,11 @@ namespace NServiceKit.ServiceInterface.Validation
             RegisterValidators(container, ReuseScope.None, assemblies);
         }
 
+        /// <summary>Auto-scans the provided assemblies for a <see cref="IValidator"/>and registers it in the provided IoC container.</summary>
+        ///
+        /// <param name="container"> The IoC container.</param>
+        /// <param name="scope">     The scope.</param>
+        /// <param name="assemblies">The assemblies to scan for a validator.</param>
         public static void RegisterValidators(this Container container, ReuseScope scope, params Assembly[] assemblies)
         {
             foreach (var assembly in assemblies)
@@ -73,6 +83,11 @@ namespace NServiceKit.ServiceInterface.Validation
             }
         }
 
+        /// <summary>A Container extension method that registers the validator.</summary>
+        ///
+        /// <param name="container">The IoC container.</param>
+        /// <param name="validator">The validator.</param>
+        /// <param name="scope">    The scope.</param>
         public static void RegisterValidator(this Container container, Type validator, ReuseScope scope=ReuseScope.None)
         {
             var baseType = validator.BaseType;

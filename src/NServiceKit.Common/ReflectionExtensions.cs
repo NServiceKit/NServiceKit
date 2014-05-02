@@ -6,28 +6,69 @@ using NServiceKit.Common.Utils;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A reflection extensions.</summary>
     public static class ReflectionExtensions
     {
+        /// <summary>To extension method that populate with.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">  to to act on.</param>
+        /// <param name="from">from to act on.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateWith<To, From>(this To to, From from)
         {
             return ReflectionUtils.PopulateObject(to, from);
         }
 
+        /// <summary>To extension method that populate with non default values.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">  to to act on.</param>
+        /// <param name="from">from to act on.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateWithNonDefaultValues<To, From>(this To to, From from)
         {
             return ReflectionUtils.PopulateWithNonDefaultValues(to, from);
         }
 
+        /// <summary>To extension method that populate from properties with attribute.</summary>
+        ///
+        /// <typeparam name="To">   Type of to.</typeparam>
+        /// <typeparam name="From"> Type of from.</typeparam>
+        /// <typeparam name="TAttr">Type of the attribute.</typeparam>
+        /// <param name="to">  to to act on.</param>
+        /// <param name="from">from to act on.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateFromPropertiesWithAttribute<To, From, TAttr>(this To to, From from)
         {
             return ReflectionUtils.PopulateFromPropertiesWithAttribute(to, from, typeof(TAttr));
         }
 
+        /// <summary>To extension method that populate from properties with attribute.</summary>
+        ///
+        /// <typeparam name="To">  Type of to.</typeparam>
+        /// <typeparam name="From">Type of from.</typeparam>
+        /// <param name="to">      to to act on.</param>
+        /// <param name="from">    from to act on.</param>
+        /// <param name="attrType">Type of the attribute.</param>
+        ///
+        /// <returns>To.</returns>
         public static To PopulateFromPropertiesWithAttribute<To, From>(this To to, From from, Type attrType)
         {
             return ReflectionUtils.PopulateFromPropertiesWithAttribute(to, from, attrType);
         }
 
+        /// <summary>An object extension method that translate to.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="from">from to act on.</param>
+        ///
+        /// <returns>A T.</returns>
         public static T TranslateTo<T>(this object from)
             where T : new()
         {
@@ -35,6 +76,11 @@ namespace NServiceKit.Common
             return to.PopulateWith(from);
         }
 
+        /// <summary>An Assembly extension method that query if 'assembly' is debug build.</summary>
+        ///
+        /// <param name="assembly">The assembly to act on.</param>
+        ///
+        /// <returns>true if debug build, false if not.</returns>
         public static bool IsDebugBuild(this Assembly assembly)
         {
 #if NETFX_CORE

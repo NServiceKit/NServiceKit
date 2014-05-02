@@ -10,22 +10,35 @@ using NServiceKit.WebHost.Endpoints.Support.Metadata.Controls;
 
 namespace NServiceKit.WebHost.Endpoints.Metadata
 {
+    /// <summary>A custom metadata handler.</summary>
 	public class CustomMetadataHandler
 		: BaseMetadataHandler
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(CustomMetadataHandler));
 
+        /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Metadata.CustomMetadataHandler class.</summary>
+        ///
+        /// <param name="contentType">Type of the content.</param>
+        /// <param name="format">     The format.</param>
 		public CustomMetadataHandler(string contentType, string format)
 		{
 			base.ContentType = contentType;
 			base.ContentFormat = format;
 		}
 
+        /// <summary>Gets the format to use.</summary>
+        ///
+        /// <value>The format.</value>
         public override Format Format
 		{
             get { return base.ContentFormat.ToFormat(); }
 		}
 
+        /// <summary>Creates a message.</summary>
+        ///
+        /// <param name="dtoType">Type of the dto.</param>
+        ///
+        /// <returns>The new message.</returns>
 		protected override string CreateMessage(Type dtoType)
 		{
 			try
@@ -51,6 +64,11 @@ namespace NServiceKit.WebHost.Endpoints.Metadata
 			}
 		}
 
+        /// <summary>Renders the operations.</summary>
+        ///
+        /// <param name="writer">  The writer.</param>
+        /// <param name="httpReq"> The HTTP request.</param>
+        /// <param name="metadata">The metadata.</param>
         protected override void RenderOperations(HtmlTextWriter writer, IHttpRequest httpReq, ServiceMetadata metadata)
 		{
 			var defaultPage = new OperationsControl

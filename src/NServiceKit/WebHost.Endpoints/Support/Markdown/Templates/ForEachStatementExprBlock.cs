@@ -80,6 +80,7 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
         }
 
         private Func<object, object> getMemberFn;
+        /// <summary>Called when [first run].</summary>
         protected override void OnFirstRun()
         {
             base.OnFirstRun(false);
@@ -99,6 +100,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown.Templates
             }
         }
 
+        /// <summary>Writes the specified instance.</summary>
+        ///
+        /// <param name="instance">  The instance.</param>
+        /// <param name="textWriter">The text writer.</param>
+        /// <param name="scopeArgs"> The scope arguments.</param>
         public override void Write(MarkdownViewBase instance, TextWriter textWriter, Dictionary<string, object> scopeArgs)
         {
             var model = GetModel(scopeArgs);

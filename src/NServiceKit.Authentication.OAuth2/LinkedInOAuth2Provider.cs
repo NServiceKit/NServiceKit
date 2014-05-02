@@ -13,10 +13,15 @@ namespace NServiceKit.Authentication.OAuth2
     /// </summary>
     public class LinkedInOAuth2Provider : OAuth2Provider
     {
+        /// <summary>The name.</summary>
         public const string Name = "LinkedIn";
 
+        /// <summary>The realm.</summary>
         public const string Realm = "https://www.linkedin.com/uas/oauth2/authorization";
 
+        /// <summary>Initializes a new instance of the NServiceKit.Authentication.OAuth2.LinkedInOAuth2Provider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
         public LinkedInOAuth2Provider(IResourceManager appSettings)
             : base(appSettings, Realm, Name)
         {
@@ -37,6 +42,11 @@ namespace NServiceKit.Authentication.OAuth2
             }
         }
 
+        /// <summary>Creates authentication information.</summary>
+        ///
+        /// <param name="accessToken">The access token.</param>
+        ///
+        /// <returns>The new authentication information.</returns>
         protected override Dictionary<string, string> CreateAuthInfo(string accessToken)
         {
             var url = this.UserProfileUrl.AddQueryParam("oauth2_access_token", accessToken);

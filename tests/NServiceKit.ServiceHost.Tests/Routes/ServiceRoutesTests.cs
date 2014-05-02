@@ -6,23 +6,27 @@ using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.ServiceHost.Tests.Routes
 {
+    /// <summary>A service routes tests.</summary>
     [TestFixture]
     public class ServiceRoutesTests
     {
         BasicAppHost loadAppHost;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
             loadAppHost = new BasicAppHost().Init();
         }
 
+        /// <summary>Tests fixture tear down.</summary>
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
             loadAppHost.Dispose();
         }
 
+        /// <summary>Can register new API routes from assembly.</summary>
         [Test]
         public void Can_Register_NewApi_Routes_From_Assembly()
         {
@@ -56,6 +60,7 @@ namespace NServiceKit.ServiceHost.Tests.Routes
             Assert.That(restWithAllMethodsRoute2.AllowedVerbs.Contains("PATCH"));
         }
 
+        /// <summary>Can register new API routes with identifier and any fallback from assembly.</summary>
         [Test]
         public void Can_Register_NewApi_Routes_With_Id_and_Any_Fallback_From_Assembly()
         {
@@ -77,6 +82,7 @@ namespace NServiceKit.ServiceHost.Tests.Routes
             Assert.That(route.AllowedVerbs, Is.Null);
         }
 
+        /// <summary>Can register new API routes with field identifier and any fallback from assembly.</summary>
 		[Test]
 		public void Can_Register_NewApi_Routes_With_Field_Id_and_Any_Fallback_From_Assembly()
 		{
@@ -98,6 +104,7 @@ namespace NServiceKit.ServiceHost.Tests.Routes
 			Assert.That(route.AllowedVerbs, Is.Null);
 		}
 
+        /// <summary>Can register old API routes from assembly.</summary>
         [Test]
         public void Can_Register_OldApi_Routes_From_Assembly()
         {
@@ -118,6 +125,7 @@ namespace NServiceKit.ServiceHost.Tests.Routes
             Assert.That(restWithAllMethodsRoute.AllowedVerbs.Contains("PATCH"));
         }
 
+        /// <summary>Can register old API routes with partially implemented rest verbs.</summary>
         [Test]
         public void Can_Register_OldApi_Routes_With_Partially_Implemented_REST_Verbs()
         {
@@ -138,6 +146,7 @@ namespace NServiceKit.ServiceHost.Tests.Routes
             Assert.That(restWithAFewMethodsRoute.AllowedVerbs.Contains("PATCH"), Is.False);
         }
 
+        /// <summary>Can register routes using add extension.</summary>
         [Test]
         public void Can_Register_Routes_Using_Add_Extension()
         {
@@ -148,9 +157,17 @@ namespace NServiceKit.ServiceHost.Tests.Routes
         }
     }
 
+    /// <summary>A customer.</summary>
     public class Customer
     {
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the identifier of the order.</summary>
+        ///
+        /// <value>The identifier of the order.</value>
         public int OrderId { get; set; }
     }
 }

@@ -2,6 +2,7 @@ using System;
 
 namespace NServiceKit.Redis
 {
+    /// <summary>Interface for redis subscription.</summary>
 	public interface IRedisSubscription 
 		: IDisposable
 	{
@@ -37,8 +38,17 @@ namespace NServiceKit.Redis
 		/// <param name="patterns"></param>
 		void SubscribeToChannelsMatching(params string[] patterns);
 		
+        /// <summary>Un subscribe from all channels.</summary>
 		void UnSubscribeFromAllChannels();
+
+        /// <summary>Un subscribe from channels.</summary>
+        ///
+        /// <param name="channels">.</param>
 		void UnSubscribeFromChannels(params string[] channels);
+
+        /// <summary>Un subscribe from channels matching.</summary>
+        ///
+        /// <param name="patterns">.</param>
 		void UnSubscribeFromChannelsMatching(params string[] patterns);
 	}
 }

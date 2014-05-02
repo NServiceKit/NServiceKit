@@ -5,8 +5,15 @@ using System.Reflection;
 
 namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 {
+    /// <summary>A data binder.</summary>
 	public static class DataBinder
 	{
+        /// <summary>Compile to string.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        /// <param name="expr">The expression.</param>
+        ///
+        /// <returns>A Func&lt;object,string&gt;</returns>
 		public static Func<object, string> CompileToString(Type type, string expr)
 		{
 			var param = Expression.Parameter(typeof(object), "model");
@@ -51,6 +58,11 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return type;
 		}
 
+        /// <summary>Compile static access to string.</summary>
+        ///
+        /// <param name="expr">The expression.</param>
+        ///
+        /// <returns>A Func&lt;string&gt;</returns>
 		public static Func<string> CompileStaticAccessToString(string expr)
 		{
 			if (string.IsNullOrEmpty(expr)) return null;
@@ -74,6 +86,12 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return fn;
 		}
 
+        /// <summary>Compiles.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        /// <param name="expr">The expression.</param>
+        ///
+        /// <returns>A Func&lt;object,object&gt;</returns>
 		public static Func<object, object> Compile(Type type, string expr)
 		{
 			var param = Expression.Parameter(typeof(object), "model");
@@ -90,6 +108,13 @@ namespace NServiceKit.WebHost.Endpoints.Support.Markdown
 			return Expression.Lambda<Func<object, object>>(body, param).Compile();
 		}
 
+        /// <summary>Compiles.</summary>
+        ///
+        /// <typeparam name="TModel">Type of the model.</typeparam>
+        /// <typeparam name="TProp"> Type of the property.</typeparam>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A Func&lt;TModel,TProp&gt;</returns>
 		public static Func<TModel, TProp> Compile<TModel, TProp>(string expression)
 		{
 			var propNames = expression.Split('.');

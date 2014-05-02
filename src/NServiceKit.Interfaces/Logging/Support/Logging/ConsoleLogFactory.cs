@@ -10,11 +10,21 @@ namespace NServiceKit.Logging.Support.Logging
     /// </summary>
 	public class ConsoleLogFactory : ILogFactory
     {
+        /// <summary>Gets the logger.</summary>
+        ///
+        /// <param name="type">The type.</param>
+        ///
+        /// <returns>The logger.</returns>
         public ILog GetLogger(Type type)
         {
             return new ConsoleLogger(type);
         }
 
+        /// <summary>Gets the logger.</summary>
+        ///
+        /// <param name="typeName">Name of the type.</param>
+        ///
+        /// <returns>The logger.</returns>
         public ILog GetLogger(string typeName)
         {
 			return new ConsoleLogger(typeName);

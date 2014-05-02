@@ -24,27 +24,66 @@ namespace NServiceKit.FluentValidation.TestHelper
     using System.Linq;
     using Validators;
 
+    /// <summary>A validation test extension.</summary>
     public static class ValidationTestExtension {
+
+        /// <summary>An IValidator&lt;T&gt; extension method that should have validation error for.</summary>
+        ///
+        /// <typeparam name="T">     Generic type parameter.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="validator"> The validator to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="value">     The value.</param>
         public static void ShouldHaveValidationErrorFor<T, TValue>(this IValidator<T> validator,
                                                                    Expression<Func<T, TValue>> expression, TValue value) where T : class, new() {
             new ValidatorTester<T, TValue>(expression, validator, value).ValidateError(new T());
         }
 
+        /// <summary>An IValidator&lt;T&gt; extension method that should have validation error for.</summary>
+        ///
+        /// <typeparam name="T">     Generic type parameter.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="validator">   The validator to act on.</param>
+        /// <param name="expression">  The expression.</param>
+        /// <param name="objectToTest">The object to test.</param>
         public static void ShouldHaveValidationErrorFor<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest) where T : class {
             var value = expression.Compile()(objectToTest);
             new ValidatorTester<T, TValue>(expression, validator, value).ValidateError(objectToTest);
         }
 
+        /// <summary>An IValidator&lt;T&gt; extension method that should not have validation error for.</summary>
+        ///
+        /// <typeparam name="T">     Generic type parameter.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="validator"> The validator to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="value">     The value.</param>
         public static void ShouldNotHaveValidationErrorFor<T, TValue>(this IValidator<T> validator,
                                                                       Expression<Func<T, TValue>> expression, TValue value) where T : class, new() {
             new ValidatorTester<T, TValue>(expression, validator, value).ValidateNoError(new T());
         }
 
+        /// <summary>An IValidator&lt;T&gt; extension method that should not have validation error for.</summary>
+        ///
+        /// <typeparam name="T">     Generic type parameter.</typeparam>
+        /// <typeparam name="TValue">Type of the value.</typeparam>
+        /// <param name="validator">   The validator to act on.</param>
+        /// <param name="expression">  The expression.</param>
+        /// <param name="objectToTest">The object to test.</param>
         public static void ShouldNotHaveValidationErrorFor<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest) where T : class {
             var value = expression.Compile()(objectToTest);
             new ValidatorTester<T, TValue>(expression, validator, value).ValidateNoError(objectToTest);
         }
 
+        /// <summary>An IValidator&lt;T&gt; extension method that should have child validator.</summary>
+        ///
+        /// <exception cref="ValidationTestException">Thrown when a Validation Test error condition occurs.</exception>
+        ///
+        /// <typeparam name="T">        Generic type parameter.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="validator">         The validator to act on.</param>
+        /// <param name="expression">        The expression.</param>
+        /// <param name="childValidatorType">Type of the child validator.</param>
         public static void ShouldHaveChildValidator<T, TProperty>(this IValidator<T> validator, Expression<Func<T, TProperty>> expression, Type childValidatorType) {
             var descriptor = validator.CreateDescriptor();
             var matchingValidators = descriptor.GetValidatorsForMember(expression.GetMember().Name);

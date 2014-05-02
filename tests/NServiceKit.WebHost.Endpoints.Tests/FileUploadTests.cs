@@ -13,12 +13,17 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Services;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A file upload tests.</summary>
 	[TestFixture]
 	public class FileUploadTests
 	{
+        /// <summary>The listening on.</summary>
 		public const string ListeningOn = "http://localhost:8082/";
 		ExampleAppHostHttpListener appHost;
 
+        /// <summary>Text fixture set up.</summary>
+        ///
+        /// <exception cref="Exception">Thrown when an exception error condition occurs.</exception>
 		[TestFixtureSetUp]
 		public void TextFixtureSetUp()
 		{
@@ -34,6 +39,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Executes for 30secs operation.</summary>
 		[Test]
 		[Explicit("Helps debugging when you need to find out WTF is going on")]
 		public void Run_for_30secs()
@@ -41,6 +47,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Thread.Sleep(30000);
 		}
 
+        /// <summary>Tests fixture tear down.</summary>
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
@@ -48,6 +55,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost = null;
 		}
 
+        /// <summary>Assert response.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="response">    The response.</param>
+        /// <param name="customAssert">The custom assert.</param>
 		public void AssertResponse<T>(HttpWebResponse response, Action<T> customAssert)
 		{
 			var contentType = response.ContentType;
@@ -84,6 +96,10 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			return result;
 		}
 
+        /// <summary>Assert response.</summary>
+        ///
+        /// <param name="response">   The response.</param>
+        /// <param name="contentType">Type of the content.</param>
 		public void AssertResponse(HttpWebResponse response, string contentType)
 		{
 			var statusCode = (int)response.StatusCode;
@@ -91,6 +107,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.ContentType.StartsWith(contentType));
 		}
 
+        /// <summary>Can post upload file.</summary>
 		[Test]
 		public void Can_POST_upload_file()
 		{
@@ -110,6 +127,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			});
 		}
 
+        /// <summary>Can post upload file using service client.</summary>
 		[Test]
 		public void Can_POST_upload_file_using_ServiceClient()
 		{
@@ -129,6 +147,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Contents, Is.EqualTo(expectedContents));
 		}
 
+        /// <summary>Can post upload file using service client with request.</summary>
         [Test]
         public void Can_POST_upload_file_using_ServiceClient_with_request()
         {
@@ -147,6 +166,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.CustomerId, Is.EqualTo(123));
         }
 
+        /// <summary>Can post upload file using service client with request containing UTF 8 characters.</summary>
         [Test]
         public void Can_POST_upload_file_using_ServiceClient_with_request_containing_utf8_chars()
         {
@@ -164,6 +184,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.CustomerId, Is.EqualTo(123));
         }
 
+        /// <summary>Can handle error on post upload file using service client.</summary>
 		[Test]
 		public void Can_handle_error_on_POST_upload_file_using_ServiceClient()
 		{
@@ -188,6 +209,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Can get upload file.</summary>
 		[Test]
 		public void Can_GET_upload_file()
 		{
@@ -202,6 +224,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(actualContents, Is.EqualTo(expectedContents));
 		}
 
+        /// <summary>Can post upload file and apply filter using service client.</summary>
         [Test]
         public void Can_POST_upload_file_and_apply_filter_using_ServiceClient()
         {
@@ -230,6 +253,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Can post upload stream using service client.</summary>
         [Test]
         public void Can_POST_upload_stream_using_ServiceClient()
         {

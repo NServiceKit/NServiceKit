@@ -24,6 +24,11 @@ namespace NServiceKit.Html.AntiXsrf
             _claimsIdentityConverter = claimsIdentityConverter;
         }
 
+        /// <summary>Extracts the claim UID described by identity.</summary>
+        ///
+        /// <param name="identity">The identity.</param>
+        ///
+        /// <returns>The extracted claim UID.</returns>
         public BinaryBlob ExtractClaimUid(IIdentity identity)
         {
             if (identity == null || !identity.IsAuthenticated || _config.SuppressIdentityHeuristicChecks) {

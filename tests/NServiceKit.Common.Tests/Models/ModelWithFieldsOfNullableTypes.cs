@@ -7,30 +7,67 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Common.Tests.Models
 {
+    /// <summary>A model with fields of nullable types.</summary>
 	public class ModelWithFieldsOfNullableTypes
 		: IHasIntId
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(ModelWithFieldsOfNullableTypes));
 
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The identifier.</value>
 		public int Id { get; set; }
+
+        /// <summary>Gets or sets the identifier.</summary>
+        ///
+        /// <value>The n identifier.</value>
 		public int? NId { get; set; }
 
+        /// <summary>Gets or sets the identifier of the long.</summary>
+        ///
+        /// <value>The identifier of the long.</value>
 		public long? NLongId { get; set; }
 
+        /// <summary>Gets or sets a unique identifier.</summary>
+        ///
+        /// <value>The identifier of the unique.</value>
 		public Guid? NGuid { get; set; }
 
+        /// <summary>Gets or sets the bool.</summary>
+        ///
+        /// <value>The n bool.</value>
 		public bool? NBool { get; set; }
 
+        /// <summary>Gets or sets the date time.</summary>
+        ///
+        /// <value>The date time.</value>
 		public DateTime? NDateTime { get; set; }
 
+        /// <summary>Gets or sets the float.</summary>
+        ///
+        /// <value>The n float.</value>
 		public float? NFloat { get; set; }
 
+        /// <summary>Gets or sets the double.</summary>
+        ///
+        /// <value>The n double.</value>
 		public double? NDouble { get; set; }
 
+        /// <summary>Gets or sets the decimal.</summary>
+        ///
+        /// <value>The n decimal.</value>
 		public decimal? NDecimal { get; set; }
 
+        /// <summary>Gets or sets the time span.</summary>
+        ///
+        /// <value>The n time span.</value>
 		public TimeSpan? NTimeSpan { get; set; }
 
+        /// <summary>Creates a new ModelWithFieldsOfNullableTypes.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The ModelWithFieldsOfNullableTypes.</returns>
 		public static ModelWithFieldsOfNullableTypes Create(int id)
 		{
 			var row = new ModelWithFieldsOfNullableTypes {
@@ -49,6 +86,11 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Creates a constant.</summary>
+        ///
+        /// <param name="id">The identifier.</param>
+        ///
+        /// <returns>The new constant.</returns>
 		public static ModelWithFieldsOfNullableTypes CreateConstant(int id)
 		{
 			var row = new ModelWithFieldsOfNullableTypes {
@@ -67,6 +109,10 @@ namespace NServiceKit.Common.Tests.Models
 			return row;
 		}
 
+        /// <summary>Assert is equal.</summary>
+        ///
+        /// <param name="actual">  The actual.</param>
+        /// <param name="expected">The expected.</param>
 		public static void AssertIsEqual(ModelWithFieldsOfNullableTypes actual, ModelWithFieldsOfNullableTypes expected)
 		{
 			Assert.That(actual.Id, Is.EqualTo(expected.Id));

@@ -2,6 +2,7 @@ using System;
 
 namespace NServiceKit.Messaging
 {
+    /// <summary>Interface for message queue client.</summary>
 	public interface IMessageQueueClient
 		: IMessageProducer
 	{

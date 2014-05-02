@@ -6,6 +6,7 @@ using NServiceKit.LogicFacade;
 
 namespace NServiceKit.Common.Support
 {
+    /// <summary>A logic facade base.</summary>
     public abstract class LogicFacadeBase : ILogicFacade
     {
         private readonly ILog log = LogManager.GetLogger(typeof(LogicFacadeBase));
@@ -78,6 +79,11 @@ namespace NServiceKit.Common.Support
             }
         }
 
+        /// <summary>Acquires the initialise context described by initOptions.</summary>
+        ///
+        /// <param name="initOptions">Options for controlling the initialise.</param>
+        ///
+        /// <returns>An IInitContext.</returns>
         public IInitContext AcquireInitContext(InitOptions initOptions)
         {
             if (this.contexts == null)
@@ -136,8 +142,13 @@ namespace NServiceKit.Common.Support
             }
         }
 
+        /// <summary>Initialises this object.</summary>
+        ///
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="action">The action.</param>
         protected abstract void Init<T>(ICommand<T> action);
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public virtual void Dispose() { }
     }
 }

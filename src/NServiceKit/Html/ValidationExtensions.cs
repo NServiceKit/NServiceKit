@@ -10,11 +10,15 @@ using System.Web;
 
 namespace NServiceKit.Html
 {
+    /// <summary>A validation extensions.</summary>
     public static class ValidationExtensions
     {
         private const string HiddenListItem = @"<li style=""display:none""></li>";
         private static string _resourceClassKey;
 
+        /// <summary>Gets or sets the resource class key.</summary>
+        ///
+        /// <value>The resource class key.</value>
         public static string ResourceClassKey
         {
             get { return _resourceClassKey ?? String.Empty; }
@@ -65,8 +69,12 @@ namespace NServiceKit.Html
             return String.Format(CultureInfo.CurrentCulture, GetInvalidPropertyValueResource(httpContext), attemptedValue);
         }
 
-        // Validate
-
+        /// <summary>Validate.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="modelName"> Name of the model.</param>
         public static void Validate(this HtmlHelper htmlHelper, string modelName)
         {
             if (modelName == null)
@@ -79,6 +87,12 @@ namespace NServiceKit.Html
                            modelName);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that validates for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
         public static void ValidateFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             ValidateHelper(htmlHelper,
@@ -98,33 +112,76 @@ namespace NServiceKit.Html
             ApplyFieldValidationMetadata(htmlHelper, modelMetadata, modelName);
         }
 
-        // ValidationMessage
-
+        /// <summary>ValidationMessage.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="modelName"> Name of the model.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName)
         {
             return ValidationMessage(htmlHelper, modelName, null /* validationMessage */, new RouteValueDictionary());
         }
 
+        /// <summary>A HtmlHelper extension method that validation message.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="modelName">     Name of the model.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName, object htmlAttributes)
         {
             return ValidationMessage(htmlHelper, modelName, null /* validationMessage */, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that validation message.</summary>
+        ///
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="modelName">        Name of the model.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName, string validationMessage)
         {
             return ValidationMessage(htmlHelper, modelName, validationMessage, new RouteValueDictionary());
         }
 
+        /// <summary>A HtmlHelper extension method that validation message.</summary>
+        ///
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="modelName">        Name of the model.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        /// <param name="htmlAttributes">   The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName, string validationMessage, object htmlAttributes)
         {
             return ValidationMessage(htmlHelper, modelName, validationMessage, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that validation message.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="modelName">     Name of the model.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName, IDictionary<string, object> htmlAttributes)
         {
             return ValidationMessage(htmlHelper, modelName, null /* validationMessage */, htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that validation message.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="modelName">        Name of the model.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        /// <param name="htmlAttributes">   The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessage(this HtmlHelper htmlHelper, string modelName, string validationMessage, IDictionary<string, object> htmlAttributes)
         {
             if (modelName == null)
@@ -139,21 +196,58 @@ namespace NServiceKit.Html
                                            htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that validation message for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessageFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             return ValidationMessageFor(htmlHelper, expression, null /* validationMessage */, new RouteValueDictionary());
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that validation message for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="expression">       The expression.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessageFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string validationMessage)
         {
             return ValidationMessageFor(htmlHelper, expression, validationMessage, new RouteValueDictionary());
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that validation message for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="expression">       The expression.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        /// <param name="htmlAttributes">   The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessageFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string validationMessage, object htmlAttributes)
         {
             return ValidationMessageFor(htmlHelper, expression, validationMessage, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that validation message for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">       The htmlHelper to act on.</param>
+        /// <param name="expression">       The expression.</param>
+        /// <param name="validationMessage">Message describing the validation.</param>
+        /// <param name="htmlAttributes">   The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationMessageFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string validationMessage, IDictionary<string, object> htmlAttributes)
         {
             return ValidationMessageHelper(htmlHelper,
@@ -221,43 +315,97 @@ namespace NServiceKit.Html
             return builder.ToMvcHtmlString(TagRenderMode.Normal);
         }
 
-        // ValidationSummary
-
+        /// <summary>ValidationSummary.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper)
         {
             return ValidationSummary(htmlHelper, false /* excludePropertyErrors */);
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">           The htmlHelper to act on.</param>
+        /// <param name="excludePropertyErrors">true to exclude, false to include the property errors.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, bool excludePropertyErrors)
         {
             return ValidationSummary(htmlHelper, excludePropertyErrors, null /* message */);
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="message">   The message.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, string message)
         {
             return ValidationSummary(htmlHelper, false /* excludePropertyErrors */, message, (object)null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">           The htmlHelper to act on.</param>
+        /// <param name="excludePropertyErrors">true to exclude, false to include the property errors.</param>
+        /// <param name="message">              The message.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, bool excludePropertyErrors, string message)
         {
             return ValidationSummary(htmlHelper, excludePropertyErrors, message, (object)null /* htmlAttributes */);
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="message">       The message.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, string message, object htmlAttributes)
         {
             return ValidationSummary(htmlHelper, false /* excludePropertyErrors */, message, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">           The htmlHelper to act on.</param>
+        /// <param name="excludePropertyErrors">true to exclude, false to include the property errors.</param>
+        /// <param name="message">              The message.</param>
+        /// <param name="htmlAttributes">       The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, bool excludePropertyErrors, string message, object htmlAttributes)
         {
             return ValidationSummary(htmlHelper, excludePropertyErrors, message, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="message">       The message.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, string message, IDictionary<string, object> htmlAttributes)
         {
             return ValidationSummary(htmlHelper, false /* excludePropertyErrors */, message, htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that validation summary.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="htmlHelper">           The htmlHelper to act on.</param>
+        /// <param name="excludePropertyErrors">true to exclude, false to include the property errors.</param>
+        /// <param name="message">              The message.</param>
+        /// <param name="htmlAttributes">       The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString ValidationSummary(this HtmlHelper htmlHelper, bool excludePropertyErrors, string message, IDictionary<string, object> htmlAttributes)
         {
             if (htmlHelper == null)

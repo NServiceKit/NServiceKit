@@ -17,6 +17,7 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>An application host listener base tests.</summary>
     [TestFixture]
     public class AppHostListenerBaseTests
     {
@@ -28,6 +29,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             LogManager.LogFactory = new ConsoleLogFactory();
         }
 
+        /// <summary>Executes the test fixture start up action.</summary>
         [TestFixtureSetUp]
         public void OnTestFixtureStartUp()
         {
@@ -39,6 +41,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
                                      DateTime.Now, ListeningOn);
         }
 
+        /// <summary>Executes the test fixture tear down action.</summary>
         [TestFixtureTearDown]
         public void OnTestFixtureTearDown()
         {
@@ -46,6 +49,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             appHost = null;
         }
 
+        /// <summary>Root path redirects to metadata page.</summary>
         [Test]
         public void Root_path_redirects_to_metadata_page()
         {
@@ -53,6 +57,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(html.Contains("The following operations are supported."));
         }
 
+        /// <summary>Can download webpage HTML page.</summary>
         [Test]
         public void Can_download_webpage_html_page()
         {
@@ -60,6 +65,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(html.Contains("Default index NServiceKit.WebHost.Endpoints.Tests page"));
         }
 
+        /// <summary>Can download requestinfo JSON.</summary>
         [Test]
         public void Can_download_requestinfo_json()
         {
@@ -67,6 +73,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(html.Contains("\"Host\":"));
         }
 
+        /// <summary>Gets 404 on non existant page.</summary>
         [Test]
         public void Gets_404_on_non_existant_page()
         {
@@ -74,6 +81,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(webRes.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
 
+        /// <summary>Gets 403 on page with non whitelisted extension.</summary>
         [Test]
         public void Gets_403_on_page_with_non_whitelisted_extension()
         {
@@ -81,6 +89,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(webRes.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
         }
 
+        /// <summary>Can call get factorial web service.</summary>
         [Test]
         public void Can_call_GetFactorial_WebService()
         {
@@ -91,6 +100,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Result, Is.EqualTo(GetFactorialService.GetFactorial(request.ForNumber)));
         }
 
+        /// <summary>Can call jsv debug on get factorial web service.</summary>
         [Test]
         public void Can_call_jsv_debug_on_GetFactorial_WebService()
         {
@@ -102,6 +112,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(contents, Is.Not.Null);
         }
 
+        /// <summary>Calling missing web service does not break HTTP listener.</summary>
         [Test]
         public void Calling_missing_web_service_does_not_break_HttpListener()
         {
@@ -129,6 +140,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(errorCount, Is.EqualTo(2));
         }
 
+        /// <summary>Can call movies zip web service.</summary>
         [Test]
         public void Can_call_MoviesZip_WebService()
         {
@@ -139,6 +151,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response.Movies.Count, Is.GreaterThan(0));
         }
 
+        /// <summary>Calling not implemented method returns 405.</summary>
+        ///
+        /// <exception cref="405">Thrown when a 405 error condition occurs.</exception>
         [Test]
         public void Calling_not_implemented_method_returns_405()
         {
@@ -154,6 +169,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Can get single gethttpresult using rest client with jsonp from service returning HTTP result.</summary>
         [Test]
         public void Can_GET_single_gethttpresult_using_RestClient_with_JSONP_from_service_returning_HttpResult()
         {
@@ -174,12 +190,14 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Assert.That(response, Is.StringEnding(")"));
         }
 
+        /// <summary>Debug host.</summary>
         [Test, Ignore]
         public void DebugHost()
         {
             Thread.Sleep(180 * 1000);
         }
 
+        /// <summary>Tests performance.</summary>
         [Test, Ignore]
         public void PerformanceTest()
         {
@@ -213,6 +231,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             Trace.TraceInformation("Elapsed time for " + clientCount + " requests : " + sw.Elapsed);
         }
 
+        /// <summary>Can infer handler path from listener uris.</summary>
         [Test]
         public void Can_infer_handler_path_from_listener_uris()
         {
@@ -233,6 +252,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             }
         }
 
+        /// <summary>Rapid start stop should not cause exceptions.</summary>
         [Test, Ignore("You have to manually check the test output if there where NullReferenceExceptions!")]
         public void Rapid_Start_Stop_should_not_cause_exceptions()
         {

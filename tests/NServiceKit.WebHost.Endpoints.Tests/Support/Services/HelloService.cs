@@ -9,6 +9,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 	[Route("/hello/{Name}")]
 	public class Hello
 	{
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
 		[DataMember]
 		public string Name { get; set; }
 	}
@@ -17,6 +20,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 	[DataContract]
 	public class HelloResponse
 	{
+        /// <summary>Gets or sets the result.</summary>
+        ///
+        /// <value>The result.</value>
 		[DataMember]
 		public string Result { get; set; }
 	}
@@ -24,6 +30,11 @@ namespace NServiceKit.WebHost.Endpoints.Tests.Support.Services
 	/// Create your Web Service implementation 
 	public class HelloService : ServiceInterface.Service
 	{
+        /// <summary>Executes the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A HelloResponse.</returns>
         public HelloResponse Execute(Hello request)
 		{
 			return new HelloResponse { Result = "Hello, " + request.Name };

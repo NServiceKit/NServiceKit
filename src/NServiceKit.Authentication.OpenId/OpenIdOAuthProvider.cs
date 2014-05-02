@@ -16,15 +16,30 @@ using NServiceKit.Text;
 
 namespace NServiceKit.Authentication.OpenId
 {
+    /// <summary>An open identifier o authentication provider.</summary>
     public class OpenIdOAuthProvider : OAuthProvider
     {
+        /// <summary>The default name.</summary>
         public const string DefaultName = "OpenId";
 
+        /// <summary>Gets or sets the open identifier application store.</summary>
+        ///
+        /// <value>The open identifier application store.</value>
         public static IOpenIdApplicationStore OpenIdApplicationStore { get; set; }
 
+        /// <summary>Initializes a new instance of the NServiceKit.Authentication.OpenId.OpenIdOAuthProvider class.</summary>
+        ///
+        /// <param name="appSettings">The application settings.</param>
+        /// <param name="name">       The name.</param>
+        /// <param name="realm">      The realm.</param>
         public OpenIdOAuthProvider(IResourceManager appSettings, string name = DefaultName, string realm = null)
             : base(appSettings, realm, name) { }
 
+        /// <summary>Creates claims request.</summary>
+        ///
+        /// <param name="httpReq">The HTTP request.</param>
+        ///
+        /// <returns>The new claims request.</returns>
         public virtual ClaimsRequest CreateClaimsRequest(IHttpRequest httpReq)
         {
             return new ClaimsRequest {
@@ -36,6 +51,11 @@ namespace NServiceKit.Authentication.OpenId
             };
         }
 
+        /// <summary>Creates open identifier relying party.</summary>
+        ///
+        /// <param name="store">The store.</param>
+        ///
+        /// <returns>The new open identifier relying party.</returns>
         protected virtual OpenIdRelyingParty CreateOpenIdRelyingParty(IOpenIdApplicationStore store)
         {
             // it matters
@@ -44,6 +64,15 @@ namespace NServiceKit.Authentication.OpenId
                 : new OpenIdRelyingParty();
         }
 
+        /// <summary>The entry point for all AuthProvider providers. Runs inside the AuthService so exceptions are treated normally. Overridable so you can provide your own Auth implementation.</summary>
+        ///
+        /// <exception cref="ArgumentException">Thrown when one or more arguments have unsupported or illegal values.</exception>
+        ///
+        /// <param name="authService">.</param>
+        /// <param name="session">    .</param>
+        /// <param name="request">    .</param>
+        ///
+        /// <returns>An object.</returns>
         public override object Authenticate(IServiceBase authService, IAuthSession session, Auth request)
         {
             var tokens = Init(authService, ref session, request);
@@ -128,6 +157,11 @@ namespace NServiceKit.Authentication.OpenId
             return authService.Redirect(session.ReferrerUrl.AddHashParam("f", "Unknown"));
         }
 
+        /// <summary>Creates authentication information.</summary>
+        ///
+        /// <param name="response">The response.</param>
+        ///
+        /// <returns>The new authentication information.</returns>
         protected virtual Dictionary<string, string> CreateAuthInfo(IAuthenticationResponse response)
         {
             // This is where you would look for any OpenID extension responses included
@@ -149,6 +183,11 @@ namespace NServiceKit.Authentication.OpenId
             return authInfo;
         }
 
+        /// <summary>Loads user authentication information.</summary>
+        ///
+        /// <param name="userSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
+        /// <param name="authInfo">   Information describing the authentication.</param>
         protected override void LoadUserAuthInfo(AuthUserSession userSession, IOAuthTokens tokens, Dictionary<string, string> authInfo)
         {
             if (authInfo.ContainsKey("user_id"))
@@ -197,6 +236,10 @@ namespace NServiceKit.Authentication.OpenId
             LoadUserOAuthProvider(userSession, tokens);
         }
 
+        /// <summary>Loads user o authentication provider.</summary>
+        ///
+        /// <param name="authSession">The user session.</param>
+        /// <param name="tokens">     The tokens.</param>
         public override void LoadUserOAuthProvider(IAuthSession authSession, IOAuthTokens tokens)
         {
             var userSession = authSession as AuthUserSession;
@@ -275,6 +318,13 @@ namespace NServiceKit.Authentication.OpenId
             return ret;
         }
 
+        /// <summary>Determine if the current session is already authenticated with this AuthProvider.</summary>
+        ///
+        /// <param name="session">The session.</param>
+        /// <param name="tokens"> The tokens.</param>
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>true if authorized, false if not.</returns>
         public override bool IsAuthorized(IAuthSession session, IOAuthTokens tokens, Auth request = null)
         {
             if (request != null)
@@ -288,8 +338,14 @@ namespace NServiceKit.Authentication.OpenId
     }
 
 
+    /// <summary>An open identifier extensions.</summary>
     public static class OpenIdExtensions
     {
+        /// <summary>A ClaimsResponse extension method that converts a response to a dictionary.</summary>
+        ///
+        /// <param name="response">The response to act on.</param>
+        ///
+        /// <returns>response as a Dictionary&lt;string,string&gt;</returns>
         public static Dictionary<string, string> ToDictionary(this ClaimsResponse response)
         {
             var map = new Dictionary<string, string>();

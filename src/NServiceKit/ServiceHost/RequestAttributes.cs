@@ -5,10 +5,14 @@ using NServiceKit.Common.Web;
 
 namespace NServiceKit.ServiceHost
 {
+    /// <summary>A request attributes.</summary>
 	public class RequestAttributes : IRequestAttributes
 	{
 		private readonly HttpContext httpContext;
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.RequestAttributes class.</summary>
+        ///
+        /// <param name="httpRequest">The HTTP request.</param>
 		public RequestAttributes(IHttpRequest httpRequest)
 		{
 			this.acceptEncoding = httpRequest.Headers[HttpHeaders.AcceptEncoding];
@@ -20,11 +24,19 @@ namespace NServiceKit.ServiceHost
 			this.acceptEncoding = this.acceptEncoding.ToLower();
 		}
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.RequestAttributes class.</summary>
+        ///
+        /// <param name="httpContext">Context for the HTTP.</param>
 		public RequestAttributes(HttpContext httpContext)
 		{
 			this.httpContext = httpContext;
 		}
 
+        /// <summary>Gets a worker.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>The worker.</returns>
 		public static HttpWorkerRequest GetWorker(HttpContext context)
 		{
 			var provider = (IServiceProvider)context;
@@ -33,6 +45,10 @@ namespace NServiceKit.ServiceHost
 		}
 
 		private HttpWorkerRequest httpWorkerRequest;
+
+        /// <summary>Gets the HTTP worker request.</summary>
+        ///
+        /// <value>The HTTP worker request.</value>
 		public HttpWorkerRequest HttpWorkerRequest
 		{
 			get
@@ -46,6 +62,10 @@ namespace NServiceKit.ServiceHost
 		}
 
 		private string acceptEncoding;
+
+        /// <summary>Gets the accept encoding.</summary>
+        ///
+        /// <value>The accept encoding.</value>
 		public string AcceptEncoding
 		{
 			get
@@ -59,6 +79,9 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets a value indicating whether the accepts gzip.</summary>
+        ///
+        /// <value>true if accepts gzip, false if not.</value>
 		public bool AcceptsGzip
 		{
 			get
@@ -67,6 +90,9 @@ namespace NServiceKit.ServiceHost
 			}
 		}
 
+        /// <summary>Gets a value indicating whether the accepts deflate.</summary>
+        ///
+        /// <value>true if accepts deflate, false if not.</value>
 		public bool AcceptsDeflate
 		{
 			get

@@ -24,28 +24,50 @@ namespace NServiceKit.FluentValidation.Validators
     using Resources;
     using Results;
 
+    /// <summary>A noop property validator.</summary>
     public abstract class NoopPropertyValidator : IPropertyValidator {
+
+        /// <summary>Gets or sets the error message source.</summary>
+        ///
+        /// <value>The error message source.</value>
         public IStringSource ErrorMessageSource {
             get { return null; }
             set { }
         }
 
+        /// <summary>Gets or sets the error code.</summary>
+        ///
+        /// <value>The error code.</value>
         public string ErrorCode
         {
             get { return null; }
             set { }
         }
 
+        /// <summary>Enumerates validate in this collection.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>An enumerator that allows foreach to be used to process validate in this collection.</returns>
         public abstract IEnumerable<ValidationFailure> Validate(PropertyValidatorContext context);
 
+        /// <summary>Gets the custom message format arguments.</summary>
+        ///
+        /// <value>The custom message format arguments.</value>
         public virtual ICollection<Func<object, object>> CustomMessageFormatArguments {
             get { return new List<Func<object, object>>(); }
         }
 
+        /// <summary>Gets a value indicating whether the supports standalone validation.</summary>
+        ///
+        /// <value>true if supports standalone validation, false if not.</value>
         public virtual bool SupportsStandaloneValidation {
             get { return false; }
         }
 
+        /// <summary>Gets or sets the custom state provider.</summary>
+        ///
+        /// <value>The custom state provider.</value>
         public Func<object, object> CustomStateProvider {
             get { return null; }
             set { }

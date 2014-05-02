@@ -11,50 +11,120 @@ using System.Text;
 
 namespace NServiceKit.Html
 {
+    /// <summary>An input extensions.</summary>
 	public static class InputExtensions
 	{
         // CheckBox
         #region CheckBox
+
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name)
         {
             return CheckBox(htmlHelper, name, htmlAttributes: (object)null);
         }
 
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="isChecked"> true if this object is checked.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked)
         {
             return CheckBox(htmlHelper, name, isChecked, htmlAttributes: (object)null);
         }
 
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="isChecked">     true if this object is checked.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, object htmlAttributes)
         {
             return CheckBox(htmlHelper, name, isChecked, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, object htmlAttributes)
         {
             return CheckBox(htmlHelper, name, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, IDictionary<string, object> htmlAttributes)
         {
             return CheckBoxHelper(htmlHelper, metadata: null, name: name, isChecked: null, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that check box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="isChecked">     true if this object is checked.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, IDictionary<string, object> htmlAttributes)
         {
             return CheckBoxHelper(htmlHelper, metadata: null, name: name, isChecked: isChecked, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that check box for.</summary>
+        ///
+        /// <typeparam name="TModel">Type of the model.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBoxFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, bool>> expression)
         {
             return CheckBoxFor(htmlHelper, expression, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that check box for.</summary>
+        ///
+        /// <typeparam name="TModel">Type of the model.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBoxFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, bool>> expression, object htmlAttributes)
         {
             return CheckBoxFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that check box for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">Type of the model.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString CheckBoxFor<TModel>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, bool>> expression, IDictionary<string, object> htmlAttributes)
         {
             if (expression == null) {
@@ -97,21 +167,51 @@ namespace NServiceKit.Html
         #endregion
         // Hidden
         #region Hidden
+
+        /// <summary>A HtmlHelper extension method that hiddens.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Hidden(this HtmlHelper htmlHelper, string name)
         {
             return Hidden(htmlHelper, name, value: null, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper extension method that hiddens.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Hidden(this HtmlHelper htmlHelper, string name, object value)
         {
             return Hidden(htmlHelper, name, value, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper extension method that hiddens.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Hidden(this HtmlHelper htmlHelper, string name, object value, object htmlAttributes)
         {
             return Hidden(htmlHelper, name, value, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that hiddens.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Hidden(this HtmlHelper htmlHelper, string name, object value, IDictionary<string, object> htmlAttributes)
         {
             return HiddenHelper(htmlHelper,
@@ -122,16 +222,42 @@ namespace NServiceKit.Html
                                 htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that hidden for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString HiddenFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             return HiddenFor(htmlHelper, expression, (IDictionary<string, object>)null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that hidden for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString HiddenFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             return HiddenFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that hidden for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString HiddenFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
@@ -171,36 +297,94 @@ namespace NServiceKit.Html
         #endregion
 		// Password
         #region Password
+
+        /// <summary>A HtmlHelper extension method that passwords.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name)
         {
             return Password(htmlHelper, name, value: null);
         }
 
+        /// <summary>A HtmlHelper extension method that passwords.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value)
         {
             return Password(htmlHelper, name, value, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper extension method that passwords.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, object htmlAttributes)
         {
             return Password(htmlHelper, name, value, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that passwords.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, IDictionary<string, object> htmlAttributes)
         {
             return PasswordHelper(htmlHelper, metadata: null, name: name, value: value, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that password for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString PasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             return PasswordFor(htmlHelper, expression, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that password for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString PasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             return PasswordFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that password for.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString PasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes)
         {
             if (expression == null) {
@@ -231,16 +415,40 @@ namespace NServiceKit.Html
         #endregion
 		// RadioButton
         #region RadioButton
+
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value)
         {
             return RadioButton(htmlHelper, name, value, htmlAttributes: (object)null);
         }
 
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value, object htmlAttributes)
         {
             return RadioButton(htmlHelper, name, value, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value, IDictionary<string, object> htmlAttributes)
         {
             // Determine whether or not to render the checked attribute based on the contents of ViewData.
@@ -265,16 +473,44 @@ namespace NServiceKit.Html
             return RadioButton(htmlHelper, name, value, isChecked, htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        /// <param name="isChecked"> true if this object is checked.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value, bool isChecked)
         {
             return RadioButton(htmlHelper, name, value, isChecked, htmlAttributes: (object)null);
         }
 
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="isChecked">     true if this object is checked.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value, bool isChecked, object htmlAttributes)
         {
             return RadioButton(htmlHelper, name, value, isChecked, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that radio button.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when one or more required arguments are null.</exception>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="isChecked">     true if this object is checked.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButton(this HtmlHelper htmlHelper, string name, object value, bool isChecked, IDictionary<string, object> htmlAttributes)
         {
             if (value == null) {
@@ -296,16 +532,45 @@ namespace NServiceKit.Html
                                htmlAttributes: attributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that radio button for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButtonFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object value)
         {
             return RadioButtonFor(htmlHelper, expression, value, htmlAttributes: null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that radio button for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButtonFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object value, object htmlAttributes)
         {
             return RadioButtonFor(htmlHelper, expression, value, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that radio button for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString RadioButtonFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object value, IDictionary<string, object> htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
@@ -351,36 +616,92 @@ namespace NServiceKit.Html
         #endregion
 		// TextBox
         #region TextBox
+
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name)
 		{
             return TextBox(htmlHelper, name, value: null);
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
 		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value)
 		{
             return TextBox(htmlHelper, name, value, format: null);
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        /// <param name="value">     The value.</param>
+        /// <param name="format">    Describes the format to use.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, string format)
         {
             return TextBox(htmlHelper, name, value, format, htmlAttributes: (object)null);
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, object htmlAttributes)
         {
             return TextBox(htmlHelper, name, value, format: null, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="format">        Describes the format to use.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, string format, object htmlAttributes)
         {
             return TextBox(htmlHelper, name, value, format, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, IDictionary<string, object> htmlAttributes)
         {
             return TextBox(htmlHelper, name, value, format: null, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper extension method that text box.</summary>
+        ///
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="name">          The name.</param>
+        /// <param name="value">         The value.</param>
+        /// <param name="format">        Describes the format to use.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, string format, IDictionary<string, object> htmlAttributes)
         {
             return InputHelper(htmlHelper,
@@ -396,31 +717,86 @@ namespace NServiceKit.Html
                                htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             return htmlHelper.TextBoxFor(expression, format: null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="format">    Describes the format to use.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format)
         {
             return htmlHelper.TextBoxFor(expression, format, (IDictionary<string, object>)null);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             return htmlHelper.TextBoxFor(expression, format: null, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="format">        Describes the format to use.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, object htmlAttributes)
         {
             return htmlHelper.TextBoxFor(expression, format: format, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IDictionary<string, object> htmlAttributes)
         {
             return htmlHelper.TextBoxFor(expression, format: null, htmlAttributes: htmlAttributes);
         }
 
+        /// <summary>A HtmlHelper&lt;TModel&gt; extension method that text box for.</summary>
+        ///
+        /// <typeparam name="TModel">   Type of the model.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="htmlHelper">    The htmlHelper to act on.</param>
+        /// <param name="expression">    The expression.</param>
+        /// <param name="format">        Describes the format to use.</param>
+        /// <param name="htmlAttributes">The HTML attributes.</param>
+        ///
+        /// <returns>A MvcHtmlString.</returns>
         public static MvcHtmlString TextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string format, IDictionary<string, object> htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
@@ -449,6 +825,13 @@ namespace NServiceKit.Html
         #endregion
         // ReturnUrl
         #region ReturnUrl
+
+        /// <summary>A HtmlHelper extension method that returns an URL.</summary>
+        ///
+        /// <param name="htmlHelper">The htmlHelper to act on.</param>
+        /// <param name="name">      The name.</param>
+        ///
+        /// <returns>The URL.</returns>
         public static MvcHtmlString ReturnUrl(this HtmlHelper htmlHelper, string name = "ReturnUrl")
         {
             string returnUrl = null;

@@ -10,11 +10,20 @@ namespace FluentValidation.Mvc {
 		InclusiveBetweenValidator RangeValidator {
 			get { return (InclusiveBetweenValidator)Validator; }
 		}
-		
+
+        /// <summary>Initializes a new instance of the FluentValidation.Mvc.RangeFluentValidationPropertyValidator class.</summary>
+        ///
+        /// <param name="metadata">           The metadata.</param>
+        /// <param name="controllerContext">  Context for the controller.</param>
+        /// <param name="propertyDescription">Information describing the property.</param>
+        /// <param name="validator">          The validator.</param>
 		public RangeFluentValidationPropertyValidator(ModelMetadata metadata, ControllerContext controllerContext, PropertyRule propertyDescription, IPropertyValidator validator) : base(metadata, controllerContext, propertyDescription, validator) {
 			ShouldValidate=false;
 		}
 
+        /// <summary>When implemented in a derived class, returns metadata for client validation.</summary>
+        ///
+        /// <returns>The metadata for client validation.</returns>
 		public override IEnumerable<ModelClientValidationRule> GetClientValidationRules() {
 			if (!ShouldGenerateClientSideRules()) yield break;
 

@@ -10,13 +10,23 @@ using NServiceKit.WebHost.Endpoints.Tests.Support;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A HTML result metadata tests.</summary>
 	[TestFixture]
 	public class HtmlResultMetadataTests : TestBase
 	{
+        /// <summary>Configures the given container.</summary>
+        ///
+        /// <param name="container">The container.</param>
 		protected override void Configure(Funq.Container container) {}
 
+        /// <summary>A html.</summary>
 		public static class Html
 		{
+            /// <summary>Redirect to.</summary>
+            ///
+            /// <param name="url">URL of the document.</param>
+            ///
+            /// <returns>A HttpResult.</returns>
 			public static HttpResult RedirectTo(string url)
 			{
 				var html = string.Format(
@@ -29,6 +39,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Tests response with HTML result.</summary>
 		[Test]
 		public void Test_response_with_html_result()
 		{

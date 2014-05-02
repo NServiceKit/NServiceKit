@@ -18,58 +18,93 @@ using NServiceKit.WebHost.Endpoints.Tests.Support.Host;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {
+    /// <summary>A secure.</summary>
 	[DataContract]
 	[Route("/secure")]
 	public class Secure
 	{
+        /// <summary>Gets or sets the name of the user.</summary>
+        ///
+        /// <value>The name of the user.</value>
 		[DataMember]
 		public string UserName { get; set; }
 	}
 
+    /// <summary>A secure response.</summary>
 	[DataContract]
 	public class SecureResponse : IHasResponseStatus
 	{
+        /// <summary>Gets or sets the result.</summary>
+        ///
+        /// <value>The result.</value>
 		[DataMember]
 		public string Result { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		[DataMember]
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
+    /// <summary>A secure service.</summary>
 	public class SecureService : ServiceInterface.Service
 	{
+        /// <summary>Executes the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>A SecureResponse.</returns>
         public SecureResponse Execute(Secure request)
 		{
 			return new SecureResponse { Result = "Confidential" };
 		}
 	}
 
+    /// <summary>An insecure.</summary>
 	[DataContract]
 	[Route("/insecure")]
 	public class Insecure
 	{
+        /// <summary>Gets or sets the name of the user.</summary>
+        ///
+        /// <value>The name of the user.</value>
 		[DataMember]
 		public string UserName { get; set; }
 	}
 
+    /// <summary>An insecure response.</summary>
 	[DataContract]
 	public class InsecureResponse : IHasResponseStatus
 	{
+        /// <summary>Gets or sets the result.</summary>
+        ///
+        /// <value>The result.</value>
 		[DataMember]
 		public string Result { get; set; }
 
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		[DataMember]
 		public ResponseStatus ResponseStatus { get; set; }
 	}
 
+    /// <summary>An insecure service.</summary>
 	public class InsecureService : ServiceInterface.Service
 	{
+        /// <summary>Executes the given request.</summary>
+        ///
+        /// <param name="request">The request.</param>
+        ///
+        /// <returns>An InsecureResponse.</returns>
         public InsecureResponse Execute(Insecure request)
 		{
 			return new InsecureResponse { Result = "Public" };
 		}
 	}
 
+    /// <summary>A request filters tests.</summary>
 	[TestFixture]
 	public abstract class RequestFiltersTests
 	{
@@ -79,14 +114,19 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		private const string AllowedUser = "user";
 		private const string AllowedPass = "p@55word";
 
+        /// <summary>A request filters application host HTTP listener.</summary>
 		public class RequestFiltersAppHostHttpListener
 			: AppHostHttpListenerBase
 		{
 			private Guid currentSessionGuid;
 
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.Endpoints.Tests.RequestFiltersTests.RequestFiltersAppHostHttpListener class.</summary>
 			public RequestFiltersAppHostHttpListener()
 				: base("Request Filters Tests", typeof(GetFactorialService).Assembly) { }
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
 			public override void Configure(Container container)
 			{
 				this.RequestFilters.Add((req, res, dto) =>
@@ -125,6 +165,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 		RequestFiltersAppHostHttpListener appHost;
 
+        /// <summary>Executes the test fixture set up action.</summary>
 		[TestFixtureSetUp]
 		public void OnTestFixtureSetUp()
 		{
@@ -133,6 +174,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			appHost.Start(ListeningOn);
 		}
 
+        /// <summary>Executes the test fixture tear down action.</summary>
 		[TestFixtureTearDown]
 		public void OnTestFixtureTearDown()
 		{
@@ -140,9 +182,19 @@ namespace NServiceKit.WebHost.Endpoints.Tests
             EndpointHandlerBase.ServiceManager = null;
 		}
 
+        /// <summary>Creates new service client.</summary>
+        ///
+        /// <returns>The new new service client.</returns>
 		protected abstract IServiceClient CreateNewServiceClient();
+
+        /// <summary>Creates new rest client asynchronous.</summary>
+        ///
+        /// <returns>The new new rest client asynchronous.</returns>
 		protected abstract IRestClientAsync CreateNewRestClientAsync();
 
+        /// <summary>Gets the format.</summary>
+        ///
+        /// <returns>The format.</returns>
 		protected virtual string GetFormat()
 		{
 			return null;
@@ -175,6 +227,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			return true;
 		}
 
+        /// <summary>Can login with basic authentication to access secure service.</summary>
 		[Test]
 		public void Can_login_with_Basic_auth_to_access_Secure_service()
 		{
@@ -192,6 +245,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Console.WriteLine(dtoString);
 		}
 
+        /// <summary>Can login with basic authentication to access secure service using service client.</summary>
 		[Test]
 		public void Can_login_with_Basic_auth_to_access_Secure_service_using_ServiceClient()
 		{
@@ -206,6 +260,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Result, Is.EqualTo("Confidential"));
 		}
 
+        /// <summary>Can login with basic authentication to access secure service using rest client asynchronous.</summary>
 		[Test]
 		public void Can_login_with_Basic_auth_to_access_Secure_service_using_RestClientAsync()
 		{
@@ -223,6 +278,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Result, Is.EqualTo("Confidential"));
 		}
 
+        /// <summary>Can login without authorization to access insecure service.</summary>
 		[Test]
 		public void Can_login_without_authorization_to_access_Insecure_service()
 		{
@@ -240,6 +296,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Console.WriteLine(dtoString);
 		}
 
+        /// <summary>Can login without authorization to access insecure service using service client.</summary>
 		[Test]
 		public void Can_login_without_authorization_to_access_Insecure_service_using_ServiceClient()
 		{
@@ -253,6 +310,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Result, Is.EqualTo("Public"));
 		}
 
+        /// <summary>Can login without authorization to access insecure service using rest client asynchronous.</summary>
 		[Test]
 		public void Can_login_without_authorization_to_access_Insecure_service_using_RestClientAsync()
 		{
@@ -269,6 +327,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.That(response.Result, Is.EqualTo("Public"));
 		}
 
+        /// <summary>Can login with session cookie to access secure service.</summary>
 		[Test]
 		public void Can_login_with_session_cookie_to_access_Secure_service()
 		{
@@ -295,6 +354,7 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Gets 401 when accessing secure using fake sessionid cookie.</summary>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_fake_sessionid_cookie()
 		{
@@ -317,6 +377,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>Gets 401 when accessing secure using service client without authorization.</summary>
+        ///
+        /// <exception cref="StatusCode">Thrown when the status code error condition occurs.</exception>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_ServiceClient_without_Authorization()
 		{
@@ -335,6 +398,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.Fail("Should throw WebServiceException.StatusCode == 401");
 		}
 
+        /// <summary>Gets 401 when accessing secure using rest client get without authorization.</summary>
+        ///
+        /// <exception cref="StatusCode">Thrown when the status code error condition occurs.</exception>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_RestClient_GET_without_Authorization()
 		{
@@ -352,6 +418,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.IsNull(response);
 		}
 
+        /// <summary>Gets 401 when accessing secure using rest client delete without authorization.</summary>
+        ///
+        /// <exception cref="StatusCode">Thrown when the status code error condition occurs.</exception>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_RestClient_DELETE_without_Authorization()
 		{
@@ -369,6 +438,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.IsNull(response);
 		}
 
+        /// <summary>Gets 401 when accessing secure using rest client post without authorization.</summary>
+        ///
+        /// <exception cref="StatusCode">Thrown when the status code error condition occurs.</exception>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_RestClient_POST_without_Authorization()
 		{
@@ -386,6 +458,9 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			Assert.IsNull(response);
 		}
 
+        /// <summary>Gets 401 when accessing secure using rest client put without authorization.</summary>
+        ///
+        /// <exception cref="StatusCode">Thrown when the status code error condition occurs.</exception>
 		[Test]
 		public void Get_401_When_accessing_Secure_using_RestClient_PUT_without_Authorization()
 		{
@@ -404,14 +479,21 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 		}
 
 
+        /// <summary>A unit tests.</summary>
 		public class UnitTests : RequestFiltersTests
 		{
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
                 EndpointHandlerBase.ServiceManager = new ServiceManager(typeof(SecureService).Assembly).Init();
 				return new DirectServiceClient(EndpointHandlerBase.ServiceManager);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
 				return null; //TODO implement REST calls with DirectServiceClient (i.e. Unit Tests)
@@ -420,56 +502,86 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 			}
 		}
 
+        /// <summary>An XML integration tests.</summary>
 		public class XmlIntegrationTests : RequestFiltersTests
 		{
+            /// <summary>Gets the format.</summary>
+            ///
+            /// <returns>The format.</returns>
 			protected override string GetFormat()
 			{
 				return "xml";
 			}
 
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
 				return new XmlServiceClient(ServiceClientBaseUri);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
 				return new XmlServiceClient(ServiceClientBaseUri);
 			}
 		}
 
+        /// <summary>A JSON integration tests.</summary>
 		[TestFixture]
 		public class JsonIntegrationTests : RequestFiltersTests
 		{
+            /// <summary>Gets the format.</summary>
+            ///
+            /// <returns>The format.</returns>
 			protected override string GetFormat()
 			{
 				return "json";
 			}
 
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
 				return new JsonServiceClient(ServiceClientBaseUri);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
                 return new JsonServiceClient(ServiceClientBaseUri);
 			}
 		}
 
+        /// <summary>A jsv integration tests.</summary>
 		[TestFixture]
 		public class JsvIntegrationTests : RequestFiltersTests
 		{
+            /// <summary>Gets the format.</summary>
+            ///
+            /// <returns>The format.</returns>
 			protected override string GetFormat()
 			{
 				return "jsv";
 			}
 
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
 				return new JsvServiceClient(ServiceClientBaseUri);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
                 return new JsonServiceClient(ServiceClientBaseUri);
@@ -478,28 +590,42 @@ namespace NServiceKit.WebHost.Endpoints.Tests
 
 #if !MONOTOUCH
 
+        /// <summary>A SOAP 11 integration tests.</summary>
 		[TestFixture]
 		public class Soap11IntegrationTests : RequestFiltersTests
 		{
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
 				return new Soap11ServiceClient(ServiceClientBaseUri);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
 				return null;
 			}
 		}
 
+        /// <summary>A SOAP 12 integration tests.</summary>
 		[TestFixture]
 		public class Soap12IntegrationTests : RequestFiltersTests
 		{
+            /// <summary>Creates new service client.</summary>
+            ///
+            /// <returns>The new new service client.</returns>
 			protected override IServiceClient CreateNewServiceClient()
 			{
 				return new Soap12ServiceClient(ServiceClientBaseUri);
 			}
 
+            /// <summary>Creates new rest client asynchronous.</summary>
+            ///
+            /// <returns>The new new rest client asynchronous.</returns>
 			protected override IRestClientAsync CreateNewRestClientAsync()
 			{
 				return null;

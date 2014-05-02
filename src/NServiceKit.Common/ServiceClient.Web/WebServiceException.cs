@@ -14,19 +14,46 @@ namespace NServiceKit.ServiceClient.Web
     public class WebServiceException
         : Exception
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.WebServiceException class.</summary>
         public WebServiceException() { }
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.WebServiceException class.</summary>
+        ///
+        /// <param name="message">The message.</param>
         public WebServiceException(string message) : base(message) { }
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.WebServiceException class.</summary>
+        ///
+        /// <param name="message">       The message.</param>
+        /// <param name="innerException">The inner exception.</param>
         public WebServiceException(string message, Exception innerException) : base(message, innerException) { }
 #if !NETFX_CORE && !WINDOWS_PHONE && !SILVERLIGHT
+
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceClient.Web.WebServiceException class.</summary>
+        ///
+        /// <param name="info">   The information.</param>
+        /// <param name="context">The context.</param>
         public WebServiceException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 #endif
 
+        /// <summary>Gets or sets the status code.</summary>
+        ///
+        /// <value>The status code.</value>
         public int StatusCode { get; set; }
 
+        /// <summary>Gets or sets information describing the status.</summary>
+        ///
+        /// <value>Information describing the status.</value>
         public string StatusDescription { get; set; }
 
+        /// <summary>Gets or sets the response dto.</summary>
+        ///
+        /// <value>The response dto.</value>
         public object ResponseDto { get; set; }
-        
+
+        /// <summary>Gets or sets the response body.</summary>
+        ///
+        /// <value>The response body.</value>
         public string ResponseBody { get; set; }
 
         private string errorCode;
@@ -87,6 +114,9 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets the error code.</summary>
+        ///
+        /// <value>The error code.</value>
         public string ErrorCode
         {
             get
@@ -100,6 +130,10 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         private string errorMessage;
+
+        /// <summary>Gets a message describing the error.</summary>
+        ///
+        /// <value>A message describing the error.</value>
         public string ErrorMessage
         {
             get
@@ -113,6 +147,10 @@ namespace NServiceKit.ServiceClient.Web
         }
 
         private string serverStackTrace;
+
+        /// <summary>Gets the server stack trace.</summary>
+        ///
+        /// <value>The server stack trace.</value>
         public string ServerStackTrace
         {
             get
@@ -125,6 +163,9 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
         public ResponseStatus ResponseStatus
         {
             get
@@ -144,6 +185,9 @@ namespace NServiceKit.ServiceClient.Web
             }
         }
 
+        /// <summary>Gets field errors.</summary>
+        ///
+        /// <returns>The field errors.</returns>
         public List<ResponseError> GetFieldErrors()
         {
             var responseStatus = ResponseStatus;

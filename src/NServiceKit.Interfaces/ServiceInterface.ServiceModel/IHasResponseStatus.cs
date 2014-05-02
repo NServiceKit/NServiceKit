@@ -5,6 +5,9 @@ namespace NServiceKit.ServiceInterface.ServiceModel
 	/// </summary>
 	public interface IHasResponseStatus
 	{
+        /// <summary>Gets or sets the response status.</summary>
+        ///
+        /// <value>The response status.</value>
 		ResponseStatus ResponseStatus { get; set; }
 	}
 }

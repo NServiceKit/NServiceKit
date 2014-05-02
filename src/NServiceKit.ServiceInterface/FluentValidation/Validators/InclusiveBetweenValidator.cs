@@ -22,7 +22,15 @@ namespace NServiceKit.FluentValidation.Validators
     using Attributes;
     using Resources;
 
+    /// <summary>An inclusive between validator.</summary>
     public class InclusiveBetweenValidator : PropertyValidator, IBetweenValidator {
+
+        /// <summary>Initializes a new instance of the NServiceKit.FluentValidation.Validators.InclusiveBetweenValidator class.</summary>
+        ///
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one or more arguments are outside the required range.</exception>
+        ///
+        /// <param name="from">from.</param>
+        /// <param name="to">  to.</param>
         public InclusiveBetweenValidator(IComparable from, IComparable to) : base(() => Messages.inclusivebetween_error, ValidationErrors.InclusiveBetween) {
             To = to;
             From = from;
@@ -33,9 +41,21 @@ namespace NServiceKit.FluentValidation.Validators
 
         }
 
+        /// <summary>Gets the source for the.</summary>
+        ///
+        /// <value>from.</value>
         public IComparable From { get; private set; }
+
+        /// <summary>Gets to.</summary>
+        ///
+        /// <value>to.</value>
         public IComparable To { get; private set; }
 
+        /// <summary>Query if 'context' is valid.</summary>
+        ///
+        /// <param name="context">The context.</param>
+        ///
+        /// <returns>true if valid, false if not.</returns>
         protected override bool IsValid(PropertyValidatorContext context) {
             var propertyValue = (IComparable)context.PropertyValue;
 
@@ -56,8 +76,17 @@ namespace NServiceKit.FluentValidation.Validators
         }
     }
 
+    /// <summary>Interface for between validator.</summary>
     public interface IBetweenValidator : IPropertyValidator {
+
+        /// <summary>Gets the source for the.</summary>
+        ///
+        /// <value>from.</value>
         IComparable From { get; }
+
+        /// <summary>Gets to.</summary>
+        ///
+        /// <value>to.</value>
         IComparable To { get; }
     }
 }

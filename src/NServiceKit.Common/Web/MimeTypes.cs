@@ -3,19 +3,35 @@ using System.Collections.Generic;
 
 namespace NServiceKit.Common.Web
 {
+    /// <summary>A mime types.</summary>
     public static class MimeTypes
     {
+        /// <summary>List of types of the extension mimes.</summary>
         public static Dictionary<string,string> ExtensionMimeTypes = new Dictionary<string, string>();
 
+        /// <summary>The HTML.</summary>
         public const string Html = "text/html";
+        /// <summary>The XML.</summary>
         public const string Xml = "text/xml";
+        /// <summary>The JSON.</summary>
         public const string Json = "text/json";
+        /// <summary>The jsv.</summary>
         public const string Jsv = "text/jsv";
+        /// <summary>The CSV.</summary>
         public const string Csv = "text/csv";
+        /// <summary>Buffer for prototype data.</summary>
         public const string ProtoBuf = "application/x-protobuf";
 
+        /// <summary>The java script.</summary>
         public const string JavaScript = "text/javascript";
 
+        /// <summary>Gets an extension.</summary>
+        ///
+        /// <exception cref="NotSupportedException">Thrown when the requested operation is not supported.</exception>
+        ///
+        /// <param name="mimeType">Type of the mime.</param>
+        ///
+        /// <returns>The extension.</returns>
         public static string GetExtension(string mimeType)
         {
             switch (mimeType)
@@ -31,6 +47,11 @@ namespace NServiceKit.Common.Web
             throw new NotSupportedException("Unknown mimeType: " + mimeType);
         }
 
+        /// <summary>Gets mime type.</summary>
+        ///
+        /// <param name="fileNameOrExt">Extent of the file name or.</param>
+        ///
+        /// <returns>The mime type.</returns>
         public static string GetMimeType(string fileNameOrExt)
         {
             fileNameOrExt.ThrowIfNullOrEmpty();

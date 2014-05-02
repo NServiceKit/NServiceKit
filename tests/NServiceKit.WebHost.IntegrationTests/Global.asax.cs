@@ -26,14 +26,20 @@ using NServiceKit.WebHost.IntegrationTests.Tests;
 
 namespace NServiceKit.WebHost.IntegrationTests
 {
+    /// <summary>A global.</summary>
     public class Global : System.Web.HttpApplication
     {
+        /// <summary>An application host.</summary>
         public class AppHost
             : AppHostBase
         {
+            /// <summary>Initializes a new instance of the NServiceKit.WebHost.IntegrationTests.Global.AppHost class.</summary>
             public AppHost()
                 : base("NServiceKit WebHost IntegrationTests", typeof(Reverse).Assembly) {}
 
+            /// <summary>Configures the given container.</summary>
+            ///
+            /// <param name="container">The container.</param>
             public override void Configure(Container container)
             {
                 JsConfig.EmitCamelCaseNames = true;
@@ -152,18 +158,30 @@ namespace NServiceKit.WebHost.IntegrationTests
             }
         }
 
+        /// <summary>Event handler. Called by Application for start events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
         protected void Application_Start(object sender, EventArgs e)
         {
             var appHost = new AppHost();
             appHost.Init();
         }
 
+        /// <summary>Event handler. Called by Application for begin request events.</summary>
+        ///
+        /// <param name="src">Source for the.</param>
+        /// <param name="e">  Event information.</param>
         protected void Application_BeginRequest(object src, EventArgs e)
         {
             if (Request.IsLocal)
                 Profiler.Start();
         }
 
+        /// <summary>Event handler. Called by Application for end request events.</summary>
+        ///
+        /// <param name="src">Source for the.</param>
+        /// <param name="e">  Event information.</param>
         protected void Application_EndRequest(object src, EventArgs e)
         {
             Profiler.Stop();

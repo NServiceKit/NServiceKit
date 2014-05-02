@@ -7,6 +7,7 @@ using NServiceKit.FluentValidation;
 
 namespace NServiceKit.ServiceInterface.Validation
 {
+    /// <summary>A multi rule set validator selector.</summary>
     public class MultiRuleSetValidatorSelector : IValidatorSelector
     {
         readonly string[] rulesetsToExecute;

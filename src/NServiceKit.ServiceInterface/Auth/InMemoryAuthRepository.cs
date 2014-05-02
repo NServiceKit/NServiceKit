@@ -12,9 +12,17 @@ namespace NServiceKit.ServiceInterface.Auth
     /// </summary>
     public class InMemoryAuthRepository : RedisAuthRepository
     {
+        /// <summary>The instance.</summary>
         public static readonly InMemoryAuthRepository Instance = new InMemoryAuthRepository();
 
+        /// <summary>Gets or sets the sets.</summary>
+        ///
+        /// <value>The sets.</value>
         protected Dictionary<string, HashSet<string>> Sets { get; set; }
+
+        /// <summary>Gets or sets the hashes.</summary>
+        ///
+        /// <value>The hashes.</value>
         protected Dictionary<string, Dictionary<string, string>> Hashes { get; set; }
         internal List<IClearable> TrackedTypes = new List<IClearable>();
 
@@ -31,6 +39,7 @@ namespace NServiceKit.ServiceInterface.Auth
             internal readonly List<T> Items = new List<T>();
             internal int Sequence = 0;
             
+            /// <summary>Clears this object to its blank/initial state.</summary>
             public void Clear()
             {
                 lock (Items) Items.Clear();
@@ -38,6 +47,7 @@ namespace NServiceKit.ServiceInterface.Auth
             }
         }
 
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.InMemoryAuthRepository class.</summary>
         public InMemoryAuthRepository() : base(new InMemoryManagerFacade(Instance))
         {
             this.Sets = new Dictionary<string, HashSet<string>>();
@@ -47,17 +57,24 @@ namespace NServiceKit.ServiceInterface.Auth
         class InMemoryManagerFacade : IRedisClientManagerFacade
         {
             private readonly InMemoryAuthRepository root;
-            
+
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.InMemoryAuthRepository.InMemoryManagerFacade class.</summary>
+            ///
+            /// <param name="root">The root.</param>
             public InMemoryManagerFacade(InMemoryAuthRepository root)
             {
                 this.root = root;
             }
 
+            /// <summary>Gets the client.</summary>
+            ///
+            /// <returns>The client.</returns>
             public IRedisClientFacade GetClient()
             {
                 return new InMemoryClientFacade(root);
             }
 
+            /// <summary>Clears this object to its blank/initial state.</summary>
             public void Clear()
             {
                 lock (Instance.Sets) Instance.Sets.Clear();
@@ -70,6 +87,9 @@ namespace NServiceKit.ServiceInterface.Auth
         {
             private readonly InMemoryAuthRepository root;
 
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.InMemoryAuthRepository.InMemoryClientFacade class.</summary>
+            ///
+            /// <param name="root">The root.</param>
             public InMemoryClientFacade(InMemoryAuthRepository root)
             {
                 this.root = root;
@@ -79,16 +99,27 @@ namespace NServiceKit.ServiceInterface.Auth
             {
                 private readonly InMemoryAuthRepository root;
 
+                /// <summary>Initializes a new instance of the NServiceKit.ServiceInterface.Auth.InMemoryAuthRepository.InMemoryClientFacade.InMemoryTypedClientFacade&lt;T&gt; class.</summary>
+                ///
+                /// <param name="root">The root.</param>
                 public InMemoryTypedClientFacade(InMemoryAuthRepository root)
                 {
                     this.root = root;
                 }
 
+                /// <summary>Gets the next sequence.</summary>
+                ///
+                /// <returns>The next sequence.</returns>
                 public int GetNextSequence()
                 {
                     return Interlocked.Increment(ref TypedData<T>.Instance.Sequence);
                 }
 
+                /// <summary>Gets by identifier.</summary>
+                ///
+                /// <param name="id">The identifier.</param>
+                ///
+                /// <returns>The by identifier.</returns>
                 public T GetById(object id)
                 {
                     if (id == null) return default(T);
@@ -99,6 +130,11 @@ namespace NServiceKit.ServiceInterface.Auth
                     }
                 }
 
+                /// <summary>Gets by identifiers.</summary>
+                ///
+                /// <param name="ids">The identifiers.</param>
+                ///
+                /// <returns>The by identifiers.</returns>
                 public List<T> GetByIds(IEnumerable ids)
                 {
                     var idsSet = new HashSet<object>();
@@ -111,6 +147,11 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Gets all items from set.</summary>
+            ///
+            /// <param name="setId">Identifier for the set.</param>
+            ///
+            /// <returns>all items from set.</returns>
             public HashSet<string> GetAllItemsFromSet(string setId)
             {
                 lock (root.Sets)
@@ -120,6 +161,10 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Stores the given item.</summary>
+            ///
+            /// <typeparam name="T">Generic type parameter.</typeparam>
+            /// <param name="item">The item.</param>
             public void Store<T>(T item) where T : class , new()
             {
                 if (item == null) return;
@@ -137,6 +182,12 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Gets value from hash.</summary>
+            ///
+            /// <param name="hashId">Identifier for the hash.</param>
+            /// <param name="key">   The key.</param>
+            ///
+            /// <returns>The value from hash.</returns>
             public string GetValueFromHash(string hashId, string key)
             {
                 hashId.ThrowIfNull("hashId");
@@ -153,6 +204,11 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Sets entry in hash.</summary>
+            ///
+            /// <param name="hashId">Identifier for the hash.</param>
+            /// <param name="key">   The key.</param>
+            /// <param name="value"> The value.</param>
             public void SetEntryInHash(string hashId, string key, string value)
             {
                 hashId.ThrowIfNull("hashId");
@@ -168,6 +224,10 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Removes the entry from hash.</summary>
+            ///
+            /// <param name="hashId">Identifier for the hash.</param>
+            /// <param name="key">   The key.</param>
             public void RemoveEntryFromHash(string hashId, string key)
             {
                 hashId.ThrowIfNull("hashId");
@@ -183,6 +243,10 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Adds an item to set to 'item'.</summary>
+            ///
+            /// <param name="setId">Identifier for the set.</param>
+            /// <param name="item"> The item.</param>
             public void AddItemToSet(string setId, string item)
             {
                 lock (root.Sets)
@@ -195,11 +259,17 @@ namespace NServiceKit.ServiceInterface.Auth
                 }
             }
 
+            /// <summary>Gets as.</summary>
+            ///
+            /// <typeparam name="T">Generic type parameter.</typeparam>
+            ///
+            /// <returns>An ITypedRedisClientFacade&lt;T&gt;</returns>
             public ITypedRedisClientFacade<T> As<T>()
             {
                 return new InMemoryTypedClientFacade<T>(root);
             }
 
+            /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
             public void Dispose()
             {
             }

@@ -3,6 +3,7 @@ using NServiceKit.ServiceHost;
 
 namespace NServiceKit.Common
 {
+    /// <summary>A request context extensions.</summary>
     public static class RequestContextExtensions
     {
         /// <summary>

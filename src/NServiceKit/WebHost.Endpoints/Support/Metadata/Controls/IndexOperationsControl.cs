@@ -11,14 +11,46 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata.Controls
 {
     internal class IndexOperationsControl : System.Web.UI.Control
     {
+        /// <summary>Gets or sets the HTTP request.</summary>
+        ///
+        /// <value>The HTTP request.</value>
         public IHttpRequest HttpRequest { get; set; }
+
+        /// <summary>Gets or sets the title.</summary>
+        ///
+        /// <value>The title.</value>
         public string Title { get; set; }
+
+        /// <summary>Gets or sets a list of names of the operations.</summary>
+        ///
+        /// <value>A list of names of the operations.</value>
         public List<string> OperationNames { get; set; }
+
+        /// <summary>Gets or sets the metadata page body HTML.</summary>
+        ///
+        /// <value>The metadata page body HTML.</value>
         public string MetadataPageBodyHtml { get; set; }
+
+        /// <summary>Gets or sets the xsds.</summary>
+        ///
+        /// <value>The xsds.</value>
         public IDictionary<int, string> Xsds { get; set; }
+
+        /// <summary>Gets or sets the zero-based index of the XSD service types.</summary>
+        ///
+        /// <value>The XSD service types index.</value>
         public int XsdServiceTypesIndex { get; set; }
+
+        /// <summary>Gets or sets the metadata configuration.</summary>
+        ///
+        /// <value>The metadata configuration.</value>
         public MetadataPagesConfig MetadataConfig { get; set; }
 
+        /// <summary>Renders the row described by operation.</summary>
+        ///
+        /// <param name="operation">The operation.</param>
+        ///
+        /// <returns>A string.</returns>
         public string RenderRow(string operation)
         {
             var show = EndpointHost.DebugMode; //Always show in DebugMode
@@ -48,6 +80,9 @@ namespace NServiceKit.WebHost.Endpoints.Support.Metadata.Controls
             return show ? string.Format(opTemplate.ToString(), operation) : "";
         }
 
+        /// <summary>Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter" /> object, which writes the content to be rendered on the client.</summary>
+        ///
+        /// <param name="output">The <see cref="T:System.Web.UI.HtmlTextWriter" /> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter output)
         {
             var operationsPart = new TableTemplate

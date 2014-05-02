@@ -15,6 +15,7 @@ using NServiceKit.WebHost.Endpoints.Support.Markdown;
 
 namespace NServiceKit.ServiceHost.Tests.Formats
 {
+    /// <summary>A template tests.</summary>
     [TestFixture]
     public class TemplateTests
     {
@@ -28,6 +29,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
         private MarkdownFormat markdownFormat;
         Dictionary<string, object> templateArgs;
 
+        /// <summary>Tests fixture set up.</summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -41,6 +43,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             dynamicListPageContent = File.ReadAllText(dynamicListPagePath);
         }
 
+        /// <summary>Executes the before each test action.</summary>
         [SetUp]
         public void OnBeforeEachTest()
         {
@@ -50,6 +53,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             templateArgs = new Dictionary<string, object> { { MarkdownPage.ModelName, person } };
         }
 
+        /// <summary>Can render markdown template.</summary>
         [Test]
         public void Can_Render_MarkdownTemplate()
         {
@@ -69,21 +73,47 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>A person.</summary>
         public class Person
         {
+            /// <summary>Gets or sets the person's first name.</summary>
+            ///
+            /// <value>The name of the first.</value>
             public string FirstName { get; set; }
+
+            /// <summary>Gets or sets the person's last name.</summary>
+            ///
+            /// <value>The name of the last.</value>
             public string LastName { get; set; }
+
+            /// <summary>Gets or sets the links.</summary>
+            ///
+            /// <value>The links.</value>
             public List<Link> Links { get; set; }
         }
 
+        /// <summary>A link.</summary>
         public class Link
         {
+            /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.Formats.TemplateTests.Link class.</summary>
             public Link()
             {
                 this.Labels = new List<string>();
             }
+
+            /// <summary>Gets or sets the name.</summary>
+            ///
+            /// <value>The name.</value>
             public string Name { get; set; }
+
+            /// <summary>Gets or sets the href.</summary>
+            ///
+            /// <value>The href.</value>
             public string Href { get; set; }
+
+            /// <summary>Gets or sets the labels.</summary>
+            ///
+            /// <value>The labels.</value>
             public List<string> Labels { get; set; }
         }
 
@@ -98,6 +128,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
         };
 
 
+        /// <summary>Can render markdown page.</summary>
         [Test]
         public void Can_Render_MarkdownPage()
         {
@@ -117,6 +148,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown page with foreach.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_foreach()
         {
@@ -146,6 +178,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown page with if statement.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_IF_statement()
         {
@@ -181,6 +214,7 @@ Hello Demis,
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown with nested statements.</summary>
         [Test]
         public void Can_Render_Markdown_with_Nested_Statements()
         {
@@ -237,16 +271,29 @@ Hello Demis,
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>A custom markdown view base.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
         public class CustomMarkdownViewBase<T> : MarkdownViewBase<T>
         {
+            /// <summary>Tables the given model.</summary>
+            ///
+            /// <param name="model">The model.</param>
+            ///
+            /// <returns>A MvcHtmlString.</returns>
             public MvcHtmlString Table(Person model)
             {
                 return new CustomMarkdownViewBase().Table(model);
             }
         }
 
+        /// <summary>A custom markdown view base.</summary>
         public class CustomMarkdownViewBase : MarkdownViewBase
         {
+            /// <summary>Tables the given model.</summary>
+            ///
+            /// <param name="model">The model.</param>
+            ///
+            /// <returns>A MvcHtmlString.</returns>
             public MvcHtmlString Table(Person model)
             {
                 var sb = new StringBuilder();
@@ -266,6 +313,9 @@ Hello Demis,
 
             private static string[] MenuItems = new[] { "About Us", "Blog", "Links", "Contact" };
 
+            /// <summary>Menus.</summary>
+            ///
+            /// <param name="selectedId">Identifier for the selected.</param>
             public void Menu(string selectedId)
             {
                 var sb = new StringBuilder();
@@ -280,10 +330,18 @@ Hello Demis,
             }
         }
 
+        /// <summary>A custom markdown helper.</summary>
         public class CustomMarkdownHelper
         {
+            /// <summary>The instance.</summary>
             public static CustomMarkdownHelper Instance = new CustomMarkdownHelper();
 
+            /// <summary>Inline block.</summary>
+            ///
+            /// <param name="content">The content.</param>
+            /// <param name="id">     The identifier.</param>
+            ///
+            /// <returns>A MvcHtmlString.</returns>
             public MvcHtmlString InlineBlock(string content, string id)
             {
                 return MvcHtmlString.Create(
@@ -291,6 +349,7 @@ Hello Demis,
             }
         }
 
+        /// <summary>Can render markdown with static methods.</summary>
         [Test]
         public void Can_Render_Markdown_with_StaticMethods()
         {
@@ -373,6 +432,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can inherit from generic view page from model directive.</summary>
         [Test]
         public void Can_inherit_from_Generic_view_page_from_model_directive()
         {
@@ -400,6 +460,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can inherit from custom view page using inherits directive.</summary>
         [Test]
         public void Can_inherit_from_CustomViewPage_using_inherits_directive()
         {
@@ -435,6 +496,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Helper method that can render markdown page with external.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_external_helper()
         {
@@ -464,6 +526,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown page with external helper using helper directive.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_external_helper_using_helper_directive()
         {
@@ -493,6 +556,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render page to markdown only.</summary>
         [Test]
         public void Can_Render_page_to_Markdown_only()
         {
@@ -556,6 +620,7 @@ Hello  BELLOT, Demis
         }
 
 
+        /// <summary>Can render markdown with variable statements.</summary>
         [Test]
         public void Can_Render_Markdown_with_variable_statements()
         {
@@ -611,6 +676,7 @@ Hello  BELLOT, Demis
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown page with comments.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_comments()
         {
@@ -646,6 +712,7 @@ Plain text in a comment
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render markdown page with unmatching escaped braces.</summary>
         [Test]
         public void Can_Render_MarkdownPage_with_unmatching_escaped_braces()
         {
@@ -685,6 +752,7 @@ Hello @Model.FirstName, { -- unmatched, leave unescaped outside statement
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can capture section statements and store them in scopeargs.</summary>
         [Test]
         public void Can_capture_Section_statements_and_store_them_in_scopeargs()
         {
@@ -765,6 +833,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render template with section and variable placeholders.</summary>
         [Test]
         public void Can_Render_Template_with_section_and_variable_placeholders()
         {
@@ -872,6 +941,7 @@ AjaxStack - http://www.ajaxstack.com
             Assert.That(templateOutput, Is.EqualTo(expectedHtml));
         }
 
+        /// <summary>Can render static content page that populates variable and displayed on website template.</summary>
         [Test]
         public void Can_Render_Static_ContentPage_that_populates_variable_and_displayed_on_website_template()
         {

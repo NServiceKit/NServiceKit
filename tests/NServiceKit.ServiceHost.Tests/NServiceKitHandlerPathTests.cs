@@ -7,8 +7,15 @@ using System.Linq;
 
 namespace NServiceKit.ServiceHost.Tests
 {
+    /// <summary>A request path.</summary>
     public class RequestPath
     {
+        /// <summary>Initializes a new instance of the NServiceKit.ServiceHost.Tests.RequestPath class.</summary>
+        ///
+        /// <param name="path">    The full pathname of the file.</param>
+        /// <param name="host">    The host.</param>
+        /// <param name="pathInfo">Information describing the path.</param>
+        /// <param name="rawUrl">  The raw URL.</param>
         public RequestPath(string path, string host, string pathInfo, string rawUrl)
         {
             Path = path;
@@ -18,22 +25,49 @@ namespace NServiceKit.ServiceHost.Tests
             AbsoluteUri = "http://localhost" + rawUrl;
         }
 
+        /// <summary>Gets or sets the full pathname of the file.</summary>
+        ///
+        /// <value>The full pathname of the file.</value>
         public string Path { get; set; }
+
+        /// <summary>Gets or sets the host.</summary>
+        ///
+        /// <value>The host.</value>
         public string Host { get; set; }
+
+        /// <summary>Gets or sets information describing the path.</summary>
+        ///
+        /// <value>Information describing the path.</value>
         public string PathInfo { get; set; }
+
+        /// <summary>Gets or sets URL of the raw.</summary>
+        ///
+        /// <value>The raw URL.</value>
         public string RawUrl { get; set; }
+
+        /// <summary>Gets or sets URI of the absolute.</summary>
+        ///
+        /// <value>The absolute URI.</value>
         public string AbsoluteUri { get; set; }
     }
 
+    /// <summary>A service kit handler path tests.</summary>
     [TestFixture]
     public class NServiceKitHandlerPathTests
     {
+        /// <summary>Resolve path.</summary>
+        ///
+        /// <param name="mode">The mode.</param>
+        /// <param name="path">Full pathname of the file.</param>
+        ///
+        /// <returns>A string.</returns>
         public string ResolvePath(string mode, string path)
         {
             return WebHost.Endpoints.Extensions.HttpRequestExtensions.
                 GetPathInfo(path, mode, path.Split('/').First(x => x != ""));
         }
 
+        /// <summary>Can resolve root path.</summary>
         [Test]
         public void Can_resolve_root_path()
         {
@@ -51,6 +85,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(results.All(x => x == "/"));
         }
 
+        /// <summary>Can resolve metadata paths.</summary>
         [Test]
         public void Can_resolve_metadata_paths()
         {
@@ -68,6 +103,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(results.All(x => x == "/metadata"));
         }
 
+        /// <summary>Can resolve metadata JSON paths.</summary>
         [Test]
         public void Can_resolve_metadata_json_paths()
         {
@@ -85,6 +121,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(results.All(x => x == "/json/metadata"));
         }
 
+        /// <summary>Can resolve paths with multipart root.</summary>
         [Test]
         public void Can_resolve_paths_with_multipart_root()
         {
@@ -100,6 +137,7 @@ namespace NServiceKit.ServiceHost.Tests
             Assert.That(results.All(x => x == "/metadata"));
         }
 
+        /// <summary>Gets physical path honours web host physical path.</summary>
         [Test]
         [Ignore]
         public void GetPhysicalPath_Honours_WebHostPhysicalPath()

@@ -9,6 +9,9 @@ namespace NServiceKit.Validation
     /// </summary>
     public class ValidationErrorResult
     {
+        /// <summary>Gets the success.</summary>
+        ///
+        /// <value>The success.</value>
         public static ValidationErrorResult Success
         {
             get
@@ -49,6 +52,9 @@ namespace NServiceKit.Validation
         /// <value>The error message.</value>
         public string ErrorMessage { get; set; }
 
+        /// <summary>Gets the message.</summary>
+        ///
+        /// <value>The message.</value>
         public virtual string Message
         {
             get

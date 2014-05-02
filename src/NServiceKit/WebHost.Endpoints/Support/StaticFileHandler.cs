@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Web;
 using NServiceKit.Common;
 using NServiceKit.Common.Web;
@@ -43,10 +44,16 @@ using HttpResponseWrapper = NServiceKit.WebHost.Endpoints.Extensions.HttpRespons
 
 namespace NServiceKit.WebHost.Endpoints.Support
 {
+    /// <summary>A static file handler.</summary>
     public class StaticFileHandler : IHttpHandler, INServiceKitHttpHandler
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(StaticFileHandler));
 
+        /// <summary>Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler" /> interface.</summary>
+        ///
+        /// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to
+        /// service HTTP requests.
+        /// </param>
 		public void ProcessRequest(HttpContext context)
 		{
 			ProcessRequest(
@@ -77,6 +84,14 @@ namespace NServiceKit.WebHost.Endpoints.Support
 			}
 		}
 
+        /// <summary>Process the request.</summary>
+        ///
+        /// <exception cref="HttpException">        Thrown when a HTTP error condition occurs.</exception>
+        /// <exception cref="HttpListenerException">Thrown when a HTTP Listener error condition occurs.</exception>
+        ///
+        /// <param name="request">      The HTTP request.</param>
+        /// <param name="response">     The HTTP resource.</param>
+        /// <param name="operationName">Name of the operation.</param>
         public void ProcessRequest(IHttpRequest request, IHttpResponse response, string operationName)
 		{
             response.EndHttpHandlerRequest(skipClose: true, afterBody: r => {
@@ -229,11 +244,20 @@ namespace NServiceKit.WebHost.Endpoints.Support
             return indexDirs;
         }
 
+        /// <summary>Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler" /> instance.</summary>
+        ///
+        /// <value>true if the <see cref="T:System.Web.IHttpHandler" /> instance is reusable; otherwise, false.</value>
 	    public bool IsReusable
 		{
 			get { return true; }
 		}
 
+        /// <summary>Queries if a given directory exists.</summary>
+        ///
+        /// <param name="dirPath">    Pathname of the directory.</param>
+        /// <param name="appFilePath">Full pathname of the application file.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
         public static bool DirectoryExists(string dirPath, string appFilePath)
         {
             if (dirPath == null) return false;

@@ -10,6 +10,10 @@ before_install:
  - wget "http://download.xamarin.com/MonoFrameworkMDK/Macx86/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg"
  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
 
+before_script:
+- pwd
+- ls
+
 script:
- - build.sh
+ - ./build.sh
 # - .ci/nunit.sh Tests/bin/Debug/Tests.dll

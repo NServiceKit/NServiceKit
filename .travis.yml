@@ -16,7 +16,7 @@ before_script:
 
 script:
  - ./build.sh
- - .ci/nunit.sh ./tests/NServiceKit.ServiceHost.Tests/bin/Release/NServiceKit.ServiceHost.Tests.dll /noshadow
+# - .ci/nunit.sh ./tests/NServiceKit.ServiceHost.Tests/bin/Release/NServiceKit.ServiceHost.Tests.dll /noshadow
  - .ci/nunit.sh ./tests/NServiceKit.Messaging.Tests/bin/Release/NServiceKit.Messaging.Tests.dll /noshadow
  - .ci/nunit.sh ./tests/NServiceKit.Common.Tests/bin/Release/NServiceKit.Common.Tests.dll /noshadow
  - .ci/nunit.sh ./tests/NServiceKit.Auth.Tests/bin/Release/NServiceKit.Auth.Tests.dll /noshadow

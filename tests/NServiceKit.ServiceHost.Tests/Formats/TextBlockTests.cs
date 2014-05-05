@@ -41,7 +41,7 @@ namespace NServiceKit.ServiceHost.Tests.Formats
 			Assert.That(parsedContent, Is.EqualTo(expected));
 			Assert.That(statements.Count, Is.EqualTo(1));
 			Assert.That(statements[0].Condition, Is.EqualTo("var link in Model.Links"));
-			Assert.That(statements[0].Statement, Is.EqualTo("  - @link.Name - @link.Href\r\n"));
+			Assert.That(statements[0].Statement, Is.EqualTo("  - @link.Name - @link.Href"+Environment.NewLine));
 		}
 
         /// <summary>Does handle foreach when enumerable is empty first time.</summary>

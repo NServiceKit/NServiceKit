@@ -56,3 +56,5 @@ src/ServiceStack.userprefs
 src/ServiceStack.userprefs
 .sonar/
 nuget-packages/
+
+*.pkg

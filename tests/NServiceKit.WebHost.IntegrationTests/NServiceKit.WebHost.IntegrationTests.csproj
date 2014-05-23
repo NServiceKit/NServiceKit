@@ -37,6 +37,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -293,6 +294,10 @@
     <ProjectReference Include="..\..\src\NServiceKit.Plugins.ProtoBuf\NServiceKit.Plugins.ProtoBuf.csproj">
       <Project>{EF36A253-C53F-4BF3-B0EC-4D29211FA67D}</Project>
       <Name>NServiceKit.Plugins.ProtoBuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\NServiceKit.Razor\NServiceKit.Razor.csproj">
+      <Project>{d73274ae-006b-4cee-ba60-0ecf5873048d}</Project>
+      <Name>NServiceKit.Razor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\NServiceKit.ServiceInterface\NServiceKit.ServiceInterface.csproj">
       <Project>{5A315F92-80D2-4C60-A5A4-22E027AC7E7E}</Project>

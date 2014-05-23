@@ -1,99 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SwaggerResourcesService.cs" company="Vistaprint">
+//   Copyright (c) Vistaprint.  All rights reserved.
+// </copyright>
+// <summary>
+//   The resources.
+// </summary>
+// <remarks>
+//  This file was forked from the ServiceStack.Swagger plugin. The code is in a somewhat messy state, but it works relatively well.
+// </remarks>
+// --------------------------------------------------------------------------------------------------------------------
+
 using NServiceKit.Common;
-using NServiceKit.Common.Extensions;
-using NServiceKit.ServiceHost;
-using NServiceKit.WebHost.Endpoints;
 
 namespace NServiceKit.Api.Swagger
 {
-    /// <summary>A resources.</summary>
-    [DataContract]
-    public class Resources
-    {
-        /// <summary>Gets or sets the API key.</summary>
-        ///
-        /// <value>The API key.</value>
-        [DataMember(Name = "apiKey")]
-        public string ApiKey { get; set; }
-    }
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
 
-    /// <summary>The resources response.</summary>
-    [DataContract]
-    public class ResourcesResponse
-    {
-        /// <summary>Gets or sets the swagger version.</summary>
-        ///
-        /// <value>The swagger version.</value>
-        [DataMember(Name = "swaggerVersion")]
-        public string SwaggerVersion { get; set; }
+    using NServiceKit.Common.Extensions;
+    using NServiceKit.ServiceHost;
+    using NServiceKit.ServiceInterface;
+    using NServiceKit.WebHost.Endpoints;
 
-        /// <summary>Gets or sets the API version.</summary>
-        ///
-        /// <value>The API version.</value>
-        [DataMember(Name = "apiVersion")]
-        public string ApiVersion { get; set; }
+    using NServiceKit.Api.Swagger.Models;
 
-        /// <summary>Gets or sets the full pathname of the base file.</summary>
-        ///
-        /// <value>The full pathname of the base file.</value>
-        [DataMember(Name = "basePath")]
-        public string BasePath { get; set; }
-
-        /// <summary>Gets or sets the apis.</summary>
-        ///
-        /// <value>The apis.</value>
-        [DataMember(Name = "apis")]
-        public List<RestService> Apis { get; set; }
-    }
-
-    /// <summary>A rest service.</summary>
-    [DataContract]
-    public class RestService
-    {
-        /// <summary>Gets or sets the full pathname of the file.</summary>
-        ///
-        /// <value>The full pathname of the file.</value>
-        [DataMember(Name = "path")]
-        public string Path { get; set; }
-
-        /// <summary>Gets or sets the description.</summary>
-        ///
-        /// <value>The description.</value>
-        [DataMember(Name = "description")]
-        public string Description { get; set; }
-    }
-
-    /// <summary>A swagger resources service.</summary>
-    [DefaultRequest(typeof(Resources))]
-    public class SwaggerResourcesService : ServiceInterface.Service
+    /// <summary>
+    /// The swagger resources service.
+    /// </summary>
+    [DefaultRequest(typeof(ResourcesRequest))]
+    public class SwaggerResourcesService : Service
     {
         private readonly Regex resourcePathCleanerRegex = new Regex(@"/[^\/\{]*", RegexOptions.Compiled);
-        internal static Regex resourceFilterRegex;
 
-        internal const string RESOURCE_PATH = "/resource";
+        /// <summary>
+        /// The path to the swagger resources.
+        /// </summary>
+        public static string ResourcePath { get; set; }
 
-        /// <summary>Gets the given request.</summary>
-        ///
-        /// <param name="request">The request to get.</param>
-        ///
-        /// <returns>An object.</returns>
-        public object Get(Resources request)
+        internal static Regex ResourceFilterRegex { get; set; }
+
+        internal static Regex ResourcePathFilterRegex { get; set; }
+
+        internal static string ApiVersion { get; set; }
+
+        /// <summary>
+        /// Return a swagger resources listing for this service.
+        /// </summary>
+        /// <param name="request">
+        /// The request to list swagger resources.
+        /// </param>
+        /// <returns>
+        /// A list of valid swagger endpoints on this service.
+        /// </returns>
+        public object Get(ResourcesRequest request)
         {
             var basePath = EndpointHost.Config.WebHostUrl;
             if (basePath == null)
             {
                 basePath = EndpointHost.Config.UseHttpsLinks
-                    ? Request.GetParentPathUrl().ToHttps()
-                    : Request.GetParentPathUrl();
+                               ? this.Request.GetParentPathUrl().ToHttps()
+                               : this.Request.GetParentPathUrl();
             }
 
             var result = new ResourcesResponse
             {
-                SwaggerVersion = "1.1",
+                SwaggerVersion = SwaggerFeature.SwaggerVersion,
+                ApiVersion = ApiVersion,
                 BasePath = basePath,
                 Apis = new List<RestService>()
             };
@@ -102,51 +76,77 @@ namespace NServiceKit.Api.Swagger
             var allOperationNames = operations.GetAllOperationNames();
             foreach (var operationName in allOperationNames)
             {
-                if (resourceFilterRegex != null && !resourceFilterRegex.IsMatch(operationName)) continue;
+                if (ResourceFilterRegex != null && !ResourceFilterRegex.IsMatch(operationName))
+                {
+                    continue;
+                }
+
                 var name = operationName;
                 var operationType = allTypes.FirstOrDefault(x => x.Name == name);
-                if (operationType == null) continue;
-                if (operationType == typeof(Resources) || operationType == typeof(ResourceRequest))
+                if (operationType == null)
+                {
                     continue;
-                if (!operations.IsVisible(Request, Format.Json, operationName)) continue;
+                }
 
-                CreateRestPaths(result.Apis, operationType, operationName);
+                if (operationType == typeof(ResourcesRequest)
+                    || operationType == typeof(ResourceRequest))
+                {
+                    continue;
+                }
+
+                if (!operations.IsVisible(this.Request, Format.Json, operationName))
+                {
+                    continue;
+                }
+
+                this.CreateRestPaths(result.Apis, operationType, operationName);
             }
 
             result.Apis = result.Apis.OrderBy(a => a.Path).ToList();
             return result;
         }
 
-        /// <summary>Creates rest paths.</summary>
-        ///
-        /// <param name="apis">         The apis.</param>
-        /// <param name="operationType">Type of the operation.</param>
-        /// <param name="operationName">Name of the operation.</param>
-        protected void CreateRestPaths(List<RestService> apis, Type operationType, String operationName)
+        private void CreateRestPaths(List<RestService> apis, Type operationType, string operationName)
         {
             var map = EndpointHost.ServiceManager.ServiceController.RestPathMap;
             var paths = new List<string>();
             foreach (var key in map.Keys)
             {
-                paths.AddRange(map[key].Where(x => x.RequestType == operationType).Select(t => resourcePathCleanerRegex.Match(t.Path).Value));
+                paths.AddRange(
+                    map[key].Where(x => x.RequestType == operationType)
+                        .Select(t => this.resourcePathCleanerRegex.Match(t.Path).Value));
             }
 
-            if (paths.Count == 0) return;
+            if (paths.Count == 0)
+            {
+                return;
+            }
 
-            var basePaths = paths.Select(t => string.IsNullOrEmpty(t) ? null : t.Split('/'))
-                .Where(t => t != null && t.Length > 1)
-                .Select(t => t[1]);
+            var basePaths =
+                paths.Select(t => string.IsNullOrEmpty(t) ? null : t.Split('/'))
+                    .Where(t => t != null && t.Length > 1)
+                    .Select(t => t[1]);
 
             foreach (var bp in basePaths)
             {
-                if (string.IsNullOrEmpty(bp)) continue;
-                if (apis.All(a => a.Path != string.Concat(RESOURCE_PATH, "/" + bp)))
+                if (string.IsNullOrEmpty(bp))
                 {
-                    apis.Add(new RestService
-                    {
-                        Path = string.Concat(RESOURCE_PATH, "/" + bp),
-                        Description = operationType.GetDescription()
-                    });
+                    return;
+                }
+
+                if (ResourcePathFilterRegex != null && !ResourcePathFilterRegex.IsMatch(bp))
+                {
+                    continue;
+                }
+
+                if (apis.All(a => a.Path != string.Concat(ResourcePath, "/" + bp)))
+                {
+                    apis.Add(
+                        new RestService
+                        {
+                            Path = string.Concat(ResourcePath, "/" + bp),
+                            Description = operationType.GetDescription()
+                        });
                 }
             }
         }

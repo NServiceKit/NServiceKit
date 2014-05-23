@@ -10,6 +10,7 @@ using NServiceKit.Service;
 using NServiceKit.Api.Swagger;
 using NServiceKit.ServiceInterface.Cors;
 using NServiceKit.Text;
+using NServiceKit.Api.Swagger.Models;
 
 namespace NServiceKit.WebHost.Endpoints.Tests
 {

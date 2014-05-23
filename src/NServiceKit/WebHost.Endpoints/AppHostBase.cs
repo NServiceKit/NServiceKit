@@ -98,6 +98,7 @@ namespace NServiceKit.WebHost.Endpoints
 			if (serviceManager != null)
 			{
 				serviceManager.Init();
+
 				Configure(EndpointHost.Config.ServiceManager.Container);
 			}
 			else

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NServiceKit.Api.Swagger</RootNamespace>
     <AssemblyName>NServiceKit.Api.Swagger</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -45,11 +45,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ResourcesRequest.cs" />
+    <Compile Include="Models\ResourcesResponse.cs" />
+    <Compile Include="Models\RestService.cs" />
+    <Compile Include="Models\SwaggerModel.cs" />
+    <Compile Include="Models\SwaggerUiRequest.cs" />
+    <Compile Include="Models\SwaggerUiResponse.cs" />
+    <Compile Include="NamedRouteAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwaggerApiService.cs" />
+    <Compile Include="SwaggerEmbeddedFeature.cs" />
     <Compile Include="SwaggerFeature.cs" />
     <Compile Include="SwaggerResourcesService.cs" />
     <Compile Include="SwaggerType.cs" />
+    <Compile Include="SwaggerUiService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="swagger-ui\css\hightlight.default.css" />
@@ -80,6 +89,10 @@
       <Project>{42E1C8C0-A163-44CC-92B1-8F416F2C0B01}</Project>
       <Name>NServiceKit.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NServiceKit.Razor\NServiceKit.Razor.csproj">
+      <Project>{d73274ae-006b-4cee-ba60-0ecf5873048d}</Project>
+      <Name>NServiceKit.Razor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NServiceKit.ServiceInterface\NServiceKit.ServiceInterface.csproj">
       <Project>{5A315F92-80D2-4C60-A5A4-22E027AC7E7E}</Project>
       <Name>NServiceKit.ServiceInterface</Name>
@@ -91,7 +104,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="swagger-ui\LICENSE" />
+    <EmbeddedResource Include="Views\lib\jquery-ba-bbq-min-js.cshtml" />
+    <EmbeddedResource Include="Views\lib\jquery-slideto-min-js.cshtml" />
+    <EmbeddedResource Include="Views\lib\jquery-wiggle-min-js.cshtml" />
+    <EmbeddedResource Include="Views\lib\swagger-js.cshtml" />
+    <EmbeddedResource Include="Views\lib\swagger-ui-js.cshtml" />
+    <EmbeddedResource Include="Views\SwaggerUiRequest.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

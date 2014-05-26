@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpRazorBuildProvider.cs" />
+    <Compile Include="EmbeddedResourceRazorPlugin.cs" />
     <Compile Include="json\DynamicJson.cs" />
     <Compile Include="Compilation\CompilerServices.cs" />
     <Compile Include="Compilation\CodeTransformers\AddPageVirtualPathAttribute.cs" />

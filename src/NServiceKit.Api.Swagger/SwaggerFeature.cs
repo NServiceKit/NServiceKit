@@ -7,6 +7,8 @@ namespace NServiceKit.Api.Swagger
     /// <summary>A swagger feature.</summary>
     public class SwaggerFeature : IPlugin
     {
+        public const string SwaggerVersion = "1.1";
+
         /// <summary>
         /// Gets or sets <see cref="Regex"/> pattern to filter available resources. 
         /// </summary>
@@ -33,14 +35,14 @@ namespace NServiceKit.Api.Swagger
         public void Register(IAppHost appHost)
         {
             if (ResourceFilterPattern != null)
-                SwaggerResourcesService.resourceFilterRegex = new Regex(ResourceFilterPattern, RegexOptions.Compiled);
+                SwaggerResourcesService.ResourceFilterRegex = new Regex(ResourceFilterPattern, RegexOptions.Compiled);
 
             SwaggerApiService.UseCamelCaseModelPropertyNames = UseCamelCaseModelPropertyNames;
             SwaggerApiService.UseLowercaseUnderscoreModelPropertyNames = UseLowercaseUnderscoreModelPropertyNames;
             SwaggerApiService.DisableAutoDtoInBodyParam = DisableAutoDtoInBodyParam;
 
             appHost.RegisterService(typeof(SwaggerResourcesService), new[] { "/resources" });
-            appHost.RegisterService(typeof(SwaggerApiService), new[] { SwaggerResourcesService.RESOURCE_PATH + "/{Name*}" });
+            appHost.RegisterService(typeof(SwaggerApiService), new[] { SwaggerResourcesService.ResourcePath + "/{Name*}" });
         }
 
         /// <summary>Gets a value indicating whether this object is enabled.</summary>

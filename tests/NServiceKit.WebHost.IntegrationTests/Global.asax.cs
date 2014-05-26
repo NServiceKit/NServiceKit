@@ -23,6 +23,7 @@ using NServiceKit.Text;
 using NServiceKit.WebHost.Endpoints;
 using NServiceKit.WebHost.IntegrationTests.Services;
 using NServiceKit.WebHost.IntegrationTests.Tests;
+using NServiceKit.Razor;
 
 namespace NServiceKit.WebHost.IntegrationTests
 {
@@ -98,10 +99,15 @@ namespace NServiceKit.WebHost.IntegrationTests
                 var resetMovies = this.Container.Resolve<ResetMoviesService>();
                 resetMovies.Post(null);
 
+#if true
+                var erp = new EmbeddedResourceRazorPlugin();
+                erp.AddViewContainingAssemblies(typeof (SwaggerEmbeddedFeature).Assembly);
+                Plugins.Add(erp);
+#endif
                 Plugins.Add(new ValidationFeature());
                 Plugins.Add(new SessionFeature());
                 Plugins.Add(new ProtoBufFormat());
-                Plugins.Add(new SwaggerFeature());
+                Plugins.Add(new SwaggerEmbeddedFeature() { ApiVersion = "1.0", SwaggerUiEnabled = true });
                 Plugins.Add(new RequestLogsFeature());
 
                 container.RegisterValidators(typeof(CustomersValidator).Assembly);

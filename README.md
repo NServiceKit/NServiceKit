@@ -133,7 +133,7 @@ That's all the application code required to create a simple REST web service.
 If you have [NuGet](http://nuget.org) installed, the easiest way to get started is to install ServiceStack via NuGet:
 
 NServiceKit binaries only: Minimal installation of ServiceStack containing only the core-binaries (.NET 3.5+)
-![Install-Pacakage NServiceKit](https://github.com/NServiceKit/NServiceKit/raw/master/install-package-nservicekit.png)
+![Install-Pacakage NServiceKit](https://github.com/NServiceKit/NServiceKit/raw/master/src/install-package-nservicekit.png)
 
 NServiceKit with Razor Support: Create an empty ASP.NET Web or Console Application and (.NET 4.0+)
 ![Install-Pacakage NServiceKit.Razor2](http://www.servicestack.net/img/nuget-servicestack.razor.png)

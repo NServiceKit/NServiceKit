@@ -132,11 +132,11 @@ That's all the application code required to create a simple REST web service.
 
 If you have [NuGet](http://nuget.org) installed, the easiest way to get started is to install ServiceStack via NuGet:
 
-ServiceStack binaries only: Minimal installation of ServiceStack containing only the core-binaries (.NET 3.5+)
-![Install-Pacakage ServiceStack](http://www.servicestack.net/img/nuget-servicestack.png)
+NServiceKit binaries only: Minimal installation of ServiceStack containing only the core-binaries (.NET 3.5+)
+![Install-Pacakage NServiceKit](https://github.com/NServiceKit/NServiceKit/raw/master/install-package-nservicekit.png)
 
-ServiceStack with Razor Support: Create an empty ASP.NET Web or Console Application and (.NET 4.0+)
-![Install-Pacakage ServiceStack.Razor2](http://www.servicestack.net/img/nuget-servicestack.razor.png)
+NServiceKit with Razor Support: Create an empty ASP.NET Web or Console Application and (.NET 4.0+)
+![Install-Pacakage NServiceKit.Razor2](http://www.servicestack.net/img/nuget-servicestack.razor.png)
 
 _Note: the binary packages are provided as-is - no direct or commercial support is available for ServiceStack_
 
@@ -193,13 +193,19 @@ Follow [@ServiceStack](http://twitter.com/ServiceStack) and
 
 -----
 
-## Core Team
+## NServiceKit Core Team
+
+ - [efontana](https://github.com/efontana) (Eric Fontana) / [@efontana](https://twitter.com/efontana)
+ - [mirthy](https://github.com/mirthy) (Jeff Kwan)
+ - [gcschorer](https://github.com/gcschorer) (Gary Schorer)
+
+## ServiceStack Core Team
 
  - [mythz](https://github.com/mythz) (Demis Bellot)
  - [arxisos](https://github.com/arxisos) (Steffen Müller) / [@arxisos](https://twitter.com/arxisos)
  - [desunit](https://github.com/desunit) (Sergey Bogdanov) / [@desunit](https://twitter.com/desunit)
 
-## Contributors 
+## ServiceStack Contributors 
 A big thanks to GitHub and all of ServiceStack's contributors:
 
  - [bman654](https://github.com/bman654) (Brandon Wallace)

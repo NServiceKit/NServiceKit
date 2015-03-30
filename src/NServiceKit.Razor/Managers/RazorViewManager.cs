@@ -438,7 +438,9 @@ namespace NServiceKit.Razor.Managers
         public virtual IVirtualFile GetVirutalFile(string ospath)
         {
             var relative = GetRelativePath(ospath);
-            return this.PathProvider.GetFile(relative);
+            var file = this.PathProvider.GetFile(relative);
+
+            return file; 
         }
         #endregion
     }

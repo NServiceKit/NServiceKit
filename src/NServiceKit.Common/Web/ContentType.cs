@@ -79,6 +79,9 @@ namespace NServiceKit.Common.Web
         /// <summary>The binary.</summary>
         public const string Binary = "application/octet-stream";
 
+        /// <summary>Css.</summary>
+        public const string css = "text/css";
+
         /// <summary>Gets endpoint attributes.</summary>
         ///
         /// <param name="contentType">The contentType to act on.</param>

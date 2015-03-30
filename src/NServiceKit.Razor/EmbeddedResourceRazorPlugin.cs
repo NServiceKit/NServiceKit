@@ -61,12 +61,9 @@ namespace NServiceKit.Razor
             {
                 foreach (string resource in asm.GetManifestResourceNames())
                 {
-                    if (resource.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
-                    {
                         // Get just the file name. Internally, ServiceStack dumps all these in a giant "/Views" directory anyway, so let's just do that.
                         string path = string.Join(".", resource.Split('.').Reverse().Take(2).Reverse());
                         viewsDir.AddFile(path, new StreamReader(asm.GetManifestResourceStream(resource)).ReadToEnd());
-                    }
                 }
             }
 

@@ -11,14 +11,12 @@ using NServiceKit.ServiceHost;
 using NServiceKit.Text;
 using NServiceKit.WebHost.Endpoints.Extensions;
 using NServiceKit.WebHost.Endpoints.Support;
+using System.Web.UI.WebControls;
+using NServiceKit.IO;
+using NServiceKit.Text.Controller;
 
 namespace NServiceKit.Razor.Managers
 {
-    using System.Web.UI.WebControls;
-
-    using NServiceKit.IO;
-    using NServiceKit.Text.Controller;
-
     /// <summary>Renders the partial delegate.</summary>
     ///
     /// <param name="pageName">  Name of the page.</param>

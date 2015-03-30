@@ -191,8 +191,16 @@ namespace NServiceKit.VirtualPath
         /// <returns></returns>
         public override IVirtualFile GetFile(string virtualPath)
         {
-            virtualPath = StripBeginningDirectorySeparator(virtualPath);
-            return files.FirstOrDefault(x => x.FilePath == virtualPath);
+            string filename = Path.GetFileName(virtualPath); 
+
+            // Actually looks for files now. 
+            foreach(IVirtualDirectory fileDir in this.Directory.Directories)
+            {
+                IVirtualFile returnFile = fileDir.Files.First(x => x.Name == filename); 
+                return returnFile; 
+            }
+
+            return null; 
         }
 
         /// <summary>

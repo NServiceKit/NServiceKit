@@ -106,7 +106,15 @@ namespace NServiceKit.Redis
         ///
         /// <returns>The indexed item.</returns>
 		string this[string key] { get; set; }
-
+		
+	/// <summary>scan keys.</summary>
+        ///
+        /// <param name="cursor">start cursor.</param>
+        /// <param name="pattern">key pattern.</param>
+        /// <param name="count">scan count.</param>
+        /// <returns>keys</returns>
+	string[] ScanKeys(ref long cursor, string pattern = null, long? count = null);
+	
         /// <summary>Gets all keys.</summary>
         ///
         /// <returns>all keys.</returns>

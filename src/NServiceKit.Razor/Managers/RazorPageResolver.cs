@@ -11,6 +11,9 @@ using NServiceKit.ServiceHost;
 using NServiceKit.Text;
 using NServiceKit.WebHost.Endpoints.Extensions;
 using NServiceKit.WebHost.Endpoints.Support;
+using System.Web.UI.WebControls;
+using NServiceKit.IO;
+using NServiceKit.Text.Controller;
 
 namespace NServiceKit.Razor.Managers
 {
@@ -75,35 +78,40 @@ namespace NServiceKit.Razor.Managers
         {
             //does not have a .cshtml extension
             var ext = Path.GetExtension(pathInfo);
-            if (!string.IsNullOrEmpty(ext) && ext != config.RazorFileExtension)
-                return null;
-
-            //pathInfo on dir doesn't match existing razor page
-            if (string.IsNullOrEmpty(ext) && viewManager.GetPageByPathInfo(pathInfo) == null)
-                return null;
-
-            //if there is any denied predicates for the path, return nothing
-            if (this.config.Deny.Any(denined => denined(pathInfo))) return null;
-
-            //Redirect for /default.cshtml => / or /page.cshtml => /page
-            if (pathInfo.EndsWith(config.RazorFileExtension))
+            if (ext == config.RazorFileExtension)
             {
-                pathInfo = pathInfo.EndsWithIgnoreCase(config.DefaultPageName)
-                    ? pathInfo.Substring(0, pathInfo.Length - config.DefaultPageName.Length)
-                    : pathInfo.WithoutExtension();
+                //pathInfo on dir doesn't match existing razor page
+                if (string.IsNullOrEmpty(ext) && viewManager.GetPageByPathInfo(pathInfo) == null) return null;
 
-                var webHostUrl = config.WebHostUrl;
-                return new RedirectHttpHandler
+                //if there is any denied predicates for the path, return nothing
+                if (this.config.Deny.Any(denined => denined(pathInfo))) return null;
+
+                //Redirect for /default.cshtml => / or /page.cshtml => /page
+                if (pathInfo.EndsWith(config.RazorFileExtension))
                 {
-                    AbsoluteUrl = webHostUrl.IsNullOrEmpty()
-                        ? null
-                        : webHostUrl.CombineWith(pathInfo),
-                    RelativeUrl = webHostUrl.IsNullOrEmpty()
-                        ? pathInfo
-                        : null
-                };
-            }
+                    pathInfo = pathInfo.EndsWithIgnoreCase(config.DefaultPageName)
+                                   ? pathInfo.Substring(0, pathInfo.Length - config.DefaultPageName.Length)
+                                   : pathInfo.WithoutExtension();
 
+                    var webHostUrl = config.WebHostUrl;
+                    return new RedirectHttpHandler
+                               {
+                                   AbsoluteUrl =
+                                       webHostUrl.IsNullOrEmpty()
+                                           ? null
+                                           : webHostUrl.CombineWith(pathInfo),
+                                   RelativeUrl = webHostUrl.IsNullOrEmpty() ? pathInfo : null
+                               };
+                }
+            }
+            else
+            {
+                if (this.viewManager.GetVirutalFile(pathInfo) == null)
+                {
+                    return null;
+                }
+            }
+            
             //only return "this" when we can, indeed, handle the httpReq.
             return this;
         }
@@ -113,9 +121,20 @@ namespace NServiceKit.Razor.Managers
         /// </summary>
         public override void ProcessRequest(IHttpRequest httpReq, IHttpResponse httpRes, string operationName)
         {
-            httpRes.ContentType = ContentType.Html;
+            ////ToDo: Figure out binary assets like jpgs and pngs. 
 
-            ResolveAndExecuteRazorPage(httpReq, httpRes, null);
+            httpRes.ContentType = ContentType.PlainText;
+
+            if (httpReq.PathInfo.EndsWith("js"))
+            {
+                httpRes.ContentType = ContentType.JavaScript;
+            }
+            else if (httpReq.PathInfo.EndsWith("css"))
+            {
+                httpRes.ContentType = ContentType.css;
+            }
+
+            this.ResolveRazorPageAsset(httpReq, httpRes, null);
             httpRes.EndRequest(skipHeaders: true);
         }
 
@@ -154,6 +173,14 @@ namespace NServiceKit.Razor.Managers
             var razorPage = this.viewManager.GetPageByName(httpReq.OperationName) //Request DTO
                          ?? this.viewManager.GetPage(httpReq, model); // Response DTO
             return razorPage;
+        }
+
+
+        private IVirtualFile FindRazorPageAsset(IHttpRequest httpReq, object model)
+        {
+            var viewName = httpReq.PathInfo; 
+
+            return this.viewManager.GetVirutalFile(viewName);  ////, httpReq, model);
         }
 
         /// <summary>Resolve and execute razor page.</summary>
@@ -196,6 +223,25 @@ namespace NServiceKit.Razor.Managers
                 page.WriteTo(writer);
             }
             return page;
+        }
+
+        private IVirtualFile ResolveRazorPageAsset(IHttpRequest httpReq, IHttpResponse httpRes, object model)
+        {
+            IVirtualFile razerPageAsset = this.FindRazorPageAsset(httpReq, model);
+
+            if (razerPageAsset == null)
+            {
+                httpRes.StatusCode = (int)HttpStatusCode.NotFound;
+                return null;
+            }
+
+            using (var writer = new StreamWriter(httpRes.OutputStream, UTF8EncodingWithoutBom))
+            {
+                writer.Write(razerPageAsset.ReadAllText());
+            }
+
+
+            return razerPageAsset;
         }
 
         private Tuple<IRazorView, string> ExecuteRazorPageWithLayout(IHttpRequest httpReq, IHttpResponse httpRes, object model, IRazorView page, Func<string> layout)

@@ -111,9 +111,6 @@
     <Reference Include="NServiceKit.Text">
       <HintPath>..\..\lib\NServiceKit.Text.dll</HintPath>
     </Reference>
-    <Reference Include="Northwind.Common">
-      <HintPath>..\..\lib\tests\Northwind.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>..\..\lib\tests\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
@@ -219,6 +216,10 @@
     <ProjectReference Include="..\..\src\NServiceKit\NServiceKit.csproj">
       <Project>{680A1709-25EB-4D52-A87F-EE03FFD94BAA}</Project>
       <Name>NServiceKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Northwind.Common\Northwind.Common.csproj">
+      <Project>{495ebc3a-0f73-4d25-9641-d6eca70d0026}</Project>
+      <Name>Northwind.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

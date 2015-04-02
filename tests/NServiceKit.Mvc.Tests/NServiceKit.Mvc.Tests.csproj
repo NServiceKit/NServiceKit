@@ -33,10 +33,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\tests\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceKit.Mvc.Stubs.Tests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\tests\NServiceKit.Mvc.Stubs.Tests.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -63,6 +59,10 @@
     <ProjectReference Include="..\..\src\NServiceKit\NServiceKit.csproj">
       <Project>{680a1709-25eb-4d52-a87f-ee03ffd94baa}</Project>
       <Name>NServiceKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NServiceKit.Mvc.Stubs.Tests\NServiceKit.Mvc.Stubs.Tests.csproj">
+      <Project>{60e9bdf4-38c8-4eec-ab69-7128c6a35601}</Project>
+      <Name>NServiceKit.Mvc.Stubs.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

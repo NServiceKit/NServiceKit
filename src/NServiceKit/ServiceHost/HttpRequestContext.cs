@@ -257,15 +257,6 @@ namespace NServiceKit.ServiceHost
 				: null;
 		}
 
-        /// <summary>Finalizes an instance of the NServiceKit.ServiceHost.HttpRequestContext class.</summary>
-		~HttpRequestContext()
-		{
-			if (this.AutoDispose)
-			{
-				Dispose(false);
-			}
-		}
-
         /// <summary>Releases the unmanaged resources used by the NServiceKit.ServiceHost.HttpRequestContext and optionally releases the managed resources.</summary>
 		public void Dispose()
 		{

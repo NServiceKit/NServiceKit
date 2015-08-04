@@ -116,6 +116,7 @@
     <Compile Include="Configuration\ConfigUtils.cs" />
     <Compile Include="Configuration\DictionarySettings.cs" />
     <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="ContentTypeCheckerFeature.cs" />
     <Compile Include="Html\AntiXsrf\AntiForgery.cs" />
     <Compile Include="Html\AntiXsrf\AntiForgeryConfig.cs" />
     <Compile Include="Html\AntiXsrf\AntiForgeryConfigWrapper.cs" />

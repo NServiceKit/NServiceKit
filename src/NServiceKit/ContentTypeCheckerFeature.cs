@@ -21,6 +21,7 @@ namespace NServiceKit
             appHost.RequestFilters.Add( (request, response, dto) => {
               if (!AcceptedRequests.Contains(request.ContentType, StringComparer.OrdinalIgnoreCase)) {
                   response.StatusCode = 406;
+                  response.Close();
               }              
             });
         }

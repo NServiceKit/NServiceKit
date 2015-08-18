@@ -803,6 +803,14 @@ namespace NServiceKit.Redis
         /// <returns>true if it succeeds, false if it fails.</returns>
 		bool AddRangeToSortedSet(string setId, List<string> values, long score);
 
+        /// <summary>Adds a range to sorted set.</summary>
+        ///
+        /// <param name="setId"> Identifier for the set.</param>
+        /// <param name="valuesWithScore">The values with their respective scores.</param>
+        ///
+        /// <returns>true if it succeeds, false if it fails.</returns>
+        long AddRangeToSortedSetWithScores(string setId, List<KeyValuePair<string, double>> valuesWithScore);
+
         /// <summary>Removes the item from sorted set.</summary>
         ///
         /// <param name="setId">Identifier for the set.</param>

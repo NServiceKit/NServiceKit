@@ -959,6 +959,14 @@ namespace NServiceKit.Redis
         /// <returns>A long.</returns>
 		long ZInterStore(string intoSetId, params string[] setIds);
 
+        /// <summary>Inter store with weights.</summary>
+        ///
+        /// <param name="intoSetId">Identifier for the into set.</param>
+        /// <param name="setIds">   List of identifiers for the sets along with the weight to multiply the scores with.</param>
+        ///
+        /// <returns>A long.</returns>
+		long ZInterStoreWithWeights(string intoSetId, params KeyValuePair<string, double>[] setIdWithWeightPairs);
+
         /// <summary>Sets.</summary>
         ///
         /// <param name="hashId">Identifier for the hash.</param>

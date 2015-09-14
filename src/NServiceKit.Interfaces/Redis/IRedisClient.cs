@@ -1249,6 +1249,14 @@ namespace NServiceKit.Redis
         /// <returns>A long.</returns>
 		long StoreIntersectFromSortedSets(string intoSetId, params string[] setIds);
 
+        /// <summary>Stores intersect from sorted sets while multiplying the scores of each set with a weight.</summary>
+        ///
+        /// <param name="intoSetId">Identifier for the into set.</param>
+        /// <param name="setIdWithWeightPairs">   List of identifiers for the sets along with the weight to multiply the scores with.</param>
+        ///
+        /// <returns>A long.</returns>
+		long StoreIntersectFromSortedSetsWithWeights(string intoSetId, params KeyValuePair<string, double>[] setIdWithWeightPairs);
+        
         /// <summary>Stores union from sorted sets.</summary>
         ///
         /// <param name="intoSetId">Identifier for the into set.</param>
@@ -1257,7 +1265,15 @@ namespace NServiceKit.Redis
         /// <returns>A long.</returns>
 		long StoreUnionFromSortedSets(string intoSetId, params string[] setIds);
 
-		#endregion
+        /// <summary>Stores union from sorted sets while multiplying the scores of each set with a weight.</summary>
+        ///
+        /// <param name="intoSetId">Identifier for the into set.</param>
+        /// <param name="setIdWithWeightPairs">   List of identifiers for the sets along with the weight to multiply the scores with.</param>
+        ///
+        /// <returns>A long.</returns>
+		long StoreUnionFromSortedSetsWithWeights(string intoSetId, params KeyValuePair<string, double>[] setIdWithWeightPairs);
+
+        #endregion
 
 
 		#region Hash operations

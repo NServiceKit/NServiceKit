@@ -951,6 +951,14 @@ namespace NServiceKit.Redis
         /// <returns>A long.</returns>
 		long ZUnionStore(string intoSetId, params string[] setIds);
 
+        /// <summary>Union store with weights.</summary>
+        ///
+        /// <param name="intoSetId">Identifier for the into set.</param>
+        /// <param name="setIdWithWeightPairs">   List of identifiers for the sets along with the weight to multiply the scores with.</param>
+        ///
+        /// <returns>A long.</returns>
+		long ZUnionStoreWithWeights(string intoSetId, params KeyValuePair<string, double>[] setIdWithWeightPairs);
+        
         /// <summary>Inter store.</summary>
         ///
         /// <param name="intoSetId">Identifier for the into set.</param>
@@ -958,6 +966,14 @@ namespace NServiceKit.Redis
         ///
         /// <returns>A long.</returns>
 		long ZInterStore(string intoSetId, params string[] setIds);
+
+        /// <summary>Inter store with weights.</summary>
+        ///
+        /// <param name="intoSetId">Identifier for the into set.</param>
+        /// <param name="setIdWithWeightPairs">   List of identifiers for the sets along with the weight to multiply the scores with.</param>
+        ///
+        /// <returns>A long.</returns>
+		long ZInterStoreWithWeights(string intoSetId, params KeyValuePair<string, double>[] setIdWithWeightPairs);
 
         /// <summary>Sets.</summary>
         ///

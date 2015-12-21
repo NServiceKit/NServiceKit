@@ -54,16 +54,15 @@ namespace NServiceKit.Common.Web
         /// <returns>The format content type.</returns>
         public string GetFormatContentType(string format)
         {
-            //Ensure format suffix is in lower case:
-            //XML, Json etc. should be acceptible
-            format = format.ToLowerInvariant();
+            if (format == null)
+                throw new ArgumentNullException("format");
 
             //built-in formats
-            if (format == "json")
+            if (format.Equals("json", StringComparison.OrdinalIgnoreCase))
                 return ContentType.Json;
-            if (format == "xml")
+            if (format.Equals("xml", StringComparison.OrdinalIgnoreCase))
                 return ContentType.Xml;
-            if (format == "jsv")
+            if (format.Equals("jsv", StringComparison.OrdinalIgnoreCase))
                 return ContentType.Jsv;
 
             string registeredFormats;

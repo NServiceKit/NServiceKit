@@ -639,6 +639,14 @@ namespace NServiceKit.Redis
         ///
         /// <returns>A long.</returns>
 		long SRem(string setId, byte[] value);
+		
+		  /// <summary>Rems.</summary>
+        ///
+        /// <param name="setId">Identifier for the set.</param>
+        /// <param name="values">The values.</param>
+        ///
+        /// <returns>A long.</returns>
+		long SRem(string setId, byte[][] values);
 
         /// <summary>Removes and returns the top-of-stack object.</summary>
         ///

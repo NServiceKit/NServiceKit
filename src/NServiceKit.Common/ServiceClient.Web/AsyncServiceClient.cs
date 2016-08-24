@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -342,7 +344,7 @@ namespace NServiceKit.ServiceClient.Web
         public bool ShareCookiesWithBrowser { get; set; }
 #endif
 
-        /// <summary>Sends the asynchronous.</summary>
+        /// <summary>Sends the request asynchronously.</summary>
         ///
         /// <typeparam name="TResponse">Type of the response.</typeparam>
         /// <param name="httpMethod"> The HTTP method.</param>
@@ -350,10 +352,29 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="request">    The request.</param>
         /// <param name="onSuccess">  The on success.</param>
         /// <param name="onError">    The on error.</param>
-        public void SendAsync<TResponse>(string httpMethod, string absoluteUrl, object request,
+        public void SendAsync<TResponse>(string httpMethod,
+                                         string absoluteUrl,
+                                         object request,
+                                         Action<TResponse> onSuccess,
+                                         Action<TResponse, Exception> onError)
+        {
+            SendAsync(httpMethod, absoluteUrl, null, request, onSuccess, onError);
+        }
+        
+        /// <summary>Sends the asynchronous.</summary>
+        ///
+        /// <typeparam name="TResponse">Type of the response.</typeparam>
+        /// <param name="httpMethod"> The HTTP method.</param>
+        /// <param name="absoluteUrl">URL of the absolute.</param>
+        /// <param name="request">    The request.</param>
+        /// <param name="headers">    The request headers.</param>
+        /// <param name="onSuccess">  The on success.</param>
+        /// <param name="onError">    The on error.</param>
+        public void SendAsync<TResponse>(string httpMethod, string absoluteUrl,
+            NameValueCollection headers, object request,
             Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            SendWebRequest(httpMethod, absoluteUrl, request, onSuccess, onError);
+            SendWebRequest(httpMethod, absoluteUrl, headers, request, onSuccess, onError);
         }
 
         /// <summary>Cancel asynchronous.</summary>
@@ -374,8 +395,9 @@ namespace NServiceKit.ServiceClient.Web
             webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
         }
 #endif
-
-        private RequestState<TResponse> SendWebRequest<TResponse>(string httpMethod, string absoluteUrl, object request,
+        
+        private RequestState<TResponse> SendWebRequest<TResponse>(string httpMethod, string absoluteUrl, 
+            NameValueCollection headers, object request,
             Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             if (httpMethod == null) throw new ArgumentNullException("httpMethod");
@@ -411,7 +433,7 @@ namespace NServiceKit.ServiceClient.Web
                 
                 webRequest.CookieContainer = CookieContainer;	
             }
-
+            
 #else
             _webRequest = (HttpWebRequest)WebRequest.Create(requestUri);
 
@@ -427,8 +449,12 @@ namespace NServiceKit.ServiceClient.Web
                 _webRequest.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
                 _webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
-#endif
 
+            if (headers != null)
+            {
+                _webRequest.Headers.Add(headers);
+            }
+#endif
             var requestState = new RequestState<TResponse>
             {
                 HttpMethod = httpMethod,

@@ -981,7 +981,7 @@ namespace NServiceKit.ServiceClient.Web
         public virtual void SendAsync<TResponse>(object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
             var requestUri = this.SyncReplyBaseUri.WithTrailingSlash() + request.GetType().Name;
-            asyncClient.SendAsync(HttpMethods.Post, requestUri, request, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Post, requestUri, Headers, request, onSuccess, onError);
         }
 
         /// <summary>Gets the asynchronous.</summary>
@@ -1003,7 +1003,7 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="onError">              The on error.</param>
         public virtual void GetAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            asyncClient.SendAsync(HttpMethods.Get, GetUrl(relativeOrAbsoluteUrl), null, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Get, GetUrl(relativeOrAbsoluteUrl), Headers, null, onSuccess, onError);
         }
 
         /// <summary>Deletes the asynchronous.</summary>
@@ -1025,7 +1025,7 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="onError">              The on error.</param>
         public virtual void DeleteAsync<TResponse>(string relativeOrAbsoluteUrl, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            asyncClient.SendAsync(HttpMethods.Delete, GetUrl(relativeOrAbsoluteUrl), null, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Delete, GetUrl(relativeOrAbsoluteUrl), Headers, null, onSuccess, onError);
         }
 
         /// <summary>Posts the asynchronous.</summary>
@@ -1048,7 +1048,7 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="onError">              The on error.</param>
         public virtual void PostAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            asyncClient.SendAsync(HttpMethods.Post, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Post, GetUrl(relativeOrAbsoluteUrl), Headers, request, onSuccess, onError);
         }
 
         /// <summary>Puts the asynchronous.</summary>
@@ -1071,7 +1071,7 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="onError">              The on error.</param>
         public virtual void PutAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            asyncClient.SendAsync(HttpMethods.Put, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Put, GetUrl(relativeOrAbsoluteUrl), Headers, request, onSuccess, onError);
         }
 
         /// <summary>Patch asynchronous.</summary>
@@ -1094,7 +1094,7 @@ namespace NServiceKit.ServiceClient.Web
         /// <param name="onError">              The on error.</param>
         public virtual void PatchAsync<TResponse>(string relativeOrAbsoluteUrl, object request, Action<TResponse> onSuccess, Action<TResponse, Exception> onError)
         {
-            asyncClient.SendAsync(HttpMethods.Patch, GetUrl(relativeOrAbsoluteUrl), request, onSuccess, onError);
+            asyncClient.SendAsync(HttpMethods.Patch, GetUrl(relativeOrAbsoluteUrl), Headers, request, onSuccess, onError);
         }
 
         /// <summary>Custom method asynchronous.</summary>
@@ -1111,7 +1111,7 @@ namespace NServiceKit.ServiceClient.Web
             if (!HttpMethods.HasVerb(httpVerb))
                 throw new NotSupportedException("Unknown HTTP Method is not supported: " + httpVerb);
 
-            asyncClient.SendAsync(httpVerb, GetUrl(request.ToUrl(httpVerb, Format)), request, onSuccess, onError);
+            asyncClient.SendAsync(httpVerb, GetUrl(request.ToUrl(httpVerb, Format)), Headers, request, onSuccess, onError);
         }
 
         /// <summary>Cancel asynchronous.</summary>

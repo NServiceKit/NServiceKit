@@ -10,7 +10,6 @@
     <RootNamespace>NServiceKit.Auth.Tests</RootNamespace>
     <AssemblyName>NServiceKit.Auth.Tests</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -33,8 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetOpenAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\src\packages\DotNetOpenAuth.Ultimate.4.3.1.13153\lib\net40-full\DotNetOpenAuth.dll</HintPath>
+      <HintPath>..\..\nuget-packages\DotNetOpenAuth.Ultimate.4.3.1.13153\lib\net40-full\DotNetOpenAuth.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="NServiceKit.Text">
@@ -139,5 +138,4 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
 </Project>

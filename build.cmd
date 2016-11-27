@@ -1,6 +1,6 @@
 @echo on
 if "%APPVEYOR%" == "" (
-   .\src\.nuget\nuget install
+   nuget install
    SETLOCAL EnableExtensions EnableDelayedExpansion
    set _major=0&set _minor=0&set _build=0
    FOR /F "tokens=3-6 delims=." %%i IN ('dir /b nuget-packages\NServiceKit.Text.*') DO (

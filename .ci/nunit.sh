@@ -1,4 +1,4 @@
-mono ./src/.nuget/NuGet.exe install nunit.runners -Version 2.6.3
+nuget install nunit.runners -Version 2.6.3 -configfile ./nuget.config
 runTest(){
 	mono ./nuget-packages/NUnit.Runners.2.6.3/tools/nunit-console.exe -noxml -nodots -labels -stoponerror $@
 	if [ $? -ne 0 ]

@@ -12,7 +12,6 @@
     <AssemblyName>RazorRockstars.Console.Files</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -49,10 +48,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\src\packages\System.Data.SQLite.x64.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\System.Data.SQLite.x64.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\..\src\packages\System.Data.SQLite.x64.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\System.Data.SQLite.x64.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -261,5 +260,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
+
+
